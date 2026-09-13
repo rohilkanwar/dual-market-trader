@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/loadScoreboard.ts","./src/main.tsx","./src/types.ts","./src/components/BarChart.tsx","./src/components/Header.tsx","./src/components/KpiStrip.tsx","./src/components/Panels.tsx","./src/components/TrackTable.tsx"],"version":"5.8.3"}

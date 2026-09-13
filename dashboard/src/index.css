@@ -1,27 +1,105 @@
 :root {
-  color-scheme: dark;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.4;
+  /* Hallmark tokens — Coral-adjacent warm paper · soft green accent · Inter */
+  --color-paper: oklch(98.5% 0.006 85);
+  --color-paper-2: oklch(96.5% 0.008 85);
+  --color-paper-3: oklch(94% 0.01 85);
+  --color-ink: oklch(22% 0.012 60);
+  --color-ink-2: oklch(42% 0.01 60);
+  --color-muted: oklch(55% 0.012 60);
+  --color-rule: oklch(88% 0.008 85);
+  --color-accent: oklch(58% 0.11 155);
+  --color-accent-ink: oklch(98% 0.01 155);
+  --color-accent-soft: oklch(94% 0.035 155);
+  --color-focus: oklch(55% 0.12 155);
+  --color-warn: oklch(62% 0.12 75);
+  --color-warn-soft: oklch(95% 0.03 85);
+  --color-warn-ink: oklch(35% 0.06 75);
+  --color-danger: oklch(55% 0.14 25);
+  --color-danger-soft: oklch(95% 0.03 25);
+
+  --font-display: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 7rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-display: clamp(1.75rem, 2.5vw + 0.75rem, 2.25rem);
+  --text-stat: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-short: 180ms;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+  --radius-input: 8px;
+
+  --content-max: 52rem; /* ~832px — Origin-like calm column */
+  --measure: 62ch;
+
+  color-scheme: light;
+  font-family: var(--font-body);
+  line-height: 1.5;
   font-weight: 400;
-  background: #0b0f14;
-  color: #e8eef7;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-* { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
+html,
 body {
   margin: 0;
+  min-height: 100%;
+  overflow-x: clip;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+body {
   min-height: 100vh;
-  background:
-    radial-gradient(1200px 500px at 10% -10%, #152033 0%, transparent 55%),
-    radial-gradient(900px 400px at 90% 0%, #121a14 0%, transparent 50%),
-    #0b0f14;
 }
 
 code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-mono);
   font-size: 0.88em;
-  color: #c5d4ea;
+  color: var(--color-ink-2);
 }
 
-button { font: inherit; }
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

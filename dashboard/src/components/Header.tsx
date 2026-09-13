@@ -10,29 +10,26 @@ export function Header({ data, sourceUrl }: { data: ScoreboardArtifact; sourceUr
       })
     : '—'
 
+  const venues = (meta.venues ?? ['kalshi', 'polymarket']).join(' · ')
+
   return (
-    <header className="desk-header">
-      <div className="header-left">
-        <h1>Dual-market scoreboard</h1>
-        <div className="header-badges">
-          <span className="badge paper">PAPER ONLY</span>
-          {isSample && <span className="badge sample">{meta.label || 'SAMPLE'}</span>}
-          {!isSample && <span className="badge measured">{meta.label || meta.source}</span>}
-          <span className="badge mode">{meta.mode}</span>
-        </div>
+    <header className="app-header">
+      <h1>Dual-market scoreboard</h1>
+      <p className="lede">
+        Paper measurement of prediction-market strategies across venues
+        {isSample ? ' — sample snapshot, not live trading.' : '.'}
+      </p>
+      <div className="badge-row">
+        {meta.paper_only && <span className="badge paper">Paper only</span>}
+        {isSample && <span className="badge sample">{meta.label || 'Sample'}</span>}
+        {!isSample && <span className="badge">{meta.label || meta.source}</span>}
+        <span className="badge">{meta.mode}</span>
       </div>
-      <div className="header-right">
-        <div className="venue-pills">
-          {(meta.venues ?? ['kalshi', 'polymarket']).map((v) => (
-            <span key={v} className={`pill venue-${v}`}>
-              {v}
-            </span>
-          ))}
-        </div>
-        <div className="timestamp" title={sourceUrl}>
-          Last run: <strong>{measured}</strong>
-        </div>
-      </div>
+      <p className="meta-line" title={sourceUrl}>
+        Last run <strong>{measured}</strong>
+        <span aria-hidden="true"> · </span>
+        {venues}
+      </p>
     </header>
   )
 }
