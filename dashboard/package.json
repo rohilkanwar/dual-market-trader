@@ -1,0 +1,8 @@
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "sync-artifacts": "node scripts/sync-artifacts.mjs",
+    "build": "npm run sync-artifacts && tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },

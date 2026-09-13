@@ -1,0 +1,72 @@
+      "title": "Will the Fed cut rates at the September meeting?",
+      "volume": "185000",
+      "liquidity": "42000",
+      "metadata": {
+        "event_ticker": "KX-FED-SEP",
+        "source": "fixture",
+        "category": "macro",
+        "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+        "resolution_text": "This market resolves according to the target range published at https://www.federalreserve.gov/. It will not fall back to a prior period. Exact boundary ties use the higher bracket. Revisions are excluded.",
+        "fingerprint": {
+          "publisher": "federal_reserve",
+          "release_id": "fomc_target_rate",
+          "comparator": ">=",
+          "threshold": "0.25",
+          "reference_period": "2026-09",
+          "revisions_included": false,
+          "fallback_to_prior_period": false,
+          "tie_break": "higher"
+        },
+        "fed_bucket": "C25",
+        "paper_settlement_outcome": "yes"
+      }
+    },
+    {
+      "market_id": "KX-CPI-AUG-OVER3",
+      "title": "Will August CPI be above 3.0%?",
+      "volume": "96000",
+      "liquidity": "21500",
+      "metadata": {
+        "event_ticker": "KX-CPI-AUG",
+        "source": "fixture",
+        "category": "macro",
+        "source_url": "https://www.bls.gov/cpi/",
+        "resolution_text": "This market resolves according to the initial August 2026 CPI release published at https://www.bls.gov/cpi/. Exact boundary ties use the higher bracket. Revisions are excluded.",
+        "fingerprint": {
+          "publisher": "bls",
+          "release_id": "cpi",
+          "comparator": ">",
+          "threshold": "3.0",
+          "reference_period": "2026-08",
+          "revisions_included": false,
+          "tie_break": "higher"
+        },
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "KX-NBA-NY-BOS-NY",
+      "title": "Will New York beat Boston?",
+      "volume": "78000",
+      "liquidity": "18000",
+      "metadata": {
+        "event_ticker": "KX-NBA-NY-BOS",
+        "source": "fixture",
+        "category": "sports",
+        "source_url": "https://www.espn.com/nba/",
+        "resolution_text": "This market resolves according to the final score reported by https://www.espn.com/nba/ after the game is declared complete.",
+        "paper_settlement_outcome": "yes"
+      }
+    }
+  ],
+  "order_books": {
+    "KX-CPI-AUG-OVER3": {
+      "bids": [["0.31", "150"], ["0.30", "300"]],
+      "asks": [["0.34", "175"], ["0.35", "290"]]
+    },
+    "KX-NBA-NY-BOS-NY": {
+      "bids": [["0.58", "45"], ["0.57", "90"]],
+      "asks": [["0.60", "40"], ["0.61", "80"]]
+    }
+  }
+}

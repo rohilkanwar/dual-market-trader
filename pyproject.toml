@@ -1,0 +1,7 @@
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["apps*", "core*", "research*", "settlement*", "strategies*", "venues*"]
+
+[tool.setuptools.package-data]
+venues = ["**/*.json"]

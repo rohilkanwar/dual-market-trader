@@ -1,0 +1,77 @@
+      "liquidity": "61000",
+      "yes_token_id": "100000000000000000001",
+      "no_token_id": "100000000000000000002",
+      "metadata": {
+        "slug": "fed-rate-cut-september",
+        "source": "fixture",
+        "category": "macro",
+        "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+        "resolution_text": "This market resolves according to the target range published at https://www.federalreserve.gov/. It will not fall back to a prior period. Exact boundary ties use the higher bracket. Revisions are excluded.",
+        "fingerprint": {
+          "publisher": "federal_reserve",
+          "release_id": "fomc_target_rate",
+          "comparator": ">=",
+          "threshold": "0.25",
+          "reference_period": "2026-09",
+          "revisions_included": false,
+          "fallback_to_prior_period": false,
+          "tie_break": "higher"
+        },
+        "fed_bucket": "C25",
+        "paper_settlement_outcome": "yes"
+      }
+    },
+    {
+      "market_id": "0xfixture-cpi-august",
+      "liquidity": "33400",
+      "yes_token_id": "200000000000000000001",
+      "no_token_id": "200000000000000000002",
+      "metadata": {
+        "slug": "august-cpi-over-3",
+        "source": "fixture",
+        "category": "macro",
+        "source_url": "https://www.bls.gov/cpi/",
+        "resolution_text": "This market resolves according to the August CPI release and rules at https://www.bls.gov/cpi/. If publication is delayed, it falls back to the last available month. Exact boundary ties use the higher bracket. Revisions are excluded.",
+        "fingerprint": {
+          "publisher": "bls",
+          "release_id": "cpi",
+          "comparator": ">",
+          "threshold": "3.0",
+          "reference_period": "2026-08",
+          "revisions_included": false,
+          "fallback_to_prior_period": true,
+          "tie_break": "higher"
+        },
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "0xfixture-nba-ny-boston",
+      "title": "Will New York beat Boston?",
+      "volume": "141000",
+      "liquidity": "29000",
+      "yes_token_id": "300000000000000000001",
+      "no_token_id": "300000000000000000002",
+      "metadata": {
+        "slug": "new-york-beat-boston",
+        "source": "fixture",
+        "category": "sports",
+        "source_url": "https://www.nba.com/game/",
+        "resolution_text": "This market resolves according to the final score reported by https://www.nba.com/game/ after the game is declared complete.",
+        "paper_settlement_outcome": "yes"
+      }
+    }
+  ],
+  "order_books": {
+      "asks": [["0.43", "16"], ["0.44", "440"]]
+    },
+    "0xfixture-cpi-august": {
+      "bids": [["0.39", "22"], ["0.38", "375"]],
+      "asks": [["0.42", "20"], ["0.43", "310"]]
+    },
+    "0xfixture-nba-ny-boston": {
+      "bids": [["0.51", "35"], ["0.50", "80"]],
+      "asks": [["0.53", "30"], ["0.54", "75"]]
+    }
+  }
+}

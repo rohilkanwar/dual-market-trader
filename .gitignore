@@ -1,0 +1,4 @@
+data/harvests/*.json.gz
+artifacts/scoreboard_*.json
+artifacts/jobs/
+artifacts/paper_loop_*
