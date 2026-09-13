@@ -1,8 +1,7 @@
 import type { ScoreboardArtifact } from '../types'
 
-export function Header({ data, sourceUrl }: { data: ScoreboardArtifact; sourceUrl: string }) {
+export function Header({ data }: { data: ScoreboardArtifact }) {
   const { meta } = data
-  const isSample = meta.source === 'sample'
   const measured = meta.measured_at
     ? new Date(meta.measured_at).toLocaleString(undefined, {
         dateStyle: 'medium',
@@ -10,26 +9,16 @@ export function Header({ data, sourceUrl }: { data: ScoreboardArtifact; sourceUr
       })
     : '—'
 
-  const venues = (meta.venues ?? ['kalshi', 'polymarket']).join(' · ')
-
   return (
     <header className="app-header">
-      <h1>Dual-market scoreboard</h1>
-      <p className="lede">
-        Paper measurement of prediction-market strategies across venues
-        {isSample ? ' — sample snapshot, not live trading.' : '.'}
-      </p>
-      <div className="badge-row">
-        {meta.paper_only && <span className="badge paper">Paper only</span>}
-        {isSample && <span className="badge sample">{meta.label || 'Sample'}</span>}
-        {!isSample && <span className="badge">{meta.label || meta.source}</span>}
-        <span className="badge">{meta.mode}</span>
+      <div className="header-row">
+        <h1>Scoreboard</h1>
+        <div className="badge-row">
+          {meta.paper_only && <span className="badge paper">Paper</span>}
+          {meta.source === 'sample' && <span className="badge sample">Sample</span>}
+        </div>
       </div>
-      <p className="meta-line" title={sourceUrl}>
-        Last run <strong>{measured}</strong>
-        <span aria-hidden="true"> · </span>
-        {venues}
-      </p>
+      <p className="meta-line">{measured}</p>
     </header>
   )
 }

@@ -16,6 +16,13 @@
   margin-bottom: var(--space-md);
 }
 
+.header-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md, 1rem);
+  flex-wrap: wrap;
+}
 .app-header h1 {
   margin: 0 0 var(--space-2xs);
   font-family: var(--font-display);
