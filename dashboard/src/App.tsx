@@ -1,61 +1,111 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { Header } from './components/Header'
+import { KpiStrip } from './components/KpiStrip'
+import {
+  CrossVenuePanel,
+  DeliberatePanel,
+  OverviewPanel,
+  PortfolioPanel,
+  SingleVenuePanel,
+  SportsPanel,
+} from './components/Panels'
+import { TrackTable } from './components/TrackTable'
+import { loadScoreboard } from './loadScoreboard'
+import type { ScoreboardArtifact, TabId } from './types'
 
-type Track = {
-  track?: string
-  candidates?: number
-  admitted?: number
-  paper_fills?: number
-  settlement_risk_flag?: boolean
-  notes?: string
-}
+const TABS: { id: TabId; label: string }[] = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'cross_venue', label: 'Cross-venue settlement' },
+  { id: 'single_venue', label: 'Single-venue fair value' },
+  { id: 'sports', label: 'Sports' },
+  { id: 'deliberate', label: 'Deliberate bets' },
+  { id: 'portfolio', label: 'Portfolio & risk' },
+]
 
 export default function App() {
-  const [tracks, setTracks] = useState<Track[]>([])
+  const [data, setData] = useState<ScoreboardArtifact | null>(null)
+  const [sourceUrl, setSourceUrl] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
+  const [tab, setTab] = useState<TabId>('overview')
 
   useEffect(() => {
-    const load = async () => {
+    let cancelled = false
+    void (async () => {
       try {
-        const res = await fetch('/artifacts/scoreboard_network.json')
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const data = await res.json()
-        const list = data.tracks || data.summaries || (Array.isArray(data) ? data : [])
-        setTracks(list)
+        const result = await loadScoreboard()
+        if (cancelled) return
+        setData(result.data)
+        setSourceUrl(result.url)
       } catch (e) {
+        if (cancelled) return
         setError(e instanceof Error ? e.message : 'failed to load scoreboard')
       }
+    })()
+    return () => {
+      cancelled = true
     }
-    void load()
   }, [])
 
+  if (error) {
+    return (
+      <main className="desk">
+        <p className="error-banner">Could not load artifacts: {error}</p>
+      </main>
+    )
+  }
+
+  if (!data) {
+    return (
+      <main className="desk">
+        <p className="loading">Loading scoreboard…</p>
+      </main>
+    )
+  }
+
   return (
-    <main style={{ fontFamily: 'ui-sans-serif, system-ui', padding: 24, maxWidth: 960, margin: '0 auto' }}>
-      <h1>Dual-market scoreboard</h1>
-      <p>Static paper measurement view for Kalshi + Polymarket tracks.</p>
-      {error && <p style={{ color: 'crimson' }}>Could not load artifacts: {error}</p>}
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            <th align="left">Track</th>
-            <th align="right">Candidates</th>
-            <th align="right">Admitted</th>
-            <th align="right">Fills</th>
-            <th align="left">Risk</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tracks.map((t) => (
-            <tr key={String(t.track)}>
-              <td>{t.track}</td>
-              <td align="right">{t.candidates ?? 0}</td>
-              <td align="right">{t.admitted ?? 0}</td>
-              <td align="right">{t.paper_fills ?? 0}</td>
-              <td>{t.settlement_risk_flag ? 'yes' : 'no'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <main className="desk">
+      <Header data={data} sourceUrl={sourceUrl} />
+      {data.meta.source === 'sample' && (
+        <div className="sample-banner" role="status">
+          SAMPLE artifact — numbers are a labeled Sep 2026 paper last-run snapshot, not a live
+          feed. Refresh via measure_all → sync → deploy (see <code>artifacts/schema.md</code>).
+        </div>
+      )}
+      <KpiStrip totals={data.totals} />
+
+      <section className="panel-block">
+        <div className="section-title">Track comparison</div>
+        <TrackTable tracks={data.tracks} />
+      </section>
+
+      <nav className="tab-bar" aria-label="Scoreboard panels">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            className={tab === t.id ? 'tab active' : 'tab'}
+            onClick={() => setTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
+
+      <section className="panel-block tab-panel">
+        {tab === 'overview' && <OverviewPanel data={data} />}
+        {tab === 'cross_venue' && <CrossVenuePanel data={data} />}
+        {tab === 'single_venue' && <SingleVenuePanel data={data} />}
+        {tab === 'sports' && <SportsPanel data={data} />}
+        {tab === 'deliberate' && <DeliberatePanel data={data} />}
+        {tab === 'portfolio' && <PortfolioPanel data={data} />}
+      </section>
+
+      <footer className="desk-footer">
+        <span>schema {data.schema_version}</span>
+        <span>source file {sourceUrl}</span>
+        <span>paper_only={String(data.meta.paper_only)}</span>
+      </footer>
     </main>
   )
 }
