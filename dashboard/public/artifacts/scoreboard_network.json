@@ -1,0 +1,9 @@
+{
+  "tracks": [
+    {"track": "gated_cross_venue_macro", "candidates": 0, "admitted": 0, "paper_fills": 0, "settlement_risk_flag": false},
+    {"track": "ungated_cross_venue_macro", "candidates": 0, "admitted": 0, "paper_fills": 0, "settlement_risk_flag": true},
+    {"track": "single_venue_fair_value", "candidates": 50, "admitted": 8, "paper_fills": 8, "settlement_risk_flag": false},
+    {"track": "sports_cross_venue", "candidates": 0, "admitted": 0, "paper_fills": 0, "settlement_risk_flag": true},
+    {"track": "small_deliberate_bet", "candidates": 0, "admitted": 0, "paper_fills": 0, "settlement_risk_flag": false}
+  ]
+}
