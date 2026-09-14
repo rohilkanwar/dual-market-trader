@@ -1,0 +1,292 @@
+{
+  "generated_at": "2026-09-14T20:08:27.217Z",
+  "schema_version": "1.0.0",
+  "paper_only": true,
+  "source": "public/artifacts",
+  "counts": {
+    "total": 3,
+    "measured": 2,
+    "sample": 1,
+    "backtest": 0
+  },
+  "modes": {
+    "network": 2,
+    "fixtures": 1
+  },
+  "latest_run_id": "20260914T185905Z-432d7071",
+  "runs": [
+    {
+      "run_id": "20260914T185905Z-432d7071",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-14T18:59:00.223114+00:00",
+      "generated_at": "2026-09-14T18:59:05.011125+00:00",
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": "prod",
+      "primary_track": "single_venue_fair_value",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 30,
+        "admitted": 0,
+        "rejects": 30,
+        "paper_fills": 0,
+        "paper_pnl": 0,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "fees_paid": 0
+      },
+      "tracks": [
+        {
+          "track": "gated_cross_venue_macro",
+          "label": "Gated cross-venue macro",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "ungated_cross_venue_macro",
+          "label": "Ungated cross-venue macro",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "single_venue_fair_value",
+          "label": "Single-venue fair value",
+          "candidates": 30,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "sports_cross_venue",
+          "label": "Sports cross-venue",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "small_deliberate_bet",
+          "label": "Small deliberate bet",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        }
+      ],
+      "artifacts": [
+        "scoreboard_network.json",
+        "scoreboard_latest.json"
+      ],
+      "detail": "/artifacts/scoreboard_network.json",
+      "is_latest": true
+    },
+    {
+      "run_id": "20260914T185900Z-a45de95a",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / FIXTURES",
+      "mode": "fixtures",
+      "cycle": null,
+      "measured_at": "2026-09-14T18:59:00.038369+00:00",
+      "generated_at": "2026-09-14T18:59:00.098704+00:00",
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": null,
+      "primary_track": "single_venue_fair_value",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 13,
+        "admitted": 9,
+        "rejects": 4,
+        "paper_fills": 14,
+        "paper_pnl": -4.01,
+        "realized_pnl": -1.72,
+        "unrealized_pnl": -2.29,
+        "fees_paid": 1.72
+      },
+      "tracks": [
+        {
+          "track": "gated_cross_venue_macro",
+          "label": "Gated cross-venue macro",
+          "candidates": 2,
+          "admitted": 1,
+          "paper_fills": 2,
+          "edge_bps": 900,
+          "settlement_risk": false,
+          "paper_pnl": -0.6
+        },
+        {
+          "track": "ungated_cross_venue_macro",
+          "label": "Ungated cross-venue macro",
+          "candidates": 2,
+          "admitted": 2,
+          "paper_fills": 4,
+          "edge_bps": 700,
+          "settlement_risk": true,
+          "paper_pnl": -1.61
+        },
+        {
+          "track": "single_venue_fair_value",
+          "label": "Single-venue fair value",
+          "candidates": 6,
+          "admitted": 4,
+          "paper_fills": 4,
+          "edge_bps": 675,
+          "settlement_risk": false,
+          "paper_pnl": -0.79
+        },
+        {
+          "track": "sports_cross_venue",
+          "label": "Sports cross-venue",
+          "candidates": 1,
+          "admitted": 1,
+          "paper_fills": 2,
+          "edge_bps": 500,
+          "settlement_risk": true,
+          "paper_pnl": -0.93
+        },
+        {
+          "track": "small_deliberate_bet",
+          "label": "Small deliberate bet",
+          "candidates": 2,
+          "admitted": 1,
+          "paper_fills": 2,
+          "edge_bps": 900,
+          "settlement_risk": false,
+          "paper_pnl": -0.08
+        }
+      ],
+      "artifacts": [
+        "scoreboard_fixtures.json"
+      ],
+      "detail": "/artifacts/scoreboard_fixtures.json",
+      "is_latest": false
+    },
+    {
+      "run_id": "sample:scoreboard_sample.json",
+      "kind": "sample",
+      "source": "sample",
+      "label": "SAMPLE / SCHEMA PLACEHOLDER",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-12T22:15:00Z",
+      "generated_at": "2026-09-13T23:20:00Z",
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": null,
+      "kalshi_env": null,
+      "primary_track": "single_venue_fair_value",
+      "pnl_source": null,
+      "note": "Hand-written schema example. Every number here, including paper_pnl 0.42, is a placeholder and was never measured. Ledger-backed artifacts carry meta.pnl_source.",
+      "totals": {
+        "candidates": 52,
+        "admitted": 11,
+        "rejects": 41,
+        "paper_fills": 10,
+        "paper_pnl": null,
+        "realized_pnl": null,
+        "unrealized_pnl": null,
+        "fees_paid": null
+      },
+      "tracks": [
+        {
+          "track": "gated_cross_venue_macro",
+          "label": "Gated cross-venue macro",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": true,
+          "paper_pnl": null
+        },
+        {
+          "track": "ungated_cross_venue_macro",
+          "label": "Ungated cross-venue macro",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": true,
+          "paper_pnl": null
+        },
+        {
+          "track": "single_venue_fair_value",
+          "label": "Single-venue fair value",
+          "candidates": 50,
+          "admitted": 10,
+          "paper_fills": 9,
+          "edge_bps": 52,
+          "settlement_risk": false,
+          "paper_pnl": null
+        },
+        {
+          "track": "sports_cross_venue",
+          "label": "Sports cross-venue",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": true,
+          "paper_pnl": null
+        },
+        {
+          "track": "small_deliberate_bet",
+          "label": "Small deliberate bet",
+          "candidates": 2,
+          "admitted": 1,
+          "paper_fills": 1,
+          "edge_bps": 35,
+          "settlement_risk": false,
+          "paper_pnl": null
+        }
+      ],
+      "artifacts": [
+        "scoreboard_sample.json"
+      ],
+      "detail": "/artifacts/scoreboard_sample.json",
+      "is_latest": false
+    }
+  ],
+  "ledgers": [
+    {
+      "ledger_id": "single_venue_fair_value",
+      "updated_at": "2026-09-14T18:59:05.008502+00:00",
+      "mark_method": "mid",
+      "fills": 0,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 1000,
+      "total_pnl": 0,
+      "max_drawdown": 0,
+      "artifact": "/artifacts/paper_ledger_single_venue_fair_value.json"
+    }
+  ]
+}

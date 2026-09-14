@@ -296,6 +296,119 @@
   max-width: 22rem;
 }
 
+/* Experiments history */
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.card-head .card-title {
+  margin-bottom: var(--space-sm);
+}
+
+.card-count {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.experiment-row {
+  cursor: pointer;
+}
+
+.experiment-row td {
+  transition: background-color var(--dur-short) var(--ease-out);
+}
+
+.experiment-row:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.experiment-row.is-open td {
+  background: var(--color-paper-2);
+  border-bottom-color: transparent;
+}
+
+.date-cell {
+  white-space: nowrap;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.dot-latest {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+
+.mode-cell {
+  color: var(--color-ink-2);
+}
+
+.track-cell {
+  color: var(--color-ink-2);
+}
+
+.num.neg {
+  color: var(--color-warn);
+}
+
+.experiment-detail-row td {
+  padding: 0 var(--space-2xs) var(--space-sm);
+  background: var(--color-paper-2);
+}
+
+.experiment-detail-row:hover td {
+  background: var(--color-paper-2);
+}
+
+.experiment-detail {
+  padding: var(--space-xs) var(--space-sm) 0;
+  border-left: 2px solid color-mix(in oklch, var(--color-accent) 40%, var(--color-rule));
+}
+
+.detail-table {
+  font-size: var(--text-xs);
+}
+
+.detail-table th,
+.detail-table td {
+  padding: var(--space-3xs) var(--space-2xs);
+}
+
+.detail-table tbody tr:hover td {
+  background: transparent;
+}
+
+.detail-meta {
+  margin-top: var(--space-xs);
+  font-size: var(--text-xs);
+}
+
+.detail-meta a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.detail-meta a:hover {
+  text-decoration: underline;
+}
+
+.archive-note {
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+  font-size: var(--text-xs);
+}
+
 /* Details accordion */
 .details-block {
   margin-bottom: var(--space-md);
@@ -432,6 +545,10 @@
 
   .note-cell {
     max-width: none;
+  }
+
+  .col-track {
+    display: none;
   }
 }
 

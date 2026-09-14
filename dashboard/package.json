@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/build-experiments-index.mjs",
     "build": "vite build",
+    "build-experiments-index": "node scripts/build-experiments-index.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "sync-artifacts": "node scripts/sync-artifacts.mjs"

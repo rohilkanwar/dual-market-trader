@@ -194,6 +194,82 @@ export interface ScoreboardArtifact {
   charts?: ScoreboardCharts
 }
 
+/** Experiments index — built from public/artifacts by scripts/build-experiments-index.mjs */
+
+export type ExperimentKind = 'paper_run' | 'sample' | 'backtest'
+
+export interface ExperimentTrack {
+  track: TrackId
+  label: string
+  candidates: number
+  admitted: number
+  paper_fills: number
+  edge_bps: number | null
+  settlement_risk: boolean
+  paper_pnl: number | null
+}
+
+export interface ExperimentTotals {
+  candidates: number
+  admitted: number
+  rejects: number
+  paper_fills: number
+  paper_pnl: number | null
+  realized_pnl: number | null
+  unrealized_pnl: number | null
+  fees_paid: number | null
+}
+
+export interface ExperimentEntry {
+  run_id: string
+  kind: ExperimentKind
+  source: ArtifactSource | string
+  label: string | null
+  mode: MeasureMode | 'harvest' | 'sample' | string
+  cycle: number | null
+  measured_at: string | null
+  generated_at: string | null
+  venues: VenueId[]
+  venue_focus: string | null
+  kalshi_env: string | null
+  primary_track: TrackId | null
+  /** Null on sample files and anything not produced by the paper ledger. */
+  pnl_source: string | null
+  note: string | null
+  totals: ExperimentTotals
+  tracks: ExperimentTrack[]
+  /** Files under public/artifacts that describe this run (deduped by run_id). */
+  artifacts: string[]
+  /** URL of the richest artifact for this run. */
+  detail: string
+  is_latest: boolean
+}
+
+export interface LedgerSnapshotEntry {
+  ledger_id: string
+  updated_at: string | null
+  mark_method: string | null
+  fills: number
+  equity_points: number
+  starting_cash: number | null
+  equity: number | null
+  total_pnl: number | null
+  max_drawdown: number | null
+  artifact: string
+}
+
+export interface ExperimentsIndex {
+  schema_version: string
+  generated_at?: string
+  paper_only: boolean
+  source: string
+  counts: { total: number; measured: number; sample: number; backtest: number }
+  modes: Record<string, number>
+  latest_run_id: string | null
+  runs: ExperimentEntry[]
+  ledgers: LedgerSnapshotEntry[]
+}
+
 export type TabId =
   | 'overview'
   | 'cross_venue'
