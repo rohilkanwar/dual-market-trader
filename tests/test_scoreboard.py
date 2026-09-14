@@ -5,6 +5,7 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
     summaries = {summary.track: summary for summary in await measure_all()}
 
     assert set(summaries) == {
+        "gated_cross_venue",
         "gated_cross_venue_macro",
         "ungated_cross_venue_macro",
         "single_venue_fair_value",
@@ -15,6 +16,15 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
         "polymarket_negrisk_arb",
         "polymarket_combinatorial_arb",
     }
+
+    strict = summaries["gated_cross_venue"]
+    assert strict.candidates == 3  # every matched pair, all categories
+    assert strict.admitted == 1  # only the Fed pair passes all eight stages
+    assert strict.refused_by_reason == {"clause_refuse_mismatch": 1, "fingerprint_indeterminate": 1}
+    assert strict.metrics["gate_reject_reasons_all"]["host_tier_not_allowed"] == 1  # NBA: media host
+    assert strict.proposed_orders == 2
+    assert not strict.settlement_risk_flag
+    assert strict.metrics["gate_policy"]["name"] == "strict"
 
     gated = summaries["gated_cross_venue_macro"]
     assert gated.candidates == 2

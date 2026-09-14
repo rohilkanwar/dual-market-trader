@@ -1,4 +1,4 @@
-"""Nine isolated paper tracks measured against shared market snapshots.
+"""Ten isolated paper tracks measured against shared market snapshots.
 
 Every track owns its own risk manager, execution engine, paper portfolio and
 :class:`core.ledger.PaperLedger`, so numbers never leak between tracks. Market
@@ -33,13 +33,13 @@ from research.news_signals import (
     SignalBatch,
     SignalSource,
 )
-from settlement.clauses import ClauseVerdict, detect_clauses, pair_clause_verdict
-from settlement.fingerprint import Relation, compare, from_mapping
-from settlement.hosts import HostTier, classify
+from settlement.gate import STAGE_ORDER, STRICT_POLICY, GatePolicy, GateResult, settlement_gate
 from strategies.cross_venue import (
     CrossVenueEvaluation,
     CrossVenueMispricingStrategy,
     CrossVenueParameters,
+    DepthAwareCrossVenueStrategy,
+    DepthAwareParameters,
 )
 from strategies.edge import CalibratedFairValueStrategy, FairValueEvaluation
 from strategies.matching import MarketMatcher, MatchedMarketPair
@@ -56,9 +56,12 @@ from venues.polymarket.fees import polymarket_fee_schedule
 
 LOGGER = logging.getLogger("scoreboard")
 
+GATED_TRACK = "gated_cross_venue"
+CONTROL_TRACK = "ungated_cross_venue_macro"
 CROSS_VENUE_AND_FAIR_VALUE_TRACKS: tuple[str, ...] = (
+    GATED_TRACK,
     "gated_cross_venue_macro",
-    "ungated_cross_venue_macro",
+    CONTROL_TRACK,
     "single_venue_fair_value",
     "sports_cross_venue",
     "small_deliberate_bet",
@@ -71,8 +74,9 @@ POLYMARKET_ARB_TRACKS: tuple[str, ...] = (
 )
 TRACKS: tuple[str, ...] = CROSS_VENUE_AND_FAIR_VALUE_TRACKS + POLYMARKET_ARB_TRACKS
 TRACK_LABELS = {
+    GATED_TRACK: "Gated cross-venue (clause-matched)",
     "gated_cross_venue_macro": "Gated cross-venue macro",
-    "ungated_cross_venue_macro": "Ungated cross-venue macro",
+    CONTROL_TRACK: "Ungated cross-venue macro (control)",
     "single_venue_fair_value": "Single-venue fair value",
     "sports_cross_venue": "Sports cross-venue",
     "small_deliberate_bet": "Small deliberate bet",
@@ -83,8 +87,9 @@ TRACK_LABELS = {
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {
+    GATED_TRACK,
     "gated_cross_venue_macro",
-    "ungated_cross_venue_macro",
+    CONTROL_TRACK,
     "sports_cross_venue",
     "small_deliberate_bet",
 }
@@ -206,62 +211,9 @@ class SnapshotClient(PaperExecutionMixin, VenueClient):
 
 
 # --------------------------------------------------------------------------
-# Settlement gate
+# Settlement gate: implemented in settlement.gate, re-exported for callers.
 # --------------------------------------------------------------------------
-@dataclass(frozen=True, slots=True)
-class GateResult:
-    admitted: bool
-    reason: str
-    details: dict[str, Any]
-
-
-def settlement_gate(pair: MatchedMarketPair) -> GateResult:
-    """Fail-closed admissibility check: clauses, then fingerprint, then hosts."""
-    k_meta, p_meta = pair.kalshi.metadata, pair.polymarket.metadata
-    k_clauses = detect_clauses(str(k_meta.get("resolution_text") or ""))
-    p_clauses = detect_clauses(str(p_meta.get("resolution_text") or ""))
-    clause_verdict = pair_clause_verdict(k_clauses, p_clauses)
-
-    k_fp, p_fp = k_meta.get("fingerprint"), p_meta.get("fingerprint")
-    if isinstance(k_fp, dict) and isinstance(p_fp, dict):
-        try:
-            verdict = compare(from_mapping(k_fp), from_mapping(p_fp))
-            relation, fp_reason = verdict.relation, verdict.reason
-        except ValueError as exc:
-            relation, fp_reason = Relation.INDETERMINATE, f"unparseable fingerprint: {exc}"
-    else:
-        relation, fp_reason = Relation.INDETERMINATE, "fingerprint missing on at least one side"
-
-    k_tier = classify(str(k_meta.get("source_url") or (k_clauses.source_urls or [""])[0]))
-    p_tier = classify(str(p_meta.get("source_url") or (p_clauses.source_urls or [""])[0]))
-    host_conflict = k_tier != p_tier or HostTier.UNCLASSIFIED in (k_tier, p_tier)
-
-    polarity_ok = (relation is Relation.EQUIVALENT and pair.same_polarity) or (
-        relation is Relation.COMPLEMENT and not pair.same_polarity
-    )
-    if clause_verdict is not ClauseVerdict.ADMIT:
-        reason = f"clause_{clause_verdict.value}"
-    elif relation in (Relation.INDETERMINATE, Relation.NOT_EQUIVALENT):
-        reason = f"fingerprint_{relation.value}"
-    elif not polarity_ok:
-        reason = "fingerprint_polarity_conflict"
-    elif host_conflict:
-        reason = "host_conflict"
-    else:
-        reason = "admitted"
-    details = {
-        "clause_verdict": clause_verdict.value,
-        "fingerprint_relation": relation.value,
-        "fingerprint_reason": fp_reason,
-        "kalshi_host_tier": k_tier.value,
-        "polymarket_host_tier": p_tier.value,
-        "host_conflict": host_conflict,
-        "kalshi_clauses": k_clauses.as_dict(),
-        "polymarket_clauses": p_clauses.as_dict(),
-        "match_method": pair.method,
-        "match_confidence": pair.confidence,
-    }
-    return GateResult(reason == "admitted", reason, details)
+__all__ = ["GateResult", "settlement_gate"]
 
 
 # --------------------------------------------------------------------------
@@ -471,6 +423,15 @@ def _edge_row(track: str, pair: MatchedMarketPair, evaluation: CrossVenueEvaluat
     }
 
 
+def _count_all_reasons(results: dict[str, GateResult]) -> dict[str, int]:
+    """Histogram of *every* failing stage reason across pairs (not just the primary)."""
+    out: dict[str, int] = {}
+    for result in results.values():
+        for reason in result.reasons:
+            out[reason] = out.get(reason, 0) + 1
+    return dict(sorted(out.items()))
+
+
 async def run_cross_venue_track(
     runtime: TrackRuntime,
     *,
@@ -479,14 +440,18 @@ async def run_cross_venue_track(
     parameters: CrossVenueParameters,
     flag_when_gate_would_refuse: bool,
     matcher: MarketMatcher | None = None,
+    policy: GatePolicy = STRICT_POLICY,
 ) -> TrackSummary:
     summary = runtime.summary
     kalshi_snap, poly_snap = runtime.snapshots[Venue.KALSHI], runtime.snapshots[Venue.POLYMARKET]
-    all_pairs = (matcher or MarketMatcher()).match(kalshi_snap.markets, poly_snap.markets)
+    matcher = matcher or MarketMatcher()
+    all_pairs = matcher.match(kalshi_snap.markets, poly_snap.markets)
     pairs = [pair for pair in all_pairs if pair_filter(pair)]
     summary.candidates = len(pairs)
     summary.metrics["matched_pairs_all_categories"] = len(all_pairs)
+    summary.metrics["vetoed_candidates"] = [veto.as_dict() for veto in matcher.vetoed]
     summary.metrics["gate_enabled"] = gate
+    summary.metrics["gate_policy"] = policy.as_dict()
     summary.metrics["parameters"] = {
         "minimum_mid_edge": parameters.minimum_mid_edge,
         "maximum_order_size": parameters.maximum_order_size,
@@ -494,18 +459,20 @@ async def run_cross_venue_track(
     }
     refused_pairs: dict[str, Any] = {}
     gate_results: dict[str, Any] = {}
+    raw_results: dict[str, GateResult] = {}
     host_conflicts = 0
     gate_would_refuse = 0
     strategy = CrossVenueMispricingStrategy(
         risk=runtime.risk, portfolio=runtime.ledger.portfolio, parameters=parameters
     )
     for pair in pairs:
-        result = settlement_gate(pair)
-        gate_results[pair.pair_id] = {"admitted": result.admitted, "reason": result.reason, **result.details}
+        result = settlement_gate(pair, policy=policy)
+        raw_results[pair.pair_id] = result
+        gate_results[pair.pair_id] = result.as_dict()
         host_conflicts += int(result.details["host_conflict"])
         if gate and not result.admitted:
             summary.refuse(result.reason)
-            refused_pairs[pair.pair_id] = {"reason": result.reason, **result.details}
+            refused_pairs[pair.pair_id] = {"reason": result.reason, "reasons": list(result.reasons), **result.details}
             continue
         evaluation = strategy.evaluate(pair, kalshi_snap.book(pair.kalshi), poly_snap.book(pair.polymarket))
         if not evaluation.traded:
@@ -528,11 +495,117 @@ async def run_cross_venue_track(
         )
     summary.metrics["refused_pairs"] = refused_pairs
     summary.metrics["gate_results"] = gate_results
+    summary.metrics["gate_reject_reasons_all"] = _count_all_reasons(raw_results)
     summary.metrics["host_conflicts"] = host_conflicts
     summary.metrics["gate_would_have_refused_traded_pairs"] = gate_would_refuse
     summary.settlement_risk_flag = (
         gate_would_refuse > 0 if flag_when_gate_would_refuse else host_conflicts > 0
     )
+    return summary
+
+
+def _gated_edge_row(
+    track: str, pair: MatchedMarketPair, evaluation: CrossVenueEvaluation, *, admitted: bool, filled: bool
+) -> dict[str, Any]:
+    row = _edge_row(track, pair, evaluation, admitted=admitted, filled=filled)
+    row["edge_bps"] = _bps(evaluation.net_edge if evaluation.net_edge is not None else evaluation.executable_edge)
+    row["gross_edge_bps"] = _bps(evaluation.executable_edge)
+    row["net_edge_bps"] = _bps(evaluation.net_edge)
+    row["fees_per_contract"] = evaluation.fees_per_contract
+    row["quantity"] = evaluation.quantity
+    return row
+
+
+async def run_gated_cross_venue_track(
+    runtime: TrackRuntime,
+    *,
+    parameters: DepthAwareParameters | None = None,
+    policy: GatePolicy = STRICT_POLICY,
+    matcher: MarketMatcher | None = None,
+) -> TrackSummary:
+    """The settlement-safe track: every matched pair, strict gate, depth-aware edge.
+
+    Order of operations per pair is fixed and fail-closed: the gate runs first
+    and a refused pair never reaches the pricing step, so ``proposed_orders``
+    can only come from pairs whose every gate stage passed.
+    """
+    summary = runtime.summary
+    parameters = parameters or DepthAwareParameters()
+    kalshi_snap, poly_snap = runtime.snapshots[Venue.KALSHI], runtime.snapshots[Venue.POLYMARKET]
+    matcher = matcher or MarketMatcher()
+    pairs = matcher.match(kalshi_snap.markets, poly_snap.markets)
+    summary.candidates = len(pairs)
+    summary.metrics["matched_pairs_all_categories"] = len(pairs)
+    summary.metrics["vetoed_candidates"] = [veto.as_dict() for veto in matcher.vetoed]
+    summary.metrics["gate_enabled"] = True
+    summary.metrics["gate_policy"] = policy.as_dict()
+    summary.metrics["parameters"] = parameters.as_dict()
+    summary.metrics["fee_model"] = {
+        venue.value: getattr(client.fee_schedule, "__name__", "custom")
+        for venue, client in runtime.clients.items()
+    }
+    strategy = DepthAwareCrossVenueStrategy(
+        risk=runtime.risk,
+        portfolio=runtime.ledger.portfolio,
+        fee_schedules={venue: client.fee_schedule for venue, client in runtime.clients.items()},
+        parameters=parameters,
+    )
+    gate_results: dict[str, Any] = {}
+    raw_results: dict[str, GateResult] = {}
+    refused_pairs: dict[str, Any] = {}
+    admitted_pairs: dict[str, Any] = {}
+    priced_but_no_edge: dict[str, Any] = {}
+    expected_locked_pnl = ZERO
+    for pair in pairs:
+        result = settlement_gate(pair, policy=policy)
+        raw_results[pair.pair_id] = result
+        gate_results[pair.pair_id] = {
+            "kalshi": pair.kalshi.market_id,
+            "polymarket": pair.polymarket.market_id,
+            "kalshi_title": pair.kalshi.title,
+            "polymarket_title": pair.polymarket.title,
+            "category": pair.category,
+            **result.as_dict(),
+        }
+        if not result.admitted:
+            summary.refuse(result.reason)
+            refused_pairs[pair.pair_id] = {"reason": result.reason, "reasons": list(result.reasons)}
+            continue
+        evaluation = strategy.evaluate(pair, kalshi_snap.book(pair.kalshi), poly_snap.book(pair.polymarket))
+        gate_results[pair.pair_id]["edge"] = evaluation.as_dict()
+        if not evaluation.traded:
+            summary.refuse(f"edge_{evaluation.reason}")
+            priced_but_no_edge[pair.pair_id] = evaluation.reason
+            summary.edges.append(_gated_edge_row(runtime.name, pair, evaluation, admitted=False, filled=False))
+            continue
+        summary.admitted += 1
+        admitted_pairs[pair.pair_id] = {
+            "quantity": evaluation.quantity,
+            "net_edge_per_contract": evaluation.net_edge,
+            "fees_per_contract": evaluation.fees_per_contract,
+        }
+        summary.proposed_orders += len(evaluation.orders)
+        summary.admitted_edges.append(evaluation.net_edge or ZERO)
+        summary.estimated_fees_buffer += (evaluation.fees_per_contract or ZERO) * evaluation.quantity
+        expected_locked_pnl += (evaluation.net_edge or ZERO) * evaluation.quantity
+        fills_before = summary.paper_fills
+        for order in evaluation.orders:
+            await runtime.submit(order, edge=evaluation.net_edge)
+        summary.edges.append(
+            _gated_edge_row(runtime.name, pair, evaluation, admitted=True, filled=summary.paper_fills > fills_before)
+        )
+    summary.metrics["gate_results"] = gate_results
+    summary.metrics["refused_pairs"] = refused_pairs
+    summary.metrics["admitted_pairs"] = admitted_pairs
+    summary.metrics["priced_but_no_edge"] = priced_but_no_edge
+    summary.metrics["gate_reject_reasons_all"] = _count_all_reasons(raw_results)
+    summary.metrics["gate_refused"] = len(refused_pairs)
+    summary.metrics["gate_admitted"] = len(pairs) - len(refused_pairs)
+    summary.metrics["host_conflicts"] = sum(int(r.details["host_conflict"]) for r in raw_results.values())
+    summary.metrics["gate_would_have_refused_traded_pairs"] = 0
+    summary.metrics["expected_locked_pnl_if_settlement_equivalent"] = expected_locked_pnl.quantize(Decimal("0.0001"))
+    summary.metrics["stage_order"] = [stage.value for stage in STAGE_ORDER]
+    summary.settlement_risk_flag = False
     return summary
 
 
@@ -896,7 +969,7 @@ async def measure_all_with_ledgers(
             model_fees=model_fees,
         )
 
-    gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt = (
+    strict_rt, gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt = (
         runtime(name, snapshots) for name in CROSS_VENUE_AND_FAIR_VALUE_TRACKS
     )
     arb_runtimes = {
@@ -904,6 +977,7 @@ async def measure_all_with_ledgers(
     }
     default_params = CrossVenueParameters()
     summaries = await asyncio.gather(
+        run_gated_cross_venue_track(strict_rt, policy=STRICT_POLICY),
         run_cross_venue_track(
             gated_rt, pair_filter=_is_macro, gate=True, parameters=default_params,
             flag_when_gate_would_refuse=True,
@@ -927,7 +1001,7 @@ async def measure_all_with_ledgers(
     )
     arb_summaries = summaries[-1]
     summaries = list(summaries[:-1]) + list(arb_summaries)
-    runtimes = (gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values())
+    runtimes = (strict_rt, gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values())
     label = cycle_label or f"{'fixtures' if use_fixtures else 'network'}:{_now().isoformat()}"
     for rt in runtimes:
         rt.finalize(label=label)
@@ -942,13 +1016,22 @@ async def measure_all_with_ledgers(
             for venue, snap in rt.snapshots.items()
         }
 
+    strict_rt.summary.notes = (
+        "Settlement-safe track. Every matched pair (any category) must pass all eight gate "
+        "stages - match confidence, clauses, fingerprint, polarity, Fed bucket, interval, "
+        "hosts, expiry - before it is priced; then both legs must clear venue fees through "
+        "book depth. Zero admits is the expected state: the gate exists to prove that most "
+        "cross-venue pairs are not settlement-equivalent. Control: ungated_cross_venue_macro."
+    )
     gated_rt.summary.notes = (
-        "Macro pairs must pass clause, fingerprint and host gates before any paper order. "
-        "Refusals are the expected state when venues' settlement rules diverge."
+        "Macro pairs must pass the same strict gate before any paper order, priced at the "
+        "touch with a flat fee buffer. Refusals are the expected state when venues' "
+        "settlement rules diverge."
     )
     ungated_rt.summary.notes = (
-        "Same macro pairs traded without the settlement gate. Exists only to measure what the "
-        "gate refuses; flagged settlement-risk whenever a traded pair would have been refused."
+        "CONTROL. Same macro pairs traded without the settlement gate. Exists only to measure "
+        "what the gate refuses; flagged settlement-risk whenever a traded pair would have been "
+        "refused. Its PnL is not realisable: the legs may settle on different events."
     )
     fair_rt.summary.notes = (
         "Primary track. Single-venue fair value from explicit priors; no cross-venue "

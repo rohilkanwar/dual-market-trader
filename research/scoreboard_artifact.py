@@ -11,9 +11,10 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
-from research.scoreboard import CROSS_VENUE_TRACKS, NEWS_TRACK, PRIMARY_TRACK, TrackSummary
+from research.scoreboard import CONTROL_TRACK, CROSS_VENUE_TRACKS, GATED_TRACK, NEWS_TRACK, PRIMARY_TRACK, TrackSummary
 
-SCHEMA_VERSION = "1.2.0"
+SCHEMA_VERSION = "1.3.0"
+GATE_REPORT_SCHEMA_VERSION = "1.0.0"
 ALLOWED_SOURCES = ("measured", "synced")
 ZERO = Decimal("0")
 Q = Decimal("0.0001")
@@ -118,9 +119,12 @@ def build_scoreboard_artifact(
         suffix = f" / {label_suffix}" if label_suffix else ""
         return f"{base}{suffix}{f' / CYCLE {cycle}' if cycle is not None else ''}"
 
+    gated = by_track.get(GATED_TRACK)
     findings_out: dict[str, Any] = {
-        "live_network_cross_venue_candidates": sum(
-            by_track[t].candidates for t in ("gated_cross_venue_macro", "sports_cross_venue") if t in by_track
+        "live_network_cross_venue_candidates": (
+            gated.candidates
+            if gated is not None
+            else sum(by_track[t].candidates for t in ("gated_cross_venue_macro", "sports_cross_venue") if t in by_track)
         ),
         "arbai_summary": (
             "Cross-venue macro settlement rules frequently diverge (clause, fingerprint or host "
@@ -148,6 +152,8 @@ def build_scoreboard_artifact(
                 "See docs/NEWS_UNDERREACTION.md."
             ),
         }
+    if gated is not None:
+        findings_out["gated_cross_venue"] = gate_summary(gated)
     if findings:
         findings_out.update(findings)
 
@@ -238,4 +244,99 @@ def build_scoreboard_artifact(
             ],
             "pnl_by_track": [{"track": t, "value": l.get("total_pnl", ZERO)} for t, l in ledgers.items()],
         },
+    }
+
+
+def gate_summary(gated: TrackSummary) -> dict[str, Any]:
+    """Compact admissibility headline for the settlement-safe track."""
+    metrics = gated.metrics
+    gate_refused = int(metrics.get("gate_refused", 0))
+    return {
+        "track": gated.track,
+        "policy": metrics.get("gate_policy", {}).get("name"),
+        "candidates": gated.candidates,
+        "gate_admitted": int(metrics.get("gate_admitted", gated.candidates - gate_refused)),
+        "gate_refused": gate_refused,
+        "priced_but_no_edge": len(metrics.get("priced_but_no_edge", {})),
+        "traded": gated.admitted,
+        "paper_fills": gated.paper_fills,
+        "primary_reject_reasons": dict(sorted(gated.refused_by_reason.items())),
+        "all_stage_reject_reasons": metrics.get("gate_reject_reasons_all", {}),
+        "vetoed_candidates": len(metrics.get("vetoed_candidates", [])),
+        "expected_locked_pnl_if_settlement_equivalent": metrics.get(
+            "expected_locked_pnl_if_settlement_equivalent", ZERO
+        ),
+        "ledger_total_pnl": gated.ledger.get("total_pnl") if gated.ledger else None,
+        "status": (
+            "zero_admits_expected"
+            if gated.admitted == 0
+            else "admits_present_verify_fingerprints"
+        ),
+    }
+
+
+def build_gate_report(
+    summaries: list[TrackSummary],
+    *,
+    mode: str,
+    measured_at: str,
+    run_id: str | None = None,
+    generated_at: str | None = None,
+    source: str = "measured",
+) -> dict[str, Any]:
+    """Per-pair admissibility report for ``gated_cross_venue`` (+ the control).
+
+    Emitted on every run, including runs with zero candidates or zero admits:
+    an empty ``pairs`` list with a populated ``totals`` block *is* the finding.
+    """
+    if source not in ALLOWED_SOURCES:
+        raise SampleSourceRefused(f"meta.source must be one of {ALLOWED_SOURCES}; refusing {source!r}.")
+    by_track = {summary.track: summary for summary in summaries}
+    gated = by_track.get(GATED_TRACK)
+    if gated is None:
+        raise ValueError(f"no {GATED_TRACK} summary supplied")
+    control = by_track.get(CONTROL_TRACK)
+    pairs = [
+        {"pair_id": pair_id, **result}
+        for pair_id, result in sorted(gated.metrics.get("gate_results", {}).items())
+    ]
+    stage_failures: dict[str, int] = {}
+    for pair in pairs:
+        for stage in pair.get("stages_failed", []):
+            stage_failures[stage] = stage_failures.get(stage, 0) + 1
+    control_block: dict[str, Any] | None = None
+    if control is not None:
+        control_block = {
+            "track": control.track,
+            "candidates": control.candidates,
+            "traded": control.admitted,
+            "paper_fills": control.paper_fills,
+            "settlement_risk_flag": control.settlement_risk_flag,
+            "gate_would_have_refused_traded_pairs": control.metrics.get("gate_would_have_refused_traded_pairs", 0),
+            "ledger_total_pnl": control.ledger.get("total_pnl") if control.ledger else None,
+            "note": "Control only. PnL here is not realisable: legs may settle on different events.",
+        }
+    return {
+        "schema_version": GATE_REPORT_SCHEMA_VERSION,
+        "kind": "gate_report",
+        "meta": {
+            "source": source,
+            "paper_only": True,
+            "mode": mode,
+            "measured_at": measured_at,
+            "generated_at": generated_at or datetime.now(UTC).isoformat(),
+            "run_id": run_id,
+            "track": GATED_TRACK,
+            "control_track": CONTROL_TRACK,
+            "policy": gated.metrics.get("gate_policy", {}),
+            "parameters": gated.metrics.get("parameters", {}),
+            "fee_model": gated.metrics.get("fee_model", {}),
+            "stage_order": gated.metrics.get("stage_order", []),
+            "pnl_source": "core.ledger.PaperLedger",
+        },
+        "totals": gate_summary(gated),
+        "stage_failures": dict(sorted(stage_failures.items())),
+        "vetoed_candidates": gated.metrics.get("vetoed_candidates", []),
+        "pairs": pairs,
+        "control": control_block,
     }

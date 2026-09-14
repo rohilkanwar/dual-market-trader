@@ -301,6 +301,7 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
                             "slug": item.get("slug"),
                             "event_title": event_title,
                             "resolution_text": item.get("description", ""),
+                            "close_time": item.get("endDate") or item.get("end_date_iso"),
                             "raw": item,
                         },
                     )
