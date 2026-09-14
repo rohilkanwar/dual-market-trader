@@ -7,7 +7,7 @@ import type {
   TrackFamilyId,
   TrackFamilySummary,
 } from '../types'
-import { OTHER_FAMILY, formatNum, formatSigned, trackFamily } from '../types'
+import { OTHER_FAMILY, formatNum, formatSigned, gateLine, trackFamily } from '../types'
 
 const THIN_ARCHIVE_RUNS = 5
 const ALL = 'all'
@@ -148,6 +148,8 @@ function RunDetail({ run, filter, index }: { run: ExperimentEntry; filter: Filte
   if (run.kalshi_env) bits.push(`kalshi ${run.kalshi_env}`)
   if (run.pnl_source) bits.push(`PnL from ${run.pnl_source}`)
   else if (run.kind === 'sample') bits.push('numbers are placeholders')
+  const gate = gateLine(run.gate)
+  if (gate) bits.push(gate)
 
   const rows = tracksIn(run, filter)
   const groups = new Map<TrackFamilyId, ExperimentTrack[]>()
@@ -193,6 +195,14 @@ function RunDetail({ run, filter, index }: { run: ExperimentEntry; filter: Filte
         <a href={run.detail} target="_blank" rel="noreferrer">
           JSON
         </a>
+        {run.gate_report && (
+          <>
+            {' · '}
+            <a href={run.gate_report} target="_blank" rel="noreferrer">
+              gate report
+            </a>
+          </>
+        )}
       </p>
     </div>
   )

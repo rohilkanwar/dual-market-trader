@@ -2,8 +2,10 @@
 
 Outputs (relative to ``--artifact-dir``, default ``artifacts/``):
 
-* ``scoreboard_<mode>.json``       dashboard artifact (schema 1.2.0, source=measured)
+* ``scoreboard_<mode>.json``       dashboard artifact (schema 1.3.0, source=measured)
 * ``scoreboard_latest.json``       same document; what the dashboard sync prefers
+* ``gate_report_<mode>.json``      per-pair admissibility verdicts for gated_cross_venue
+* ``gate_report_latest.json``      same document; emitted even with zero candidates
 * ``paper/ledger_<track>.json``    full ledger per track (fills, marks, equity curve)
 * ``paper/equity_curve_<track>.jsonl``  one appended equity point per run
 * ``paper/runs/<run_id>.json``     raw track summaries for this run
@@ -29,8 +31,8 @@ from core.ledger import PaperLedger
 from research.harvest_scoreboard import findings_from_harvest
 from research.harvests import HarvestBundle
 from research.news_signals import build_signal_source
-from research.scoreboard import TRACKS, TrackSummary, measure_all_with_ledgers
-from research.scoreboard_artifact import build_scoreboard_artifact
+from research.scoreboard import GATED_TRACK, TRACKS, TrackSummary, measure_all_with_ledgers
+from research.scoreboard_artifact import build_gate_report, build_scoreboard_artifact
 from strategies.edge import load_priors
 from strategies.polymarket_arb import ArbParameters
 
@@ -153,6 +155,11 @@ def persist_run(
         **(artifact_kwargs or {}),
     )
     artifact["meta"]["run_id"] = run_id
+    if any(summary.track == GATED_TRACK for summary in summaries):
+        gate_report = build_gate_report(summaries, mode=mode, measured_at=measured_at, run_id=run_id)
+        write_json(artifact_dir / f"gate_report_{mode}.json", gate_report)
+        write_json(artifact_dir / "gate_report_latest.json", gate_report)
+        artifact["gate_report"] = {"file": f"gate_report_{mode}.json", "totals": gate_report["totals"]}
     write_json(artifact_dir / (scoreboard_name or f"scoreboard_{mode}.json"), artifact)
     if write_latest:
         write_json(artifact_dir / "scoreboard_latest.json", artifact)
@@ -240,12 +247,25 @@ async def run(
         harvest_dir=harvest_dir,
     )
     _print_open(summaries, f"paper scoreboard ({mode}, {limit} markets/venue)")
+    gate = artifact.get("gate_report", {}).get("totals")
+    if gate:
+        print(
+            f"\ngated_cross_venue: candidates={gate['candidates']} gate_admitted={gate['gate_admitted']} "
+            f"gate_refused={gate['gate_refused']} priced_but_no_edge={gate['priced_but_no_edge']} "
+            f"traded={gate['traded']} status={gate['status']}"
+        )
+        if gate["all_stage_reject_reasons"]:
+            reasons = ", ".join(f"{k}={v}" for k, v in gate["all_stage_reject_reasons"].items())
+            print(f"  stage rejects: {reasons}")
     print(
         f"\nledger totals: realized={artifact['totals']['realized_pnl']} "
         f"unrealized={artifact['totals']['unrealized_pnl']} fees={artifact['totals']['fees_paid']} "
         f"paper_pnl={artifact['totals']['paper_pnl']}"
     )
-    print(f"artifacts: {artifact_dir / f'scoreboard_{mode}.json'}  {artifact_dir / 'paper'}")
+    print(
+        f"artifacts: {artifact_dir / f'scoreboard_{mode}.json'}  "
+        f"{artifact_dir / f'gate_report_{mode}.json'}  {artifact_dir / 'paper'}"
+    )
     return artifact
 
 

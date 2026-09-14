@@ -4,7 +4,7 @@ from settlement.clauses import (
     pair_clause_verdict,
 )
 from settlement.fingerprint import TieBreak
-from settlement.hosts import HostTier, classify
+from settlement.hosts import HostTier, classify, registrable_domain, same_publisher
 
 
 BASE = (
@@ -52,3 +52,15 @@ def test_host_classification_uses_real_suffix_boundaries() -> None:
     assert classify("scores.espn.com") is HostTier.MEDIA
     assert classify("https://espn.com.evil.example/") is HostTier.UNCLASSIFIED
     assert classify("https://notespn.com/") is HostTier.UNCLASSIFIED
+
+
+def test_registrable_domain_identifies_the_publisher_not_the_tier() -> None:
+    assert registrable_domain("https://data.bls.gov/cpi") == "bls.gov"
+    assert registrable_domain("https://www.federalreserve.gov/x") == "federalreserve.gov"
+    assert registrable_domain("https://www.ons.gov.uk/") == "ons.gov.uk"
+    assert registrable_domain("") == ""
+    assert same_publisher("https://data.bls.gov/", "https://www.bls.gov/cpi/")
+    # Both OFFICIAL, but different statistical agencies: not the same publisher.
+    assert classify("https://www.bls.gov/") is classify("https://www.bea.gov/") is HostTier.OFFICIAL
+    assert not same_publisher("https://www.bls.gov/", "https://www.bea.gov/")
+    assert not same_publisher("", "")

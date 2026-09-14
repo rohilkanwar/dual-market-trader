@@ -37,6 +37,7 @@ async function listCandidates() {
   const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json'])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
+    if (/^gate_report_.*\.json$/.test(file)) names.add(file)
   }
   for (const file of await safeReaddir(join(runtimeRoot, 'paper'))) {
     if (/^ledger_.*\.json$/.test(file)) names.add(`paper/${file}`)
@@ -57,6 +58,12 @@ function isScoreboard(doc) {
   return Boolean(doc?.meta) && Array.isArray(doc?.tracks) && Boolean(doc?.totals)
 }
 
+// Per-pair admissibility verdicts for the gated_cross_venue track. Emitted on
+// every run, including zero-candidate runs, so an empty pairs[] is expected.
+function isGateReport(doc) {
+  return doc?.kind === 'gate_report' && Boolean(doc?.meta) && Array.isArray(doc?.pairs) && Boolean(doc?.totals)
+}
+
 await mkdir(publicRoot, { recursive: true })
 const copied = {}
 for (const relative of await listCandidates()) {
@@ -69,11 +76,16 @@ for (const relative of await listCandidates()) {
     continue
   }
   const isBoard = relative.startsWith('scoreboard_')
+  const isGate = relative.startsWith('gate_report_')
   if (isBoard && !isScoreboard(doc)) {
     console.warn(`skip ${relative}: missing meta/tracks/totals`)
     continue
   }
-  if (isBoard && doc.meta.source === 'sample') {
+  if (isGate && !isGateReport(doc)) {
+    console.warn(`skip ${relative}: not a gate report (kind/meta/pairs/totals)`)
+    continue
+  }
+  if ((isBoard || isGate) && doc.meta.source === 'sample') {
     console.warn(`skip ${relative}: refusing to publish meta.source=sample as a runtime artifact`)
     continue
   }
@@ -197,6 +209,29 @@ function compactTrack(track) {
   }
 }
 
+// Admissibility headline of the gated_cross_venue track, read from the track's
+// own metrics so the record does not depend on gate_report_latest.json (which
+// the next run overwrites).
+function compactGate(manifest) {
+  const gated = (manifest.tracks ?? []).find((t) => t.track === 'gated_cross_venue')
+  if (!gated) return null
+  const m = gated.metrics ?? {}
+  const refused = num(m.gate_refused) ?? 0
+  return {
+    track: gated.track,
+    policy: m.gate_policy?.name ?? null,
+    candidates: num(gated.candidates) ?? 0,
+    gate_admitted: num(m.gate_admitted) ?? Math.max(0, (num(gated.candidates) ?? 0) - refused),
+    gate_refused: refused,
+    priced_but_no_edge: Object.keys(m.priced_but_no_edge ?? {}).length,
+    traded: num(gated.admitted) ?? 0,
+    paper_fills: num(gated.paper_fills) ?? 0,
+    primary_reject_reasons: gated.reject_reasons ?? gated.refused_by_reason ?? {},
+    all_stage_reject_reasons: m.gate_reject_reasons_all ?? {},
+    status: (num(gated.admitted) ?? 0) === 0 ? 'zero_admits_expected' : 'admits_present_verify_fingerprints',
+  }
+}
+
 function compactRunRecord(file, manifest, cycle) {
   const rows = (manifest.tracks ?? []).filter((t) => typeof t?.track === 'string' && t.track.length > 0)
   if (rows.length !== (manifest.tracks ?? []).length) {
@@ -235,6 +270,7 @@ function compactRunRecord(file, manifest, cycle) {
       unrealized_pnl: ledgerBacked ? sum(tracks, (t) => t.ledger.unrealized_pnl) : null,
       fees_paid: ledgerBacked ? sum(tracks, (t) => t.ledger.fees_paid) : null,
     },
+    gate: compactGate(manifest),
     tracks,
   }
 }

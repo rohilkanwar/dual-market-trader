@@ -70,6 +70,7 @@ async function withTempDirs(names, fn) {
 }
 
 test('familyOf: known ids, keyword heuristics, declared family, fallback', () => {
+  assert.equal(familyOf('gated_cross_venue'), 'xv_gated')
   assert.equal(familyOf('gated_cross_venue_macro'), 'xv_gated')
   assert.equal(familyOf('small_deliberate_bet'), 'xv_gated')
   assert.equal(familyOf('ungated_cross_venue_macro'), 'xv_ungated')
@@ -148,7 +149,7 @@ test('index: new track ids land in lanes; families without artifacts stay missin
 
   const index = await buildExperimentsIndex(dir)
 
-  assert.equal(index.schema_version, '1.1.0')
+  assert.equal(index.schema_version, '1.2.0')
   assert.equal(index.paper_only, true)
   assert.deepEqual(index.counts, { total: 3, measured: 2, sample: 1, backtest: 0 })
   assert.equal(index.latest_run_id, 'run-old')
@@ -197,6 +198,7 @@ test('index: empty directory yields an honest empty index with missing lanes', (
   assert.equal(index.counts.total, 0)
   assert.deepEqual(index.runs, [])
   assert.deepEqual(index.ledgers, [])
+  assert.deepEqual(index.gate_reports, [])
   assert.ok(index.lanes.every((l) => l.status === 'missing' && l.paper_pnl === null && l.paper_fills === null))
   assert.ok(index.families.every((f) => f.runs === 0 && f.tracks.length === 0))
 }))
@@ -273,4 +275,44 @@ test('sync: discovers new scoreboards, per-track ledgers and run manifests', () 
     [['kalshi_maker_flb', 'kalshi_flb'], ['single_venue_fair_value', 'single_venue']],
   )
   assert.ok(!index.runs.some((r) => r.kind === 'sample'), 'runtime sample board is never published')
+}))
+
+test('index: gate reports join their run by run_id and never invent a run', () => withTempDirs(['gate'], async ({ gate: dir }) => {
+  await writeFile(
+    join(dir, 'scoreboard_network.json'),
+    JSON.stringify(scoreboard({
+      runId: 'run-gate',
+      measuredAt: '2026-09-14T12:00:00+00:00',
+      tracks: [track('gated_cross_venue', { candidates: 8, admitted: 0, paper_fills: 0 }), track('single_venue_fair_value')],
+    })),
+  )
+  const totals = {
+    track: 'gated_cross_venue', policy: 'strict', candidates: 8, gate_admitted: 0, gate_refused: 8,
+    priced_but_no_edge: 0, traded: 0, paper_fills: 0,
+    primary_reject_reasons: { clause_refuse_mismatch: 5, match_low_confidence: 3 },
+    all_stage_reject_reasons: { clause_refuse_mismatch: 5, fingerprint_indeterminate: 8 },
+    status: 'zero_admits_expected',
+  }
+  const report = (runId) => JSON.stringify({
+    schema_version: '1.0.0', kind: 'gate_report',
+    meta: { source: 'measured', paper_only: true, mode: 'network', measured_at: '2026-09-14T12:00:00+00:00', run_id: runId, policy: { name: 'strict' } },
+    totals, stage_failures: {}, vetoed_candidates: [], pairs: new Array(8).fill({}), control: null,
+  })
+  await writeFile(join(dir, 'gate_report_network.json'), report('run-gate'))
+  await writeFile(join(dir, 'gate_report_fixtures.json'), report('run-not-on-disk'))
+  await writeFile(join(dir, 'gate_report_sample.json'), JSON.stringify({ kind: 'gate_report', meta: { source: 'sample', run_id: 'run-gate' }, totals, pairs: [] }))
+
+  const index = await buildExperimentsIndex(dir)
+  assert.equal(index.runs.length, 1, 'a report for an unknown run does not create a run')
+  const run = index.runs[0]
+  assert.equal(run.gate.gate_admitted, 0)
+  assert.equal(run.gate.candidates, 8)
+  assert.equal(run.gate.status, 'zero_admits_expected')
+  assert.equal(run.gate_report, '/artifacts/gate_report_network.json')
+  assert.ok(run.artifacts.includes('gate_report_network.json'))
+  assert.equal(run.tracks.find((t) => t.track === 'gated_cross_venue').family, 'xv_gated')
+  assert.deepEqual(index.gate_reports.map((g) => [g.file, g.run_id, g.pairs]), [
+    ['gate_report_network.json', 'run-gate', 8],
+    ['gate_report_fixtures.json', 'run-not-on-disk', 8],
+  ], 'sample reports are never indexed')
 }))

@@ -1,0 +1,631 @@
+{
+  "control": {
+    "candidates": 2,
+    "gate_would_have_refused_traded_pairs": 1,
+    "ledger_total_pnl": -1.61,
+    "note": "Control only. PnL here is not realisable: legs may settle on different events.",
+    "paper_fills": 4,
+    "settlement_risk_flag": true,
+    "track": "ungated_cross_venue_macro",
+    "traded": 2
+  },
+  "kind": "gate_report",
+  "meta": {
+    "control_track": "ungated_cross_venue_macro",
+    "fee_model": {
+      "kalshi": "kalshi_fee",
+      "polymarket": "zero_fee"
+    },
+    "generated_at": "2026-09-14T21:34:24.081172+00:00",
+    "measured_at": "2026-09-14T21:34:24.006439+00:00",
+    "mode": "fixtures",
+    "paper_only": true,
+    "parameters": {
+      "maximum_order_size": "25",
+      "minimum_net_edge": "0.01",
+      "minimum_quantity": "1"
+    },
+    "pnl_source": "core.ledger.PaperLedger",
+    "policy": {
+      "allowed_host_tiers": [
+        "official"
+      ],
+      "expiry_tolerance_hours": 72.0,
+      "minimum_heuristic_confidence": 0.6,
+      "name": "strict",
+      "require_same_publisher": true
+    },
+    "run_id": "20260914T213424Z-85083a97",
+    "source": "measured",
+    "stage_order": [
+      "match",
+      "clauses",
+      "fingerprint",
+      "polarity",
+      "fed_bucket",
+      "interval",
+      "hosts",
+      "expiry"
+    ],
+    "track": "gated_cross_venue"
+  },
+  "pairs": [
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 1.0,
+            "match_method": "curated"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "refuse_mismatch",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": true,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": false,
+          "reason": "clause_refuse_mismatch",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_reason": "fallback_to_prior_period present on one side only",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "kalshi_fed_bucket": null,
+            "kalshi_fed_bucket_source": "none",
+            "polymarket_fed_bucket": null,
+            "polymarket_fed_bucket_source": "none"
+          },
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "bls.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "bls.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "kalshi_close_time": null,
+            "polymarket_close_time": null
+          },
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "refuse_mismatch",
+      "fingerprint_reason": "fallback_to_prior_period present on one side only",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KX-CPI-AUG-OVER3",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": true,
+        "source_urls": [
+          "https://www.bls.gov/cpi/"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "kalshi_close_time": null,
+      "kalshi_fed_bucket": null,
+      "kalshi_fed_bucket_source": "none",
+      "kalshi_host": "bls.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will August CPI be above 3.0%?",
+      "match_confidence": 1.0,
+      "match_method": "curated",
+      "pair_id": "august-cpi-over-3",
+      "policy": "strict",
+      "polymarket": "0xfixture-cpi-august",
+      "polymarket_clauses": {
+        "fallback": true,
+        "revisions_excluded": true,
+        "source_urls": [
+          "https://www.bls.gov/cpi/"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": null,
+      "polymarket_fed_bucket": null,
+      "polymarket_fed_bucket_source": "none",
+      "polymarket_host": "bls.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will August CPI come in above 3.0%?",
+      "reason": "clause_refuse_mismatch",
+      "reasons": [
+        "clause_refuse_mismatch",
+        "fingerprint_indeterminate",
+        "polarity_unverified"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "clauses",
+        "fingerprint",
+        "polarity"
+      ],
+      "stages_passed": [
+        "match",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    },
+    {
+      "admitted": true,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 1.0,
+            "match_method": "curated"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "admit",
+            "kalshi_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_reason": "resolution fingerprints match",
+            "fingerprint_relation": "equivalent"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "equivalent",
+            "same_polarity": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "fed_match_type": "exact",
+            "kalshi_fed_bucket": "C25",
+            "kalshi_fed_bucket_source": "explicit",
+            "polymarket_fed_bucket": "C25",
+            "polymarket_fed_bucket_source": "explicit"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "kalshi_close_time": null,
+            "polymarket_close_time": null
+          },
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "admit",
+      "edge": {
+        "cheap_venue": "polymarket",
+        "executable_edge": "0.09",
+        "fees_per_contract": "0.0176",
+        "kalshi_mid": "0.53",
+        "net_edge": "0.0688",
+        "orders": 2,
+        "pair_id": "fed-rate-cut-september",
+        "paper_edge": {
+          "depth_limited": false,
+          "expected_paper_pnl": "1.7200",
+          "fees_per_contract": "0.0176",
+          "gross_edge_per_contract": "0.0864",
+          "levels_walked": 2,
+          "net_edge_per_contract": "0.0688",
+          "no_leg": {
+            "fees": "0.44",
+            "levels": [
+              {
+                "fee": "0.28",
+                "price": "0.48",
+                "quantity": "16"
+              },
+              {
+                "fee": "0.16",
+                "price": "0.48",
+                "quantity": "9"
+              }
+            ],
+            "limit_price": "0.48",
+            "market_id": "KX-FED-SEP-CUT",
+            "outcome": "no",
+            "quantity": "25",
+            "venue": "kalshi",
+            "vwap": "0.4800"
+          },
+          "quantity": "25",
+          "reason": "ok",
+          "touch_gross_edge": "0.09",
+          "yes_leg": {
+            "fees": "0",
+            "levels": [
+              {
+                "fee": "0",
+                "price": "0.43",
+                "quantity": "16"
+              },
+              {
+                "fee": "0",
+                "price": "0.44",
+                "quantity": "9"
+              }
+            ],
+            "limit_price": "0.44",
+            "market_id": "0xfixture-fed-september",
+            "outcome": "yes",
+            "quantity": "25",
+            "venue": "polymarket",
+            "vwap": "0.4336"
+          }
+        },
+        "polymarket_mid": "0.42",
+        "quantity": "25.0000",
+        "raw_edge": "0.11",
+        "reason": "trade"
+      },
+      "fed_match_type": "exact",
+      "fingerprint_reason": "resolution fingerprints match",
+      "fingerprint_relation": "equivalent",
+      "host_conflict": false,
+      "kalshi": "KX-FED-SEP-CUT",
+      "kalshi_clauses": {
+        "fallback": false,
+        "revisions_excluded": true,
+        "source_urls": [
+          "https://www.federalreserve.gov/"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "kalshi_close_time": null,
+      "kalshi_fed_bucket": "C25",
+      "kalshi_fed_bucket_source": "explicit",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Fed cut rates at the September meeting?",
+      "match_confidence": 1.0,
+      "match_method": "curated",
+      "pair_id": "fed-rate-cut-september",
+      "policy": "strict",
+      "polymarket": "0xfixture-fed-september",
+      "polymarket_clauses": {
+        "fallback": false,
+        "revisions_excluded": true,
+        "source_urls": [
+          "https://www.federalreserve.gov/"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": null,
+      "polymarket_fed_bucket": "C25",
+      "polymarket_fed_bucket_source": "explicit",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will the Fed cut rates in September?",
+      "reason": "admitted",
+      "reasons": [],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [],
+      "stages_passed": [
+        "match",
+        "clauses",
+        "fingerprint",
+        "polarity",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "sports",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 1.0,
+            "match_method": "curated"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "admit",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.espn.com/nba/"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.nba.com/game/"
+              ],
+              "tie_break": null,
+              "usable": true
+            }
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "kalshi_fed_bucket": null,
+            "kalshi_fed_bucket_source": "none",
+            "polymarket_fed_bucket": null,
+            "polymarket_fed_bucket_source": "none"
+          },
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": true,
+            "kalshi_host": "espn.com",
+            "kalshi_host_tier": "media",
+            "polymarket_host": "nba.com",
+            "polymarket_host_tier": "official",
+            "same_publisher": false
+          },
+          "passed": false,
+          "reason": "host_tier_not_allowed",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "kalshi_close_time": null,
+            "polymarket_close_time": null
+          },
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "admit",
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": true,
+      "kalshi": "KX-NBA-NY-BOS-NY",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.espn.com/nba/"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": null,
+      "kalshi_fed_bucket": null,
+      "kalshi_fed_bucket_source": "none",
+      "kalshi_host": "espn.com",
+      "kalshi_host_tier": "media",
+      "kalshi_title": "Will New York beat Boston?",
+      "match_confidence": 1.0,
+      "match_method": "curated",
+      "pair_id": "nba-new-york-boston",
+      "policy": "strict",
+      "polymarket": "0xfixture-nba-ny-boston",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.nba.com/game/"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "polymarket_close_time": null,
+      "polymarket_fed_bucket": null,
+      "polymarket_fed_bucket_source": "none",
+      "polymarket_host": "nba.com",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will New York beat Boston?",
+      "reason": "fingerprint_indeterminate",
+      "reasons": [
+        "fingerprint_indeterminate",
+        "polarity_unverified",
+        "host_tier_not_allowed"
+      ],
+      "same_polarity": true,
+      "same_publisher": false,
+      "stages_failed": [
+        "fingerprint",
+        "polarity",
+        "hosts"
+      ],
+      "stages_passed": [
+        "match",
+        "clauses",
+        "fed_bucket",
+        "interval",
+        "expiry"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0",
+  "stage_failures": {
+    "clauses": 1,
+    "fingerprint": 2,
+    "hosts": 1,
+    "polarity": 2
+  },
+  "totals": {
+    "all_stage_reject_reasons": {
+      "clause_refuse_mismatch": 1,
+      "fingerprint_indeterminate": 2,
+      "host_tier_not_allowed": 1,
+      "polarity_unverified": 2
+    },
+    "candidates": 3,
+    "expected_locked_pnl_if_settlement_equivalent": 1.72,
+    "gate_admitted": 1,
+    "gate_refused": 2,
+    "ledger_total_pnl": -1.03,
+    "paper_fills": 3,
+    "policy": "strict",
+    "priced_but_no_edge": 0,
+    "primary_reject_reasons": {
+      "clause_refuse_mismatch": 1,
+      "fingerprint_indeterminate": 1
+    },
+    "status": "admits_present_verify_fingerprints",
+    "track": "gated_cross_venue",
+    "traded": 1,
+    "vetoed_candidates": 0
+  },
+  "vetoed_candidates": []
+}

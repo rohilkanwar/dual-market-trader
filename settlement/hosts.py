@@ -45,6 +45,17 @@ _SELF = {
 }
 
 
+# Public suffixes that take a third label to identify the registrant. Kept
+# deliberately short: a wrong guess here yields a *mismatch* (fail-closed), not
+# a false match.
+_MULTI_LABEL_SUFFIXES = {
+    "co.uk", "org.uk", "gov.uk", "ac.uk",
+    "com.au", "gov.au",
+    "co.jp", "go.jp",
+    "gc.ca",
+}
+
+
 def _host(value: str) -> str:
     parsed = urlparse(value if "://" in value else f"//{value}")
     return (parsed.hostname or "").lower().rstrip(".")
@@ -52,6 +63,29 @@ def _host(value: str) -> str:
 
 def _matches(host: str, domain: str) -> bool:
     return host == domain or host.endswith(f".{domain}")
+
+
+def registrable_domain(value: str) -> str:
+    """The registrant-owned part of a host (``data.bls.gov`` -> ``bls.gov``).
+
+    Empty when the value carries no host. Two resolution URLs are treated as the
+    same publisher only when this value is identical on both sides.
+    """
+    host = _host(value)
+    if not host:
+        return ""
+    labels = host.split(".")
+    if len(labels) <= 2:
+        return host
+    if ".".join(labels[-2:]) in _MULTI_LABEL_SUFFIXES:
+        return ".".join(labels[-3:])
+    return ".".join(labels[-2:])
+
+
+def same_publisher(left: str, right: str) -> bool:
+    """True only when both URLs resolve to one non-empty registrable domain."""
+    left_domain, right_domain = registrable_domain(left), registrable_domain(right)
+    return bool(left_domain) and left_domain == right_domain
 
 
 def classify(value: str) -> HostTier:

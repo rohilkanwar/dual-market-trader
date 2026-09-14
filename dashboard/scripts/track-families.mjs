@@ -69,6 +69,7 @@ export const FAMILY_IDS = new Set(FAMILIES.map((f) => f.id))
 export const LANE_FAMILIES = FAMILIES.filter((f) => f.lane).map((f) => f.id)
 
 export const KNOWN_TRACKS = {
+  gated_cross_venue: 'xv_gated',
   gated_cross_venue_macro: 'xv_gated',
   small_deliberate_bet: 'xv_gated',
   ungated_cross_venue_macro: 'xv_ungated',

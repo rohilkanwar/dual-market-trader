@@ -5,6 +5,7 @@
 //
 // Inputs (all optional):
 //   scoreboard_*.json   full dashboard artifacts; one run each (deduped by meta.run_id)
+//   gate_report_*.json  per-pair admissibility verdicts; joined to a run by meta.run_id
 //   runs/*.json         compact run records written by sync-artifacts.mjs
 //   paper_ledger_*.json ledger snapshots (listed separately; they carry no run_id)
 //
@@ -19,7 +20,8 @@ import { FAMILIES, LANE_FAMILIES, familyOf } from './track-families.mjs'
 const INDEX_FILE = 'experiments_index.json'
 // 1.1.0: tracks carry `family`; runs carry `families[]`; root gains `families[]`
 // and `lanes[]`; ledgers carry `track` + `family`. 1.0.0 readers still work.
-const INDEX_SCHEMA = '1.1.0'
+// 1.2.0: runs carry `gate` (+ `gate_report` URL) and root gains `gate_reports[]`.
+const INDEX_SCHEMA = '1.2.0'
 const KNOWN_MODES = new Set(['fixtures', 'network', 'harvest', 'sample'])
 
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : v == null ? null : Number(v))
@@ -70,6 +72,25 @@ function trackRow(t, ledgerByTrack) {
   }
 }
 
+// Admissibility headline for the settlement-safe track. Counts only; never
+// defaulted to anything other than what the artifact states.
+function gateSummary(raw) {
+  if (!raw || typeof raw !== 'object') return null
+  return {
+    track: raw.track ?? 'gated_cross_venue',
+    policy: raw.policy ?? null,
+    candidates: finite(raw.candidates) ?? 0,
+    gate_admitted: finite(raw.gate_admitted) ?? 0,
+    gate_refused: finite(raw.gate_refused) ?? 0,
+    priced_but_no_edge: finite(raw.priced_but_no_edge) ?? 0,
+    traded: finite(raw.traded) ?? 0,
+    paper_fills: finite(raw.paper_fills) ?? 0,
+    primary_reject_reasons: raw.primary_reject_reasons ?? {},
+    all_stage_reject_reasons: raw.all_stage_reject_reasons ?? {},
+    status: raw.status ?? null,
+  }
+}
+
 function entryFromScoreboard(file, doc) {
   const meta = doc.meta
   const kind = kindOf(meta)
@@ -108,6 +129,7 @@ function entryFromScoreboard(file, doc) {
       const row = trackRow(tr, byTrack)
       return measuredPnl ? row : { ...row, paper_pnl: null }
     }),
+    gate: isSample ? null : gateSummary(doc.gate_report?.totals ?? doc.findings?.gated_cross_venue),
     artifacts: [file],
     detail: `/artifacts/${file}`,
   }
@@ -154,6 +176,7 @@ function entryFromRunRecord(file, doc) {
       fees_paid: measuredPnl ? round2(finite(t.fees_paid)) : null,
     },
     tracks: validTracks(doc.tracks, `runs/${file}`).map((tr) => trackRow(tr)),
+    gate: gateSummary(doc.gate),
     artifacts: [`runs/${file}`],
     detail: `/artifacts/runs/${file}`,
   }
@@ -172,6 +195,7 @@ function merge(existing, incoming) {
     kalshi_env: richer.kalshi_env ?? other.kalshi_env,
     primary_track: richer.primary_track ?? other.primary_track,
     track_family: richer.track_family ?? other.track_family,
+    gate: richer.gate ?? other.gate ?? null,
     artifacts: [...new Set([...existing.artifacts, ...incoming.artifacts])],
   }
 }
@@ -230,6 +254,35 @@ export async function buildExperimentsIndex(publicRoot) {
     byRun.set(entry.run_id, byRun.has(entry.run_id) ? merge(byRun.get(entry.run_id), entry) : entry)
   }
 
+  // Gate reports are joined to the run they were measured with. A report whose
+  // run is not on disk is listed under gate_reports[] but never invents a run.
+  const gateReports = []
+  for (const file of files.filter((f) => /^gate_report_.*\.json$/.test(f))) {
+    const doc = await readJson(join(publicRoot, file))
+    if (doc?.kind !== 'gate_report' || !doc.meta || !Array.isArray(doc.pairs) || !doc.totals) {
+      console.warn(`skip ${file}: not a gate report`)
+      continue
+    }
+    if (doc.meta.source === 'sample') continue
+    const summary = gateSummary(doc.totals)
+    gateReports.push({
+      file,
+      run_id: doc.meta.run_id ?? null,
+      mode: doc.meta.mode ?? 'unknown',
+      measured_at: doc.meta.measured_at ?? null,
+      policy: doc.meta.policy?.name ?? null,
+      pairs: doc.pairs.length,
+      ...summary,
+      artifact: `/artifacts/${file}`,
+    })
+    const run = doc.meta.run_id ? byRun.get(doc.meta.run_id) : null
+    if (run) {
+      run.gate = summary
+      run.gate_report = `/artifacts/${file}`
+      if (!run.artifacts.includes(file)) run.artifacts.push(file)
+    }
+  }
+
   for (const file of files.filter((f) => /^paper_ledger_.*\.json$/.test(f))) {
     const doc = await readJson(join(publicRoot, file))
     if (doc?.paper_only === true) ledgers.push(ledgerEntry(file, doc))
@@ -264,6 +317,7 @@ export async function buildExperimentsIndex(publicRoot) {
     lanes: LANE_FAMILIES.map((family) => laneFor(family, runs)),
     runs,
     ledgers,
+    gate_reports: gateReports.sort((a, b) => ((a.measured_at ?? '') < (b.measured_at ?? '') ? 1 : -1)),
   }
 }
 

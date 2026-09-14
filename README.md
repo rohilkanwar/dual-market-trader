@@ -13,6 +13,10 @@ rebalancing, NegRisk buy-all-NO + convert, buy-all-YES sum-to-one) measure the
 structures described in arXiv:2508.03474 and arXiv:2608.00666 against live
 public books; see `docs/POLYMARKET_ARB.md`. `docs/ASSUMPTIONS.md` records what
 has been validated.
+`gated_cross_venue` is the clause-matched, settlement-safe cross-venue track:
+a pair is priced only after passing eight fail-closed gate stages, and the
+per-pair verdicts are written to `gate_report_<mode>.json` on every run
+(`docs/RUNBOOK_gated_cross_venue.md`).
 
 ## Quick start
 
@@ -38,8 +42,9 @@ entry point refuses to start if either variable requests live operation.
 
 | Path | Contents |
 | --- | --- |
-| `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.2.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
+| `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.3.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
 | `artifacts/scoreboard_<fixtures\|network>.json` | Same document, kept per mode |
+| `artifacts/gate_report_<fixtures\|network>.json`, `gate_report_latest.json` | Per-pair admissibility verdicts of `gated_cross_venue` (every stage, every reason, depth-aware edge for admitted pairs); emitted even with zero candidates |
 | `artifacts/scoreboard_polymarket_arb.json` | Arb-only board from `apps.measure_polymarket_arb` (`meta.track_family=polymarket_arb`); does not replace `scoreboard_latest.json` |
 | `artifacts/polymarket_arb_latest.json` | Full arb opportunity report: per-group sums, fee/slippage per set, mirror statistics, conversions, holdings |
 | `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
@@ -264,12 +269,12 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, market matching, news underreaction, Polymarket arb detectors
-settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching
-research/      scoreboard (9 isolated tracks over shared snapshots), Polymarket arb tracks, artifact writer, harvest analysis, news signal stubs
+strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors
+settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
+research/      scoreboard (10 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs
 apps/          measure_all, measure_polymarket_arb, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md
 ```
 
 ### Tracks
@@ -277,8 +282,9 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 | Track | Gate | Purpose |
 | --- | --- | --- |
 | `single_venue_fair_value` (primary) | explicit priors, risk rails | Kalshi canary; no cross-venue settlement exposure |
-| `gated_cross_venue_macro` | clauses → fingerprint → hosts, fail-closed | how many macro pairs are admissible at all |
-| `ungated_cross_venue_macro` | none, flagged | what the gate refused; settlement-risk flagged when it would have refused |
+| `gated_cross_venue` | 8 stages (match, clauses, fingerprint, polarity, Fed bucket, interval, hosts, expiry), strict policy, fail-closed; then fee- and depth-aware edge | settlement-safe cross-venue measurement across all categories; `gate_report_<mode>.json` |
+| `gated_cross_venue_macro` | same strict gate, macro only, touch-priced | legacy macro view |
+| `ungated_cross_venue_macro` (control) | none, flagged | what the gate refused; settlement-risk flagged when it would have refused; PnL not realisable |
 | `sports_cross_venue` | none, host conflicts counted | settlement-source disagreement on sports |
 | `small_deliberate_bet` | gated, 2-contract cap | process probe |
 | `news_underreaction` (optional) | signal freshness/confidence, residual threshold, fair-value engine rails | public signal → implied probability → residual → paper order; empty without a signal source; mapping UNKNOWN |
@@ -290,3 +296,17 @@ Each track has its own risk manager, execution engine, portfolio and ledger.
 The cross-venue, fair-value and news tracks share one frozen per-venue
 snapshot; the three Polymarket arb tracks share one frozen event snapshot (YES
 and NO book per leg) captured in the same run.
+
+### Cross-venue admissibility in one paragraph
+
+A Kalshi/Polymarket pair is admitted only when both markets cite the same
+official publisher, their rule texts agree on fallback / tie-break / revisions,
+both carry operator-authored resolution fingerprints that are equivalent (or a
+safe complement with inverse polarity), any FOMC bucket or numeric interval is
+identical, and close times agree. Network markets carry no fingerprints, so a
+live run is expected to report candidates with `fingerprint_indeterminate`
+(plus whatever else disagrees) and **zero admits**; that report is the
+measurement. The 2026-09-14 network snapshot found 8 live Fed-decision pairs,
+5 of them also refused for a clause mismatch (Polymarket rounds ties up,
+Kalshi is silent). Details and the operator path to admit a pair:
+`docs/RUNBOOK_gated_cross_venue.md`, `docs/ASSUMPTIONS.md` §4b.

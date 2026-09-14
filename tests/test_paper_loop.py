@@ -27,11 +27,13 @@ def test_paper_loop_once_with_fixtures(tmp_path: Path) -> None:
     assert latest["paper_only"] is True
     assert latest["mode"] == "fixtures"
     assert latest["primary_track"] == "single_venue_fair_value"
-    assert len(latest["tracks"]) == 9
+    assert len(latest["tracks"]) == 10
     assert len(history) == 1
+    assert (artifact_dir / "gate_report_latest.json").exists()
     structured_log = json.loads(result.stderr.strip())
     assert structured_log["event"] == "paper_loop_cycle_completed"
     assert set(structured_log["tracks"]) == {
+        "gated_cross_venue",
         "gated_cross_venue_macro",
         "ungated_cross_venue_macro",
         "single_venue_fair_value",

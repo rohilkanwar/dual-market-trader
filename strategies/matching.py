@@ -8,7 +8,8 @@ settlement gates decide admissibility.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from decimal import Decimal
 
 from core.types import Market, Venue
 
@@ -56,6 +57,15 @@ CURATED_PAIRS: tuple[CuratedPair, ...] = (
 _ALIASES = {
     "fed": ("federal", "reserve"),
     "fomc": ("federal", "reserve"),
+    "hike": ("increase",),
+    "hikes": ("increase",),
+    "raise": ("increase",),
+    "cut": ("decrease",),
+    "cuts": ("decrease",),
+    "lower": ("decrease",),
+    "bp": ("bps",),
+    "basis": ("bps",),
+    "points": ("bps",),
     "sep": ("september",),
     "sept": ("september",),
     "oct": ("october",),
@@ -77,6 +87,81 @@ _STOPWORDS = {
 }
 _NEGATION = re.compile(r"\b(?:not|no|fail|fails|under|below|less|fewer|lose|loses)\b", re.IGNORECASE)
 _TOKEN = re.compile(r"[a-z0-9.%]+")
+# "25bps" -> "25 bps", "T3.75" -> "T 3.75": Kalshi glues units to numbers.
+_DIGIT_LETTER_BOUNDARY = re.compile(r"(?<=\d)(?=[a-zA-Z])|(?<=[a-zA-Z])(?=\d)")
+
+
+def _normalise(text: str) -> str:
+    return _DIGIT_LETTER_BOUNDARY.sub(" ", text.replace("-", " ").replace("_", " ").replace("*", ""))
+_MONTHS = (
+    "january", "february", "march", "april", "may", "june", "july", "august",
+    "september", "october", "november", "december",
+)
+_YEAR = re.compile(r"\b(20\d{2})\b")
+# A number with an optional inequality/“or more” qualifier: ">25", "50+", "3.0".
+# ">25" and "25" are different thresholds and must not be treated as equal.
+_NUMBER = re.compile(r"(?<![\w.])([<>]=?)?\s*(\d+(?:\.\d+)?)\s*%?\s*(\+)?(?![\w.])")
+_DIRECTION = frozenset({"increase", "decrease"})
+
+
+def period_tokens(*texts: str | None) -> tuple[frozenset[str], frozenset[str]]:
+    """``(months, years)`` present in the texts (month aliases expanded)."""
+    tokens = _tokens(*texts)
+    months = frozenset(token for token in tokens if token in _MONTHS)
+    years = frozenset(match for text in texts if text for match in _YEAR.findall(text))
+    return months, years
+
+
+def numeric_tokens(*texts: str | None) -> frozenset[str]:
+    """Standalone thresholds like ``3.0%``, ``>25``, ``50+`` (years excluded).
+
+    Values are canonical strings: the number normalised (``3.0`` -> ``3``) with
+    its qualifier kept, so ``>25`` never equals ``25``.
+    """
+    out: set[str] = set()
+    for text in texts:
+        if not text:
+            continue
+        for prefix, raw, suffix in _NUMBER.findall(_normalise(text)):
+            if _YEAR.fullmatch(raw):
+                continue
+            out.add(f"{prefix}{Decimal(raw).normalize()}{suffix}")
+    return frozenset(out)
+
+
+def direction_tokens(*texts: str | None) -> frozenset[str]:
+    """``increase`` / ``decrease`` after alias expansion (hike, cut, raise, lower)."""
+    return frozenset(_tokens(*texts) & _DIRECTION)
+
+
+def _market_texts(market: Market) -> tuple[str, ...]:
+    return (
+        market.title,
+        str(market.metadata.get("event_title") or ""),
+        str(market.metadata.get("subtitle") or ""),
+    )
+
+
+def consistent_reference(left: Market, right: Market) -> tuple[bool, str]:
+    """Heuristic-candidate veto: both sides naming a period or a threshold must agree.
+
+    Silence on one side is *not* a veto here; the settlement gate's fingerprint
+    stage is where one-sided information fails closed. This check only stops
+    the matcher from pairing e.g. a September contract with a December one.
+    """
+    left_months, left_years = period_tokens(*_market_texts(left))
+    right_months, right_years = period_tokens(*_market_texts(right))
+    if left_months and right_months and not (left_months & right_months):
+        return False, "period_disagrees"
+    if left_years and right_years and not (left_years & right_years):
+        return False, "period_disagrees"
+    left_numbers, right_numbers = numeric_tokens(*_market_texts(left)), numeric_tokens(*_market_texts(right))
+    if left_numbers and right_numbers and left_numbers != right_numbers:
+        return False, "threshold_disagrees"
+    left_dir, right_dir = direction_tokens(*_market_texts(left)), direction_tokens(*_market_texts(right))
+    if left_dir and right_dir and not (left_dir & right_dir):
+        return False, "direction_disagrees"
+    return True, "ok"
 
 
 def _tokens(*texts: str | None) -> set[str]:
@@ -84,7 +169,7 @@ def _tokens(*texts: str | None) -> set[str]:
     for text in texts:
         if not text:
             continue
-        for token in _TOKEN.findall(text.lower().replace("-", " ").replace("_", " ")):
+        for token in _TOKEN.findall(_normalise(text).lower()):
             token = token.strip(".")
             if len(token) <= 1 or token in _STOPWORDS:
                 continue
@@ -111,6 +196,24 @@ def jaccard(left: set[str], right: set[str]) -> float:
     return len(left & right) / len(left | right)
 
 
+@dataclass(frozen=True, slots=True)
+class VetoedCandidate:
+    """A heuristic candidate that cleared the token threshold but was refused."""
+
+    kalshi_market_id: str
+    polymarket_market_id: str
+    confidence: float
+    reason: str
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "kalshi": self.kalshi_market_id,
+            "polymarket": self.polymarket_market_id,
+            "confidence": self.confidence,
+            "reason": self.reason,
+        }
+
+
 class MarketMatcher:
     def __init__(
         self,
@@ -120,6 +223,7 @@ class MarketMatcher:
     ) -> None:
         self.curated_pairs = curated_pairs
         self.minimum_confidence = minimum_confidence
+        self.vetoed: list[VetoedCandidate] = []
 
     def match(
         self,
@@ -131,6 +235,7 @@ class MarketMatcher:
         pairs: list[MatchedMarketPair] = []
         used_kalshi: set[str] = set()
         used_poly: set[str] = set()
+        self.vetoed = []
 
         for curated in self.curated_pairs:
             kalshi = kalshi_by_id.get(curated.kalshi_market_id)
@@ -160,8 +265,15 @@ class MarketMatcher:
                 if poly.market_id in used_poly:
                     continue
                 score = jaccard(k_tokens, poly_tokens[poly.market_id])
-                if score >= self.minimum_confidence:
-                    candidates.append((score, kalshi, poly))
+                if score < self.minimum_confidence:
+                    continue
+                consistent, veto_reason = consistent_reference(kalshi, poly)
+                if not consistent:
+                    self.vetoed.append(
+                        VetoedCandidate(kalshi.market_id, poly.market_id, round(score, 4), veto_reason)
+                    )
+                    continue
+                candidates.append((score, kalshi, poly))
         for score, kalshi, poly in sorted(candidates, key=lambda c: c[0], reverse=True):
             if kalshi.market_id in used_kalshi or poly.market_id in used_poly:
                 continue

@@ -57,6 +57,25 @@ jobs:
           assert r["rebalancing"]["mirror_consistent"] == 13, r["rebalancing"]
           print("negrisk conversions", len(r["negrisk"]["conversions"]), "paper_pnl", a["totals"]["paper_pnl"])
           EOF
+      - name: Gate report is emitted and the gated track never ordered on a refused pair
+        run: |
+          uv run python - <<'EOF'
+          import json
+          g = json.load(open("artifacts/gate_report_latest.json"))
+          assert g["kind"] == "gate_report" and g["meta"]["source"] == "measured", g["meta"]
+          assert g["meta"]["policy"]["name"] == "strict"
+          t = g["totals"]
+          assert t["gate_admitted"] + t["gate_refused"] == t["candidates"], t
+          assert t["traded"] <= t["gate_admitted"], t
+          for p in g["pairs"]:
+              stages_ok = all(c["passed"] for c in p["checks"])
+              assert p["admitted"] == stages_ok, p["pair_id"]
+              if "edge" in p:
+                  assert p["admitted"], f"{p['pair_id']} priced without admission"
+              if not p["admitted"]:
+                  assert p["reasons"] and p["reason"] == p["reasons"][0], p["pair_id"]
+          print("gate", t["gate_admitted"], "/", t["candidates"], "admitted,", t["traded"], "traded;", t["all_stage_reject_reasons"])
+          EOF
       - name: Fail-closed check - paper loop refuses live flags
         run: |
           if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.paper_loop --once --no-persist --artifact-dir /tmp/should-not-exist; then
@@ -120,5 +139,11 @@ jobs:
             if ((d.meta.source === 'sample') !== isSample) throw new Error(`${f}: meta.source=${d.meta.source}`);
             if (!isSample && d.meta.pnl_source !== 'core.ledger.PaperLedger') throw new Error(`${f}: PnL not ledger-backed`);
             console.log(f, d.meta.source, d.meta.mode, 'paper_pnl', d.totals.paper_pnl);
+          }
+          for (const f of ['gate_report_latest.json','gate_report_network.json','gate_report_fixtures.json']) {
+            const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
+            if (d.kind !== 'gate_report' || d.meta.source === 'sample' || !Array.isArray(d.pairs)) throw new Error(`${f}: bad gate report`);
+            if (d.totals.traded > d.totals.gate_admitted) throw new Error(`${f}: traded more pairs than the gate admitted`);
+            console.log(f, d.meta.mode, `gate ${d.totals.gate_admitted}/${d.totals.candidates} admitted, ${d.totals.traded} traded`);
           }
           EOF

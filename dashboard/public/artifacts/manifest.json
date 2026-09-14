@@ -1,91 +1,103 @@
 {
-  "generated_at": "2026-09-14T21:24:30.054Z",
+  "generated_at": "2026-09-14T21:34:41.786Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
+    "gate_report_fixtures.json": {
+      "target": "public/artifacts/gate_report_fixtures.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T21:34:24.006439+00:00",
+      "paper_pnl": null
+    },
+    "gate_report_latest.json": {
+      "target": "public/artifacts/gate_report_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T21:34:24.229907+00:00",
+      "paper_pnl": null
+    },
+    "gate_report_network.json": {
+      "target": "public/artifacts/gate_report_network.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T21:34:24.229907+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_gated_cross_venue.json": {
+      "target": "public/artifacts/paper_ledger_gated_cross_venue.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T21:34:33.568961+00:00",
+      "paper_pnl": null
+    },
     "paper/ledger_gated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue_macro.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631496+00:00",
+      "measured_at": "2026-09-14T21:34:33.569021+00:00",
       "paper_pnl": null
     },
     "paper/ledger_news_underreaction.json": {
       "target": "public/artifacts/paper_ledger_news_underreaction.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631670+00:00",
+      "measured_at": "2026-09-14T21:34:33.569288+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_combinatorial_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_combinatorial_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631738+00:00",
+      "measured_at": "2026-09-14T21:34:33.569358+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_negrisk_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_negrisk_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631716+00:00",
+      "measured_at": "2026-09-14T21:34:33.569334+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_rebalancing_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_rebalancing_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631694+00:00",
+      "measured_at": "2026-09-14T21:34:33.569312+00:00",
       "paper_pnl": null
     },
     "paper/ledger_single_venue_fair_value.json": {
       "target": "public/artifacts/paper_ledger_single_venue_fair_value.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631596+00:00",
+      "measured_at": "2026-09-14T21:34:33.569211+00:00",
       "paper_pnl": null
     },
     "paper/ledger_small_deliberate_bet.json": {
       "target": "public/artifacts/paper_ledger_small_deliberate_bet.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631647+00:00",
+      "measured_at": "2026-09-14T21:34:33.569264+00:00",
       "paper_pnl": null
     },
     "paper/ledger_sports_cross_venue.json": {
       "target": "public/artifacts/paper_ledger_sports_cross_venue.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631622+00:00",
+      "measured_at": "2026-09-14T21:34:33.569239+00:00",
       "paper_pnl": null
     },
     "paper/ledger_ungated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_ungated_cross_venue_macro.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:24:14.631562+00:00",
-      "paper_pnl": null
-    },
-    "polymarket_arb_latest.json": {
-      "target": "public/artifacts/polymarket_arb_latest.json",
-      "source": "ledger",
-      "measured_at": null,
+      "measured_at": "2026-09-14T21:34:33.569092+00:00",
       "paper_pnl": null
     },
     "scoreboard_fixtures.json": {
       "target": "public/artifacts/scoreboard_fixtures.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:24:03.159442+00:00",
-      "paper_pnl": -4.4924
+      "measured_at": "2026-09-14T21:34:24.006439+00:00",
+      "paper_pnl": -5.5224
     },
     "scoreboard_latest.json": {
       "target": "public/artifacts/scoreboard_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:24:03.378590+00:00",
-      "paper_pnl": 0
+      "measured_at": "2026-09-14T21:34:24.229907+00:00",
+      "paper_pnl": -1.1
     },
     "scoreboard_network.json": {
       "target": "public/artifacts/scoreboard_network.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:24:03.378590+00:00",
-      "paper_pnl": 0
-    },
-    "scoreboard_polymarket_arb.json": {
-      "target": "public/artifacts/scoreboard_polymarket_arb.json",
-      "source": "measured",
-      "measured_at": "2026-09-14T21:05:41.657630+00:00",
-      "paper_pnl": 0
+      "measured_at": "2026-09-14T21:34:24.229907+00:00",
+      "paper_pnl": -1.1
     }
   }
 }
