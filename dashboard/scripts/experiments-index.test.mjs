@@ -75,8 +75,10 @@ test('familyOf: known ids, keyword heuristics, declared family, fallback', () =>
   assert.equal(familyOf('ungated_cross_venue_macro'), 'xv_ungated')
   assert.equal(familyOf('sports_cross_venue'), 'xv_ungated')
   assert.equal(familyOf('single_venue_fair_value'), 'single_venue')
+  assert.equal(familyOf('news_underreaction'), 'news')
 
   assert.equal(familyOf('polymarket_negrisk'), 'negrisk')
+  assert.equal(familyOf('headline_drift_kalshi'), 'news')
   assert.equal(familyOf('polymarket_negrisk_combinatorial'), 'negrisk')
   assert.equal(familyOf('neg_risk_arb'), 'negrisk')
   assert.equal(familyOf('kalshi_maker_flb'), 'kalshi_flb')

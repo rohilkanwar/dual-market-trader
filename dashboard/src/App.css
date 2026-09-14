@@ -392,7 +392,7 @@
 .lane-meta {
   font-size: var(--text-xs);
   color: var(--color-muted);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 /* Family filter */
@@ -681,6 +681,10 @@
 
   .col-track {
     display: none;
+  }
+
+  .lane-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

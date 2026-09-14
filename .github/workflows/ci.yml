@@ -66,6 +66,8 @@ jobs:
           cache-dependency-path: dashboard/package-lock.json
       - run: npm ci
       - run: npm run typecheck
+      - name: Experiments index and sync survive unknown track ids
+        run: npm test
       - run: npm run build
       - name: Committed experiments index matches the artifacts on disk
         run: |
@@ -74,14 +76,26 @@ jobs:
           node - <<'EOF'
           const fs = require('node:fs');
           const idx = JSON.parse(fs.readFileSync('public/artifacts/experiments_index.json', 'utf8'));
+          const familyIds = new Set((idx.families ?? []).map((f) => f.id));
           for (const run of idx.runs) {
             for (const f of run.artifacts) {
               if (!fs.existsSync(`public/artifacts/${f}`)) throw new Error(`${run.run_id}: missing ${f}`);
             }
             if (run.kind === 'sample' && run.totals.paper_pnl !== null) throw new Error(`${run.run_id}: sample carries PnL`);
             if (run.kind !== 'sample' && !run.pnl_source) throw new Error(`${run.run_id}: measured run without pnl_source`);
+            for (const t of run.tracks) {
+              if (!familyIds.has(t.family)) throw new Error(`${run.run_id}: track ${t.track} has unregistered family ${t.family}`);
+              if (run.kind === 'sample' && t.paper_pnl !== null) throw new Error(`${run.run_id}: sample track ${t.track} carries PnL`);
+            }
           }
-          console.log(`index ok: ${idx.counts.total} runs (${idx.counts.measured} measured, ${idx.counts.sample} sample, ${idx.counts.backtest} backtest)`);
+          for (const lane of idx.lanes ?? []) {
+            if (lane.status === 'measured') {
+              if (!idx.runs.some((r) => r.run_id === lane.run_id && r.kind !== 'sample')) throw new Error(`lane ${lane.family}: points at a non-measured run`);
+            } else if (lane.paper_fills !== null || lane.paper_pnl !== null) {
+              throw new Error(`lane ${lane.family}: ${lane.status} lane carries numbers`);
+            }
+          }
+          console.log(`index ok: ${idx.counts.total} runs (${idx.counts.measured} measured, ${idx.counts.sample} sample, ${idx.counts.backtest} backtest); lanes: ${(idx.lanes ?? []).map((l) => `${l.family}=${l.status}`).join(', ')}`);
           EOF
       - name: Committed artifacts are valid and the sample is labelled
         run: |
