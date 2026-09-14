@@ -1,0 +1,677 @@
+{
+  "charts": {
+    "candidates_by_track": [
+      {
+        "track": "fade_the_tourist",
+        "value": 60
+      }
+    ],
+    "fills_by_track": [
+      {
+        "track": "fade_the_tourist",
+        "value": 3
+      }
+    ],
+    "pnl_by_track": [
+      {
+        "track": "fade_the_tourist",
+        "value": -1.1787
+      }
+    ],
+    "venue_fills": [
+      {
+        "value": 3,
+        "venue": "kalshi"
+      }
+    ]
+  },
+  "findings": {
+    "arbai_summary": "Fade EV after fees: FAIL (all regimes) / PASS (favourite >= 70c) / FAIL (excluding final minutes); strong beats weak PASS; tourist flow loses PASS (adverse selection not detected). Live track: 60 markets, 3 clusters faded, 3 paper fills.",
+    "divergence_findings_status": "not_applicable_tourist_fade_run",
+    "fade_the_tourist": {
+      "adverse_selection_detected": false,
+      "headline": "Fade EV after fees: FAIL (all regimes) / PASS (favourite >= 70c) / FAIL (excluding final minutes); strong beats weak PASS; tourist flow loses PASS (adverse selection not detected). Live track: 60 markets, 3 clusters faded, 3 paper fills.",
+      "report": "tourist_fade_report_latest.json",
+      "universe": "tennis",
+      "verdicts": {
+        "fade_ev_positive_after_fees": "FAIL",
+        "fade_ev_positive_excluding_final_minutes": "FAIL",
+        "strong_regime_beats_weak": "PASS",
+        "strong_regime_fade_ev_positive": "PASS",
+        "strong_regime_fade_ev_positive_excluding_final_minutes": "PASS",
+        "tourist_flow_loses": "PASS",
+        "tourist_worse_than_other_takers": "PASS"
+      }
+    },
+    "live_network_cross_venue_candidates": 0
+  },
+  "meta": {
+    "cycle": null,
+    "generated_at": "2026-09-14T23:20:15.843993+00:00",
+    "kalshi_env": "prod",
+    "kind": "fade_the_tourist",
+    "label": "MEASURED / NETWORK / FADE THE TOURIST",
+    "markets_per_venue": 60,
+    "measured_at": "2026-09-14T23:19:58.741525+00:00",
+    "mode": "network",
+    "paper_only": true,
+    "pnl_source": "core.ledger.PaperLedger",
+    "primary_track": "fade_the_tourist",
+    "refresh": "python -m apps.measure_tourist_fade [--network --kalshi-env prod --harvest-trades] && cd dashboard && npm run sync-artifacts",
+    "run_id": "20260914T231958Z-tourist-591eb8cd",
+    "source": "measured",
+    "track_family": "tourist_fade",
+    "venue_focus": "kalshi",
+    "venues": [
+      "kalshi"
+    ]
+  },
+  "portfolio": {
+    "by_track": {
+      "fade_the_tourist": {
+        "cash": 995.0063,
+        "equity": 998.8213,
+        "equity_points": 1,
+        "fees_paid": 0.8037,
+        "fills": 3,
+        "gross_notional": 35.185,
+        "max_drawdown": 1.1787,
+        "open_positions": 3,
+        "realized_pnl": -0.8037,
+        "starting_cash": 1000.0,
+        "total_pnl": -1.1787,
+        "unrealized_pnl": -0.375
+      }
+    },
+    "cash": 995.0063,
+    "concentration": [
+      {
+        "venue": "kalshi",
+        "weight": 1.0
+      }
+    ],
+    "equity": 998.8213,
+    "fees_paid": 0.8037,
+    "gross_notional": 35.185,
+    "max_drawdown": 1.1787,
+    "net_exposure": 3.815,
+    "open_positions": 3,
+    "paper_only": true,
+    "primary": {
+      "cash": 995.0063,
+      "concentration": [
+        {
+          "venue": "kalshi",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-09-14T23:20:02.583990+00:00",
+      "equity": 998.8213,
+      "equity_points": 1,
+      "fees_paid": 0.8037,
+      "fills": 3,
+      "gross_notional": 35.185,
+      "ledger_id": "fade_the_tourist",
+      "mark_method": "mid",
+      "max_drawdown": 1.1787,
+      "net_exposure": 3.815,
+      "open_positions": 3,
+      "paper_only": true,
+      "peak_equity": 1000.0,
+      "position_value": 3.815,
+      "positions": [
+        {
+          "average_price": 0.98,
+          "fees_paid": 0.0275,
+          "mark": 0.975,
+          "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+          "quantity": 20.0,
+          "realized_pnl": -0.0275,
+          "unrealized_pnl": -0.1,
+          "value": 19.5,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.27,
+          "fees_paid": 0.3726,
+          "mark": 0.275,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+          "quantity": -27.0,
+          "realized_pnl": -0.3726,
+          "unrealized_pnl": -0.135,
+          "value": -7.425,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.29,
+          "fees_paid": 0.4036,
+          "mark": 0.295,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+          "quantity": -28.0,
+          "realized_pnl": -0.4036,
+          "unrealized_pnl": -0.14,
+          "value": -8.26,
+          "venue": "kalshi"
+        }
+      ],
+      "realized_pnl": -0.8037,
+      "return_pct": -0.11787,
+      "settlement_fills": 0,
+      "starting_cash": 1000.0,
+      "total_pnl": -1.1787,
+      "unmarked_positions": 0,
+      "unrealized_pnl": -0.375,
+      "updated_at": "2026-09-14T23:20:02.639828+00:00"
+    },
+    "primary_track": "fade_the_tourist",
+    "realized_pnl": -0.8037,
+    "risk_flags": [
+      "snapshot_errors_present",
+      "pnl_from_ledger_not_placeholder"
+    ],
+    "settlement_risk_pairs": 0,
+    "source": "ledger_aggregate",
+    "starting_cash": 1000.0,
+    "total_pnl": -1.1787,
+    "unrealized_pnl": -0.375
+  },
+  "schema_version": "1.3.0",
+  "top_edges": [
+    {
+      "admitted": true,
+      "cluster_at": "2026-09-14T23:17:49.425260+00:00",
+      "cluster_notional": 732.3069,
+      "cluster_trades": 283,
+      "edge_bps": null,
+      "faded_side": "no",
+      "fair_value": null,
+      "favorite_price": 0.98,
+      "filled": true,
+      "market": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "mid": 0.975,
+      "rank": 1,
+      "reason": "trade",
+      "regime": "strong",
+      "spread": 0.01,
+      "tape_trades": 1000,
+      "title": "Taylor Townsend wins",
+      "tourist_trades": 371,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": true,
+      "cluster_at": "2026-09-14T23:18:04.259666+00:00",
+      "cluster_notional": 426.3512,
+      "cluster_trades": 148,
+      "edge_bps": null,
+      "faded_side": "yes",
+      "fair_value": null,
+      "favorite_price": 0.73,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "mid": 0.275,
+      "rank": 2,
+      "reason": "trade",
+      "regime": "strong",
+      "spread": 0.01,
+      "tape_trades": 1000,
+      "title": "Tyler Zink wins",
+      "tourist_trades": 517,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": true,
+      "cluster_at": "2026-09-14T23:18:47.378258+00:00",
+      "cluster_notional": 645.9525,
+      "cluster_trades": 203,
+      "edge_bps": null,
+      "faded_side": "yes",
+      "fair_value": null,
+      "favorite_price": 0.71,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "mid": 0.295,
+      "rank": 3,
+      "reason": "trade",
+      "regime": "strong",
+      "spread": 0.01,
+      "tape_trades": 622,
+      "title": "Karue Sell wins",
+      "tourist_trades": 318,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": "2026-09-14T22:22:23.352088+00:00",
+      "cluster_notional": 50.1908,
+      "cluster_trades": 13,
+      "edge_bps": null,
+      "faded_side": "yes",
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXWTAMATCH-26SEP14FREHIB-HIB",
+      "mid": 0.215,
+      "rank": 4,
+      "reason": "cluster_stale",
+      "regime": null,
+      "spread": 0.01,
+      "tape_trades": 119,
+      "title": "Nao Hibino wins",
+      "tourist_trades": 74,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": "2026-09-14T02:04:05.503479+00:00",
+      "cluster_notional": 50.186,
+      "cluster_trades": 12,
+      "edge_bps": null,
+      "faded_side": "yes",
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "mid": 0.185,
+      "rank": 5,
+      "reason": "cluster_stale",
+      "regime": null,
+      "spread": 0.01,
+      "tape_trades": 82,
+      "title": "Elsa Jacquemot wins",
+      "tourist_trades": 57,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": null,
+      "cluster_notional": null,
+      "cluster_trades": null,
+      "edge_bps": null,
+      "faded_side": null,
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXATPCHALLENGERMATCH-26SEP15PELSAT-SAT",
+      "mid": null,
+      "rank": 6,
+      "reason": "empty_book",
+      "regime": null,
+      "spread": null,
+      "tape_trades": 9,
+      "title": "Tai Leonard Sach wins",
+      "tourist_trades": 0,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": null,
+      "cluster_notional": null,
+      "cluster_trades": null,
+      "edge_bps": null,
+      "faded_side": null,
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXATPCHALLENGERMATCH-26SEP15PELSAT-PEL",
+      "mid": null,
+      "rank": 7,
+      "reason": "empty_book",
+      "regime": null,
+      "spread": null,
+      "tape_trades": 34,
+      "title": "Filip Peliwo wins",
+      "tourist_trades": 0,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": null,
+      "cluster_notional": null,
+      "cluster_trades": null,
+      "edge_bps": null,
+      "faded_side": null,
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXATPCHALLENGERMATCH-26SEP15SULHEC-HEC",
+      "mid": null,
+      "rank": 8,
+      "reason": "empty_book",
+      "regime": null,
+      "spread": null,
+      "tape_trades": 5,
+      "title": "Hunter Heck wins",
+      "tourist_trades": 0,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": null,
+      "cluster_notional": null,
+      "cluster_trades": null,
+      "edge_bps": null,
+      "faded_side": null,
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXWTAMATCH-26SEP15STETJE-STE",
+      "mid": null,
+      "rank": 9,
+      "reason": "empty_book",
+      "regime": null,
+      "spread": null,
+      "tape_trades": 12,
+      "title": "Sloane Stephens wins",
+      "tourist_trades": 0,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "cluster_at": null,
+      "cluster_notional": null,
+      "cluster_trades": null,
+      "edge_bps": null,
+      "faded_side": null,
+      "fair_value": null,
+      "favorite_price": null,
+      "filled": false,
+      "market": "KXWTAMATCH-26SEP14BRASIE-BRA",
+      "mid": null,
+      "rank": 10,
+      "reason": "empty_book",
+      "regime": null,
+      "spread": null,
+      "tape_trades": 23,
+      "title": "Cadence Brace wins",
+      "tourist_trades": 0,
+      "track": "fade_the_tourist",
+      "venue": "kalshi"
+    }
+  ],
+  "top_fills": [
+    {
+      "cluster_notional": 645.9525,
+      "cluster_trades": 203,
+      "edge_bps": null,
+      "faded_side": "yes",
+      "fee": 0.4036,
+      "filled_at": "2026-09-14T23:20:02.630327+00:00",
+      "mark": 0.295,
+      "market": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "order_id": "paper-8a2f185be83e",
+      "outcome": "no",
+      "paper_pnl": -0.5436,
+      "price": 0.71,
+      "qty": 28.0,
+      "rank": 1,
+      "regime": "strong",
+      "side": "buy",
+      "strategy": "fade_the_tourist",
+      "title": "Karue Sell wins",
+      "track": "fade_the_tourist",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.29
+    },
+    {
+      "cluster_notional": 426.3512,
+      "cluster_trades": 148,
+      "edge_bps": null,
+      "faded_side": "yes",
+      "fee": 0.3726,
+      "filled_at": "2026-09-14T23:20:02.621591+00:00",
+      "mark": 0.275,
+      "market": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "order_id": "paper-80d2b22cd346",
+      "outcome": "no",
+      "paper_pnl": -0.5076,
+      "price": 0.73,
+      "qty": 27.0,
+      "rank": 2,
+      "regime": "strong",
+      "side": "buy",
+      "strategy": "fade_the_tourist",
+      "title": "Tyler Zink wins",
+      "track": "fade_the_tourist",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.27
+    },
+    {
+      "cluster_notional": 732.3069,
+      "cluster_trades": 283,
+      "edge_bps": null,
+      "faded_side": "no",
+      "fee": 0.0275,
+      "filled_at": "2026-09-14T23:20:02.600040+00:00",
+      "mark": 0.975,
+      "market": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-e18642c91782",
+      "outcome": "yes",
+      "paper_pnl": -0.1275,
+      "price": 0.98,
+      "qty": 20.0,
+      "rank": 3,
+      "regime": "strong",
+      "side": "buy",
+      "strategy": "fade_the_tourist",
+      "title": "Taylor Townsend wins",
+      "track": "fade_the_tourist",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.98
+    }
+  ],
+  "totals": {
+    "admitted": 3,
+    "avg_edge_bps": 0,
+    "candidates": 60,
+    "fees_paid": 0.8037,
+    "fill_rate": 1.0,
+    "paper_fills": 3,
+    "paper_pnl": -1.1787,
+    "proposed_orders": 3,
+    "realized_pnl": -0.8037,
+    "rejects": 57,
+    "settlement_risk_pairs": 0,
+    "unrealized_pnl": -0.375
+  },
+  "tracks": [
+    {
+      "admitted": 3,
+      "candidates": 60,
+      "edge_bps": 0,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 1.0,
+      "label": "Fade the tourist (Kalshi tennis)",
+      "ledger": {
+        "cash": 995.0063,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:20:02.583990+00:00",
+        "equity": 998.8213,
+        "equity_points": 1,
+        "fees_paid": 0.8037,
+        "fills": 3,
+        "gross_notional": 35.185,
+        "ledger_id": "fade_the_tourist",
+        "mark_method": "mid",
+        "max_drawdown": 1.1787,
+        "net_exposure": 3.815,
+        "open_positions": 3,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 3.815,
+        "positions": [
+          {
+            "average_price": 0.98,
+            "fees_paid": 0.0275,
+            "mark": 0.975,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+            "quantity": 20.0,
+            "realized_pnl": -0.0275,
+            "unrealized_pnl": -0.1,
+            "value": 19.5,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.27,
+            "fees_paid": 0.3726,
+            "mark": 0.275,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+            "quantity": -27.0,
+            "realized_pnl": -0.3726,
+            "unrealized_pnl": -0.135,
+            "value": -7.425,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.29,
+            "fees_paid": 0.4036,
+            "mark": 0.295,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+            "quantity": -28.0,
+            "realized_pnl": -0.4036,
+            "unrealized_pnl": -0.14,
+            "value": -8.26,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.8037,
+        "return_pct": -0.11787,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -1.1787,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.375,
+        "updated_at": "2026-09-14T23:20:02.639828+00:00"
+      },
+      "metrics": {
+        "by_regime": {
+          "strong": {
+            "admitted": 3,
+            "contracts": 75.0,
+            "fees": 0.8037,
+            "fills": 3,
+            "notional": 59.19
+          }
+        },
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 59.19
+        },
+        "equity_point": {
+          "drawdown": 1.1787,
+          "equity": 998.8213,
+          "total_pnl": -1.1787
+        },
+        "events": {
+          "fill": 3,
+          "order_acknowledged": 3,
+          "order_rejected": 0,
+          "order_submitted": 3
+        },
+        "family": "tourist_fade",
+        "paper_pnl_by_regime": {
+          "strong": {
+            "contracts": 75.0,
+            "fees": 0.8037,
+            "fills": 3,
+            "marked": 3,
+            "notional": 59.19,
+            "paper_pnl": -1.1787,
+            "return_on_notional_bps": -199
+          }
+        },
+        "parameters": {
+          "assumed_spread_ticks": 2,
+          "base_notional": 10.0,
+          "chase_lookback_trades": 20,
+          "chase_move": 0.05,
+          "cluster_min_notional": 50.0,
+          "cluster_min_trades": 5,
+          "cluster_window_seconds": 600,
+          "cooldown_seconds": 300,
+          "late_fraction": 0.5,
+          "longshot_threshold": 0.3,
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_total_cash_at_risk": 1000.0,
+          "min_flags": 2,
+          "minimum_touch_size": 1.0,
+          "signal_max_age_seconds": 900,
+          "small_ticket_notional": 10.0,
+          "strong_favorite_price": 0.7,
+          "strong_multiplier": 2.0,
+          "tick": 0.01
+        },
+        "risk_limits": {
+          "max_daily_loss": 75.0,
+          "max_notional_per_order": 25.0,
+          "max_position_per_market": 75.0
+        },
+        "settled_this_run": [],
+        "snapshot": {
+          "kalshi": {
+            "errors": [
+              "order_book[KXATPCHALLENGERMATCH-26SEP15PELSAT-SAT]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXATPCHALLENGERMATCH-26SEP15PELSAT-SAT/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+              "order_book[KXATPCHALLENGERMATCH-26SEP15PELSAT-PEL]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXATPCHALLENGERMATCH-26SEP15PELSAT-PEL/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+              "order_book[KXATPCHALLENGERMATCH-26SEP15SULHEC-HEC]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXATPCHALLENGERMATCH-26SEP15SULHEC-HEC/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+              "order_book[KXWTAMATCH-26SEP15STETJE-STE]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXWTAMATCH-26SEP15STETJE-STE/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+              "order_book[KXWTAMATCH-26SEP14BRASIE-BRA]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXWTAMATCH-26SEP14BRASIE-BRA/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+              "order_book[KXATPCHALLENGERMATCH-26SEP15SULHEC-SUL]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXATPCHALLENGERMATCH-26SEP15SULHEC-SUL/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+              "order_book[KXWTACHALLENGERMATCH-26SEP15SOBBOS-SOB]: HTTPStatusError: Client error '429 Too Many Requests' for url 'https://api.elections.kalshi.com/trade-api/v2/markets/KXWTACHALLENGERMATCH-26SEP15SOBBOS-SOB/orderbook?depth=10'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429"
+            ],
+            "markets": 60,
+            "source": "network"
+          }
+        },
+        "tape": {
+          "clusters": 5,
+          "markets_with_tape": 60,
+          "tourist_trades": 1829,
+          "trades": 9346
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.8037,
+            "open_positions": 3.0,
+            "realized_pnl": -0.8037,
+            "total_pnl": -1.1787,
+            "unrealized_pnl": -0.375
+          }
+        }
+      },
+      "notes": "Taker fade of clustered tourist prints: when >= 5 small-ticket / longshot / late-chase prints carrying >= $50 pile into one side within 10 minutes, buy the other side at the touch ($10, x2 when it is >= 70c). Positions are marked at mid, carried across runs and settled when the venue publishes a result. Paper caps $25/order, $75/market, $75 daily.",
+      "paper_fills": 3,
+      "proposed_orders": 3,
+      "refused_by_reason": {
+        "already_positioned_event": 3,
+        "cluster_stale": 2,
+        "empty_book": 7,
+        "no_tourist_cluster": 45
+      },
+      "reject_reasons": {
+        "already_positioned_event": 3,
+        "cluster_stale": 2,
+        "empty_book": 7,
+        "no_tourist_cluster": 45
+      },
+      "rejects": 57,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "fade_the_tourist"
+    }
+  ]
+}

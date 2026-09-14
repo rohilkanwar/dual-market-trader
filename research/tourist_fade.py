@@ -76,6 +76,15 @@ UNIVERSES: dict[str, tuple[str, ...]] = {
     "both": TENNIS_SERIES + CRYPTO_SERIES,
 }
 MARKOUT_HORIZONS: tuple[int, ...] = (5, 20)
+VERDICT_KEYS: tuple[str, ...] = (
+    "fade_ev_positive_after_fees",
+    "strong_regime_fade_ev_positive",
+    "strong_regime_beats_weak",
+    "fade_ev_positive_excluding_final_minutes",
+    "strong_regime_fade_ev_positive_excluding_final_minutes",
+    "tourist_flow_loses",
+    "tourist_worse_than_other_takers",
+)
 Q4 = Decimal("0.0001")
 
 
@@ -206,6 +215,7 @@ class FadeRecord:
     cluster_notional: Decimal
     combinations: dict[str, int]
     result: str
+    minutes_to_close: float | None = None
     settlement_pnl: Decimal | None = None
     won: bool | None = None
 
@@ -216,6 +226,7 @@ class FadeRecord:
             "series": self.series,
             "category": self.category,
             "at": self.at,
+            "minutes_to_close": round(self.minutes_to_close, 2) if self.minutes_to_close is not None else None,
             "faded_side": self.faded_side,
             "fade_side": self.fade_side,
             "price": self.price,
@@ -356,6 +367,7 @@ def replay_market(
                 cluster_notional=signal.notional,
                 combinations=signal.combinations,
                 result=market.result,
+                minutes_to_close=((market.close_time - trade.created_time).total_seconds() / 60) if market.close_time is not None else None,
             )
         )
     # Settle every fade at the published result. Realized PnL lands in the ledger.
@@ -442,6 +454,18 @@ def _table_by(fades: list[FadeRecord], key: Callable[[FadeRecord], str]) -> dict
     for record in fades:
         groups.setdefault(key(record), []).append(record)
     return {name: _fade_stats(rows) for name, rows in sorted(groups.items())}
+
+
+def fade_price_band(price: Decimal) -> str:
+    """Decile band of the price the fade paid for the favourite: ``0.7-0.8`` etc."""
+    lower = (price * 10).to_integral_value(rounding="ROUND_DOWN") / 10
+    lower = min(lower, Decimal("0.9"))
+    return f"{lower:.1f}-{lower + Decimal('0.1'):.1f}"
+
+
+def event_of_ticker(ticker: str) -> str:
+    """Kalshi tickers are ``SERIES-EVENT-LEG``; both legs of a match share the event."""
+    return ticker.rsplit("-", 1)[0] if ticker.count("-") >= 2 else ticker
 
 
 # --------------------------------------------------------------------------
@@ -549,6 +573,7 @@ def expost_report(
     fee_model: KalshiFeeModel | None = None,
     min_events: int = 10,
     min_fades: int = 20,
+    exclude_final_minutes: int = 30,
 ) -> dict[str, Any]:
     fee_model = fee_model or KalshiFeeModel()
     replays, ledger = replay_universe(markets, params, fee_model=fee_model)
@@ -559,6 +584,11 @@ def expost_report(
     by_category = _table_by(fades, lambda f: f.category)
     all_stats = _fade_stats(fades)
     strong_stats = by_regime.get("strong", _fade_stats([]))
+    # End-game prints dominate a newest-first tape; this variant drops fades whose cluster fired
+    # inside the final minutes before close (1c longshots on a decided match).
+    early = [f for f in fades if f.minutes_to_close is None or f.minutes_to_close >= exclude_final_minutes]
+    early_stats = _fade_stats(early)
+    early_by_regime = _table_by(early, lambda f: f.regime)
     combinations: dict[str, int] = {}
     refusals: dict[str, int] = {}
     for replay in replays:
@@ -574,6 +604,8 @@ def expost_report(
         "fade_ev_positive_after_fees": fade_ev_verdict(all_stats, scope="all regimes", min_events=min_events, min_fades=min_fades),
         "strong_regime_fade_ev_positive": fade_ev_verdict(strong_stats, scope="favourite >= 70c", min_events=min_events, min_fades=min_fades),
         "strong_regime_beats_weak": strong_beats_weak_verdict(by_regime, min_events=max(3, min_events // 2)),
+        "fade_ev_positive_excluding_final_minutes": {**fade_ev_verdict(early_stats, scope=f"all regimes, clusters >= {exclude_final_minutes} min before close", min_events=min_events, min_fades=min_fades), "exclude_final_minutes": exclude_final_minutes},
+        "strong_regime_fade_ev_positive_excluding_final_minutes": {**fade_ev_verdict(early_by_regime.get("strong", _fade_stats([])), scope=f"favourite >= 70c, clusters >= {exclude_final_minutes} min before close", min_events=min_events, min_fades=min_fades), "exclude_final_minutes": exclude_final_minutes},
         "tourist_flow_loses": tourist_loses_verdict(markouts, min_events=min_events),
         "tourist_worse_than_other_takers": tourist_worse_than_others_verdict(markouts, min_events=min_events),
     }
@@ -596,8 +628,10 @@ def expost_report(
         },
         "clusters": sum(r.clusters for r in replays),
         "fades": all_stats,
+        "fades_excluding_final_minutes": {**early_stats, "exclude_final_minutes": exclude_final_minutes, "by_regime": early_by_regime},
         "fade_refusals": dict(sorted(refusals.items())),
         "by_regime": by_regime,
+        "by_fade_price_band": _table_by(fades, lambda f: fade_price_band(f.price)),
         "by_series": by_series,
         "by_category": by_category,
         "markouts": markouts,
@@ -623,7 +657,7 @@ def expost_report(
 
 
 def not_measured_report(reason: str) -> dict[str, Any]:
-    keys = ("fade_ev_positive_after_fees", "strong_regime_fade_ev_positive", "strong_regime_beats_weak", "tourist_flow_loses", "tourist_worse_than_other_takers")
+    keys = VERDICT_KEYS
     return {
         "status": "not_measured",
         "reason": reason,
@@ -709,10 +743,16 @@ async def run_fade_the_tourist_track(
     clusters_seen = 0
     tourist_trades = 0
     tape_trades = 0
+    # Both legs of a match see the same flow from opposite sides; one paper position per event.
+    event_of = {m.market_id: str(m.metadata.get("event_ticker") or event_of_ticker(m.market_id)) for m in snapshot.markets}
+    held_events = {event_of.get(p.market_id, event_of_ticker(p.market_id)) for p in runtime.ledger.open_positions}
     for market in snapshot.markets:
         book = snapshot.book(market)
         tape = tapes.get(market.market_id) or tape_from_market_metadata(market)
         summary.candidates += 1
+        if event_of[market.market_id] in held_events and (runtime.ledger.portfolio.get(market.venue, market.market_id) is None or runtime.ledger.portfolio.get(market.venue, market.market_id).quantity == ZERO):
+            summary.refuse("already_positioned_event")
+            continue
         ev = strategy.evaluate(
             market, book, tape, as_of=as_of,
             open_time=_dt(market.metadata.get("open_time")), close_time=_dt(market.metadata.get("close_time")),
@@ -731,6 +771,8 @@ async def run_fade_the_tourist_track(
         fills_before = len(summary.fills)
         for order in ev.orders:
             await runtime.submit(order, edge=None)
+        if len(summary.fills) > fills_before:
+            held_events.add(event_of[market.market_id])
         regime_row = regimes.setdefault(ev.regime or "unknown", {"admitted": 0, "fills": 0, "contracts": ZERO, "notional": ZERO, "fees": ZERO})
         regime_row["admitted"] += 1
         for fill_row in summary.fills[fills_before:]:

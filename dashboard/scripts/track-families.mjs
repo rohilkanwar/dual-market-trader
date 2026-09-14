@@ -84,6 +84,12 @@ export const FAMILIES = [
     description: 'Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble',
   },
   {
+    id: 'tourist_fade',
+    label: 'Tourist fade',
+    lane: false,
+    description: 'Fade clustered recreational-looking taker flow (Kalshi tennis; crypto 15-minute windows optional)',
+  },
+  {
     id: 'other',
     label: 'Other',
     lane: false,
@@ -118,6 +124,7 @@ export const KNOWN_TRACKS = {
   weather_bucket_edge: 'weather',
   weather_dead_bucket: 'weather',
   weather_calibrated_ensemble: 'weather',
+  fade_the_tourist: 'tourist_fade',
 }
 
 /**
@@ -160,6 +167,7 @@ export function familyOf(trackOrId) {
     return 'weather'
   }
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
+  if (any('tourist', 'recreational')) return 'tourist_fade'
   if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'
   if (any('specialist', 'specialists', 'copytrade', 'copytrading') || has('trader', 'follow')) return 'specialist'

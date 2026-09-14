@@ -58,6 +58,8 @@ from venues.kalshi.client import HOSTS, KalshiClient
 
 REPORT_SCHEMA = "1.0.0"
 REPORT_KIND = "fade_the_tourist_report"
+FADE_ROWS_FILE = "tourist_fade_rows_latest.json"
+FADE_ROWS_IN_REPORT = 100
 HYPOTHESIS = (
     "Recreational-looking taker flow (small tickets, longshot buys, late chases) is uninformed; when it clusters on one "
     "side of a Kalshi tennis match (or a 15-minute crypto window) the other side is cheap, so paper-fading it earns a "
@@ -152,7 +154,8 @@ def _headline(report: dict[str, Any]) -> str:
     adverse_text = "adverse selection DETECTED" if adverse else ("adverse selection not detected" if adverse is False else "adverse selection not measured")
     return (
         f"Fade EV after fees: {v['fade_ev_positive_after_fees']['verdict']} (all regimes) / "
-        f"{v['strong_regime_fade_ev_positive']['verdict']} (favourite >= 70c); strong beats weak {v['strong_regime_beats_weak']['verdict']}; "
+        f"{v['strong_regime_fade_ev_positive']['verdict']} (favourite >= 70c) / "
+        f"{v['fade_ev_positive_excluding_final_minutes']['verdict']} (excluding final minutes); strong beats weak {v['strong_regime_beats_weak']['verdict']}; "
         f"tourist flow loses {v['tourist_flow_loses']['verdict']} ({adverse_text}). "
         f"Live track: {live['candidates']} markets, {live['admitted']} clusters faded, {live['paper_fills']} paper fills."
     )
@@ -240,6 +243,13 @@ def persist_run(*, artifact_dir: Path, report: dict[str, Any], summary: TrackSum
     artifact["meta"]["kind"] = "fade_the_tourist"
     artifact["meta"]["refresh"] = "python -m apps.measure_tourist_fade [--network --kalshi-env prod --harvest-trades] && cd dashboard && npm run sync-artifacts"
     write_json(artifact_dir / "scoreboard_tourist_fade.json", artifact)
+    # Every replayed fade goes to a sidecar (git-ignored artifacts/); the report keeps a capped sample.
+    rows = report["ex_post"].get("fade_rows")
+    if isinstance(rows, list):
+        write_json(artifact_dir / FADE_ROWS_FILE, {"run_id": run_id, "paper_only": True, "fades": len(rows), "rows": rows})
+        report["ex_post"]["fade_rows_total"] = len(rows)
+        report["ex_post"]["fade_rows_file"] = FADE_ROWS_FILE
+        report["ex_post"]["fade_rows"] = rows[:FADE_ROWS_IN_REPORT]
     write_json(artifact_dir / "tourist_fade_report_latest.json", report)
     write_json(
         artifact_dir / "paper" / "runs" / f"{run_id}.json",
@@ -314,6 +324,7 @@ async def run(
     params: TouristParameters,
     min_events: int,
     min_fades: int,
+    exclude_final_minutes: int = 30,
     starting_cash: Decimal = Decimal("1000"),
 ) -> dict[str, Any]:
     require_paper_only("measure_tourist_fade")
@@ -348,12 +359,12 @@ async def run(
             write_json(target, payload)
         if target.exists():
             markets, meta = load_settled_trades(target)
-            ex_post = {**expost_report(markets, params, fee_model=fee_model, min_events=min_events, min_fades=min_fades), "source": str(target), "harvest_meta": meta}
+            ex_post = {**expost_report(markets, params, fee_model=fee_model, min_events=min_events, min_fades=min_fades, exclude_final_minutes=exclude_final_minutes), "source": str(target), "harvest_meta": meta}
         else:
             ex_post = not_measured_report(f"no settled-trade harvest at {target}; run with --harvest-trades")
     else:
         markets, meta = load_settled_trades(SETTLED_FIXTURE_PATH)
-        ex_post = {**expost_report(markets, params, fee_model=fee_model, min_events=min_events, min_fades=min_fades), "source": str(SETTLED_FIXTURE_PATH), "harvest_meta": meta, "note": "Synthetic fixture: exercises the pipeline, not evidence about Kalshi."}
+        ex_post = {**expost_report(markets, params, fee_model=fee_model, min_events=min_events, min_fades=min_fades, exclude_final_minutes=exclude_final_minutes), "source": str(SETTLED_FIXTURE_PATH), "harvest_meta": meta, "note": "Synthetic fixture: exercises the pipeline, not evidence about Kalshi."}
 
     report = to_jsonable(build_report(
         snapshot=snapshot, summary=runtime.summary, ex_post=ex_post, params=params, mode=mode, universe=universe, series=series,
@@ -396,6 +407,7 @@ def main() -> None:
     group.add_argument("--max-total-cash-at-risk", type=Decimal, default=Decimal("1000"))
     parser.add_argument("--min-events", type=int, default=10, help="events required for a verdict")
     parser.add_argument("--min-fades", type=int, default=20, help="fades required for a verdict")
+    parser.add_argument("--exclude-final-minutes", type=int, default=30, help="drop replay fades whose cluster fired this close to market close in the *_excluding_final_minutes verdicts")
     parser.add_argument("--no-persist", action="store_true", help="do not carry the ledger across runs")
     parser.add_argument("--reset-ledgers", action="store_true")
     parser.add_argument("--no-fees", action="store_true", help="disable the Kalshi fee model")
@@ -437,6 +449,7 @@ def main() -> None:
             params=params,
             min_events=args.min_events,
             min_fades=args.min_fades,
+            exclude_final_minutes=max(0, args.exclude_final_minutes),
         )
     )
 

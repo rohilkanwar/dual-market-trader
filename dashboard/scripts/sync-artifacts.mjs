@@ -40,7 +40,8 @@ async function listCandidates() {
   // tennis_basis_latest.json the tennis basis report from apps.measure_tennis_basis;
   // weather_report_<mode>.json the weather report the weather branches are expected to
   // write next to scoreboard_weather.json (kind "weather_report"; optional);
-  // weather_buckets_latest.json the weather bucket-edge report from apps.measure_weather_buckets.
+  // weather_buckets_latest.json the weather bucket-edge report from apps.measure_weather_buckets;
+  // tourist_fade_report_latest.json is the fade-the-tourist report from apps.measure_tourist_fade.
   const names = new Set([
     'paper_loop_latest.json',
     'polymarket_arb_latest.json',
@@ -49,6 +50,7 @@ async function listCandidates() {
     'tennis_basis_latest.json',
     'weather_buckets_latest.json',
     'weather_calibration_latest.json',
+    'tourist_fade_report_latest.json',
   ])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
@@ -173,7 +175,12 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: refusing to publish a synthetic-fixture tennis report as a runtime artifact`)
     continue
   }
-  const isHeadlineReport = isFlbReport || isTennisReport
+  const isTouristReport = relative === 'tourist_fade_report_latest.json'
+  if (isTouristReport && (doc.kind !== 'fade_the_tourist_report' || doc.paper_only !== true)) {
+    console.warn(`skip ${relative}: not a paper-only fade_the_tourist_report`)
+    continue
+  }
+  const isHeadlineReport = isFlbReport || isTennisReport || isTouristReport
   const target = join(publicRoot, relative.replace('paper/', 'paper_'))
   await copyFile(source, target)
   copied[relative] = {

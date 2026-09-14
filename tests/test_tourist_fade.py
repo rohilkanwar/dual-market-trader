@@ -15,9 +15,12 @@ from research.tourist_fade import (
     TENNIS_SERIES,
     TOURIST_TRACK,
     UNIVERSES,
+    VERDICT_KEYS,
     ClusterStat,
     create_tourist_runtime,
+    event_of_ticker,
     expost_report,
+    fade_price_band,
     fade_ev_verdict,
     fetch_market_result,
     fetch_recent_tape,
@@ -170,6 +173,7 @@ def test_fixture_replay_exercises_pass_fail_and_adverse_selection_paths() -> Non
     assert verdicts["tourist_flow_loses"]["verdict"] == "PASS" and report["adverse_selection"]["detected"] is False
     assert verdicts["tourist_worse_than_other_takers"]["verdict"] == "PASS"
     assert report["by_regime"]["strong"]["mean"] > 0 > report["by_regime"]["weak"]["mean"]
+    assert "0.7-0.8" in report["by_fade_price_band"] and "fade_ev_positive_excluding_final_minutes" in report["verdicts"]
     # Synthetic crypto chasers are right: positive tourist markout in that category (the failure mode, isolated).
     crypto = report["adverse_selection"]["by_category"]["crypto"]["tourist"]["settlement"]
     sports = report["adverse_selection"]["by_category"]["sports"]["tourist"]["settlement"]
@@ -221,7 +225,7 @@ def test_verdict_helpers_cover_edge_cases() -> None:
     verdict = tourist_loses_verdict(flat, min_events=10)
     assert verdict["verdict"] == "FAIL" and verdict["adverse_selection_detected"] is True  # short-horizon informed
     missing = not_measured_report("no harvest")
-    assert missing["status"] == "not_measured" and set(missing["verdicts"]) == {"fade_ev_positive_after_fees", "strong_regime_fade_ev_positive", "strong_regime_beats_weak", "tourist_flow_loses", "tourist_worse_than_other_takers"}
+    assert missing["status"] == "not_measured" and set(missing["verdicts"]) == set(VERDICT_KEYS)
     assert "--harvest-trades" in missing["how_to_measure"]
 
 
@@ -246,9 +250,9 @@ async def test_live_track_fades_fresh_clusters_through_the_risk_gated_engine() -
     summary = await run_fade_the_tourist_track(runtime, params=TouristParameters())
     runtime.finalize(label="test")
     finalize_tourist_metrics(runtime)
-    assert summary.track == TOURIST_TRACK and summary.candidates == 7
+    assert summary.track == TOURIST_TRACK and summary.candidates == 8
     assert summary.admitted == 2 and summary.paper_fills == 2
-    assert summary.refused_by_reason == {"cluster_stale": 1, "market_inactive": 1, "no_tape": 1, "no_tourist_cluster": 1, "one_sided_book": 1}
+    assert summary.refused_by_reason == {"already_positioned_event": 1, "cluster_stale": 1, "market_inactive": 1, "no_tape": 1, "no_tourist_cluster": 1, "one_sided_book": 1}
     by_market = {row["market"]: row for row in summary.fills}
     strong = by_market["KXATPMATCH-26SEP20ALCSIN-ALC"]
     assert strong["outcome"] == "yes" and strong["price"] == D("0.76") and strong["regime"] == "strong" and strong["faded_side"] == "no"
@@ -256,7 +260,7 @@ async def test_live_track_fades_fresh_clusters_through_the_risk_gated_engine() -
     assert weak["outcome"] == "no" and weak["price"] == D("0.55") and weak["regime"] == "weak"
     assert all(row["fee"] > 0 for row in summary.fills)
     assert set(summary.metrics["paper_pnl_by_regime"]) == {"strong", "weak"}
-    assert summary.metrics["tape"]["clusters"] == 4 and summary.metrics["family"] == "tourist_fade"
+    assert summary.metrics["tape"]["clusters"] == 4  # the SIN leg is refused before its tape is evaluated and summary.metrics["family"] == "tourist_fade"
     assert runtime.risk.limits == TOURIST_RISK_LIMITS
     ledger = runtime.ledger.summary()
     assert D(str(ledger["equity"])) == D(str(ledger["starting_cash"])) + D(str(ledger["realized_pnl"])) + D(str(ledger["unrealized_pnl"]))
@@ -265,6 +269,14 @@ async def test_live_track_fades_fresh_clusters_through_the_risk_gated_engine() -
     runtime2 = create_tourist_runtime({Venue.KALSHI: snapshot}, ledger=runtime.ledger, starting_cash=D("1000"), model_fees=True)
     summary2 = await run_fade_the_tourist_track(runtime2, params=TouristParameters())
     assert summary2.paper_fills == 0 and summary2.refused_by_reason["already_positioned"] == 2
+    assert summary2.refused_by_reason["already_positioned_event"] == 1  # the other leg of the ALC match
+
+
+def test_fade_price_band_and_event_of_ticker() -> None:
+    assert fade_price_band(D("0.76")) == "0.7-0.8" and fade_price_band(D("0.99")) == "0.9-1.0" and fade_price_band(D("0.05")) == "0.0-0.1"
+    assert event_of_ticker("KXATPMATCH-26SEP13ZVESHE-ZVE") == "KXATPMATCH-26SEP13ZVESHE"
+    assert event_of_ticker("KXBTC15M-26SEP141845-45") == "KXBTC15M-26SEP141845"
+    assert event_of_ticker("SINGLE") == "SINGLE"
 
 
 async def test_live_track_without_kalshi_snapshot_is_an_honest_empty_row() -> None:

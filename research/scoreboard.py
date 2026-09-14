@@ -114,6 +114,8 @@ TRACK_LABELS = {
     # Weather lane: reserved ids (research/weather_tracks.py); measured only when a
     # strategy branch provides research.weather_scoreboard.run_weather_tracks.
     **WEATHER_TRACK_LABELS,
+    # Separate board (apps.measure_tourist_fade); not part of TRACKS.
+    "fade_the_tourist": "Fade the tourist (Kalshi tennis)",
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {

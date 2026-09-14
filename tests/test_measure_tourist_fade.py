@@ -35,6 +35,7 @@ def _run(tmp_path: Path, **overrides: object) -> dict:
         params=TouristParameters(),
         min_events=10,
         min_fades=20,
+        exclude_final_minutes=30,
     )
     kwargs.update(overrides)
     return run(**kwargs)  # type: ignore[arg-type]
@@ -48,6 +49,8 @@ async def test_fixture_run_writes_report_scoreboard_ledger_and_run_record(tmp_pa
         "fade_ev_positive_after_fees": "FAIL",
         "strong_regime_fade_ev_positive": "PASS",
         "strong_regime_beats_weak": "PASS",
+        "fade_ev_positive_excluding_final_minutes": "FAIL",
+        "strong_regime_fade_ev_positive_excluding_final_minutes": "PASS",
         "tourist_flow_loses": "PASS",
         "tourist_worse_than_other_takers": "PASS",
     }
@@ -57,8 +60,8 @@ async def test_fixture_run_writes_report_scoreboard_ledger_and_run_record(tmp_pa
     for key in ("classifier", "cluster", "fade", "replay_fill", "fees", "settlement", "inference", "tape_limits", "daily_loss_in_replay"):
         assert report["assumptions"][key]
     live = report["live_track"]
-    assert live["candidates"] == 7 and live["admitted"] == 2 and live["paper_fills"] == 2
-    assert live["refused_by_reason"] == {"cluster_stale": 1, "market_inactive": 1, "no_tape": 1, "no_tourist_cluster": 1, "one_sided_book": 1}
+    assert live["candidates"] == 8 and live["admitted"] == 2 and live["paper_fills"] == 2
+    assert live["refused_by_reason"] == {"already_positioned_event": 1, "cluster_stale": 1, "market_inactive": 1, "no_tape": 1, "no_tourist_cluster": 1, "one_sided_book": 1}
     assert set(live["paper_pnl_by_regime"]) == {"strong", "weak"} and live["ledger"]["open_positions"] == 2
 
     scoreboard = json.loads((tmp_path / "scoreboard_tourist_fade.json").read_text())
@@ -78,6 +81,11 @@ async def test_fixture_run_writes_report_scoreboard_ledger_and_run_record(tmp_pa
     assert record["tracks"][0]["family"] == "tourist_fade" and record["primary_track"] == TOURIST_TRACK
     assert (tmp_path / "paper" / f"ledger_{TOURIST_TRACK}.json").exists()
     assert (tmp_path / "paper" / f"equity_curve_{TOURIST_TRACK}.jsonl").read_text().count("\n") == 1
+    # Full per-fade rows live in the sidecar; the report keeps a capped sample and says so.
+    sidecar = json.loads((tmp_path / "tourist_fade_rows_latest.json").read_text())
+    written = json.loads((tmp_path / "tourist_fade_report_latest.json").read_text())["ex_post"]
+    assert sidecar["fades"] == written["fade_rows_total"] == report["ex_post"]["fades"]["fades"] == len(sidecar["rows"])
+    assert written["fade_rows_file"] == "tourist_fade_rows_latest.json" and len(written["fade_rows"]) <= 100
 
 
 async def test_ledger_carries_across_runs_settles_fixture_results_and_resets(tmp_path: Path) -> None:

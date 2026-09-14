@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T231958Z-tourist-591eb8cd.json"
+  ],
+  "run_id": "20260914T231958Z-tourist-591eb8cd",
+  "mode": "network",
+  "measured_at": "2026-09-14T23:19:58.741525+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / FADE THE TOURIST",
+  "venues": [
+    "kalshi"
+  ],
+  "venue_focus": "kalshi",
+  "kalshi_env": "prod",
+  "track_family": "tourist_fade",
+  "primary_track": "fade_the_tourist",
+  "run_kind": "fade_the_tourist",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 60,
+    "admitted": 3,
+    "rejects": 57,
+    "proposed_orders": 3,
+    "paper_fills": 3,
+    "paper_pnl": -1.18,
+    "realized_pnl": -0.8,
+    "unrealized_pnl": -0.37,
+    "fees_paid": 0.8
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "fade_the_tourist",
+      "label": "Fade the tourist (Kalshi tennis)",
+      "family": "tourist_fade",
+      "candidates": 60,
+      "admitted": 3,
+      "rejects": 57,
+      "proposed_orders": 3,
+      "paper_fills": 3,
+      "fill_rate": 1,
+      "edge_bps": 0,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "already_positioned_event": 3,
+        "cluster_stale": 2,
+        "empty_book": 7,
+        "no_tourist_cluster": 45
+      },
+      "notes": "Taker fade of clustered tourist prints: when >= 5 small-ticket / longshot / late-chase prints carrying >= $50 pile into one side within 10 minutes, buy the other side at the touch ($10, x2 when it is >= 70c). Positions are marked at mid, carried across runs and settled when the venue publishes a result. Paper caps $25/order, $75/market, $75 daily.",
+      "ledger": {
+        "ledger_id": "fade_the_tourist",
+        "starting_cash": 1000,
+        "cash": 995.0063,
+        "equity": 998.8213,
+        "realized_pnl": -0.8,
+        "unrealized_pnl": -0.37,
+        "total_pnl": -1.18,
+        "fees_paid": 0.8,
+        "fills": 3,
+        "open_positions": 3,
+        "max_drawdown": 1.1787
+      }
+    }
+  ]
+}
