@@ -4,10 +4,10 @@
     "ex_post_limits": "Trades page newest-first with a per-market cap (trades_truncated); markets are the inference unit (clustered SE); series fee parameters are as of harvest time.",
     "fee_model": "Kalshi July-2026 schedule: taker round_up(M*0.07*C*P*(1-P)); maker round_up(M*0.0175*C*P*(1-P)) on quadratic_with_maker_fees series; M = series fee_multiplier (1 default, 0.5 on some game series). Rounded to a centicent on paper fills, unrounded per contract in the ex-post table.",
     "fill_probability": "Maker fills are expected-value fills floor(qty*p): p=0.50 when improving the touch by one tick, p=0.25*own/(own+displayed) when joining the touch. Not measured; a live resting order fills fully or not at all.",
-    "longshot_definition": "A side priced at or below 0.20 at the touch (YES ask, or 1 - YES bid for NO). Bands are by price: <10c, 10-20c, ..., >=90c; the ex-post table buckets by the price the taker paid.",
+    "longshot_definition": "A side priced strictly below 0.20 at the touch (YES ask, or 1 - YES bid for NO). Bands are by price: <10c, 10-20c, ..., >=90c; the ex-post table buckets by the price the taker paid.",
     "marks": "Fade track marked at mid; maker track marked conservatively (longs at bid, shorts at ask). Positions without a two-sided book are valued at cost and counted as unmarked.",
     "queue": "Joining the touch assumes pro-rata position behind the displayed size; improving assumes first in queue at the new price. Book depth beyond the touch is ignored for resting orders.",
-    "sizing": "Whole contracts; $25/order, $75 cash-at-risk per market (strategy) and 75 contracts/market + $75 daily loss (RiskManager). Paper caps mirror the caps decided for a later live canary.",
+    "sizing": "Whole contracts; $25/order, $75 cash-at-risk per market and $1000 total collateral (strategy), plus 75 contracts/market + $75 daily loss (RiskManager). Per-order/market/daily caps mirror the caps decided for a later live canary; the total cap equals the paper starting cash so the ledger never borrows.",
     "snapshot_limits": "Open books contain no outcomes; FLB cannot be identified from a snapshot. Snapshot checks quantify take cost by band and event overround only."
   },
   "ex_post": {
@@ -1081,7 +1081,7 @@
       }
     }
   },
-  "generated_at": "2026-09-14T21:09:11.039221+00:00",
+  "generated_at": "2026-09-14T21:17:52.221872+00:00",
   "headline": "Snapshot books: FLB NOT_IDENTIFIABLE (prices without outcomes). Ex-post from settled trades: longshot tail (<20c) FAIL contract-weighted / FAIL equal-weighted by market; favorite-longshot slope (below vs above 50c) FAIL; maker fade edge after fees FAIL.",
   "kalshi_env": "prod",
   "kind": "kalshi_flb_report",
@@ -1089,40 +1089,40 @@
     "B\u00fcrgi, Deng, Whelan \u2014 Kalshi makers vs takers and the favorite-longshot bias (UCD WP / SSRN 5502658)",
     "Favorite-longshot bias on Polymarket (arXiv 2609.12878): longshots lose; effect weaker in sports"
   ],
-  "measured_at": "2026-09-14T21:08:47.551321+00:00",
+  "measured_at": "2026-09-14T21:17:29.689847+00:00",
   "mode": "network",
   "paper_only": true,
   "pnl_source": "core.ledger.PaperLedger",
-  "run_id": "20260914T210847Z-flb-f1706600",
+  "run_id": "20260914T211729Z-flb-29a3c3bc",
   "schema_version": "1.0.0",
   "snapshot": {
     "band_table": {
       "10-20c": {
-        "markets": 29,
-        "mean_ask_depth": 4318.7638,
-        "mean_bid_depth": 341.3793,
-        "mean_relative_half_spread": 0.26,
-        "mean_spread": 0.0728,
-        "mean_take_cost_pct_of_price": 0.2509,
-        "mean_taker_fee_pct_of_price": 0.0574,
-        "total_volume": 34588273.09,
-        "two_sided": 29
+        "markets": 28,
+        "mean_ask_depth": 1204.1314,
+        "mean_bid_depth": 2113.4025,
+        "mean_relative_half_spread": 0.2547,
+        "mean_spread": 0.0711,
+        "mean_take_cost_pct_of_price": 0.2469,
+        "mean_taker_fee_pct_of_price": 0.0577,
+        "total_volume": 34562106.79,
+        "two_sided": 28
       },
       "20-30c": {
-        "markets": 7,
-        "mean_ask_depth": 145.7143,
-        "mean_bid_depth": 151.5486,
-        "mean_relative_half_spread": 0.3055,
-        "mean_spread": 0.1529,
-        "mean_take_cost_pct_of_price": 0.2545,
-        "mean_taker_fee_pct_of_price": 0.0485,
-        "total_volume": 41102.95,
-        "two_sided": 7
+        "markets": 8,
+        "mean_ask_depth": 140.375,
+        "mean_bid_depth": 134.3125,
+        "mean_relative_half_spread": 0.2953,
+        "mean_spread": 0.145,
+        "mean_take_cost_pct_of_price": 0.2507,
+        "mean_taker_fee_pct_of_price": 0.049,
+        "total_volume": 57105.48,
+        "two_sided": 8
       },
       "30-40c": {
         "markets": 7,
-        "mean_ask_depth": 1189.5086,
-        "mean_bid_depth": 2645.9257,
+        "mean_ask_depth": 1185.7757,
+        "mean_bid_depth": 2644.7829,
         "mean_relative_half_spread": 0.2391,
         "mean_spread": 0.1657,
         "mean_take_cost_pct_of_price": 0.186,
@@ -1132,78 +1132,78 @@
       },
       "40-50c": {
         "markets": 11,
-        "mean_ask_depth": 148.5155,
-        "mean_bid_depth": 28.8245,
+        "mean_ask_depth": 153.4245,
+        "mean_bid_depth": 30.4927,
         "mean_relative_half_spread": 0.137,
         "mean_spread": 0.1255,
         "mean_take_cost_pct_of_price": 0.1444,
         "mean_taker_fee_pct_of_price": 0.0346,
-        "total_volume": 111634.6,
+        "total_volume": 111652.6,
         "two_sided": 11
       },
       "50-60c": {
         "markets": 15,
-        "mean_ask_depth": 1097.1967,
-        "mean_bid_depth": 455.0807,
-        "mean_relative_half_spread": 0.0732,
-        "mean_spread": 0.08,
-        "mean_take_cost_pct_of_price": 0.0901,
+        "mean_ask_depth": 1098.93,
+        "mean_bid_depth": 454.954,
+        "mean_relative_half_spread": 0.0707,
+        "mean_spread": 0.078,
+        "mean_take_cost_pct_of_price": 0.0887,
         "mean_taker_fee_pct_of_price": 0.0283,
         "total_volume": 238574.57,
         "two_sided": 15
       },
       "60-70c": {
         "markets": 17,
-        "mean_ask_depth": 151.8829,
-        "mean_bid_depth": 170.6276,
-        "mean_relative_half_spread": 0.0561,
-        "mean_spread": 0.0741,
-        "mean_take_cost_pct_of_price": 0.0722,
+        "mean_ask_depth": 132.7653,
+        "mean_bid_depth": 169.5688,
+        "mean_relative_half_spread": 0.0557,
+        "mean_spread": 0.0735,
+        "mean_take_cost_pct_of_price": 0.0719,
         "mean_taker_fee_pct_of_price": 0.0218,
-        "total_volume": 126590.15,
+        "total_volume": 126640.15,
         "two_sided": 17
       },
       "70-80c": {
-        "markets": 18,
-        "mean_ask_depth": 201.7872,
-        "mean_bid_depth": 47.5056,
-        "mean_relative_half_spread": 0.0749,
-        "mean_spread": 0.1139,
-        "mean_take_cost_pct_of_price": 0.0809,
-        "mean_taker_fee_pct_of_price": 0.0131,
-        "total_volume": 96672.57,
-        "two_sided": 18
+        "markets": 19,
+        "mean_ask_depth": 189.9426,
+        "mean_bid_depth": 40.8237,
+        "mean_relative_half_spread": 0.0796,
+        "mean_spread": 0.1216,
+        "mean_take_cost_pct_of_price": 0.0844,
+        "mean_taker_fee_pct_of_price": 0.0127,
+        "total_volume": 98406.6,
+        "two_sided": 19
       },
       "80-90c": {
-        "markets": 22,
-        "mean_ask_depth": 7393.3986,
-        "mean_bid_depth": 1990.6936,
-        "mean_relative_half_spread": 0.0605,
-        "mean_spread": 0.1014,
-        "mean_take_cost_pct_of_price": 0.0628,
-        "mean_taker_fee_pct_of_price": 0.007,
-        "total_volume": 15069797.77,
-        "two_sided": 22
+        "markets": 21,
+        "mean_ask_depth": 7701.8286,
+        "mean_bid_depth": 1858.1367,
+        "mean_relative_half_spread": 0.0569,
+        "mean_spread": 0.0952,
+        "mean_take_cost_pct_of_price": 0.0597,
+        "mean_taker_fee_pct_of_price": 0.0073,
+        "total_volume": 15072913.39,
+        "two_sided": 21
       },
       "<10c": {
         "markets": 38,
-        "mean_ask_depth": 123816.6642,
-        "mean_bid_depth": 7756.8892,
-        "mean_relative_half_spread": 0.2764,
-        "mean_spread": 0.0189,
-        "mean_take_cost_pct_of_price": 0.2734,
+        "mean_ask_depth": 9801.445,
+        "mean_bid_depth": 1946.8892,
+        "mean_relative_half_spread": 0.272,
+        "mean_spread": 0.0187,
+        "mean_take_cost_pct_of_price": 0.2712,
         "mean_taker_fee_pct_of_price": 0.0666,
-        "total_volume": 16443279.34,
+        "total_volume": 1207170.51,
         "two_sided": 38
       },
       ">=90c": {
         "markets": 36,
-        "mean_ask_depth": 991.3289,
-        "mean_bid_depth": 422.2856,
-        "mean_relative_half_spread": 0.0152,
-        "mean_spread": 0.0286,
-        "mean_take_cost_pct_of_price": 0.0172,
-        "mean_taker_fee_pct_of_price": 0.0024,
+        "mean_ask_depth": 994.4236,
+        "mean_bid_depth": 408.7164,
+        "mean_relative_half_spread": 0.0154,
+        "mean_spread": 0.0289,
+        "mean_take_cost_pct_of_price": 0.0173,
+        "mean_taker_fee_pct_of_price": 0.0023,
         "total_volume": 199075.16,
         "two_sided": 36
       }
@@ -1237,15 +1237,15 @@
         },
         {
           "event_ticker": "KXFEDDECISION-26SEP",
-          "legs": 3,
-          "legs_with_ask": 3,
-          "longshot_legs": 2,
-          "longshot_share_of_sum_ask": 0.1456,
-          "overround_ask": 0.03,
-          "overround_mid": 0.015,
-          "sum_ask": 1.03,
-          "sum_longshot_ask": 0.15,
-          "sum_mid": 1.015
+          "legs": 2,
+          "legs_with_ask": 2,
+          "longshot_legs": 1,
+          "longshot_share_of_sum_ask": 0.12,
+          "overround_ask": 0.0,
+          "overround_mid": -0.01,
+          "sum_ask": 1.0,
+          "sum_longshot_ask": 0.12,
+          "sum_mid": 0.99
         },
         {
           "event_ticker": "KXFEDDECISION-27APR",
@@ -1264,12 +1264,12 @@
           "legs": 5,
           "legs_with_ask": 5,
           "longshot_legs": 2,
-          "longshot_share_of_sum_ask": 0.1222,
-          "overround_ask": 1.21,
-          "overround_mid": 0.56,
-          "sum_ask": 2.21,
+          "longshot_share_of_sum_ask": 0.1227,
+          "overround_ask": 1.2,
+          "overround_mid": 0.555,
+          "sum_ask": 2.2,
           "sum_longshot_ask": 0.27,
-          "sum_mid": 1.56
+          "sum_mid": 1.555
         },
         {
           "event_ticker": "KXFEDDECISION-27JAN",
@@ -1288,12 +1288,12 @@
           "legs": 5,
           "legs_with_ask": 5,
           "longshot_legs": 4,
-          "longshot_share_of_sum_ask": 0.3091,
-          "overround_ask": 0.1,
-          "overround_mid": 0.035,
-          "sum_ask": 1.1,
-          "sum_longshot_ask": 0.34,
-          "sum_mid": 1.035
+          "longshot_share_of_sum_ask": 0.2897,
+          "overround_ask": 0.07,
+          "overround_mid": 0.02,
+          "sum_ask": 1.07,
+          "sum_longshot_ask": 0.31,
+          "sum_mid": 1.02
         },
         {
           "event_ticker": "KXFEDDECISION-27JUN",
@@ -1356,12 +1356,12 @@
           "sum_mid": 0.94
         }
       ],
-      "events_with_positive_overround": 9,
-      "mean_longshot_share_of_sum_ask": 0.2076,
-      "mean_overround_ask": 0.115,
+      "events_with_positive_overround": 8,
+      "mean_longshot_share_of_sum_ask": 0.2038,
+      "mean_overround_ask": 0.1092,
       "n_events": 12
     },
-    "fetched_at": "2026-09-14T21:08:47.578774+00:00",
+    "fetched_at": "2026-09-14T21:17:29.716519+00:00",
     "markets": 200,
     "series": [
       "KXCPI",
@@ -1376,16 +1376,16 @@
     "source": "network",
     "verdicts": {
       "event_overround_positive": {
-        "events_with_positive_overround": 9,
-        "mean_longshot_share_of_sum_ask": 0.2076,
-        "mean_overround_ask": 0.115,
+        "events_with_positive_overround": 8,
+        "mean_longshot_share_of_sum_ask": 0.2038,
+        "mean_overround_ask": 0.1092,
         "n_events": 12,
         "question": "Do mutually exclusive events quote a positive overround (sum of asks > 1)?",
         "verdict": "PASS"
       },
       "flb_identifiable_from_snapshot": {
-        "markets_in_favorite_bands": 58,
-        "markets_in_longshot_bands": 67,
+        "markets_in_favorite_bands": 57,
+        "markets_in_longshot_bands": 66,
         "markets_with_books": 200,
         "question": "Does favorite-longshot bias appear in the current public books?",
         "reason": "A snapshot holds prices but no outcomes; FLB is realised-return versus price and cannot be identified without settlement results. Use the ex-post section.",
@@ -1393,10 +1393,10 @@
       },
       "longshot_take_cost_exceeds_favorite": {
         "definition": "(half-spread + taker fee at the ask) / ask price, averaged over markets in the band",
-        "favorite_markets": 58,
-        "favorite_take_cost_pct": 0.04,
-        "longshot_markets": 67,
-        "longshot_take_cost_pct": 0.2622,
+        "favorite_markets": 57,
+        "favorite_take_cost_pct": 0.0385,
+        "longshot_markets": 66,
+        "longshot_take_cost_pct": 0.259,
         "min_markets_per_side": 3,
         "question": "Is taking a longshot (<20c) more expensive, per dollar paid, than taking a favourite (>=80c)?",
         "verdict": "PASS"
@@ -1405,273 +1405,225 @@
   },
   "tracks": {
     "kalshi_longshot_fade": {
-      "admitted": 107,
+      "admitted": 36,
       "candidates": 200,
-      "edge_bps": -170,
+      "edge_bps": -140,
       "label": "Kalshi longshot fade (taker)",
       "ledger": {
-        "cash": -99.0499,
-        "equity": 947.4451,
-        "fees_paid": 9.8299,
-        "fills": 118,
-        "gross_notional": 1254.195,
+        "cash": 748.7984,
+        "equity": 984.0284,
+        "fees_paid": 3.9516,
+        "fills": 45,
+        "gross_notional": 330.27,
         "mark_method": "mid",
-        "max_drawdown": 52.5549,
-        "open_positions": 107,
-        "realized_pnl": -9.8299,
+        "max_drawdown": 15.9716,
+        "open_positions": 36,
+        "realized_pnl": -3.9516,
         "starting_cash": 1000.0,
-        "total_pnl": -52.5549,
+        "total_pnl": -15.9716,
         "unmarked_positions": 0,
-        "unrealized_pnl": -42.725
+        "unrealized_pnl": -12.02
       },
       "longshot_bands": {
         "10-20c": {
-          "candidates": 36,
-          "contracts": 778.0,
-          "expected_edge_bps_mean": -272,
-          "fees": 4.7157,
+          "candidates": 37,
+          "contracts": 348.0,
+          "expected_edge_bps_mean": -203,
+          "fees": 2.27,
           "fill_probability_mean": 1.0,
-          "fills": 36,
-          "notional": 702.41,
-          "orders": 36
-        },
-        "20-30c": {
-          "candidates": 4,
-          "contracts": 100.0,
-          "expected_edge_bps_mean": -412,
-          "fees": 0.7292,
-          "fill_probability_mean": 1.0,
-          "fills": 4,
-          "notional": 88.16,
-          "orders": 4
+          "fills": 15,
+          "notional": 311.48,
+          "orders": 15
         },
         "<10c": {
           "candidates": 67,
-          "contracts": 1553.0,
-          "expected_edge_bps_mean": -100,
-          "fees": 2.9421,
+          "contracts": 496.0,
+          "expected_edge_bps_mean": -95,
+          "fees": 0.6729,
           "fill_probability_mean": 1.0,
-          "fills": 67,
-          "notional": 1509.24,
-          "orders": 67
+          "fills": 21,
+          "notional": 486.1,
+          "orders": 21
         }
       },
-      "longshot_candidates": 107,
+      "longshot_candidates": 104,
       "notes": "Taker fade of every Kalshi longshot (<=20c side): buys the favourite at the touch, pays the taker fee, marked at mid. The shadow_longshot_buyer metric is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
-      "paper_fills": 107,
+      "paper_fills": 36,
       "paper_pnl_by_longshot_band": {
         "10-20c": {
-          "contracts": 778.0,
-          "fees": 4.7157,
-          "fills": 36,
-          "marked": 36,
-          "notional": 702.41,
-          "paper_pnl": -25.0757,
-          "paper_pnl_per_contract": -0.0322,
-          "return_on_notional_bps": -357
-        },
-        "20-30c": {
-          "contracts": 100.0,
-          "fees": 0.7292,
-          "fills": 4,
-          "marked": 4,
-          "notional": 88.16,
-          "paper_pnl": -4.8092,
-          "paper_pnl_per_contract": -0.0481,
-          "return_on_notional_bps": -546
+          "contracts": 348.0,
+          "fees": 2.27,
+          "fills": 15,
+          "marked": 15,
+          "notional": 311.48,
+          "paper_pnl": -8.485,
+          "paper_pnl_per_contract": -0.0244,
+          "return_on_notional_bps": -272
         },
         "<10c": {
-          "contracts": 1553.0,
-          "fees": 2.9421,
-          "fills": 67,
-          "marked": 67,
-          "notional": 1509.24,
-          "paper_pnl": -18.1821,
-          "paper_pnl_per_contract": -0.0117,
-          "return_on_notional_bps": -120
+          "contracts": 496.0,
+          "fees": 0.6729,
+          "fills": 21,
+          "marked": 21,
+          "notional": 486.1,
+          "paper_pnl": -5.2629,
+          "paper_pnl_per_contract": -0.0106,
+          "return_on_notional_bps": -108
         }
       },
       "paper_pnl_by_price_paid_band": {
         "80-90c": {
-          "contracts": 419.0,
-          "fees": 3.2527,
-          "fills": 16,
-          "marked": 16,
-          "notional": 365.66,
-          "paper_pnl": -10.6277,
-          "paper_pnl_per_contract": -0.0254,
-          "return_on_notional_bps": -291
+          "contracts": 197.0,
+          "fees": 1.5001,
+          "fills": 7,
+          "marked": 7,
+          "notional": 172.49,
+          "paper_pnl": -3.4651,
+          "paper_pnl_per_contract": -0.0176,
+          "return_on_notional_bps": -201
         },
         ">=90c": {
-          "contracts": 2012.0,
-          "fees": 5.1343,
-          "fills": 91,
-          "marked": 91,
-          "notional": 1934.15,
-          "paper_pnl": -37.4393,
-          "paper_pnl_per_contract": -0.0186,
-          "return_on_notional_bps": -194
+          "contracts": 647.0,
+          "fees": 1.4428,
+          "fills": 29,
+          "marked": 29,
+          "notional": 625.09,
+          "paper_pnl": -10.2828,
+          "paper_pnl_per_contract": -0.0159,
+          "return_on_notional_bps": -165
         }
       },
-      "proposed_orders": 107,
+      "proposed_orders": 36,
       "refused_by_reason": {
-        "not_longshot": 93
+        "capital_cap_reached": 68,
+        "not_longshot": 96
       },
       "shadow_longshot_buyer": {
-        "fees_paid": 89.7601,
-        "fills": 107,
-        "gross_notional": 10040.59,
+        "fees_paid": 32.3917,
+        "fills": 36,
+        "gross_notional": 3322.27,
         "mark_method": "mid",
         "note": "Mirror of every fade: takes the longshot at its ask with the same $25/$75 caps. Hypothetical benchmark only; never proposed to the risk-gated engine.",
         "paper_pnl_by_longshot_band": {
           "10-20c": {
-            "contracts": 3794.0,
-            "fees": 32.6617,
-            "fills": 36,
-            "marked": 36,
-            "notional": 547.56,
-            "paper_pnl": -125.2417,
-            "paper_pnl_per_contract": -0.033,
-            "return_on_notional_bps": -2287
-          },
-          "20-30c": {
-            "contracts": 404.0,
-            "fees": 4.5248,
-            "fills": 4,
-            "marked": 4,
-            "notional": 80.8,
-            "paper_pnl": -21.3098,
-            "paper_pnl_per_contract": -0.0527,
-            "return_on_notional_bps": -2637
+            "contracts": 1690.0,
+            "fees": 13.8138,
+            "fills": 15,
+            "marked": 15,
+            "notional": 228.31,
+            "paper_pnl": -47.5588,
+            "paper_pnl_per_contract": -0.0281,
+            "return_on_notional_bps": -2083
           },
           "<10c": {
-            "contracts": 28036.0,
-            "fees": 52.5736,
-            "fills": 67,
-            "marked": 67,
-            "notional": 780.89,
-            "paper_pnl": -224.3886,
-            "paper_pnl_per_contract": -0.008,
-            "return_on_notional_bps": -2873
+            "contracts": 11206.0,
+            "fees": 18.5779,
+            "fills": 21,
+            "marked": 21,
+            "notional": 274.09,
+            "paper_pnl": -79.6929,
+            "paper_pnl_per_contract": -0.0071,
+            "return_on_notional_bps": -2908
           }
         },
-        "realized_pnl": -89.7601,
-        "total_pnl": -370.9401,
-        "unrealized_pnl": -281.18
+        "realized_pnl": -32.3917,
+        "total_pnl": -127.2517,
+        "unrealized_pnl": -94.86
       }
     },
     "kalshi_maker_quote": {
-      "admitted": 107,
+      "admitted": 40,
       "candidates": 200,
-      "edge_bps": 73,
+      "edge_bps": 55,
       "label": "Kalshi maker quote (resting fade)",
       "ledger": {
-        "cash": 643.8341,
-        "equity": 990.1741,
-        "fees_paid": 1.4659,
-        "fills": 79,
-        "gross_notional": 463.56,
+        "cash": 924.4301,
+        "equity": 996.5301,
+        "fees_paid": 0.5099,
+        "fills": 29,
+        "gross_notional": 121.88,
         "mark_method": "conservative",
-        "max_drawdown": 9.8259,
-        "open_positions": 76,
-        "realized_pnl": -1.4659,
+        "max_drawdown": 3.4699,
+        "open_positions": 26,
+        "realized_pnl": -0.5099,
         "starting_cash": 1000.0,
-        "total_pnl": -9.8259,
+        "total_pnl": -3.4699,
         "unmarked_positions": 0,
-        "unrealized_pnl": -8.36
+        "unrealized_pnl": -2.96
       },
       "longshot_bands": {
         "10-20c": {
-          "candidates": 36,
-          "contracts": 414.0,
-          "expected_edge_bps_mean": 123,
-          "fees": 0.8376,
-          "fill_probability_mean": 0.4098,
-          "fills": 30,
-          "notional": 355.56,
-          "orders": 36
-        },
-        "20-30c": {
-          "candidates": 4,
-          "contracts": 60.0,
-          "expected_edge_bps_mean": 209,
-          "fees": 0.1616,
-          "fill_probability_mean": 0.5,
-          "fills": 4,
-          "notional": 48.6,
-          "orders": 4
+          "candidates": 37,
+          "contracts": 174.0,
+          "expected_edge_bps_mean": 80,
+          "fees": 0.3487,
+          "fill_probability_mean": 0.39,
+          "fills": 13,
+          "notional": 151.06,
+          "orders": 16
         },
         "<10c": {
           "candidates": 67,
-          "contracts": 376.0,
-          "expected_edge_bps_mean": 38,
-          "fees": 0.3581,
-          "fill_probability_mean": 0.223,
-          "fills": 42,
-          "notional": 354.06,
-          "orders": 67
+          "contracts": 122.0,
+          "expected_edge_bps_mean": 39,
+          "fees": 0.1176,
+          "fill_probability_mean": 0.2046,
+          "fills": 13,
+          "notional": 114.87,
+          "orders": 24
         }
       },
-      "longshot_candidates": 107,
+      "longshot_candidates": 104,
       "notes": "Resting fade one tick inside the spread (or joining the touch). Fills are expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks (exit price). Not a measurement of fill rates.",
-      "paper_fills": 76,
+      "paper_fills": 26,
       "paper_pnl_by_longshot_band": {
         "10-20c": {
-          "contracts": 414.0,
-          "fees": 0.8376,
-          "fills": 30,
-          "marked": 30,
-          "notional": 355.56,
-          "paper_pnl": -4.9376,
-          "paper_pnl_per_contract": -0.0119,
-          "return_on_notional_bps": -139
-        },
-        "20-30c": {
-          "contracts": 60.0,
-          "fees": 0.1616,
-          "fills": 4,
-          "marked": 4,
-          "notional": 48.6,
-          "paper_pnl": -0.7616,
-          "paper_pnl_per_contract": -0.0127,
-          "return_on_notional_bps": -157
+          "contracts": 174.0,
+          "fees": 0.3487,
+          "fills": 13,
+          "marked": 13,
+          "notional": 151.06,
+          "paper_pnl": -2.0287,
+          "paper_pnl_per_contract": -0.0117,
+          "return_on_notional_bps": -134
         },
         "<10c": {
-          "contracts": 376.0,
-          "fees": 0.3581,
-          "fills": 42,
-          "marked": 42,
-          "notional": 354.06,
-          "paper_pnl": -3.5781,
-          "paper_pnl_per_contract": -0.0095,
-          "return_on_notional_bps": -101
+          "contracts": 122.0,
+          "fees": 0.1176,
+          "fills": 13,
+          "marked": 13,
+          "notional": 114.87,
+          "paper_pnl": -1.2576,
+          "paper_pnl_per_contract": -0.0103,
+          "return_on_notional_bps": -109
         }
       },
       "paper_pnl_by_price_paid_band": {
         "80-90c": {
-          "contracts": 457.0,
-          "fees": 0.9742,
-          "fills": 32,
-          "marked": 32,
-          "notional": 388.73,
-          "paper_pnl": -5.5442,
-          "paper_pnl_per_contract": -0.0121,
-          "return_on_notional_bps": -143
+          "contracts": 174.0,
+          "fees": 0.3487,
+          "fills": 13,
+          "marked": 13,
+          "notional": 151.06,
+          "paper_pnl": -2.0287,
+          "paper_pnl_per_contract": -0.0117,
+          "return_on_notional_bps": -134
         },
         ">=90c": {
-          "contracts": 393.0,
-          "fees": 0.3831,
-          "fills": 44,
-          "marked": 44,
-          "notional": 369.49,
-          "paper_pnl": -3.7331,
-          "paper_pnl_per_contract": -0.0095,
-          "return_on_notional_bps": -101
+          "contracts": 122.0,
+          "fees": 0.1176,
+          "fills": 13,
+          "marked": 13,
+          "notional": 114.87,
+          "paper_pnl": -1.2576,
+          "paper_pnl_per_contract": -0.0103,
+          "return_on_notional_bps": -109
         }
       },
-      "proposed_orders": 107,
+      "proposed_orders": 40,
       "refused_by_reason": {
-        "not_longshot": 93
+        "capital_cap_reached": 64,
+        "not_longshot": 96
       },
       "shadow_longshot_buyer": null
     }

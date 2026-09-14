@@ -3,11 +3,11 @@
   "kind": "paper_run_record",
   "paper_only": true,
   "derived_from": [
-    "paper/runs/20260914T210830Z-1ab28363.json"
+    "paper/runs/20260914T211724Z-49146a72.json"
   ],
-  "run_id": "20260914T210830Z-1ab28363",
+  "run_id": "20260914T211724Z-49146a72",
   "mode": "fixtures",
-  "measured_at": "2026-09-14T21:08:30.686058+00:00",
+  "measured_at": "2026-09-14T21:17:24.084160+00:00",
   "completed_at": null,
   "cycle": null,
   "duration_seconds": null,

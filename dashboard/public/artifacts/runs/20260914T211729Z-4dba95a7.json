@@ -3,11 +3,11 @@
   "kind": "paper_run_record",
   "paper_only": true,
   "derived_from": [
-    "paper/runs/20260914T210836Z-06e12f52.json"
+    "paper/runs/20260914T211729Z-4dba95a7.json"
   ],
-  "run_id": "20260914T210836Z-06e12f52",
+  "run_id": "20260914T211729Z-4dba95a7",
   "mode": "network",
-  "measured_at": "2026-09-14T21:08:30.899615+00:00",
+  "measured_at": "2026-09-14T21:17:24.282897+00:00",
   "completed_at": null,
   "cycle": null,
   "duration_seconds": null,
@@ -15,14 +15,14 @@
   "pnl_source": "core.ledger.PaperLedger",
   "totals": {
     "candidates": 60,
-    "admitted": 22,
-    "rejects": 38,
-    "proposed_orders": 22,
-    "paper_fills": 14,
-    "paper_pnl": -5.04,
-    "realized_pnl": -1.55,
-    "unrealized_pnl": -3.48,
-    "fees_paid": 1.55
+    "admitted": 18,
+    "rejects": 42,
+    "proposed_orders": 18,
+    "paper_fills": 12,
+    "paper_pnl": -2.4,
+    "realized_pnl": -1.05,
+    "unrealized_pnl": -1.36,
+    "fees_paid": 1.05
   },
   "tracks": [
     {
@@ -166,58 +166,58 @@
       "track": "kalshi_longshot_fade",
       "label": "Kalshi longshot fade (taker)",
       "candidates": 15,
-      "admitted": 11,
-      "rejects": 4,
-      "proposed_orders": 11,
-      "paper_fills": 11,
+      "admitted": 9,
+      "rejects": 6,
+      "proposed_orders": 9,
+      "paper_fills": 9,
       "fill_rate": 1,
-      "edge_bps": -127,
+      "edge_bps": -78,
       "settlement_risk": false,
       "reject_reasons": {
-        "not_longshot": 4
+        "not_longshot": 6
       },
       "notes": "Taker fade of every Kalshi longshot (<=20c side) in the shared snapshot: buys the favourite at the touch, pays the taker fee, marked at mid. shadow_longshot_buyer is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
       "ledger": {
         "ledger_id": "kalshi_longshot_fade",
         "starting_cash": 1000,
-        "cash": 966.1471,
-        "equity": 995.5121,
-        "realized_pnl": -1.44,
-        "unrealized_pnl": -3.04,
-        "total_pnl": -4.49,
-        "fees_paid": 1.44,
-        "fills": 11,
-        "open_positions": 11,
-        "max_drawdown": 4.4879
+        "cash": 959.3213,
+        "equity": 997.7763,
+        "realized_pnl": -1.01,
+        "unrealized_pnl": -1.22,
+        "total_pnl": -2.22,
+        "fees_paid": 1.01,
+        "fills": 9,
+        "open_positions": 9,
+        "max_drawdown": 2.2237
       }
     },
     {
       "track": "kalshi_maker_quote",
       "label": "Kalshi maker quote (resting fade)",
       "candidates": 15,
-      "admitted": 11,
-      "rejects": 4,
-      "proposed_orders": 11,
+      "admitted": 9,
+      "rejects": 6,
+      "proposed_orders": 9,
       "paper_fills": 3,
-      "fill_rate": 0.2727,
-      "edge_bps": 68,
+      "fill_rate": 0.3333,
+      "edge_bps": 47,
       "settlement_risk": false,
       "reject_reasons": {
-        "not_longshot": 4
+        "not_longshot": 6
       },
       "notes": "Resting fade one tick inside the spread (or joining the touch). Expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks. Not a measurement of fill rates.",
       "ledger": {
         "ledger_id": "kalshi_maker_quote",
         "starting_cash": 1000,
-        "cash": 1007.4114,
-        "equity": 999.4514,
-        "realized_pnl": -0.11,
-        "unrealized_pnl": -0.44,
-        "total_pnl": -0.55,
-        "fees_paid": 0.11,
+        "cash": 1002.8264,
+        "equity": 999.8164,
+        "realized_pnl": -0.04,
+        "unrealized_pnl": -0.14,
+        "total_pnl": -0.18,
+        "fees_paid": 0.04,
         "fills": 3,
         "open_positions": 3,
-        "max_drawdown": 0.5486
+        "max_drawdown": 0.1836
       }
     }
   ]
