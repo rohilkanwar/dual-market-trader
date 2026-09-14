@@ -5,6 +5,7 @@ export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
   const f = data.findings
   const p = data.portfolio
   const xv = f?.live_network_cross_venue_candidates ?? 0
+  const gate = data.gate_report?.totals ?? f?.gated_cross_venue
   const ledger = hasLedgerPnl(data.meta) ? p : undefined
   const primary = ledger?.primary
 
@@ -23,6 +24,15 @@ export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
               <dt>Cross-venue</dt>
               <dd>{xv}</dd>
             </div>
+            {gate && (
+              <div className="mini-stat">
+                <dt>Gate admitted</dt>
+                <dd>
+                  {gate.gate_admitted}/{gate.candidates}
+                  {gate.traded > 0 ? ` · ${gate.traded} traded` : ''}
+                </dd>
+              </div>
+            )}
             {f?.fed_exact_divergences && (
               <div className="mini-stat">
                 <dt>Fed</dt>

@@ -5,6 +5,7 @@ export type MeasureMode = 'network' | 'fixtures'
 export type VenueId = 'kalshi' | 'polymarket' | string
 
 export type TrackId =
+  | 'gated_cross_venue'
   | 'gated_cross_venue_macro'
   | 'ungated_cross_venue_macro'
   | 'single_venue_fair_value'
@@ -79,12 +80,33 @@ export interface NewsUnderreactionFinding {
   note?: string
 }
 
+/**
+ * Admissibility headline of the settlement-safe `gated_cross_venue` track
+ * (schema >= 1.3.0). `gate_admitted` counts pairs that passed every gate stage;
+ * `traded` counts those that also had a fee-positive paper edge through depth.
+ * Zero is the expected state, not a failure.
+ */
+export interface GateSummary {
+  track: TrackId
+  policy: string | null
+  candidates: number
+  gate_admitted: number
+  gate_refused: number
+  priced_but_no_edge: number
+  traded: number
+  paper_fills: number
+  primary_reject_reasons: Record<string, number>
+  all_stage_reject_reasons: Record<string, number>
+  status: 'zero_admits_expected' | 'admits_present_verify_fingerprints' | string | null
+}
+
 export interface ScoreboardFindings {
   fed_exact_divergences?: DivergenceFinding
   macro_admitted_bucket_divergences?: DivergenceFinding
   live_network_cross_venue_candidates?: number
   arbai_summary?: string
   news_underreaction?: NewsUnderreactionFinding
+  gated_cross_venue?: GateSummary
 }
 
 export interface ScoreboardTotals {
@@ -228,6 +250,8 @@ export interface ScoreboardArtifact {
   top_edges?: EdgeRow[]
   portfolio?: PortfolioSummary
   charts?: ScoreboardCharts
+  /** Pointer to the per-pair gate report written alongside this run (schema >= 1.3.0). */
+  gate_report?: { file: string; totals: GateSummary }
 }
 
 /** Experiments index — built from public/artifacts by scripts/build-experiments-index.mjs */
@@ -279,11 +303,24 @@ export interface ExperimentEntry {
   tracks: ExperimentTrack[]
   /** Distinct families present in `tracks` (1.1.0+). */
   families?: TrackFamilyId[]
+  /** Admissibility headline of gated_cross_venue; null on samples and pre-1.3.0 runs. */
+  gate?: GateSummary | null
+  /** URL of the per-pair gate report when one is on disk for this run. */
+  gate_report?: string
   /** Files under public/artifacts that describe this run (deduped by run_id). */
   artifacts: string[]
   /** URL of the richest artifact for this run. */
   detail: string
   is_latest: boolean
+}
+
+export interface GateReportEntry extends GateSummary {
+  file: string
+  run_id: string | null
+  mode: string
+  measured_at: string | null
+  pairs: number
+  artifact: string
 }
 
 export interface LedgerSnapshotEntry {
@@ -353,6 +390,14 @@ export interface ExperimentsIndex {
   lanes?: LaneSummary[]
   runs: ExperimentEntry[]
   ledgers: LedgerSnapshotEntry[]
+  gate_reports?: GateReportEntry[]
+}
+
+/** "0/7 admitted" style readout; null when the run carries no gate summary. */
+export function gateLine(gate: GateSummary | null | undefined): string | null {
+  if (!gate) return null
+  const base = `gate ${gate.gate_admitted}/${gate.candidates} admitted`
+  return gate.traded > 0 ? `${base} · ${gate.traded} traded` : base
 }
 
 export const OTHER_FAMILY: TrackFamilyId = 'other'

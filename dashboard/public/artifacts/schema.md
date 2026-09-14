@@ -14,7 +14,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `schema_version` | string | Semver for this document shape (currently `1.2.0`; `1.1.0` readers remain compatible) |
+| `schema_version` | string | Semver for this document shape (currently `1.3.0`; `1.1.0`/`1.2.0` readers remain compatible) |
 | `meta` | object | Provenance, paper-only flag, timestamps |
 | `findings` | object | ArbAI / settlement research headlines |
 | `totals` | object | Aggregate KPI strip |
@@ -23,6 +23,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 | `top_edges` | EdgeRow[] | Ranked edges (filled or not) |
 | `portfolio` | object | Paper portfolio & risk summary |
 | `charts` | object | Simple series for SVG/CSS bar charts |
+| `gate_report` | `{ file, totals }` | 1.3.0: pointer to the per-pair `gate_report_<mode>.json` written with this run plus its `totals` (a `GateSummary`, below) |
 
 ## `meta`
 
@@ -51,9 +52,14 @@ Captures research headlines that explain empty cross-venue panels:
 
 - `fed_exact_divergences`: `{ observed, sample_size, label, note }` — e.g. Fed EXACT 0/3
 - `macro_admitted_bucket_divergences`: `{ observed, sample_size, label, note }` — e.g. macro 0/20
-- `live_network_cross_venue_candidates`: number (often `0`)
+- `live_network_cross_venue_candidates`: number (often `0`); from 1.3.0 this is the
+  `gated_cross_venue` candidate count (every matched pair, all categories)
 - `arbai_summary`: short educational string for empty states
 - `news_underreaction`: `{ status, signal_source, signals, mapped, unmapped, paper_fills, reaction_ratio_observed_mean, reaction_ratio_literature, literature_reference, mapping_validated: false, note }`. `status` is one of `no_signal_source`, `fixture_synthetic`, `signal_source_errors`, `signals_unmapped`, `no_signals_matched`, `operator_mapped_signals`. Present on every generated artifact; see `docs/NEWS_UNDERREACTION.md`.
+- `gated_cross_venue` (1.3.0): a `GateSummary` — `candidates`, `gate_admitted` (passed all
+  eight gate stages), `gate_refused`, `priced_but_no_edge`, `traded`, `paper_fills`,
+  `primary_reject_reasons`, `all_stage_reject_reasons`, `policy`, `status`
+  (`zero_admits_expected` | `admits_present_verify_fingerprints`)
 
 ## `totals`
 
@@ -74,7 +80,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`. Grouping: see [Track ids and families](#track-ids-and-families) |
+| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`. Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
 | `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
@@ -143,6 +149,36 @@ Ledger-backed (1.2.0) additions: `source: "ledger_aggregate"`, `starting_cash`, 
 
 `divergence_findings_status` is `not_measured_in_this_run` unless `--harvest-dir` pointed at harvested resolved markets, in which case `macro_admitted_bucket_divergences` (and `fed_exact_divergences` when Fed data exists) are computed by `research/harvest_scoreboard.py`. Counts are never defaulted.
 
+## `gate_report_<mode>.json` — per-pair admissibility (schema `1.0.0`)
+
+Written by `apps.measure_all` / the paper loop on **every** run next to the scoreboard,
+also as `gate_report_latest.json`. It is the measured artifact of the settlement-safe
+`gated_cross_venue` track and is emitted even when there are zero candidates or zero
+admits: an empty `pairs[]` with a populated `totals` block is the finding.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `kind` | `"gate_report"` | |
+| `meta` | object | `source` (`measured`/`synced`, never `sample`), `paper_only`, `mode`, `measured_at`, `run_id`, `track`, `control_track`, `policy` (name, `minimum_heuristic_confidence`, `allowed_host_tiers`, `require_same_publisher`, `expiry_tolerance_hours`), `parameters` (depth-aware sizing), `fee_model` per venue, `stage_order`, `pnl_source` |
+| `totals` | GateSummary | Same shape as `findings.gated_cross_venue`, plus `expected_locked_pnl_if_settlement_equivalent`, `ledger_total_pnl`, `vetoed_candidates` |
+| `stage_failures` | Record<stage, number> | How many pairs failed each stage (a pair can fail several) |
+| `vetoed_candidates[]` | `{ kalshi, polymarket, confidence, reason }` | Heuristic candidates the matcher refused for `period_disagrees` / `threshold_disagrees` |
+| `pairs[]` | PairVerdict[] | One per matched pair, sorted by `pair_id` |
+| `control` | object \| null | `ungated_cross_venue_macro` counts for the same snapshot: `traded`, `paper_fills`, `settlement_risk_flag`, `gate_would_have_refused_traded_pairs`, `ledger_total_pnl` (not realisable) |
+
+`pairs[]` entries: `pair_id`, `kalshi`, `polymarket` (market ids), titles, `category`,
+`admitted`, `reason` (first failure in stage order, or `admitted`), `reasons[]` (**every**
+failing stage), `checks[]` (`stage`, `passed`, `reason`, `details` for all eight stages:
+`match`, `clauses`, `fingerprint`, `polarity`, `fed_bucket`, `interval`, `hosts`, `expiry`),
+`stages_passed[]`, `stages_failed[]`, the legacy detail keys (`clause_verdict`,
+`fingerprint_relation`, `kalshi_host_tier`, `polymarket_host_tier`, `host_conflict`, …) and,
+only for admitted pairs, `edge` (depth-aware pricing: `reason`, `quantity`, `net_edge`,
+`fees_per_contract`, `paper_edge.yes_leg/no_leg` with the consumed levels).
+
+`npm run sync-artifacts` copies `gate_report_{latest,network,fixtures}.json` when present
+(never a `sample`), and the experiments index joins each report to its run by `meta.run_id`
+(`runs[].gate`, `runs[].gate_report`) and lists them under `gate_reports[]`.
+
 ## `experiments_index.json` — run history
 
 Generated by `scripts/build-experiments-index.mjs` (runs on `npm run build` via `prebuild`
@@ -165,7 +201,7 @@ Inputs, in this directory:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `schema_version` | string | `1.1.0`. Additive over `1.0.0`: `families`, `lanes`, `track.family`, `run.families`, `ledger.track/family` |
+| `schema_version` | string | `1.2.0`. Additive over `1.0.0`: `families`, `lanes`, `track.family`, `run.families`, `ledger.track/family` (1.1.0); `run.gate`, `run.gate_report`, `gate_reports[]` (1.2.0) |
 | `counts` | `{ total, measured, sample, backtest }` | `measured` = everything that is not a sample |
 | `modes` | Record<string, number> | Runs per `meta.mode` |
 | `latest_run_id` | string \| null | Run id found in `scoreboard_latest.json` |
@@ -179,8 +215,9 @@ Inputs, in this directory:
 `pnl_source`, `totals` (`candidates`, `admitted`, `rejects`, `paper_fills`, `paper_pnl`,
 `realized_pnl`, `unrealized_pnl`, `fees_paid`), `tracks[]` (`track`, `label`, `family`,
 `candidates`, `admitted`, `paper_fills`, `edge_bps`, `settlement_risk`, `paper_pnl`),
-`families[]` (distinct families in `tracks`), `artifacts[]`, `detail` (URL of the richest
-file), `is_latest`.
+`families[]` (distinct families in `tracks`), `gate` (GateSummary \| null; index schema
+1.2.0), `gate_report` (URL, when the report is on disk), `artifacts[]`, `detail` (URL of the
+richest file), `is_latest`.
 
 `families[]` entries: `id`, `label`, `description`, `lane` (pinned in the strip), `tracks[]`
 (ids seen under the family across all runs), `runs`, `measured_runs`, `sample_runs`.
@@ -230,7 +267,9 @@ with `../artifacts/paper_loop_history.jsonl` for `cycle` / `completed_at` when t
 from the paper loop. Per-fill and per-edge rows are dropped; per-track counts and the
 `PaperLedger.summary()` totals are kept, so the record stays ~2 KB. Fields: `run_id`,
 `mode`, `measured_at`, `completed_at`, `cycle`, `duration_seconds`, `primary_track`,
-`pnl_source`, `totals`, `tracks[]` (with a `ledger` block: `equity`, `realized_pnl`,
+`pnl_source`, `totals`, `gate` (GateSummary of `gated_cross_venue`, read from the track's
+own metrics so it survives the next run overwriting `gate_report_latest.json`), `tracks[]`
+(with a `ledger` block: `equity`, `realized_pnl`,
 `unrealized_pnl`, `total_pnl`, `fees_paid`, `fills`, `open_positions`, `max_drawdown`, and
 `family` when the manifest row declared one), `derived_from[]`, plus `label`, `venues`,
 `venue_focus`, `kalshi_env`, `track_family` copied from the run manifest. `primary_track` is
