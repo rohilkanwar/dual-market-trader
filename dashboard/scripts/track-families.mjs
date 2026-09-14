@@ -58,6 +58,12 @@ export const FAMILIES = [
     description: 'News / underreaction residual (signal mapping not validated)',
   },
   {
+    id: 'tennis_copy',
+    label: 'Tennis copy',
+    lane: false,
+    description: 'Polymarket tennis whale copy at 30 s / 2 min / 10 min lags (tape replay)',
+  },
+  {
     id: 'other',
     label: 'Other',
     lane: false,
@@ -81,6 +87,9 @@ export const KNOWN_TRACKS = {
   polymarket_combinatorial_arb: 'negrisk',
   kalshi_longshot_fade: 'kalshi_flb',
   kalshi_maker_quote: 'kalshi_flb',
+  tennis_whale_copy_30s: 'tennis_copy',
+  tennis_whale_copy_2m: 'tennis_copy',
+  tennis_whale_copy_10m: 'tennis_copy',
 }
 
 const tokensOf = (id) =>
@@ -106,6 +115,7 @@ export function familyOf(trackOrId) {
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
   if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'
+  if (any('tennis') || has('whale', 'copy')) return 'tennis_copy'
   const crossVenue = any('xv') || has('cross', 'venue') || joined.includes('crossvenue')
   if (crossVenue) {
     if (tokens.has('ungated')) return 'xv_ungated'
