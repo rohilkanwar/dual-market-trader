@@ -13,6 +13,20 @@ export type TrackId =
   | 'news_underreaction'
   | string
 
+/**
+ * Strategy lane a track belongs to. Assigned by scripts/track-families.mjs when
+ * the experiments index is built; the UI never classifies ids itself.
+ */
+export type TrackFamilyId =
+  | 'negrisk'
+  | 'kalshi_flb'
+  | 'xv_gated'
+  | 'xv_ungated'
+  | 'cross_venue'
+  | 'single_venue'
+  | 'other'
+  | string
+
 export interface DivergenceFinding {
   observed: number
   sample_size: number
@@ -218,6 +232,8 @@ export type ExperimentKind = 'paper_run' | 'sample' | 'backtest'
 export interface ExperimentTrack {
   track: TrackId
   label: string
+  /** Absent on 1.0.0 indexes; treat as `other`. */
+  family?: TrackFamilyId
   candidates: number
   admitted: number
   paper_fills: number
@@ -255,6 +271,8 @@ export interface ExperimentEntry {
   note: string | null
   totals: ExperimentTotals
   tracks: ExperimentTrack[]
+  /** Distinct families present in `tracks` (1.1.0+). */
+  families?: TrackFamilyId[]
   /** Files under public/artifacts that describe this run (deduped by run_id). */
   artifacts: string[]
   /** URL of the richest artifact for this run. */
@@ -264,6 +282,9 @@ export interface ExperimentEntry {
 
 export interface LedgerSnapshotEntry {
   ledger_id: string
+  /** Track the ledger belongs to (ledger files are one per track). 1.1.0+. */
+  track?: TrackId
+  family?: TrackFamilyId
   updated_at: string | null
   mark_method: string | null
   fills: number
@@ -275,6 +296,43 @@ export interface LedgerSnapshotEntry {
   artifact: string
 }
 
+export interface TrackFamilySummary {
+  id: TrackFamilyId
+  label: string
+  description: string | null
+  /** Pinned in the lanes strip even when no run has measured it yet. */
+  lane: boolean
+  /** Track ids seen under this family across every indexed run. */
+  tracks: TrackId[]
+  runs: number
+  measured_runs: number
+  sample_runs: number
+}
+
+export type LaneStatus = 'measured' | 'sample_only' | 'missing'
+
+/**
+ * Newest measured run that carries at least one track of the family, reduced
+ * to those tracks. Numbers are null unless status is `measured`, and PnL is
+ * null unless that run was ledger-backed.
+ */
+export interface LaneSummary {
+  family: TrackFamilyId
+  label: string
+  description: string | null
+  status: LaneStatus
+  run_id: string | null
+  measured_at: string | null
+  mode: string | null
+  pnl_source: string | null
+  tracks: TrackId[]
+  candidates: number | null
+  admitted: number | null
+  paper_fills: number | null
+  paper_pnl: number | null
+  detail: string | null
+}
+
 export interface ExperimentsIndex {
   schema_version: string
   generated_at?: string
@@ -283,8 +341,18 @@ export interface ExperimentsIndex {
   counts: { total: number; measured: number; sample: number; backtest: number }
   modes: Record<string, number>
   latest_run_id: string | null
+  /** 1.1.0+: every registered family, including those with no runs yet. */
+  families?: TrackFamilySummary[]
+  /** 1.1.0+: pinned lanes (NegRisk / Kalshi FLB / XV gated). */
+  lanes?: LaneSummary[]
   runs: ExperimentEntry[]
   ledgers: LedgerSnapshotEntry[]
+}
+
+export const OTHER_FAMILY: TrackFamilyId = 'other'
+
+export function trackFamily(t: ExperimentTrack): TrackFamilyId {
+  return t.family ?? OTHER_FAMILY
 }
 
 export type TabId =

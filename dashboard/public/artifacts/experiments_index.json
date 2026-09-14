@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-14T20:51:59.263Z",
-  "schema_version": "1.0.0",
+  "generated_at": "2026-09-14T20:56:18.654Z",
+  "schema_version": "1.1.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
@@ -14,6 +14,151 @@
     "network": 2
   },
   "latest_run_id": "20260914T185905Z-432d7071",
+  "families": [
+    {
+      "id": "negrisk",
+      "label": "NegRisk",
+      "description": "Polymarket NegRisk / combinatorial",
+      "lane": true,
+      "tracks": [],
+      "runs": 0,
+      "measured_runs": 0,
+      "sample_runs": 0
+    },
+    {
+      "id": "kalshi_flb",
+      "label": "Kalshi FLB",
+      "description": "Kalshi maker / FLB",
+      "lane": true,
+      "tracks": [],
+      "runs": 0,
+      "measured_runs": 0,
+      "sample_runs": 0
+    },
+    {
+      "id": "xv_gated",
+      "label": "XV gated",
+      "description": "Cross-venue pairs that passed the settlement gate",
+      "lane": true,
+      "tracks": [
+        "gated_cross_venue_macro",
+        "small_deliberate_bet"
+      ],
+      "runs": 3,
+      "measured_runs": 2,
+      "sample_runs": 1
+    },
+    {
+      "id": "xv_ungated",
+      "label": "XV ungated",
+      "description": "Cross-venue pairs traded without the settlement gate (measurement only)",
+      "lane": false,
+      "tracks": [
+        "sports_cross_venue",
+        "ungated_cross_venue_macro"
+      ],
+      "runs": 3,
+      "measured_runs": 2,
+      "sample_runs": 1
+    },
+    {
+      "id": "cross_venue",
+      "label": "Cross-venue",
+      "description": "Cross-venue tracks that do not state whether they are gated",
+      "lane": false,
+      "tracks": [],
+      "runs": 0,
+      "measured_runs": 0,
+      "sample_runs": 0
+    },
+    {
+      "id": "single_venue",
+      "label": "Single venue",
+      "description": "Single-venue fair value",
+      "lane": false,
+      "tracks": [
+        "single_venue_fair_value"
+      ],
+      "runs": 3,
+      "measured_runs": 2,
+      "sample_runs": 1
+    },
+    {
+      "id": "news",
+      "label": "News",
+      "description": "News / underreaction residual (signal mapping not validated)",
+      "lane": false,
+      "tracks": [
+        "news_underreaction"
+      ],
+      "runs": 1,
+      "measured_runs": 1,
+      "sample_runs": 0
+    },
+    {
+      "id": "other",
+      "label": "Other",
+      "description": "Tracks not matched to a family",
+      "lane": false,
+      "tracks": [],
+      "runs": 0,
+      "measured_runs": 0,
+      "sample_runs": 0
+    }
+  ],
+  "lanes": [
+    {
+      "family": "negrisk",
+      "label": "NegRisk",
+      "description": "Polymarket NegRisk / combinatorial",
+      "status": "missing",
+      "run_id": null,
+      "measured_at": null,
+      "mode": null,
+      "pnl_source": null,
+      "tracks": [],
+      "candidates": null,
+      "admitted": null,
+      "paper_fills": null,
+      "paper_pnl": null,
+      "detail": null
+    },
+    {
+      "family": "kalshi_flb",
+      "label": "Kalshi FLB",
+      "description": "Kalshi maker / FLB",
+      "status": "missing",
+      "run_id": null,
+      "measured_at": null,
+      "mode": null,
+      "pnl_source": null,
+      "tracks": [],
+      "candidates": null,
+      "admitted": null,
+      "paper_fills": null,
+      "paper_pnl": null,
+      "detail": null
+    },
+    {
+      "family": "xv_gated",
+      "label": "XV gated",
+      "description": "Cross-venue pairs that passed the settlement gate",
+      "status": "measured",
+      "run_id": "20260914T205159Z-e67169b1",
+      "measured_at": "2026-09-14T20:51:59.060916+00:00",
+      "mode": "fixtures",
+      "pnl_source": "core.ledger.PaperLedger",
+      "tracks": [
+        "gated_cross_venue_macro",
+        "small_deliberate_bet"
+      ],
+      "candidates": 4,
+      "admitted": 2,
+      "paper_fills": 4,
+      "paper_pnl": -0.68,
+      "detail": "/artifacts/scoreboard_fixtures.json"
+    }
+  ],
   "runs": [
     {
       "run_id": "20260914T205159Z-e67169b1",
@@ -47,6 +192,7 @@
         {
           "track": "gated_cross_venue_macro",
           "label": "Gated cross-venue macro",
+          "family": "xv_gated",
           "candidates": 2,
           "admitted": 1,
           "paper_fills": 2,
@@ -57,6 +203,7 @@
         {
           "track": "ungated_cross_venue_macro",
           "label": "Ungated cross-venue macro",
+          "family": "xv_ungated",
           "candidates": 2,
           "admitted": 2,
           "paper_fills": 4,
@@ -67,6 +214,7 @@
         {
           "track": "single_venue_fair_value",
           "label": "Single-venue fair value",
+          "family": "single_venue",
           "candidates": 6,
           "admitted": 4,
           "paper_fills": 4,
@@ -77,6 +225,7 @@
         {
           "track": "sports_cross_venue",
           "label": "Sports cross-venue",
+          "family": "xv_ungated",
           "candidates": 1,
           "admitted": 1,
           "paper_fills": 2,
@@ -87,6 +236,7 @@
         {
           "track": "small_deliberate_bet",
           "label": "Small deliberate bet",
+          "family": "xv_gated",
           "candidates": 2,
           "admitted": 1,
           "paper_fills": 2,
@@ -97,6 +247,7 @@
         {
           "track": "news_underreaction",
           "label": "News underreaction",
+          "family": "news",
           "candidates": 8,
           "admitted": 3,
           "paper_fills": 3,
@@ -110,6 +261,12 @@
         "runs/20260914T205159Z-e67169b1.json"
       ],
       "detail": "/artifacts/scoreboard_fixtures.json",
+      "families": [
+        "news",
+        "single_venue",
+        "xv_gated",
+        "xv_ungated"
+      ],
       "is_latest": false
     },
     {
@@ -144,6 +301,7 @@
         {
           "track": "gated_cross_venue_macro",
           "label": "Gated cross-venue macro",
+          "family": "xv_gated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -154,6 +312,7 @@
         {
           "track": "ungated_cross_venue_macro",
           "label": "Ungated cross-venue macro",
+          "family": "xv_ungated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -164,6 +323,7 @@
         {
           "track": "single_venue_fair_value",
           "label": "Single-venue fair value",
+          "family": "single_venue",
           "candidates": 30,
           "admitted": 0,
           "paper_fills": 0,
@@ -174,6 +334,7 @@
         {
           "track": "sports_cross_venue",
           "label": "Sports cross-venue",
+          "family": "xv_ungated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -184,6 +345,7 @@
         {
           "track": "small_deliberate_bet",
           "label": "Small deliberate bet",
+          "family": "xv_gated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -197,6 +359,11 @@
         "scoreboard_latest.json"
       ],
       "detail": "/artifacts/scoreboard_network.json",
+      "families": [
+        "single_venue",
+        "xv_gated",
+        "xv_ungated"
+      ],
       "is_latest": true
     },
     {
@@ -231,6 +398,7 @@
         {
           "track": "gated_cross_venue_macro",
           "label": "Gated cross-venue macro",
+          "family": "xv_gated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -241,6 +409,7 @@
         {
           "track": "ungated_cross_venue_macro",
           "label": "Ungated cross-venue macro",
+          "family": "xv_ungated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -251,6 +420,7 @@
         {
           "track": "single_venue_fair_value",
           "label": "Single-venue fair value",
+          "family": "single_venue",
           "candidates": 50,
           "admitted": 10,
           "paper_fills": 9,
@@ -261,6 +431,7 @@
         {
           "track": "sports_cross_venue",
           "label": "Sports cross-venue",
+          "family": "xv_ungated",
           "candidates": 0,
           "admitted": 0,
           "paper_fills": 0,
@@ -271,6 +442,7 @@
         {
           "track": "small_deliberate_bet",
           "label": "Small deliberate bet",
+          "family": "xv_gated",
           "candidates": 2,
           "admitted": 1,
           "paper_fills": 1,
@@ -283,12 +455,19 @@
         "scoreboard_sample.json"
       ],
       "detail": "/artifacts/scoreboard_sample.json",
+      "families": [
+        "single_venue",
+        "xv_gated",
+        "xv_ungated"
+      ],
       "is_latest": false
     }
   ],
   "ledgers": [
     {
       "ledger_id": "single_venue_fair_value",
+      "track": "single_venue_fair_value",
+      "family": "single_venue",
       "updated_at": "2026-09-14T18:59:05.008502+00:00",
       "mark_method": "mid",
       "fills": 0,

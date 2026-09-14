@@ -10,6 +10,7 @@
     "build-experiments-index": "node scripts/build-experiments-index.mjs",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "test": "node --test scripts/*.test.mjs",
     "sync-artifacts": "node scripts/sync-artifacts.mjs"
   },
   "dependencies": {

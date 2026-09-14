@@ -1,8 +1,11 @@
 // Copy ledger-backed runtime artifacts from ../artifacts into public/artifacts.
 //
-// Only files that parse as JSON and carry meta/tracks/totals are copied, and a
-// file whose meta.source is "sample" is never copied: generated artifacts are
-// always "measured"/"synced", and committed samples stay hand-written.
+// Candidates are discovered: every scoreboard_*.json in ../artifacts, every
+// paper/ledger_*.json (one per track, so new tracks from parallel branches
+// appear without editing this file) and paper_loop_latest.json. Only files that
+// parse as JSON and carry meta/tracks/totals are copied, and a file whose
+// meta.source is "sample" is never copied: generated artifacts are always
+// "measured"/"synced", and committed samples stay hand-written.
 //
 // Every run manifest under ../artifacts/paper/runs/ is also reduced to a compact
 // record in public/artifacts/runs/<run_id>.json (counts and ledger totals per
@@ -19,18 +22,36 @@ const repoRoot = resolve(dashboardRoot, '..')
 const runtimeRoot = process.env.ARTIFACT_DIR
   ? resolve(process.env.ARTIFACT_DIR)
   : join(repoRoot, 'artifacts')
-const publicRoot = join(dashboardRoot, 'public', 'artifacts')
+// PUBLIC_ARTIFACT_DIR exists for tests; deploys always publish into public/artifacts.
+const publicRoot = process.env.PUBLIC_ARTIFACT_DIR
+  ? resolve(process.env.PUBLIC_ARTIFACT_DIR)
+  : join(dashboardRoot, 'public', 'artifacts')
 // Newest run records kept in the public tree; an always-on paper loop writes one per cycle.
 const MAX_RUN_RECORDS = Number(process.env.MAX_RUN_RECORDS ?? 200)
 const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 
-const CANDIDATES = [
-  'scoreboard_latest.json',
-  'scoreboard_network.json',
-  'scoreboard_fixtures.json',
-  'paper_loop_latest.json',
-  'paper/ledger_single_venue_fair_value.json',
-]
+// Discovered rather than listed: a sister branch that writes scoreboard_<mode>.json
+// for a new mode, or paper/ledger_<track>.json for a new track, is picked up with
+// no change here. Validation below still decides what is publishable.
+async function listCandidates() {
+  const names = new Set(['paper_loop_latest.json'])
+  for (const file of await safeReaddir(runtimeRoot)) {
+    if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
+  }
+  for (const file of await safeReaddir(join(runtimeRoot, 'paper'))) {
+    if (/^ledger_.*\.json$/.test(file)) names.add(`paper/${file}`)
+  }
+  return [...names].sort()
+}
+
+async function safeReaddir(dir) {
+  try {
+    return await readdir(dir)
+  } catch (error) {
+    if (error?.code === 'ENOENT') return []
+    throw error
+  }
+}
 
 function isScoreboard(doc) {
   return Boolean(doc?.meta) && Array.isArray(doc?.tracks) && Boolean(doc?.totals)
@@ -38,7 +59,7 @@ function isScoreboard(doc) {
 
 await mkdir(publicRoot, { recursive: true })
 const copied = {}
-for (const relative of CANDIDATES) {
+for (const relative of await listCandidates()) {
   const source = join(runtimeRoot, relative)
   let doc
   try {
@@ -54,6 +75,10 @@ for (const relative of CANDIDATES) {
   }
   if (isBoard && doc.meta.source === 'sample') {
     console.warn(`skip ${relative}: refusing to publish meta.source=sample as a runtime artifact`)
+    continue
+  }
+  if (isBoard && doc.meta.paper_only === false) {
+    console.warn(`skip ${relative}: refusing to publish a scoreboard that is not paper_only`)
     continue
   }
   if (relative.startsWith('paper/') && doc.paper_only !== true) {
@@ -135,9 +160,13 @@ async function loadLoopCycles() {
 
 function compactTrack(track) {
   const ledger = track.ledger ?? {}
+  // A track may declare its lane; the index builder falls back to keyword
+  // matching on the id when it does not (see track-families.mjs).
+  const family = track.family ?? track.metrics?.family ?? track.metrics?.track_family
   return {
     track: track.track,
     label: track.label ?? track.track,
+    ...(typeof family === 'string' ? { family } : {}),
     candidates: num(track.candidates) ?? 0,
     admitted: num(track.admitted) ?? 0,
     rejects: num(track.rejects) ?? 0,
@@ -165,7 +194,11 @@ function compactTrack(track) {
 }
 
 function compactRunRecord(file, manifest, cycle) {
-  const tracks = (manifest.tracks ?? []).map(compactTrack)
+  const rows = (manifest.tracks ?? []).filter((t) => typeof t?.track === 'string' && t.track.length > 0)
+  if (rows.length !== (manifest.tracks ?? []).length) {
+    console.warn(`paper/runs/${file}: dropped ${(manifest.tracks ?? []).length - rows.length} track row(s) without an id`)
+  }
+  const tracks = rows.map(compactTrack)
   const ledgerBacked = tracks.length > 0 && tracks.every((t) => t.ledger.ledger_id)
   const derived = [`paper/runs/${file}`]
   if (cycle) derived.push('paper_loop_history.jsonl')
@@ -180,7 +213,7 @@ function compactRunRecord(file, manifest, cycle) {
     completed_at: cycle?.completed_at ?? null,
     cycle: cycle?.cycle ?? null,
     duration_seconds: num(cycle?.duration_seconds),
-    primary_track: cycle?.primary_track ?? 'single_venue_fair_value',
+    primary_track: manifest.primary_track ?? cycle?.primary_track ?? 'single_venue_fair_value',
     pnl_source: ledgerBacked ? LEDGER_PNL_SOURCE : null,
     totals: {
       candidates: sum(tracks, (t) => t.candidates),
