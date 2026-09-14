@@ -11,9 +11,16 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from apps.measure_all import json_default, to_jsonable, write_json
+from apps.measure_all import (
+    json_default,
+    load_ledgers,
+    persist_run,
+    to_jsonable,
+    write_json,
+)
 from core.config import require_paper_only
-from research.scoreboard import TrackSummary, measure_all
+from research.scoreboard import PRIMARY_TRACK, TRACKS, TrackSummary, measure_all_with_ledgers
+from strategies.edge import load_priors
 
 
 LOGGER = logging.getLogger("paper_loop")
@@ -30,10 +37,14 @@ def _append_json_line(path: Path, value: Any) -> None:
 
 
 def _track_log(summary: TrackSummary) -> dict[str, Any]:
+    ledger = summary.ledger or {}
     return {
         "candidates": summary.candidates,
         "admitted": summary.admitted,
         "fills": summary.paper_fills,
+        "realized_pnl": str(ledger.get("realized_pnl", "0")),
+        "unrealized_pnl": str(ledger.get("unrealized_pnl", "0")),
+        "equity": str(ledger.get("equity", "0")),
     }
 
 
@@ -43,30 +54,63 @@ async def run_cycle(
     artifact_dir: Path,
     cycle: int,
     limit: int = 25,
+    persist_ledgers: bool = True,
+    priors_path: Path | None = None,
+    kalshi_env: str | None = None,
 ) -> dict[str, Any]:
-    """Run all isolated paper tracks once and persist one cycle snapshot."""
+    """Run all isolated paper tracks once and persist one cycle snapshot.
+
+    Ledgers are loaded from ``artifact_dir/paper/`` before the cycle and saved
+    after it, so realized/unrealized PnL, cash and drawdown carry across cycles.
+    """
     require_paper_only("Paper loop")
     started_at = _now()
     started = time.monotonic()
-    summaries = await measure_all(
+    ledgers = load_ledgers(artifact_dir, TRACKS) if persist_ledgers else {}
+    priors = load_priors(priors_path) if priors_path else None
+    summaries, ledgers_by_track = await measure_all_with_ledgers(
         use_fixtures=not use_network,
         limit=limit,
+        ledgers=ledgers,
+        priors=priors,
+        kalshi_env=kalshi_env,
+        cycle_label=f"cycle:{cycle}",
     )
     completed_at = _now()
+    mode = "network" if use_network else "fixtures"
+    artifact = await asyncio.to_thread(
+        persist_run,
+        summaries,
+        ledgers_by_track if persist_ledgers else {},
+        artifact_dir=artifact_dir,
+        mode=mode,
+        measured_at=completed_at,
+        limit=limit,
+        kalshi_env=kalshi_env,
+        cycle=cycle,
+    )
+    primary = next((s for s in summaries if s.track == PRIMARY_TRACK), None)
     payload = {
         "paper_only": True,
-        "primary_track": "single_venue_fair_value",
-        "mode": "network" if use_network else "fixtures",
+        "primary_track": PRIMARY_TRACK,
+        "mode": mode,
         "cycle": cycle,
         "started_at": started_at,
         "completed_at": completed_at,
         "duration_seconds": round(time.monotonic() - started, 6),
+        "run_id": artifact["meta"]["run_id"],
         "tracks": to_jsonable([summary.as_dict() for summary in summaries]),
         "totals": {
             "candidates": sum(summary.candidates for summary in summaries),
             "admitted": sum(summary.admitted for summary in summaries),
             "paper_fills": sum(summary.paper_fills for summary in summaries),
+            "paper_pnl": to_jsonable(artifact["totals"]["paper_pnl"]),
+            "realized_pnl": to_jsonable(artifact["totals"]["realized_pnl"]),
+            "unrealized_pnl": to_jsonable(artifact["totals"]["unrealized_pnl"]),
+            "fees_paid": to_jsonable(artifact["totals"]["fees_paid"]),
         },
+        "primary_ledger": to_jsonable(primary.ledger) if primary else {},
+        "ledgers_persisted": persist_ledgers,
     }
     await asyncio.to_thread(write_json, artifact_dir / "paper_loop_latest.json", payload)
     await asyncio.to_thread(
@@ -82,12 +126,24 @@ async def run_cycle(
                 "mode": payload["mode"],
                 "cycle": cycle,
                 "duration_seconds": payload["duration_seconds"],
+                "totals": payload["totals"],
                 "tracks": {summary.track: _track_log(summary) for summary in summaries},
             },
             sort_keys=True,
         )
     )
     return payload
+
+
+def _next_cycle_number(artifact_dir: Path) -> int:
+    """Continue numbering from the persisted history so cycles stay monotonic."""
+    latest = artifact_dir / "paper_loop_latest.json"
+    if not latest.exists():
+        return 0
+    try:
+        return int(json.loads(latest.read_text()).get("cycle", 0))
+    except (ValueError, json.JSONDecodeError):
+        return 0
 
 
 async def run_loop(
@@ -97,12 +153,15 @@ async def run_loop(
     interval_seconds: float = 300,
     once: bool = False,
     limit: int = 25,
+    persist_ledgers: bool = True,
+    priors_path: Path | None = None,
+    kalshi_env: str | None = None,
 ) -> dict[str, Any] | None:
     """Run cycles forever, or exactly once for tests and scheduled invocations."""
     require_paper_only("Paper loop")
     if interval_seconds <= 0:
         raise ValueError("interval_seconds must be greater than zero")
-    cycle = 0
+    cycle = _next_cycle_number(artifact_dir) if persist_ledgers else 0
     latest: dict[str, Any] | None = None
     while True:
         cycle += 1
@@ -112,6 +171,9 @@ async def run_loop(
                 artifact_dir=artifact_dir,
                 cycle=cycle,
                 limit=limit,
+                persist_ledgers=persist_ledgers,
+                priors_path=priors_path,
+                kalshi_env=kalshi_env,
             )
         except asyncio.CancelledError:
             raise
@@ -145,8 +207,19 @@ def main() -> None:
     parser.add_argument("--once", action="store_true")
     parser.add_argument("--limit", type=int, default=25)
     parser.add_argument("--artifact-dir", type=Path, default=Path("artifacts"))
+    parser.add_argument(
+        "--no-persist",
+        action="store_true",
+        help="fresh ledgers every cycle (default carries ledgers in artifact-dir/paper/)",
+    )
+    parser.add_argument("--priors", type=Path, default=None, help="JSON {market_id: probability}")
+    parser.add_argument("--kalshi-env", choices=("demo", "prod"), default=None)
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
+    # Third-party INFO logs (httpx request lines) would break the one-JSON-line
+    # contract on stderr that the tests and schedulers rely on.
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
     require_paper_only("Paper loop")
     try:
         asyncio.run(
@@ -156,6 +229,9 @@ def main() -> None:
                 interval_seconds=args.interval_seconds,
                 once=args.once,
                 limit=max(1, args.limit),
+                persist_ledgers=not args.no_persist,
+                priors_path=args.priors,
+                kalshi_env=args.kalshi_env,
             )
         )
     except KeyboardInterrupt:

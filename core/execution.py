@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from core.ledger import PaperLedger
 from core.observability import EventSink, Metrics, NullMetrics
 from core.portfolio import Portfolio
 from core.risk import RiskManager, RiskViolation
@@ -18,13 +19,19 @@ class ExecutionEngine:
         self,
         *,
         risk: RiskManager,
-        portfolio: Portfolio,
+        portfolio: Portfolio | None = None,
         events: EventSink,
         metrics: Metrics | None = None,
         live_enabled: bool = False,
+        ledger: PaperLedger | None = None,
     ) -> None:
+        if ledger is not None and portfolio is not None and ledger.portfolio is not portfolio:
+            raise ValueError("ledger and portfolio must share the same position book")
+        if ledger is None and portfolio is None:
+            portfolio = Portfolio()
         self.risk = risk
-        self.portfolio = portfolio
+        self.ledger = ledger
+        self.portfolio = ledger.portfolio if ledger is not None else portfolio  # type: ignore[assignment]
         self.events = events
         self.metrics = metrics or NullMetrics()
         self.live_enabled = live_enabled
@@ -60,7 +67,10 @@ class ExecutionEngine:
         for fill in report.fills:
             previous = self.portfolio.get(fill.venue, fill.market_id)
             old_realized = previous.realized_pnl if previous else ZERO
-            current = self.portfolio.apply_fill(fill)
+            if self.ledger is not None:
+                current = self.ledger.record_fill(fill)
+            else:
+                current = self.portfolio.apply_fill(fill)
             self.risk.record_realized_pnl(current.realized_pnl - old_realized)
             self.events.emit("fill", fill=fill, paper=client.paper)
             self.metrics.increment("fills.total", **tags)

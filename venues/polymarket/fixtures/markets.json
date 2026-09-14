@@ -1,3 +1,9 @@
+{
+  "markets": [
+    {
+      "market_id": "0xfixture-fed-september",
+      "title": "Will the Fed cut rates in September?",
+      "volume": "402000",
       "liquidity": "61000",
       "yes_token_id": "100000000000000000001",
       "no_token_id": "100000000000000000002",
@@ -23,6 +29,8 @@
     },
     {
       "market_id": "0xfixture-cpi-august",
+      "title": "Will August CPI come in above 3.0%?",
+      "volume": "158000",
       "liquidity": "33400",
       "yes_token_id": "200000000000000000001",
       "no_token_id": "200000000000000000002",
@@ -63,6 +71,8 @@
     }
   ],
   "order_books": {
+    "0xfixture-fed-september": {
+      "bids": [["0.41", "20"], ["0.40", "400"]],
       "asks": [["0.43", "16"], ["0.44", "440"]]
     },
     "0xfixture-cpi-august": {

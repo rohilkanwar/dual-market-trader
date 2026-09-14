@@ -1,3 +1,7 @@
+{
+  "markets": [
+    {
+      "market_id": "KX-FED-SEP-CUT",
       "title": "Will the Fed cut rates at the September meeting?",
       "volume": "185000",
       "liquidity": "42000",
@@ -60,6 +64,10 @@
     }
   ],
   "order_books": {
+    "KX-FED-SEP-CUT": {
+      "bids": [["0.52", "120"], ["0.51", "200"]],
+      "asks": [["0.54", "110"], ["0.55", "180"]]
+    },
     "KX-CPI-AUG-OVER3": {
       "bids": [["0.31", "150"], ["0.30", "300"]],
       "asks": [["0.34", "175"], ["0.35", "290"]]

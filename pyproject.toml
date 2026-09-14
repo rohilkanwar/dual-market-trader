@@ -1,3 +1,27 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dual-market-trader"
+version = "0.2.0"
+description = "Paper-only Kalshi/Polymarket measurement scaffold with a mark-to-market paper ledger"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+api = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
+dev = [
+    "fastapi>=0.110",
+    "pytest>=8",
+    "pytest-asyncio>=0.23",
+    "uvicorn>=0.29",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -5,3 +29,10 @@ include = ["apps*", "core*", "research*", "settlement*", "strategies*", "venues*
 
 [tool.setuptools.package-data]
 venues = ["**/*.json"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
