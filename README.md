@@ -16,7 +16,12 @@ has been validated.
 `gated_cross_venue` is the clause-matched, settlement-safe cross-venue track:
 a pair is priced only after passing eight fail-closed gate stages, and the
 per-pair verdicts are written to `gate_report_<mode>.json` on every run
-(`docs/RUNBOOK_gated_cross_venue.md`).
+(`docs/RUNBOOK_gated_cross_venue.md`). `tennis_basis` is a separate,
+pre-registered measurement track: Kalshi/Polymarket tennis match-winner mids vs.
+a **free** public consensus line (The Odds API free tier, Pinnacle-first), gap
+closure by match start, with a mandatory retirement/walkover settlement filter
+(`docs/TENNIS_BASIS.md`; the live gap distribution is UNKNOWN until an operator
+supplies a free API key).
 
 ## Quick start
 
@@ -33,6 +38,10 @@ uv run python -m apps.measure_all --network --limit 15 --kalshi-env prod --artif
 
 # Only the Polymarket arbitrage tracks (top 40 events by liquidity, public Gamma/CLOB reads)
 uv run python -m apps.measure_polymarket_arb --network --limit 40 --artifact-dir artifacts
+
+# Tennis basis vs. free public odds: fixture replay, then a public network cycle
+uv run python -m apps.measure_tennis_basis --artifact-dir artifacts
+ODDS_API_KEY=... uv run python -m apps.measure_tennis_basis --network --kalshi-env prod --artifact-dir artifacts
 ```
 
 `TRADING_MODE=paper` and `ENABLE_LIVE_TRADING=false` are the defaults. Every
@@ -47,6 +56,7 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/gate_report_<fixtures\|network>.json`, `gate_report_latest.json` | Per-pair admissibility verdicts of `gated_cross_venue` (every stage, every reason, depth-aware edge for admitted pairs); emitted even with zero candidates |
 | `artifacts/scoreboard_polymarket_arb.json` | Arb-only board from `apps.measure_polymarket_arb` (`meta.track_family=polymarket_arb`); does not replace `scoreboard_latest.json` |
 | `artifacts/polymarket_arb_latest.json` | Full arb opportunity report: per-group sums, fee/slippage per set, mirror statistics, conversions, holdings |
+| `artifacts/scoreboard_tennis_basis.json`, `tennis_basis_latest.json`, `tennis_basis/register.json` | Tennis-basis board (`meta.track_family=tennis_basis`), full report (pre-registered rule, verdict, per-market reasons, gap records) and the persistent gap register from `apps.measure_tennis_basis` |
 | `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
@@ -177,6 +187,31 @@ The archive is aggregated L2 at poll instants: **no order ids, queue position,
 cancels or intra-poll changes (no L3 / FIFO)**. `docs/BOOK_LOGGER.md` covers
 scheduling (tmux / systemd / cron), storage, the record schema and the full
 list of what is not captured.
+### Tennis basis vs. free public odds (separate track family)
+
+`tennis_basis` measures whether a Kalshi (`KXATPMATCH`/`KXWTAMATCH`) or
+Polymarket (tag 864 moneyline) tennis mid that sits ≥ 3¢ away from a free public
+consensus line moves back toward it before the match starts, paper-leaning
+toward the sharp side meanwhile and unwinding at the last pre-start mid.
+Pre-registered pass: ≥ 60 % of gaps close ≥ 50 % with n ≥ 30 settlement-
+confirmed records. The outside line is **The Odds API free tier** (500
+credits/month, key by e-mail, Pinnacle in the `eu` region, else the median of
+≥ 2 books); no paid vendor and no scraping. Markets whose rules do not state
+retirement → advancing player and walkover → fair price / 50-50 are refused, ITF
+is refused, and matches that settle as walkover / cancellation / 50-50 / fair
+price (or are reported retired) are excluded after the fact.
+
+```bash
+uv run python -m apps.measure_tennis_basis                                   # fixture replay: 5 gaps, every branch
+uv run python -m apps.measure_tennis_basis --network --kalshi-env prod       # no key: honest empty, network UNKNOWN
+ODDS_API_KEY=... uv run python -m apps.measure_tennis_basis --network --kalshi-env prod --max-credits 6
+```
+
+Run it repeatedly (every few hours, same `--artifact-dir`): gaps open, are
+observed, close at the start and are confirmed after settlement. Set
+`ODDS_API_KEY` in `.env` (see `.env.example`). `docs/TENNIS_BASIS.md` records
+what is validated (arithmetic, filters, ledger, live venue capture) and what is
+not (the live gap distribution, the bookmaker vs. venue settlement basis).
 
 ### Other entry points
 
@@ -185,6 +220,7 @@ uv run python -m apps.measure_all --help            # one-shot measurement, all 
 uv run python -m apps.book_logger --help            # self-log public books/trades to artifacts/books (see docs/BOOK_LOGGER.md)
 uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only (see docs/POLYMARKET_ARB.md)
 uv run python -m apps.measure_flb --help            # Kalshi FLB tracks + ex-post band table (see docs/FLB_RUNBOOK.md)
+uv run python -m apps.measure_tennis_basis --help   # tennis basis vs. free odds (see docs/TENNIS_BASIS.md)
 uv run python -m apps.paper_runner --strategy both  # strategy runner with logging event sink
 uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges
@@ -334,13 +370,13 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker)
+strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict)
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
 research/      scoreboard (12 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
-               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns)
-apps/          measure_all, measure_polymarket_arb, measure_flb, paper_loop, paper_runner, dashboard_api
+               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources
+apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit
 ```
 
 ### Tracks
@@ -357,6 +393,7 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 | `polymarket_rebalancing_arb` | depth-aware, fee + slippage, mirror check | binary YES+NO merge / split; quiet on the live CLOB (books are mirrors) |
 | `polymarket_negrisk_arb` | NegRisk only, fee + slippage, capital cap | buy-all-NO + `NegRiskAdapter` conversion (executable, no lockup) |
 | `polymarket_combinatorial_arb` | exclusive + non-augmented only | buy-all-YES held to resolution; locked capital reported |
+| `tennis_basis` (own CLI) | settlement-basis filter (retirement/walkover/ITF), one outside event per market, ≥ 2 books or Pinnacle, two-sided mid, pre-start only | venue tennis mid vs. free consensus line; gap closure by start, pre-registered pass rule; `scoreboard_tennis_basis.json` + `tennis_basis_latest.json` |
 
 | `kalshi_longshot_fade` | longshot side < 20¢, $25/$75/$75 paper caps, taker fee | taker fade of Kalshi longshots; shadow longshot buyer as benchmark |
 | `kalshi_maker_quote` | same trigger, resting order, expected-value fills, maker fee, conservative marks | maker fade of Kalshi longshots |

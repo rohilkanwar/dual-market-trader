@@ -92,6 +92,8 @@ TRACK_LABELS = {
     "tennis_whale_copy_30s": "Tennis whale copy (30 s lag)",
     "tennis_whale_copy_2m": "Tennis whale copy (2 min lag)",
     "tennis_whale_copy_10m": "Tennis whale copy (10 min lag)",
+    # Separate family with its own CLI (apps.measure_tennis_basis); not part of TRACKS.
+    "tennis_basis": "Tennis cross-platform basis (free odds)",
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {

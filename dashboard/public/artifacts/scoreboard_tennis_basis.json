@@ -1,0 +1,386 @@
+{
+  "charts": {
+    "candidates_by_track": [
+      {
+        "track": "tennis_basis",
+        "value": 78
+      }
+    ],
+    "fills_by_track": [
+      {
+        "track": "tennis_basis",
+        "value": 0
+      }
+    ],
+    "pnl_by_track": [
+      {
+        "track": "tennis_basis",
+        "value": 0.0
+      }
+    ],
+    "venue_fills": [
+      {
+        "value": 0,
+        "venue": "kalshi"
+      },
+      {
+        "value": 0,
+        "venue": "polymarket"
+      }
+    ]
+  },
+  "findings": {
+    "arbai_summary": "Cross-venue macro settlement rules frequently diverge (clause, fingerprint or host mismatch). The gated track refuses those pairs; single-venue fair value is the primary paper track and carries no cross-venue settlement exposure.",
+    "divergence_findings_status": "not_measured_in_this_run",
+    "live_network_cross_venue_candidates": 0
+  },
+  "meta": {
+    "cycle": null,
+    "generated_at": "2026-09-14T23:15:51.809894+00:00",
+    "kalshi_env": "prod",
+    "label": "MEASURED / NETWORK / TENNIS BASIS",
+    "markets_per_venue": 60,
+    "measured_at": "2026-09-14T23:15:48.162970+00:00",
+    "mode": "network",
+    "paper_only": true,
+    "pnl_source": "core.ledger.PaperLedger",
+    "primary_track": "tennis_basis",
+    "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
+    "run_id": "20260914T231551Z-0640791f",
+    "source": "measured",
+    "track_family": "tennis_basis",
+    "venue_focus": "cross",
+    "venues": [
+      "kalshi",
+      "polymarket"
+    ]
+  },
+  "portfolio": {
+    "by_track": {
+      "tennis_basis": {
+        "cash": 1000.0,
+        "equity": 1000.0,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "max_drawdown": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 0.0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.0,
+        "unrealized_pnl": 0.0
+      }
+    },
+    "cash": 1000.0,
+    "concentration": [],
+    "equity": 1000.0,
+    "fees_paid": 0.0,
+    "gross_notional": 0.0,
+    "max_drawdown": 0.0,
+    "net_exposure": 0.0,
+    "open_positions": 0,
+    "paper_only": true,
+    "primary": {
+      "cash": 1000.0,
+      "concentration": [],
+      "created_at": "2026-09-14T23:15:51.803442+00:00",
+      "equity": 1000.0,
+      "equity_points": 1,
+      "fees_paid": 0.0,
+      "fills": 0,
+      "gross_notional": 0.0,
+      "ledger_id": "tennis_basis",
+      "mark_method": "mid",
+      "max_drawdown": 0.0,
+      "net_exposure": 0.0,
+      "open_positions": 0,
+      "paper_only": true,
+      "peak_equity": 1000.0,
+      "position_value": 0.0,
+      "positions": [],
+      "realized_pnl": 0.0,
+      "return_pct": 0.0,
+      "settlement_fills": 0,
+      "starting_cash": 1000.0,
+      "total_pnl": 0.0,
+      "unmarked_positions": 0,
+      "unrealized_pnl": 0.0,
+      "updated_at": "2026-09-14T23:15:51.808854+00:00"
+    },
+    "primary_track": "tennis_basis",
+    "realized_pnl": 0.0,
+    "risk_flags": [
+      "zero_paper_fills_this_run",
+      "pnl_from_ledger_not_placeholder"
+    ],
+    "settlement_risk_pairs": 0,
+    "source": "ledger_aggregate",
+    "starting_cash": 1000.0,
+    "total_pnl": 0.0,
+    "unrealized_pnl": 0.0
+  },
+  "schema_version": "1.3.0",
+  "top_edges": [],
+  "top_fills": [],
+  "totals": {
+    "admitted": 0,
+    "avg_edge_bps": null,
+    "candidates": 78,
+    "fees_paid": 0.0,
+    "fill_rate": null,
+    "paper_fills": 0,
+    "paper_pnl": 0.0,
+    "proposed_orders": 0,
+    "realized_pnl": 0.0,
+    "rejects": 78,
+    "settlement_risk_pairs": 0,
+    "unrealized_pnl": 0.0
+  },
+  "tracks": [
+    {
+      "admitted": 0,
+      "candidates": 78,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": null,
+      "label": "Tennis cross-platform basis (free odds)",
+      "ledger": {
+        "cash": 1000.0,
+        "concentration": [],
+        "created_at": "2026-09-14T23:15:51.803442+00:00",
+        "equity": 1000.0,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "ledger_id": "tennis_basis",
+        "mark_method": "mid",
+        "max_drawdown": 0.0,
+        "net_exposure": 0.0,
+        "open_positions": 0,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 0.0,
+        "positions": [],
+        "realized_pnl": 0.0,
+        "return_pct": 0.0,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.0,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.0,
+        "updated_at": "2026-09-14T23:15:51.808854+00:00"
+      },
+      "metrics": {
+        "as_of": "2026-09-14T23:15:48.162978+00:00",
+        "bookmaker_basis": {
+          "note": "Bookmaker match-winner odds are quoted on a 'match completed' basis: walkovers void the bet and most books (Pinnacle among them) void on retirement. Venue contracts pay the advancing player on retirement and settle walkovers at a fair price (Kalshi) or 50-50 (Polymarket). The outside line is therefore P(win | completed); the venue mid prices P(advances). The difference is bounded by the retirement/withdrawal rate and is NOT modelled here.",
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "by_venue": {
+          "kalshi": {
+            "closed_at_start": 0,
+            "confirmed": {
+              "closed_half": 0,
+              "excluded_settlement_mismatch": 0,
+              "n": 0,
+              "open_records": 0,
+              "overshoots": 0,
+              "pending_settlement_check": 0,
+              "pre_registered": {
+                "closure_target": 0.5,
+                "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+                "final_observation": "last observation strictly before the scheduled start",
+                "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+                "gap_threshold": 0.03,
+                "min_sample": 30,
+                "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+                "pass_rate": 0.6,
+                "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+              },
+              "rate": null,
+              "status": "insufficient_sample",
+              "wilson_95": null
+            },
+            "open": 0
+          },
+          "polymarket": {
+            "closed_at_start": 0,
+            "confirmed": {
+              "closed_half": 0,
+              "excluded_settlement_mismatch": 0,
+              "n": 0,
+              "open_records": 0,
+              "overshoots": 0,
+              "pending_settlement_check": 0,
+              "pre_registered": {
+                "closure_target": 0.5,
+                "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+                "final_observation": "last observation strictly before the scheduled start",
+                "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+                "gap_threshold": 0.03,
+                "min_sample": 30,
+                "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+                "pass_rate": 0.6,
+                "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+              },
+              "rate": null,
+              "status": "insufficient_sample",
+              "wilson_95": null
+            },
+            "open": 0
+          }
+        },
+        "equity_point": {
+          "drawdown": 0.0,
+          "equity": 1000.0,
+          "total_pnl": 0.0
+        },
+        "events": {
+          "fill": 0,
+          "order_acknowledged": 0,
+          "order_rejected": 0,
+          "order_submitted": 0
+        },
+        "free_source": {
+          "cost_model": "1 credit per market per region per call; GET /v4/sports is free",
+          "plan": "Starter (free): 500 credits/month, API key by e-mail sign-up, no payment details",
+          "provider": "The Odds API (the-odds-api.com)",
+          "sharp_book": "pinnacle (eu region; odds from Pinnacle's public website, may be delayed)",
+          "terms": "https://the-odds-api.com/liveapi/guides/v4/ ; personal / non-commercial use on the free plan"
+        },
+        "gaps_closed": 0,
+        "gaps_observed": 0,
+        "gaps_opened": 0,
+        "markets_by_venue": {
+          "kalshi": 48,
+          "polymarket": 30
+        },
+        "measurements": {
+          "count": 78,
+          "detail": "tennis_basis_latest.json"
+        },
+        "network_status": "UNKNOWN: no free outside line configured in this run; set ODDS_API_KEY (The Odds API free tier) or pass --odds-file. Fixture replays prove the arithmetic only.",
+        "outside_source": {
+          "credits_used": 0,
+          "errors": [],
+          "events": 0,
+          "fetched_at": "2026-09-14T23:15:51.803415+00:00",
+          "note": "no outside line source configured; set ODDS_API_KEY or pass --odds-file",
+          "requests_remaining": null,
+          "source": "none",
+          "sport_keys": []
+        },
+        "parameters": {
+          "closure_target": 0.5,
+          "gap_threshold": 0.03,
+          "match_window_hours": 48.0,
+          "max_quote_age_seconds": 3600.0,
+          "maximum_order_size": 10.0,
+          "min_books": 2,
+          "min_sample": 30,
+          "minimum_edge": 0.0,
+          "pass_rate": 0.6,
+          "sharp_books": [
+            "pinnacle"
+          ]
+        },
+        "records": {
+          "count": 0,
+          "detail": "tennis_basis_latest.json"
+        },
+        "register": {
+          "closed_at_start": 0,
+          "no_pre_start_observation": 0,
+          "open": 0,
+          "records": 0,
+          "settlement_checks_this_run": {
+            "checked": 0,
+            "confirmed": 0,
+            "excluded": 0,
+            "lookup_errors": 0,
+            "pending": 0
+          },
+          "settlement_confirmed": 0,
+          "settlement_excluded": 0,
+          "settlement_pending": 0
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "groups": 0,
+            "markets": 48,
+            "source": "network"
+          },
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 30,
+            "source": "network"
+          }
+        },
+        "status": "no_outside_source",
+        "venue_pnl": {},
+        "verdict": {
+          "closed_half": 0,
+          "excluded_settlement_mismatch": 0,
+          "n": 0,
+          "open_records": 0,
+          "overshoots": 0,
+          "pending_settlement_check": 0,
+          "pre_registered": {
+            "closure_target": 0.5,
+            "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+            "final_observation": "last observation strictly before the scheduled start",
+            "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+            "gap_threshold": 0.03,
+            "min_sample": 30,
+            "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+            "pass_rate": 0.6,
+            "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+          },
+          "rate": null,
+          "status": "insufficient_sample",
+          "wilson_95": null
+        },
+        "verdict_provisional_including_pending": {
+          "closed_half": 0,
+          "excluded_settlement_mismatch": 0,
+          "n": 0,
+          "open_records": 0,
+          "overshoots": 0,
+          "pending_settlement_check": 0,
+          "pre_registered": {
+            "closure_target": 0.5,
+            "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+            "final_observation": "last observation strictly before the scheduled start",
+            "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+            "gap_threshold": 0.03,
+            "min_sample": 30,
+            "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+            "pass_rate": 0.6,
+            "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+          },
+          "rate": null,
+          "status": "insufficient_sample",
+          "wilson_95": null
+        }
+      },
+      "notes": "Venue mid vs. a free public consensus line (The Odds API free tier; Pinnacle when quoted, else the median of >=2 books, multiplicatively de-vigged). |gap| >= 3c opens a record and a paper lean toward the line; records close on the last observation before the scheduled start and the position is unwound at that mid. Pre-registered pass: >= 60% of gaps close >= 50% (n >= 30). Mandatory settlement filter: unreadable / ITF / mismatched retirement-walkover clauses are refused before pricing, and a match that settles as a walkover, cancellation, 50-50 or fair price (or is reported retired) is excluded after the fact. The bookmaker line is P(win | completed); venues price P(advances); that basis difference is documented, not modelled.",
+      "paper_fills": 0,
+      "proposed_orders": 0,
+      "refused_by_reason": {
+        "no_outside_match": 78
+      },
+      "reject_reasons": {
+        "no_outside_match": 78
+      },
+      "rejects": 78,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "tennis_basis"
+    }
+  ]
+}

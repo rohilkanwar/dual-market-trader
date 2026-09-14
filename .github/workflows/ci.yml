@@ -57,6 +57,28 @@ jobs:
           assert r["rebalancing"]["mirror_consistent"] == 13, r["rebalancing"]
           print("negrisk conversions", len(r["negrisk"]["conversions"]), "paper_pnl", a["totals"]["paper_pnl"])
           EOF
+      - name: Tennis basis track - fixture replay proves the pre-registered math and the settlement filter
+        run: |
+          uv run python -m apps.measure_tennis_basis --no-persist --artifact-dir artifacts
+          uv run python - <<'EOF'
+          import json
+          a = json.load(open("artifacts/scoreboard_tennis_basis.json"))
+          assert a["meta"]["source"] == "measured" and a["meta"]["track_family"] == "tennis_basis", a["meta"]
+          assert a["meta"]["pnl_source"] == "core.ledger.PaperLedger"
+          r = json.load(open("artifacts/tennis_basis_latest.json"))
+          assert r["paper_only"] is True and r["status"] == "fixture_synthetic", r["status"]
+          v = r["verdict"]
+          assert v["pre_registered"]["min_sample"] == 30 and str(v["pre_registered"]["pass_rate"]) in ("0.6", "0.60")
+          assert v["n"] == 2 and v["closed_half"] == 2 and v["status"] == "insufficient_sample", v
+          assert v["excluded_settlement_mismatch"] == 2 and v["pending_settlement_check"] == 1, v
+          assert r["register"]["closed_at_start"] == 5 and r["register"]["open"] == 0, r["register"]
+          for rec in r["records"]:
+              assert rec["settlement_basis"]["reason"] == "admitted", rec["record_id"]
+              if rec["status"] == "closed_at_start":
+                  assert rec["observations"][-1]["pre_start"] is False or rec["observations"][-1]["method"] == "market_missing"
+          assert r["not_validated"], "report must list what is not validated"
+          print("tennis basis ok:", r["refused_by_reason"], "verdict", v["status"])
+          EOF
       - name: Gate report is emitted and the gated track never ordered on a refused pair
         run: |
           uv run python - <<'EOF'

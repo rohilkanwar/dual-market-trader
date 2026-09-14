@@ -93,6 +93,8 @@ test('familyOf: known ids, keyword heuristics, declared family, fallback', () =>
   assert.equal(familyOf('polymarket_tennis_copy'), 'tennis_copy')
   assert.equal(familyOf('whale_copy_nba'), 'tennis_copy')
   assert.equal(familyOf({ track: 'mystery', metrics: { family: 'tennis_copy' } }), 'tennis_copy')
+  assert.equal(familyOf('tennis_basis'), 'tennis_basis')
+  assert.equal(familyOf('tennis_basis_polymarket_only'), 'tennis_basis')
   assert.equal(familyOf('something_entirely_new'), 'other')
 
   assert.equal(familyOf({ track: 'mystery', family: 'negrisk' }), 'negrisk')

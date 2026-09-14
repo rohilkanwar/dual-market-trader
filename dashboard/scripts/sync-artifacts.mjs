@@ -35,8 +35,15 @@ const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 // no change here. Validation below still decides what is publishable.
 async function listCandidates() {
   // flb_report_latest.json is the Kalshi FLB report written by apps.measure_flb;
-  // tennis_whale_report_latest.json the tennis whale copy report from apps.measure_tennis_whale.
-  const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json', 'flb_report_latest.json', 'tennis_whale_report_latest.json'])
+  // tennis_whale_report_latest.json the tennis whale copy report from apps.measure_tennis_whale;
+  // tennis_basis_latest.json the tennis basis report from apps.measure_tennis_basis.
+  const names = new Set([
+    'paper_loop_latest.json',
+    'polymarket_arb_latest.json',
+    'flb_report_latest.json',
+    'tennis_whale_report_latest.json',
+    'tennis_basis_latest.json',
+  ])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
     if (/^gate_report_.*\.json$/.test(file)) names.add(file)
@@ -99,8 +106,11 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: ledger is not marked paper_only`)
     continue
   }
-  if (relative === 'polymarket_arb_latest.json' && (doc.paper_only !== true || doc.source !== 'measured')) {
-    console.warn(`skip ${relative}: opportunity report must be paper_only and measured`)
+  if (
+    (relative === 'polymarket_arb_latest.json' || relative === 'tennis_basis_latest.json') &&
+    (doc.paper_only !== true || doc.source !== 'measured')
+  ) {
+    console.warn(`skip ${relative}: report must be paper_only and measured`)
     continue
   }
   const isFlbReport = relative === 'flb_report_latest.json'
@@ -124,7 +134,8 @@ for (const relative of await listCandidates()) {
   await copyFile(source, target)
   copied[relative] = {
     target: target.replace(`${dashboardRoot}/`, ''),
-    source: doc.meta?.source ?? (isHeadlineReport ? 'measured' : doc.paper_only ? 'ledger' : 'unknown'),
+    // Reports carry source/measured_at at top level (polymarket_arb / tennis_basis) or are headline reports.
+    source: doc.meta?.source ?? doc.source ?? (isHeadlineReport ? 'measured' : doc.paper_only ? 'ledger' : 'unknown'),
     measured_at: doc.meta?.measured_at ?? doc.measured_at ?? doc.completed_at ?? doc.updated_at ?? null,
     paper_pnl: doc.totals?.paper_pnl ?? null,
     ...(isHeadlineReport ? { headline: doc.headline ?? null } : {}),
