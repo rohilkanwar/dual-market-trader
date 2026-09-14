@@ -618,7 +618,7 @@ async def test_exploding_source_does_not_take_the_scoreboard_down() -> None:
     spec = next(s for s in summaries if s.track == SPECIALIST_TRACK)
     assert spec.candidates == 0 and spec.metrics["status"] == "source_errors"
     assert "RuntimeError" in spec.metrics["source"]["errors"][0]
-    assert len(summaries) == len(TRACKS) == 11
+    assert len(summaries) == len(TRACKS) == 13
 
 
 async def test_persist_run_writes_specialist_report_and_follow_state(tmp_path: Path) -> None:

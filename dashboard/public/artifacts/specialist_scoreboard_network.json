@@ -1,16 +1,16 @@
 {
   "categories": {
     "american_football": {
-      "open_bets": 60,
+      "open_bets": 62,
       "promoted": 1,
-      "resolved_bets": 244,
+      "resolved_bets": 243,
       "scored": 5,
       "traders": 14
     },
     "baseball": {
-      "open_bets": 104,
+      "open_bets": 105,
       "promoted": 0,
-      "resolved_bets": 452,
+      "resolved_bets": 451,
       "scored": 10,
       "traders": 17
     },
@@ -29,9 +29,9 @@
       "traders": 1
     },
     "crypto": {
-      "open_bets": 33,
+      "open_bets": 37,
       "promoted": 0,
-      "resolved_bets": 543,
+      "resolved_bets": 541,
       "scored": 4,
       "traders": 8
     },
@@ -45,7 +45,7 @@
     "esports": {
       "open_bets": 5,
       "promoted": 0,
-      "resolved_bets": 328,
+      "resolved_bets": 329,
       "scored": 6,
       "traders": 12
     },
@@ -78,30 +78,30 @@
       "traders": 1
     },
     "other": {
-      "open_bets": 54,
+      "open_bets": 51,
       "promoted": 0,
       "resolved_bets": 76,
       "scored": 0,
       "traders": 13
     },
     "politics": {
-      "open_bets": 69,
+      "open_bets": 65,
       "promoted": 0,
       "resolved_bets": 17,
       "scored": 1,
       "traders": 5
     },
     "soccer": {
-      "open_bets": 303,
+      "open_bets": 302,
       "promoted": 0,
-      "resolved_bets": 1843,
+      "resolved_bets": 1882,
       "scored": 19,
       "traders": 20
     },
     "tennis": {
-      "open_bets": 33,
+      "open_bets": 38,
       "promoted": 1,
-      "resolved_bets": 392,
+      "resolved_bets": 391,
       "scored": 12,
       "traders": 17
     },
@@ -257,7 +257,7 @@
   ],
   "follow_attempts_by_reason": {
     "out_of_category": 11,
-    "trader_not_promoted": 730
+    "trader_not_promoted": 734
   },
   "follow_log": [],
   "follow_log_other_modes": 0,
@@ -266,7 +266,7 @@
   "ledger": {
     "cash": 1000.0,
     "concentration": [],
-    "created_at": "2026-09-14T23:19:57.709920+00:00",
+    "created_at": "2026-09-14T23:30:13.571903+00:00",
     "equity": 1000.0,
     "equity_points": 1,
     "fees_paid": 0.0,
@@ -288,23 +288,23 @@
     "total_pnl": 0.0,
     "unmarked_positions": 0,
     "unrealized_pnl": 0.0,
-    "updated_at": "2026-09-14T23:20:08.048145+00:00"
+    "updated_at": "2026-09-14T23:30:27.428385+00:00"
   },
   "meta": {
     "data_source": {
-      "as_of": "2026-09-14T23:19:57.718513+00:00",
-      "bets": 4695,
+      "as_of": "2026-09-14T23:30:13.585285+00:00",
+      "bets": 4734,
       "errors": [],
-      "fetched_at": "2026-09-14T23:19:57.718520+00:00",
+      "fetched_at": "2026-09-14T23:30:13.585293+00:00",
       "name": "polymarket_data_api",
       "note": "top 25 wallets by month volume from GET /v2/leaderboard; resolved bets from GET /closed-positions (curPrice in {0,1}); open bets from GET /positions. Public, no credentials.",
-      "open_bets": 741,
+      "open_bets": 745,
       "requests": 76,
-      "resolved_bets": 3954,
+      "resolved_bets": 3989,
       "traders": 25
     },
-    "generated_at": "2026-09-14T23:20:08.057368+00:00",
-    "measured_at": "2026-09-14T23:19:52.844777+00:00",
+    "generated_at": "2026-09-14T23:30:27.438946+00:00",
+    "measured_at": "2026-09-14T23:30:08.244995+00:00",
     "mode": "network",
     "oracle": {
       "errors": [],
@@ -312,7 +312,7 @@
     },
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
-    "run_id": "20260914T232008Z-1bfd4d1f",
+    "run_id": "20260914T233027Z-f33c4c98",
     "source": "measured",
     "status": "specialists_without_admissible_next_bets",
     "track": "category_specialist",
@@ -381,7 +381,7 @@
       "roi": 0.2497,
       "scored_in_category": 5,
       "specialization": 0.0097,
-      "total_resolved": 47,
+      "total_resolved": 46,
       "trader": "0x4f29e103339919c4baaea2a60195cf1c8bb27a7e",
       "window_from": "2026-09-14T01:44:27+00:00",
       "window_to": "2026-09-14T05:29:45+00:00",
@@ -410,7 +410,7 @@
       "total_resolved": 57,
       "trader": "0x224a89dbe0db0d6124b335edabd15b3f877da3d5",
       "window_from": "2026-09-14T01:44:27+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 11
     },
     {
@@ -420,7 +420,7 @@
       "hit_rate": 0.4,
       "mid_proxy_bets": 20,
       "notional": 1096894.8123,
-      "open_bets": 2,
+      "open_bets": 3,
       "pnl": -274571.4082,
       "promoted": false,
       "rank": 3,
@@ -436,7 +436,7 @@
       "total_resolved": 37,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
       "window_from": "2026-09-13T22:12:40+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 8
     },
     {
@@ -462,7 +462,7 @@
       "total_resolved": 10,
       "trader": "0x5268527977f700f9bf9b6d5cd843859e4e70135d",
       "window_from": "2026-09-14T01:44:25+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 2
     },
     {
@@ -487,8 +487,8 @@
       "specialization": 0.2517,
       "total_resolved": 78,
       "trader": "0x3dfb153c197d4c19d3b31c1ecd2c7b6860eeabaf",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -624,7 +624,7 @@
       "hit_rate": null,
       "mid_proxy_bets": 0,
       "notional": 0.0,
-      "open_bets": 15,
+      "open_bets": 16,
       "pnl": 0.0,
       "promoted": false,
       "rank": null,
@@ -713,8 +713,8 @@
       "specialization": 0.0318,
       "total_resolved": 3,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -743,14 +743,14 @@
       "wins": 9
     },
     {
-      "brier_skill": -0.1067,
+      "brier_skill": -0.1156,
       "category": "baseball",
       "eligible": false,
-      "hit_rate": 0.4737,
-      "mid_proxy_bets": 19,
-      "notional": 135383.9544,
+      "hit_rate": 0.45,
+      "mid_proxy_bets": 20,
+      "notional": 135926.1743,
       "open_bets": 0,
-      "pnl": -76803.9108,
+      "pnl": -74360.753,
       "promoted": false,
       "rank": 2,
       "reasons": [
@@ -758,14 +758,14 @@
         "negative_brier",
         "below_top_decile"
       ],
-      "resolved_bets": 19,
-      "roi": -0.5673,
+      "resolved_bets": 20,
+      "roi": -0.5471,
       "scored_in_category": 10,
-      "specialization": 0.1111,
-      "total_resolved": 19,
+      "specialization": 0.1115,
+      "total_resolved": 20,
       "trader": "0x32b484581fc5606de9c1e43af4636b6be9bc8b21",
-      "window_from": "2026-09-13T21:10:36+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-13T20:49:58+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 9
     },
     {
@@ -791,7 +791,7 @@
       "total_resolved": 15,
       "trader": "0x6d20c35f65d9899b6d6b74f8466e824580f9a165",
       "window_from": "2026-08-20T22:20:21+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 4
     },
     {
@@ -817,7 +817,7 @@
       "total_resolved": 29,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
       "window_from": "2026-09-14T00:02:55+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 2
     },
     {
@@ -842,8 +842,8 @@
       "specialization": 0.1693,
       "total_resolved": 23,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -866,10 +866,10 @@
       "roi": -1.0,
       "scored_in_category": 10,
       "specialization": 0.4903,
-      "total_resolved": 100,
+      "total_resolved": 98,
       "trader": "0x5268527977f700f9bf9b6d5cd843859e4e70135d",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -894,8 +894,8 @@
       "specialization": 0.231,
       "total_resolved": 14,
       "trader": "0xcd30f4698c6f5f3829893e68e183a8e5ea18f316",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -920,8 +920,8 @@
       "specialization": 0.3487,
       "total_resolved": 98,
       "trader": "0x3dfb153c197d4c19d3b31c1ecd2c7b6860eeabaf",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -946,8 +946,8 @@
       "specialization": 0.1551,
       "total_resolved": 51,
       "trader": "0x224a89dbe0db0d6124b335edabd15b3f877da3d5",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -972,8 +972,8 @@
       "specialization": 0.19,
       "total_resolved": 72,
       "trader": "0x4f29e103339919c4baaea2a60195cf1c8bb27a7e",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -983,7 +983,7 @@
       "hit_rate": 0.6667,
       "mid_proxy_bets": 3,
       "notional": 232.7487,
-      "open_bets": 17,
+      "open_bets": 18,
       "pnl": 98.6693,
       "promoted": false,
       "rank": null,
@@ -1009,7 +1009,7 @@
       "hit_rate": 1.0,
       "mid_proxy_bets": 1,
       "notional": 15.2608,
-      "open_bets": 20,
+      "open_bets": 19,
       "pnl": 13.0,
       "promoted": false,
       "rank": null,
@@ -1020,7 +1020,7 @@
       "resolved_bets": 1,
       "roi": 0.8519,
       "scored_in_category": 0,
-      "specialization": 0.0043,
+      "specialization": 0.0044,
       "total_resolved": 1,
       "trader": "0x6d3c5bd13984b2de47c3a88ddc455309aab3d294",
       "window_from": "2026-09-14T23:08:25+00:00",
@@ -1034,7 +1034,7 @@
       "hit_rate": null,
       "mid_proxy_bets": 0,
       "notional": 0.0,
-      "open_bets": 1,
+      "open_bets": 2,
       "pnl": 0.0,
       "promoted": false,
       "rank": null,
@@ -1059,7 +1059,7 @@
       "hit_rate": null,
       "mid_proxy_bets": 0,
       "notional": 0.0,
-      "open_bets": 1,
+      "open_bets": 2,
       "pnl": 0.0,
       "promoted": false,
       "rank": null,
@@ -1084,7 +1084,7 @@
       "hit_rate": 0.0,
       "mid_proxy_bets": 2,
       "notional": 19767.7329,
-      "open_bets": 38,
+      "open_bets": 37,
       "pnl": -19767.7329,
       "promoted": false,
       "rank": null,
@@ -1099,8 +1099,8 @@
       "specialization": 0.2306,
       "total_resolved": 2,
       "trader": "0xdc41c39b95453c943174f369926018f6963bdd7e",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1153,7 +1153,7 @@
       "total_resolved": 4,
       "trader": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
       "window_from": "2026-08-26T01:52:03+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 2
     },
     {
@@ -1178,8 +1178,8 @@
       "specialization": 0.0054,
       "total_resolved": 1,
       "trader": "0x224a89dbe0db0d6124b335edabd15b3f877da3d5",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1204,8 +1204,8 @@
       "specialization": 0.0033,
       "total_resolved": 3,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1227,11 +1227,11 @@
       "resolved_bets": 2,
       "roi": -1.0,
       "scored_in_category": 0,
-      "specialization": 0.0272,
+      "specialization": 0.0271,
       "total_resolved": 2,
       "trader": "0x32b484581fc5606de9c1e43af4636b6be9bc8b21",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1256,8 +1256,8 @@
       "specialization": 0.0147,
       "total_resolved": 2,
       "trader": "0x5268527977f700f9bf9b6d5cd843859e4e70135d",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1358,8 +1358,8 @@
       "specialization": 0.0245,
       "total_resolved": 2,
       "trader": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1384,8 +1384,8 @@
       "specialization": 0.0636,
       "total_resolved": 8,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1414,14 +1414,14 @@
       "wins": 0
     },
     {
-      "brier_skill": -0.1149,
+      "brier_skill": -0.1096,
       "category": "crypto",
       "eligible": false,
       "hit_rate": 0.5,
       "mid_proxy_bets": 20,
-      "notional": 6048.8869,
-      "open_bets": 4,
-      "pnl": -639.9605,
+      "notional": 6262.412,
+      "open_bets": 5,
+      "pnl": -531.3187,
       "promoted": false,
       "rank": 1,
       "reasons": [
@@ -1429,24 +1429,24 @@
         "negative_brier"
       ],
       "resolved_bets": 20,
-      "roi": -0.1058,
+      "roi": -0.0848,
       "scored_in_category": 4,
       "specialization": 1.0,
-      "total_resolved": 104,
+      "total_resolved": 100,
       "trader": "0x0cb038487586d1119b165466072e9baf666f3a90",
-      "window_from": "2026-09-14T22:45:09+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T22:50:10+00:00",
+      "window_to": "2026-09-14T23:20:12+00:00",
       "wins": 10
     },
     {
-      "brier_skill": -0.1517,
+      "brier_skill": -0.1185,
       "category": "crypto",
       "eligible": false,
-      "hit_rate": 0.35,
+      "hit_rate": 0.4,
       "mid_proxy_bets": 20,
-      "notional": 1205.6921,
+      "notional": 1705.8366,
       "open_bets": 8,
-      "pnl": -1142.3452,
+      "pnl": -700.5436,
       "promoted": false,
       "rank": 2,
       "reasons": [
@@ -1455,14 +1455,14 @@
         "below_top_decile"
       ],
       "resolved_bets": 20,
-      "roi": -0.9475,
+      "roi": -0.4107,
       "scored_in_category": 4,
-      "specialization": 0.0221,
-      "total_resolved": 26,
+      "specialization": 0.0316,
+      "total_resolved": 30,
       "trader": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882",
-      "window_from": "2026-09-14T22:18:21+00:00",
-      "window_to": "2026-09-14T23:07:24+00:00",
-      "wins": 7
+      "window_from": "2026-09-14T22:46:21+00:00",
+      "window_to": "2026-09-14T23:17:49+00:00",
+      "wins": 8
     },
     {
       "brier_skill": -0.2832,
@@ -1484,10 +1484,10 @@
       "roi": -1.0,
       "scored_in_category": 4,
       "specialization": 0.3084,
-      "total_resolved": 174,
+      "total_resolved": 175,
       "trader": "0xeebde7a0e019a63e6b476eb425505b7b3e6eba30",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1497,7 +1497,7 @@
       "hit_rate": 0.0,
       "mid_proxy_bets": 20,
       "notional": 11007.3473,
-      "open_bets": 1,
+      "open_bets": 4,
       "pnl": -11007.3473,
       "promoted": false,
       "rank": 4,
@@ -1510,10 +1510,10 @@
       "roi": -1.0,
       "scored_in_category": 4,
       "specialization": 1.0,
-      "total_resolved": 199,
+      "total_resolved": 194,
       "trader": "0xb27bc932bf8110d8f78e55da7d5f0497a18b5b82",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1563,8 +1563,8 @@
       "specialization": 0.0092,
       "total_resolved": 2,
       "trader": "0x32b484581fc5606de9c1e43af4636b6be9bc8b21",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1593,14 +1593,14 @@
       "wins": 3
     },
     {
-      "brier_skill": -0.1192,
+      "brier_skill": -0.1298,
       "category": "crypto",
       "eligible": false,
       "hit_rate": 0.4,
       "mid_proxy_bets": 20,
-      "notional": 195.6698,
+      "notional": 186.7947,
       "open_bets": 15,
-      "pnl": -78.4176,
+      "pnl": -17.3511,
       "promoted": false,
       "rank": null,
       "reasons": [
@@ -1609,13 +1609,13 @@
         "negative_brier"
       ],
       "resolved_bets": 20,
-      "roi": -0.4008,
+      "roi": -0.0929,
       "scored_in_category": 0,
-      "specialization": 0.0167,
-      "total_resolved": 29,
+      "specialization": 0.0168,
+      "total_resolved": 31,
       "trader": "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6",
-      "window_from": "2026-09-14T22:34:27+00:00",
-      "window_to": "2026-09-14T23:16:51+00:00",
+      "window_from": "2026-09-14T22:46:21+00:00",
+      "window_to": "2026-09-14T23:28:24+00:00",
       "wins": 8
     },
     {
@@ -1644,31 +1644,6 @@
       "wins": 0
     },
     {
-      "brier_skill": -0.0634,
-      "category": "esports",
-      "eligible": false,
-      "hit_rate": 0.5455,
-      "mid_proxy_bets": 11,
-      "notional": 5822.4424,
-      "open_bets": 1,
-      "pnl": -1072.9423,
-      "promoted": false,
-      "rank": 1,
-      "reasons": [
-        "negative_roi",
-        "negative_brier"
-      ],
-      "resolved_bets": 11,
-      "roi": -0.1843,
-      "scored_in_category": 6,
-      "specialization": 0.1065,
-      "total_resolved": 11,
-      "trader": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882",
-      "window_from": "2026-09-14T22:09:04+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
-      "wins": 6
-    },
-    {
       "brier_skill": -0.0941,
       "category": "esports",
       "eligible": false,
@@ -1678,11 +1653,10 @@
       "open_bets": 1,
       "pnl": -679.9616,
       "promoted": false,
-      "rank": 2,
+      "rank": 1,
       "reasons": [
         "negative_roi",
-        "negative_brier",
-        "below_top_decile"
+        "negative_brier"
       ],
       "resolved_bets": 10,
       "roi": -0.2632,
@@ -1693,6 +1667,32 @@
       "window_from": "2026-09-14T21:22:22+00:00",
       "window_to": "2026-09-14T23:15:03+00:00",
       "wins": 4
+    },
+    {
+      "brier_skill": -0.0763,
+      "category": "esports",
+      "eligible": false,
+      "hit_rate": 0.5455,
+      "mid_proxy_bets": 11,
+      "notional": 5213.9324,
+      "open_bets": 1,
+      "pnl": -1973.3015,
+      "promoted": false,
+      "rank": 2,
+      "reasons": [
+        "negative_roi",
+        "negative_brier",
+        "below_top_decile"
+      ],
+      "resolved_bets": 11,
+      "roi": -0.3785,
+      "scored_in_category": 6,
+      "specialization": 0.0965,
+      "total_resolved": 11,
+      "trader": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882",
+      "window_from": "2026-09-14T22:16:51+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
+      "wins": 6
     },
     {
       "brier_skill": -0.0874,
@@ -1717,18 +1717,18 @@
       "total_resolved": 75,
       "trader": "0x6d20c35f65d9899b6d6b74f8466e824580f9a165",
       "window_from": "2026-08-24T00:40:25+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 8
     },
     {
-      "brier_skill": -0.1763,
+      "brier_skill": -0.1612,
       "category": "esports",
       "eligible": false,
       "hit_rate": 0.3333,
       "mid_proxy_bets": 12,
-      "notional": 4675.1137,
+      "notional": 4107.6672,
       "open_bets": 0,
-      "pnl": -3172.3087,
+      "pnl": -2623.356,
       "promoted": false,
       "rank": 4,
       "reasons": [
@@ -1737,12 +1737,12 @@
         "below_top_decile"
       ],
       "resolved_bets": 12,
-      "roi": -0.6786,
+      "roi": -0.6386,
       "scored_in_category": 6,
-      "specialization": 0.3993,
+      "specialization": 0.3692,
       "total_resolved": 12,
       "trader": "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6",
-      "window_from": "2026-09-14T22:00:21+00:00",
+      "window_from": "2026-09-14T22:11:52+00:00",
       "window_to": "2026-09-14T23:15:21+00:00",
       "wins": 4
     },
@@ -1769,7 +1769,7 @@
       "total_resolved": 26,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
       "window_from": "2026-09-13T15:46:49+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 3
     },
     {
@@ -1794,8 +1794,8 @@
       "specialization": 0.5389,
       "total_resolved": 173,
       "trader": "0xcd30f4698c6f5f3829893e68e183a8e5ea18f316",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1820,8 +1820,8 @@
       "specialization": 0.0722,
       "total_resolved": 3,
       "trader": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1875,28 +1875,28 @@
       "wins": 0
     },
     {
-      "brier_skill": 0.0312,
+      "brier_skill": 0.0833,
       "category": "esports",
       "eligible": false,
-      "hit_rate": 0.5,
-      "mid_proxy_bets": 2,
-      "notional": 1865.5825,
+      "hit_rate": 0.6667,
+      "mid_proxy_bets": 3,
+      "notional": 1893.8736,
       "open_bets": 0,
-      "pnl": 259.3659,
+      "pnl": 287.657,
       "promoted": false,
       "rank": null,
       "reasons": [
         "insufficient_history"
       ],
-      "resolved_bets": 2,
-      "roi": 0.139,
+      "resolved_bets": 3,
+      "roi": 0.1519,
       "scored_in_category": 0,
-      "specialization": 0.0312,
-      "total_resolved": 2,
+      "specialization": 0.0317,
+      "total_resolved": 3,
       "trader": "0xc29198ad764bd6adaf7bb971a3757a689ece5d74",
       "window_from": "2026-09-14T22:53:06+00:00",
-      "window_to": "2026-09-14T22:53:06+00:00",
-      "wins": 1
+      "window_to": "2026-09-14T23:15:03+00:00",
+      "wins": 2
     },
     {
       "brier_skill": 0.0539,
@@ -1945,8 +1945,8 @@
       "specialization": 0.0385,
       "total_resolved": 7,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1971,8 +1971,8 @@
       "specialization": 0.0916,
       "total_resolved": 5,
       "trader": "0x5268527977f700f9bf9b6d5cd843859e4e70135d",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -1997,8 +1997,8 @@
       "specialization": 0.604,
       "total_resolved": 3,
       "trader": "0x58b3380f71bd6c706dd398a5e60bde55fa3a653c",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2097,8 +2097,8 @@
       "specialization": 0.1034,
       "total_resolved": 10,
       "trader": "0x224a89dbe0db0d6124b335edabd15b3f877da3d5",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2124,7 +2124,7 @@
       "total_resolved": 3,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
       "window_from": "2026-09-13T05:47:19+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 1
     },
     {
@@ -2150,7 +2150,7 @@
       "total_resolved": 5,
       "trader": "0x3dfb153c197d4c19d3b31c1ecd2c7b6860eeabaf",
       "window_from": "2026-09-12T22:04:06+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 1
     },
     {
@@ -2225,7 +2225,7 @@
       "total_resolved": 8,
       "trader": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
       "window_from": "2026-08-23T02:23:15+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 5
     },
     {
@@ -2250,8 +2250,8 @@
       "specialization": 0.0365,
       "total_resolved": 3,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2382,8 +2382,8 @@
       "specialization": 0.0032,
       "total_resolved": 1,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2409,7 +2409,7 @@
       "total_resolved": 51,
       "trader": "0x58b3380f71bd6c706dd398a5e60bde55fa3a653c",
       "window_from": "2026-09-13T01:41:01+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 2
     },
     {
@@ -2438,14 +2438,14 @@
       "wins": 1
     },
     {
-      "brier_skill": null,
+      "brier_skill": 0.6211,
       "category": "other",
       "eligible": false,
-      "hit_rate": null,
-      "mid_proxy_bets": 0,
-      "notional": 0.0,
-      "open_bets": 1,
-      "pnl": 0.0,
+      "hit_rate": 1.0,
+      "mid_proxy_bets": 1,
+      "notional": 2.25,
+      "open_bets": 0,
+      "pnl": 22.75,
       "promoted": false,
       "rank": null,
       "reasons": [
@@ -2453,41 +2453,40 @@
         "below_notional",
         "unclassified_category"
       ],
-      "resolved_bets": 0,
-      "roi": null,
+      "resolved_bets": 1,
+      "roi": 10.1111,
       "scored_in_category": 0,
-      "specialization": 0.0,
-      "total_resolved": 0,
-      "trader": "0x821dab0565ebf5b327f51db06223fdcfe01acf16",
-      "window_from": null,
-      "window_to": null,
-      "wins": 0
+      "specialization": 0.0006,
+      "total_resolved": 1,
+      "trader": "0x6d3c5bd13984b2de47c3a88ddc455309aab3d294",
+      "window_from": "2026-09-14T22:46:16+00:00",
+      "window_to": "2026-09-14T22:46:16+00:00",
+      "wins": 1
     },
     {
-      "brier_skill": -0.1245,
+      "brier_skill": -0.1033,
       "category": "other",
       "eligible": false,
-      "hit_rate": 0.5,
-      "mid_proxy_bets": 6,
-      "notional": 1962.4598,
-      "open_bets": 31,
-      "pnl": -76.705,
+      "hit_rate": 0.6,
+      "mid_proxy_bets": 5,
+      "notional": 1426.006,
+      "open_bets": 29,
+      "pnl": 459.8036,
       "promoted": false,
       "rank": null,
       "reasons": [
         "insufficient_history",
-        "negative_roi",
         "negative_brier",
         "unclassified_category"
       ],
-      "resolved_bets": 6,
-      "roi": -0.0391,
+      "resolved_bets": 5,
+      "roi": 0.3224,
       "scored_in_category": 0,
-      "specialization": 0.0359,
-      "total_resolved": 6,
+      "specialization": 0.0264,
+      "total_resolved": 5,
       "trader": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882",
-      "window_from": "2026-09-14T22:03:51+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T22:09:51+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 3
     },
     {
@@ -2563,7 +2562,7 @@
       "resolved_bets": 3,
       "roi": 0.874,
       "scored_in_category": 0,
-      "specialization": 0.0025,
+      "specialization": 0.0026,
       "total_resolved": 3,
       "trader": "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6",
       "window_from": "2026-09-14T22:17:51+00:00",
@@ -2593,8 +2592,8 @@
       "specialization": 0.0205,
       "total_resolved": 1,
       "trader": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2645,7 +2644,7 @@
       "total_resolved": 17,
       "trader": "0x58b3380f71bd6c706dd398a5e60bde55fa3a653c",
       "window_from": "2026-08-06T21:41:59+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2655,7 +2654,7 @@
       "hit_rate": null,
       "mid_proxy_bets": 0,
       "notional": 0.0,
-      "open_bets": 41,
+      "open_bets": 36,
       "pnl": 0.0,
       "promoted": false,
       "rank": null,
@@ -2705,7 +2704,7 @@
       "hit_rate": null,
       "mid_proxy_bets": 0,
       "notional": 0.0,
-      "open_bets": 9,
+      "open_bets": 10,
       "pnl": 0.0,
       "promoted": false,
       "rank": null,
@@ -2769,57 +2768,58 @@
       "total_resolved": 72,
       "trader": "0xdc41c39b95453c943174f369926018f6963bdd7e",
       "window_from": "2026-09-14T21:11:42+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 12
     },
     {
-      "brier_skill": -0.0226,
+      "brier_skill": -0.053,
       "category": "soccer",
       "eligible": false,
-      "hit_rate": 0.65,
+      "hit_rate": 0.6,
       "mid_proxy_bets": 20,
-      "notional": 2854.8058,
-      "open_bets": 48,
-      "pnl": 961.7053,
+      "notional": 2802.3226,
+      "open_bets": 49,
+      "pnl": 942.1977,
       "promoted": false,
       "rank": 2,
       "reasons": [
         "negative_brier"
       ],
       "resolved_bets": 20,
-      "roi": 0.3369,
+      "roi": 0.3362,
       "scored_in_category": 19,
-      "specialization": 0.8111,
-      "total_resolved": 81,
+      "specialization": 0.8077,
+      "total_resolved": 89,
       "trader": "0x6d3c5bd13984b2de47c3a88ddc455309aab3d294",
-      "window_from": "2026-09-14T23:09:36+00:00",
-      "window_to": "2026-09-14T23:15:09+00:00",
-      "wins": 13
+      "window_from": "2026-09-14T23:09:42+00:00",
+      "window_to": "2026-09-14T23:20:19+00:00",
+      "wins": 12
     },
     {
-      "brier_skill": -0.083,
+      "brier_skill": -0.1691,
       "category": "soccer",
       "eligible": false,
-      "hit_rate": 0.65,
+      "hit_rate": 0.45,
       "mid_proxy_bets": 20,
-      "notional": 9757.5784,
-      "open_bets": 91,
-      "pnl": 256.3804,
+      "notional": 7908.6304,
+      "open_bets": 90,
+      "pnl": -478.6848,
       "promoted": false,
       "rank": 3,
       "reasons": [
+        "negative_roi",
         "negative_brier",
         "below_top_decile"
       ],
       "resolved_bets": 20,
-      "roi": 0.0263,
+      "roi": -0.0605,
       "scored_in_category": 19,
       "specialization": 1.0,
       "total_resolved": 100,
       "trader": "0x821dab0565ebf5b327f51db06223fdcfe01acf16",
-      "window_from": "2026-09-14T23:13:07+00:00",
-      "window_to": "2026-09-14T23:14:04+00:00",
-      "wins": 13
+      "window_from": "2026-09-14T23:13:22+00:00",
+      "window_to": "2026-09-14T23:15:25+00:00",
+      "wins": 9
     },
     {
       "brier_skill": -0.1243,
@@ -2848,14 +2848,14 @@
       "wins": 9
     },
     {
-      "brier_skill": -0.0568,
+      "brier_skill": -0.0913,
       "category": "soccer",
       "eligible": false,
       "hit_rate": 0.45,
       "mid_proxy_bets": 20,
-      "notional": 35804.4872,
+      "notional": 35797.9368,
       "open_bets": 18,
-      "pnl": -7889.5097,
+      "pnl": -8176.0655,
       "promoted": false,
       "rank": 5,
       "reasons": [
@@ -2864,13 +2864,13 @@
         "below_top_decile"
       ],
       "resolved_bets": 20,
-      "roi": -0.2203,
+      "roi": -0.2284,
       "scored_in_category": 19,
-      "specialization": 0.6551,
-      "total_resolved": 52,
+      "specialization": 0.6629,
+      "total_resolved": 58,
       "trader": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882",
-      "window_from": "2026-09-14T22:52:22+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:12:49+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 9
     },
     {
@@ -2892,11 +2892,11 @@
       "resolved_bets": 20,
       "roi": -0.9034,
       "scored_in_category": 19,
-      "specialization": 0.5291,
-      "total_resolved": 45,
+      "specialization": 0.5568,
+      "total_resolved": 43,
       "trader": "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6",
       "window_from": "2026-09-14T22:59:13+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 9
     },
     {
@@ -2921,8 +2921,8 @@
       "specialization": 0.1545,
       "total_resolved": 50,
       "trader": "0x58b3380f71bd6c706dd398a5e60bde55fa3a653c",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2945,10 +2945,10 @@
       "roi": -1.0,
       "scored_in_category": 19,
       "specialization": 1.0,
-      "total_resolved": 173,
+      "total_resolved": 188,
       "trader": "0x0346afae2603313d2bbee96b628536c8cbe352a5",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2973,8 +2973,8 @@
       "specialization": 0.7196,
       "total_resolved": 62,
       "trader": "0x4f29e103339919c4baaea2a60195cf1c8bb27a7e",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -2996,11 +2996,11 @@
       "resolved_bets": 20,
       "roi": -1.0,
       "scored_in_category": 19,
-      "specialization": 0.9616,
-      "total_resolved": 191,
+      "specialization": 0.9612,
+      "total_resolved": 193,
       "trader": "0xc29198ad764bd6adaf7bb971a3757a689ece5d74",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3010,7 +3010,7 @@
       "hit_rate": 0.0,
       "mid_proxy_bets": 20,
       "notional": 385202.4882,
-      "open_bets": 1,
+      "open_bets": 0,
       "pnl": -385202.4882,
       "promoted": false,
       "rank": 11,
@@ -3025,8 +3025,8 @@
       "specialization": 0.1482,
       "total_resolved": 72,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3051,8 +3051,8 @@
       "specialization": 0.6916,
       "total_resolved": 12,
       "trader": "0xeebde7a0e019a63e6b476eb425505b7b3e6eba30",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3074,11 +3074,11 @@
       "resolved_bets": 20,
       "roi": -1.0,
       "scored_in_category": 19,
-      "specialization": 0.6345,
+      "specialization": 0.6342,
       "total_resolved": 76,
       "trader": "0x32b484581fc5606de9c1e43af4636b6be9bc8b21",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3101,10 +3101,10 @@
       "roi": -1.0,
       "scored_in_category": 19,
       "specialization": 0.4883,
-      "total_resolved": 102,
+      "total_resolved": 103,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3126,11 +3126,11 @@
       "resolved_bets": 20,
       "roi": -1.0,
       "scored_in_category": 19,
-      "specialization": 0.7382,
-      "total_resolved": 186,
+      "specialization": 0.742,
+      "total_resolved": 187,
       "trader": "0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3153,10 +3153,10 @@
       "roi": -1.0,
       "scored_in_category": 19,
       "specialization": 0.7921,
-      "total_resolved": 174,
+      "total_resolved": 182,
       "trader": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3181,8 +3181,8 @@
       "specialization": 0.6526,
       "total_resolved": 153,
       "trader": "0xf0318c32136c2db7fec88b84869aee6a1106c80c",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3207,8 +3207,8 @@
       "specialization": 0.2301,
       "total_resolved": 13,
       "trader": "0xcd30f4698c6f5f3829893e68e183a8e5ea18f316",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3233,8 +3233,8 @@
       "specialization": 0.6249,
       "total_resolved": 79,
       "trader": "0x224a89dbe0db0d6124b335edabd15b3f877da3d5",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3281,7 +3281,7 @@
       "total_resolved": 38,
       "trader": "0x58b3380f71bd6c706dd398a5e60bde55fa3a653c",
       "window_from": "2026-08-19T18:14:28+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 16
     },
     {
@@ -3305,7 +3305,7 @@
       "total_resolved": 18,
       "trader": "0x6d20c35f65d9899b6d6b74f8466e824580f9a165",
       "window_from": "2026-08-20T22:15:52+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 12
     },
     {
@@ -3327,10 +3327,10 @@
       "roi": 0.1374,
       "scored_in_category": 12,
       "specialization": 0.155,
-      "total_resolved": 71,
+      "total_resolved": 73,
       "trader": "0x5268527977f700f9bf9b6d5cd843859e4e70135d",
       "window_from": "2026-09-14T20:29:54+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 10
     },
     {
@@ -3366,7 +3366,7 @@
       "hit_rate": 0.5,
       "mid_proxy_bets": 12,
       "notional": 30114.1615,
-      "open_bets": 10,
+      "open_bets": 14,
       "pnl": -3444.2072,
       "promoted": false,
       "rank": 5,
@@ -3408,7 +3408,7 @@
       "total_resolved": 16,
       "trader": "0x3dfb153c197d4c19d3b31c1ecd2c7b6860eeabaf",
       "window_from": "2026-09-08T23:37:15+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 7
     },
     {
@@ -3434,7 +3434,7 @@
       "total_resolved": 10,
       "trader": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea",
       "window_from": "2026-09-14T21:59:37+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 3
     },
     {
@@ -3460,34 +3460,8 @@
       "total_resolved": 22,
       "trader": "0x2c335066fe58fe9237c3d3dc7b275c2a034a0563",
       "window_from": "2026-09-13T20:49:09+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 5
-    },
-    {
-      "brier_skill": -0.2829,
-      "category": "tennis",
-      "eligible": false,
-      "hit_rate": 0.0833,
-      "mid_proxy_bets": 12,
-      "notional": 181131.7436,
-      "open_bets": 0,
-      "pnl": -176324.5911,
-      "promoted": false,
-      "rank": 9,
-      "reasons": [
-        "negative_roi",
-        "negative_brier",
-        "below_top_decile"
-      ],
-      "resolved_bets": 12,
-      "roi": -0.9735,
-      "scored_in_category": 12,
-      "specialization": 0.2615,
-      "total_resolved": 12,
-      "trader": "0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7",
-      "window_from": "2026-09-14T22:17:36+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
-      "wins": 1
     },
     {
       "brier_skill": -0.3059,
@@ -3499,7 +3473,7 @@
       "open_bets": 1,
       "pnl": -265646.3747,
       "promoted": false,
-      "rank": 10,
+      "rank": 9,
       "reasons": [
         "negative_roi",
         "negative_brier",
@@ -3508,11 +3482,11 @@
       "resolved_bets": 20,
       "roi": -1.0,
       "scored_in_category": 12,
-      "specialization": 0.218,
+      "specialization": 0.2179,
       "total_resolved": 95,
       "trader": "0x32b484581fc5606de9c1e43af4636b6be9bc8b21",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3525,7 +3499,7 @@
       "open_bets": 0,
       "pnl": -1574050.3072,
       "promoted": false,
-      "rank": 11,
+      "rank": 10,
       "reasons": [
         "negative_roi",
         "negative_brier",
@@ -3535,10 +3509,36 @@
       "roi": -1.0,
       "scored_in_category": 12,
       "specialization": 0.172,
-      "total_resolved": 47,
+      "total_resolved": 48,
       "trader": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
+      "wins": 0
+    },
+    {
+      "brier_skill": -0.3146,
+      "category": "tennis",
+      "eligible": false,
+      "hit_rate": 0.0,
+      "mid_proxy_bets": 10,
+      "notional": 177578.9203,
+      "open_bets": 0,
+      "pnl": -177578.9203,
+      "promoted": false,
+      "rank": 11,
+      "reasons": [
+        "negative_roi",
+        "negative_brier",
+        "below_top_decile"
+      ],
+      "resolved_bets": 10,
+      "roi": -1.0,
+      "scored_in_category": 12,
+      "specialization": 0.2576,
+      "total_resolved": 10,
+      "trader": "0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3563,8 +3563,8 @@
       "specialization": 0.0807,
       "total_resolved": 16,
       "trader": "0x4f29e103339919c4baaea2a60195cf1c8bb27a7e",
-      "window_from": "2026-09-14T23:19:57.718513+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_from": "2026-09-14T23:30:13.585285+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 0
     },
     {
@@ -3587,7 +3587,7 @@
       "resolved_bets": 2,
       "roi": -0.996,
       "scored_in_category": 0,
-      "specialization": 0.1846,
+      "specialization": 0.1873,
       "total_resolved": 2,
       "trader": "0x6d3c5bd13984b2de47c3a88ddc455309aab3d294",
       "window_from": "2026-09-14T22:35:33+00:00",
@@ -3601,7 +3601,7 @@
       "hit_rate": null,
       "mid_proxy_bets": 0,
       "notional": 0.0,
-      "open_bets": 4,
+      "open_bets": 5,
       "pnl": 0.0,
       "promoted": false,
       "rank": null,
@@ -3620,14 +3620,14 @@
       "wins": 0
     },
     {
-      "brier_skill": -0.2989,
+      "brier_skill": -0.3333,
       "category": "tennis",
       "eligible": false,
       "hit_rate": 0.0,
-      "mid_proxy_bets": 2,
-      "notional": 9796.4385,
+      "mid_proxy_bets": 1,
+      "notional": 9794.95,
       "open_bets": 0,
-      "pnl": -9773.0577,
+      "pnl": -9771.5689,
       "promoted": false,
       "rank": null,
       "reasons": [
@@ -3635,13 +3635,13 @@
         "negative_roi",
         "negative_brier"
       ],
-      "resolved_bets": 2,
+      "resolved_bets": 1,
       "roi": -0.9976,
       "scored_in_category": 0,
-      "specialization": 0.1792,
-      "total_resolved": 2,
+      "specialization": 0.1814,
+      "total_resolved": 1,
       "trader": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882",
-      "window_from": "2026-09-14T22:07:21+00:00",
+      "window_from": "2026-09-14T22:18:51+00:00",
       "window_to": "2026-09-14T22:18:51+00:00",
       "wins": 0
     },
@@ -3673,28 +3673,27 @@
       "wins": 2
     },
     {
-      "brier_skill": -0.0607,
+      "brier_skill": 0.075,
       "category": "tennis",
       "eligible": false,
-      "hit_rate": 0.3333,
-      "mid_proxy_bets": 3,
-      "notional": 608.6731,
+      "hit_rate": 0.5,
+      "mid_proxy_bets": 2,
+      "notional": 603.761,
       "open_bets": 0,
-      "pnl": 292.2962,
+      "pnl": 297.2085,
       "promoted": false,
       "rank": null,
       "reasons": [
         "insufficient_history",
-        "below_notional",
-        "negative_brier"
+        "below_notional"
       ],
-      "resolved_bets": 3,
-      "roi": 0.4802,
+      "resolved_bets": 2,
+      "roi": 0.4923,
       "scored_in_category": 0,
-      "specialization": 0.052,
-      "total_resolved": 3,
+      "specialization": 0.0543,
+      "total_resolved": 2,
       "trader": "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6",
-      "window_from": "2026-09-14T21:59:51+00:00",
+      "window_from": "2026-09-14T22:01:54+00:00",
       "window_to": "2026-09-14T22:18:52+00:00",
       "wins": 1
     },
@@ -3769,7 +3768,7 @@
       "roi": 0.2497,
       "scored_in_category": 5,
       "specialization": 0.0097,
-      "total_resolved": 47,
+      "total_resolved": 46,
       "trader": "0x4f29e103339919c4baaea2a60195cf1c8bb27a7e",
       "window_from": "2026-09-14T01:44:27+00:00",
       "window_to": "2026-09-14T05:29:45+00:00",
@@ -3794,44 +3793,44 @@
       "total_resolved": 38,
       "trader": "0x58b3380f71bd6c706dd398a5e60bde55fa3a653c",
       "window_from": "2026-08-19T18:14:28+00:00",
-      "window_to": "2026-09-14T23:19:57.718513+00:00",
+      "window_to": "2026-09-14T23:30:13.585285+00:00",
       "wins": 16
     }
   ],
   "taxonomy_coverage": {
-    "american_football": 304,
+    "american_football": 305,
     "baseball": 556,
     "basketball": 28,
     "cricket": 1,
-    "crypto": 576,
+    "crypto": 578,
     "entertainment": 1,
-    "esports": 333,
+    "esports": 334,
     "hockey": 5,
     "macro": 53,
     "mma": 38,
     "motorsport": 7,
-    "other": 130,
-    "politics": 86,
-    "soccer": 2146,
-    "tennis": 425,
+    "other": 127,
+    "politics": 82,
+    "soccer": 2184,
+    "tennis": 429,
     "weather": 6
   },
   "totals": {
-    "bets": 4695,
+    "bets": 4734,
     "evaluation_status": "no_follows",
     "follow_log_pending": 0,
     "follow_log_resolved": 0,
     "follow_log_total": 0,
     "follows_this_run": 0,
     "ledger_total_pnl": 0.0,
-    "open_bets": 741,
+    "open_bets": 745,
     "paper_fills": 0,
     "powered": false,
     "refused_by_reason": {
       "out_of_category": 11,
-      "trader_not_promoted": 730
+      "trader_not_promoted": 734
     },
-    "resolved_bets": 3954,
+    "resolved_bets": 3989,
     "specialists": 2,
     "traders": 25
   }
