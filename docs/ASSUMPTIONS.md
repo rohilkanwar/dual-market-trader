@@ -180,7 +180,24 @@ prod APIs with no credentials: 12 Kalshi + 8 Polymarket markets, 36 requests at 
 | 11.5 | The logger never touches authenticated or order endpoints | **PASS** | Only `/markets`, `/markets/{t}/orderbook`, `/markets/trades`, Gamma `/public-search` + `/markets`, CLOB `/books`, Data-API `/trades` are called; the mock in `tests/test_book_logger.py` asserts no `demo-api`, `/portfolio` or `/orders` path is ever requested, and `apps.book_logger.run` calls `require_paper_only` (`test_cli_once_writes_archive_and_refuses_live`). |
 | 11.6 | Archive files are never committed | **PASS** | `.gitignore` covers `/artifacts/`, `/artifacts/books/`, `*.jsonl.gz`, `*.parquet`. The test fixture (`research/fixtures/book_logger_public_api.json`) is a trimmed API payload, not archive output. |
 
-## 12. Known gaps / not validated
+## 12. Tennis whale copy with lag (`apps.measure_tennis_whale`, `docs/TENNIS_WHALE_COPY.md`)
+
+Network run 2026-09-14 23:03 UTC against public Gamma + Data API with no credentials
+(run `20260914T230348Z-tennis-63ad64de`, 155 requests, 127 markets, 27,450 prints).
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 12.1 | Polymarket wallets are identifiable on the public tape | **PASS** | Data API `/trades?market=<conditionId>&takerOnly=true` returns `proxyWallet`, `side`, `outcomeIndex`, `price`, `size`, second-resolution `timestamp` without auth; `limit` up to 1000 with `offset` paging (verified live; `tests/test_tennis_whale.py::test_harvest_reads_public_endpoints_paginates_and_records_kalshi_not_identifiable` asserts no auth header and no order/portfolio path). |
+| 12.2 | Kalshi whales are identifiable | **FAIL (by construction)** | Kalshi `/markets/trades` carries `taker_side`, price and count only. 113 tennis-like series exist among 3,778 sports series; the report records `kalshi.whale_identifiable = false` and the verdict row `kalshi_whales_identifiable = NOT_IDENTIFIABLE`. |
+| 12.3 | Whale selection does not peek at the fill being scored | **PASS** | `strategies/tennis_whale_copy.py::WhaleTracker` qualifies walk-forward (`evaluate` before `observe`); `test_whale_qualifies_walk_forward_only_from_prior_history` shows the qualifying print itself is `not_whale` and only the next print is a signal. The two-sided (farmer) share is walk-forward as well. |
+| 12.4 | A copy price is executable | **UNKNOWN / conservative proxy** | The copy uses the first *executed* print at or after `signal + lag` plus one tick, sized at $10 capped by the print's size; no book depth is on the tape (`assumptions.copy_price`, `copy_size`). Exits before settlement are not modelled. |
+| 12.5 | Copies within a market are not independent | **PASS (handled)** | Market-clustered bootstrap (`research/tennis_whale.py::cluster_bootstrap`); one market with 200 copies yields no CI (`test_cluster_bootstrap_treats_one_market_as_one_cluster`). Live effective cluster count ≈ 24 of 43 markets per lag. |
+| 12.6 | Pass/kill rules are fixed before the data | **PASS** | Rules, thresholds, seed and Bonferroni alpha are written into `tennis_whale_report_latest.json → pre_registration` on every run and asserted by CI; `kill_rule.components` shows which trigger was evaluated. |
+| 12.7 | Copying tennis whales has positive EV or CLV after fees | **FAIL (not detected)** | 105 whales, 947 copies: settlement ROI −10.2 % / −11.1 % / −7.2 % at 30 s / 2 min / 10 min, every CI lower bound below −25 %; CLV identical to the cent. Whale-own benchmark −15.3 % [−33.7 %, +3.5 %]. Kill rule not triggered (upper bounds cross zero). |
+| 12.8 | Farmers are filtered | **PARTIAL** | 44 of 105 whales reached `two_sided_share > 0.5` and were refused from then on (5,341 prints); early prints of those wallets were copied while their share was still low. Cross-sport or cross-venue hedging is invisible here. |
+| 12.9 | Synthetic fixture is never published as evidence | **PASS** | `research/fixtures/tennis_whale_tape.json` carries `_comment: SYNTHETIC FIXTURE`; the report status is `fixture_synthetic` and the headline starts "Synthetic fixture (not evidence)"; `dashboard/scripts/sync-artifacts.mjs` refuses to copy such a report and CI rejects a committed report whose `mode != network`. |
+
+## 13. Known gaps / not validated
 
 * No live or demo-authenticated path exists; everything past `Settings.live_enabled` is a stub by design.
 * `apps/dashboard_api.py` has no authentication (unchanged from the original design; README warns).
@@ -193,3 +210,4 @@ prod APIs with no credentials: 12 Kalshi + 8 Polymarket markets, 36 requests at 
 * Polymarket arb tracks: subset NegRisk conversions, implication-based combinatorial arbitrage across events, converter fee, maker/taker rebates and legging beyond the one-tick buffer are not modelled (see `docs/POLYMARKET_ARB.md`, "Known limits").
 * FLB maker fill probabilities, queue position and adverse selection (10.4) are assumptions; the ex-post trade tape cannot distinguish opening from closing trades, and the sample covers only the newest settled markets per series (see section 10 and `docs/FLB_RUNBOOK.md`).
 * The self-logged book archive (section 11) is polled REST L2: it cannot recover queue position or FIFO priority, misses everything between polls, and its Kalshi snapshots have no venue timestamp. `SidecarSource` (official RSS / free weather) is a protocol stub with no implementation.
+* Tennis whale copy (section 12): exit liquidity, wallet fragmentation across proxies, cross-sport farming and the completeness of the venue's own `takerOnly` tape are not validated; the resolved universe is the newest ~2,000 closed tennis markets above the volume floor (Gamma refuses deeper offsets).

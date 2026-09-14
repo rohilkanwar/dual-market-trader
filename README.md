@@ -136,6 +136,28 @@ A snapshot cannot identify FLB (prices without outcomes), and the report says so
 ex-post verdicts need settlement outcomes, which the harvest provides. Measured
 results, assumptions and limits: `docs/FLB_RUNBOOK.md`.
 
+### Tennis whale copy with lag (Polymarket, $0 tape replay)
+
+Three paper tracks — `tennis_whale_copy_30s`, `_2m`, `_10m` — replay the public
+Polymarket tennis taker tape (Data API `/trades`, which carries `proxyWallet`),
+qualify whales walk-forward (3 taker prints ≥ $500 across ≥ 2 tennis markets, refusing
+two-sided farmers), and paper-copy each whale's next print at the lag, at the first
+executed print on the market plus one tick and the venue taker fee, into one
+`PaperLedger` per lag. Settlement EV and closing-line value are bootstrapped by market
+cluster with a pre-registered pass rule (CI lower bound > 0 at ≥ 1 lag) and kill rule
+(both CI upper bounds < 0 at every lag, or the whales' own fills significantly negative).
+Kalshi lists tennis but its public tape has no account identity: recorded as
+`NOT_IDENTIFIABLE`.
+
+```bash
+uv run python -m apps.measure_tennis_whale                       # synthetic fixture, no network
+uv run python -m apps.measure_tennis_whale --network --harvest   # harvest public tape + replay
+```
+
+Measured 2026-09-14: 105 whales, 947 copies, settlement ROI −7 % to −11 % at every lag,
+**FAIL** under the pass rule, kill rule not triggered; the whales' own fills lose 15 %
+after fees. Rules, results, fail risks: `docs/TENNIS_WHALE_COPY.md`.
+
 ### Self-logged order-book archive ($0 path)
 
 No paid L2 vendor: `apps.book_logger` polls the public Kalshi endpoints (and,
@@ -338,6 +360,7 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 
 | `kalshi_longshot_fade` | longshot side < 20¢, $25/$75/$75 paper caps, taker fee | taker fade of Kalshi longshots; shadow longshot buyer as benchmark |
 | `kalshi_maker_quote` | same trigger, resting order, expected-value fills, maker fee, conservative marks | maker fade of Kalshi longshots |
+| `tennis_whale_copy_30s` / `_2m` / `_10m` (`apps.measure_tennis_whale`, tape replay) | walk-forward whale qualification, two-sided-flow refusal, first print at/after the lag + 1 tick, $10 stake capped by print size, $25/100/$75 rails | copy Polymarket tennis whales at three lags; settlement EV and CLV by market-clustered bootstrap; pre-registered pass/kill rule |
 
 Each track has its own risk manager, execution engine, portfolio and ledger.
 The cross-venue, fair-value, news and Kalshi FLB tracks share one frozen per-venue
