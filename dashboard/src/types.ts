@@ -10,6 +10,7 @@ export type TrackId =
   | 'single_venue_fair_value'
   | 'sports_cross_venue'
   | 'small_deliberate_bet'
+  | 'news_underreaction'
   | string
 
 export interface DivergenceFinding {
@@ -44,11 +45,27 @@ export function hasLedgerPnl(meta: ScoreboardMeta): boolean {
   return meta.source !== 'sample' && typeof meta.pnl_source === 'string'
 }
 
+export interface NewsUnderreactionFinding {
+  status: string
+  signal_source?: string | null
+  signals: number
+  mapped: number
+  unmapped: number
+  paper_fills: number
+  reaction_ratio_observed_mean?: number | null
+  reaction_ratio_literature?: number | null
+  literature_reference?: string | null
+  /** Always false: the signal→probability mapping is not validated. */
+  mapping_validated: boolean
+  note?: string
+}
+
 export interface ScoreboardFindings {
   fed_exact_divergences?: DivergenceFinding
   macro_admitted_bucket_divergences?: DivergenceFinding
   live_network_cross_venue_candidates?: number
   arbai_summary?: string
+  news_underreaction?: NewsUnderreactionFinding
 }
 
 export interface ScoreboardTotals {

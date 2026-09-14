@@ -33,6 +33,18 @@ jobs:
           assert a["portfolio"]["source"] == "ledger_aggregate"
           print("paper_pnl", a["totals"]["paper_pnl"], "fills", a["totals"]["paper_fills"])
           EOF
+      - name: News underreaction lane - fixture measurement is runnable and honest
+        run: |
+          uv run python -m research.news_underreaction --json artifacts/news_underreaction_fixtures.json
+          uv run python - <<'EOF'
+          import json
+          r = json.load(open("artifacts/news_underreaction_fixtures.json"))
+          assert r["paper_only"] is True and r["status"] == "fixture_synthetic", r["status"]
+          assert r["candidates"] == 8 and r["paper_fills"] == 3, (r["candidates"], r["paper_fills"])
+          assert r["literature"]["validated_here"] is False
+          assert r["not_validated"], "report must list what is not validated"
+          print("news lane ok:", r["refused_by_reason"])
+          EOF
       - name: Fail-closed check - paper loop refuses live flags
         run: |
           if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.paper_loop --once --no-persist --artifact-dir /tmp/should-not-exist; then
