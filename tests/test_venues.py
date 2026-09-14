@@ -176,6 +176,75 @@ async def test_polymarket_network_market_parses_token_ids_and_book() -> None:
         await http.aclose()
 
 
+async def test_polymarket_search_hits_lead_the_universe_and_carry_gate_metadata() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/public-search":
+            assert request.url.params["q"] == "Fed decision"
+            return httpx.Response(
+                200,
+                json={
+                    "events": [
+                        {
+                            "slug": "fed-decision-in-september",
+                            "title": "Fed Decision in September?",
+                            "closed": False,
+                            "endDate": "2026-09-16T00:00:00Z",
+                            "tags": [{"label": "fomc"}, {"label": "Fed Rates"}],
+                            "markets": [
+                                {
+                                    "conditionId": "0xfed25",
+                                    "question": "Will the Fed decrease interest rates by 25 bps after the September 2026 meeting?",
+                                    "clobTokenIds": '["1", "2"]',
+                                    "liquidityNum": 10,
+                                    "active": True,
+                                    "closed": False,
+                                    "endDate": "2026-09-16T00:00:00Z",
+                                    "description": "Rounded up to the nearest 25.",
+                                    "resolutionSource": "https://www.federalreserve.gov/",
+                                },
+                                {"conditionId": "0xclosed", "clobTokenIds": '["3", "4"]', "active": False, "closed": True},
+                            ],
+                        },
+                        {"slug": "old", "closed": True, "markets": [{"conditionId": "0xold", "clobTokenIds": '["5","6"]'}]},
+                    ]
+                },
+            )
+        return httpx.Response(
+            200,
+            json=[{"conditionId": "0xlongshot", "question": "Will X win in 2028?", "clobTokenIds": '["7", "8"]', "liquidityNum": 999999}],
+        )
+
+    http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    client = PolymarketClient(paper=True, use_fixtures=False, http=http, search_terms=("Fed decision",))
+    try:
+        markets = await client.list_markets(limit=5)
+        assert [m.market_id for m in markets] == ["0xfed25", "0xlongshot"]  # search first despite lower liquidity
+        fed = markets[0]
+        assert fed.metadata["discovered_by"] == "search:Fed decision"
+        assert fed.metadata["category"] == "macro"
+        assert fed.metadata["close_time"] == "2026-09-16T00:00:00Z"
+        assert fed.metadata["source_url"] == "https://www.federalreserve.gov/"
+        assert fed.metadata["event_slug"] == "fed-decision-in-september"
+    finally:
+        await client.close()
+        await http.aclose()
+
+
+async def test_polymarket_search_failure_does_not_empty_the_universe() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/public-search":
+            return httpx.Response(500)
+        return httpx.Response(200, json=[{"conditionId": "0xa", "question": "Q", "clobTokenIds": '["1", "2"]'}])
+
+    http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    client = PolymarketClient(paper=True, use_fixtures=False, http=http)
+    try:
+        assert [m.market_id for m in await client.list_markets(limit=5)] == ["0xa"]
+    finally:
+        await client.close()
+        await http.aclose()
+
+
 async def test_paper_fill_is_deterministic_and_walks_levels() -> None:
     client = KalshiClient(paper=True, use_fixtures=True)
     try:

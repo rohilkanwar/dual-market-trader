@@ -57,6 +57,15 @@ CURATED_PAIRS: tuple[CuratedPair, ...] = (
 _ALIASES = {
     "fed": ("federal", "reserve"),
     "fomc": ("federal", "reserve"),
+    "hike": ("increase",),
+    "hikes": ("increase",),
+    "raise": ("increase",),
+    "cut": ("decrease",),
+    "cuts": ("decrease",),
+    "lower": ("decrease",),
+    "bp": ("bps",),
+    "basis": ("bps",),
+    "points": ("bps",),
     "sep": ("september",),
     "sept": ("september",),
     "oct": ("october",),
@@ -78,12 +87,21 @@ _STOPWORDS = {
 }
 _NEGATION = re.compile(r"\b(?:not|no|fail|fails|under|below|less|fewer|lose|loses)\b", re.IGNORECASE)
 _TOKEN = re.compile(r"[a-z0-9.%]+")
+# "25bps" -> "25 bps", "T3.75" -> "T 3.75": Kalshi glues units to numbers.
+_DIGIT_LETTER_BOUNDARY = re.compile(r"(?<=\d)(?=[a-zA-Z])|(?<=[a-zA-Z])(?=\d)")
+
+
+def _normalise(text: str) -> str:
+    return _DIGIT_LETTER_BOUNDARY.sub(" ", text.replace("-", " ").replace("_", " ").replace("*", ""))
 _MONTHS = (
     "january", "february", "march", "april", "may", "june", "july", "august",
     "september", "october", "november", "december",
 )
 _YEAR = re.compile(r"\b(20\d{2})\b")
-_NUMBER = re.compile(r"(?<![\w.])(\d+(?:\.\d+)?)\s*%?(?![\w.])")
+# A number with an optional inequality/“or more” qualifier: ">25", "50+", "3.0".
+# ">25" and "25" are different thresholds and must not be treated as equal.
+_NUMBER = re.compile(r"(?<![\w.])([<>]=?)?\s*(\d+(?:\.\d+)?)\s*%?\s*(\+)?(?![\w.])")
+_DIRECTION = frozenset({"increase", "decrease"})
 
 
 def period_tokens(*texts: str | None) -> tuple[frozenset[str], frozenset[str]]:
@@ -94,17 +112,26 @@ def period_tokens(*texts: str | None) -> tuple[frozenset[str], frozenset[str]]:
     return months, years
 
 
-def numeric_tokens(*texts: str | None) -> frozenset[Decimal]:
-    """Standalone numbers (thresholds like ``3.0%``), excluding years."""
-    out: set[Decimal] = set()
+def numeric_tokens(*texts: str | None) -> frozenset[str]:
+    """Standalone thresholds like ``3.0%``, ``>25``, ``50+`` (years excluded).
+
+    Values are canonical strings: the number normalised (``3.0`` -> ``3``) with
+    its qualifier kept, so ``>25`` never equals ``25``.
+    """
+    out: set[str] = set()
     for text in texts:
         if not text:
             continue
-        for raw in _NUMBER.findall(text):
+        for prefix, raw, suffix in _NUMBER.findall(_normalise(text)):
             if _YEAR.fullmatch(raw):
                 continue
-            out.add(Decimal(raw).normalize())
+            out.add(f"{prefix}{Decimal(raw).normalize()}{suffix}")
     return frozenset(out)
+
+
+def direction_tokens(*texts: str | None) -> frozenset[str]:
+    """``increase`` / ``decrease`` after alias expansion (hike, cut, raise, lower)."""
+    return frozenset(_tokens(*texts) & _DIRECTION)
 
 
 def _market_texts(market: Market) -> tuple[str, ...]:
@@ -131,6 +158,9 @@ def consistent_reference(left: Market, right: Market) -> tuple[bool, str]:
     left_numbers, right_numbers = numeric_tokens(*_market_texts(left)), numeric_tokens(*_market_texts(right))
     if left_numbers and right_numbers and left_numbers != right_numbers:
         return False, "threshold_disagrees"
+    left_dir, right_dir = direction_tokens(*_market_texts(left)), direction_tokens(*_market_texts(right))
+    if left_dir and right_dir and not (left_dir & right_dir):
+        return False, "direction_disagrees"
     return True, "ok"
 
 
@@ -139,7 +169,7 @@ def _tokens(*texts: str | None) -> set[str]:
     for text in texts:
         if not text:
             continue
-        for token in _TOKEN.findall(text.lower().replace("-", " ").replace("_", " ")):
+        for token in _TOKEN.findall(_normalise(text).lower()):
             token = token.strip(".")
             if len(token) <= 1 or token in _STOPWORDS:
                 continue

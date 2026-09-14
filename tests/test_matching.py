@@ -1,5 +1,11 @@
 from core.types import Market, Venue
-from strategies.matching import CURATED_PAIRS, MarketMatcher, consistent_reference, same_title_polarity
+from strategies.matching import (
+    CURATED_PAIRS,
+    MarketMatcher,
+    consistent_reference,
+    numeric_tokens,
+    same_title_polarity,
+)
 
 
 def test_curated_pairs_win_and_are_reported_as_curated() -> None:
@@ -77,6 +83,22 @@ def test_heuristic_candidates_that_disagree_on_year_or_threshold_are_vetoed() ->
     other_threshold = Market(Venue.POLYMARKET, "P2", "Will August CPI be above 3.5%?")
     assert matcher.match([cpi], [other_threshold]) == []
     assert matcher.vetoed[0].reason == "threshold_disagrees"
+
+
+def test_qualified_thresholds_and_directions_are_vetoed() -> None:
+    matcher = MarketMatcher(curated_pairs=())
+    hike_more = Market(Venue.KALSHI, "K", "Will the Federal Reserve Hike rates by >25bps at their September 2026 meeting?")
+    hike_25 = Market(Venue.POLYMARKET, "P", "Will the Fed increase interest rates by 25 bps after the September 2026 meeting?")
+    assert numeric_tokens(hike_more.title) == {">25"} and numeric_tokens(hike_25.title) == {"25"}
+    assert matcher.match([hike_more], [hike_25]) == []
+    assert matcher.vetoed[0].reason == "threshold_disagrees"
+
+    hike = Market(Venue.KALSHI, "K", "Will the Federal Reserve Hike rates by 25bps at their September 2026 meeting?")
+    cut = Market(Venue.POLYMARKET, "P", "Will the Fed decrease interest rates by 25 bps after the September 2026 meeting?")
+    assert matcher.match([hike], [cut]) == []
+    assert matcher.vetoed[0].reason == "direction_disagrees"
+    # Same direction, same threshold, same period: a legitimate candidate.
+    assert matcher.match([hike], [hike_25])[0].confidence >= 0.7
 
 
 def test_consistent_reference_tolerates_silence_on_one_side() -> None:

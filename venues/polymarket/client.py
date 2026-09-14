@@ -31,6 +31,17 @@ DEFAULT_TICK_SIZE = Decimal("0.001")
 DEFAULT_MIN_ORDER_SIZE = Decimal("5")
 _SPORTS_HINTS = ("nba", "nfl", "mlb", "nhl", "ufc", "soccer", "premier league", " vs. ", " vs ")
 _MACRO_HINTS = ("fed", "cpi", "inflation", "rate cut", "rate hike", "gdp", "unemployment", "fomc")
+# Public Gamma search terms that surface the macro events matching Kalshi's
+# macro series (KXFEDDECISION, KXCPI, KXGDP, KXU3 ...). The top-liquidity
+# listing alone is dominated by long-dated longshots and yields no cross-venue
+# candidates; ``search_terms=None`` restores that raw listing.
+DEFAULT_MACRO_SEARCH: tuple[str, ...] = (
+    "Fed decision",
+    "Fed rate",
+    "CPI inflation",
+    "GDP",
+    "unemployment rate",
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -249,10 +260,12 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
         fee_schedule: FeeSchedule | None = None,
         credentials: PolymarketCredentials | None = None,
         timeout: float = 15.0,
+        search_terms: tuple[str, ...] | None = DEFAULT_MACRO_SEARCH,
     ) -> None:
         self.paper = paper
         self.use_fixtures = use_fixtures
         self.credentials = credentials or PolymarketCredentials()
+        self.search_terms = search_terms
         self._owns_http = http is None
         self._http = http or httpx.AsyncClient(timeout=timeout)
         self._fixture_books: dict[str, OrderBook] = {}
@@ -264,51 +277,97 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
             self._fixture_books = books
             markets = markets[:limit]
         else:
-            response = await self._http.get(
-                f"{GAMMA_URL}/markets",
-                params={
-                    "active": "true",
-                    "closed": "false",
-                    "limit": min(max(limit, 1), 500),
-                    "order": "liquidityNum",
-                    "ascending": "false",
-                },
-            )
-            response.raise_for_status()
-            markets = []
-            for item in response.json():
-                if not isinstance(item, dict):
-                    continue
-                token_ids = _token_ids(item)
-                market_id = str(item.get("conditionId") or item.get("id") or "")
-                if not market_id or not token_ids:
-                    continue
-                events = item.get("events") or []
-                event_title = events[0].get("title") if events and isinstance(events[0], dict) else None
-                markets.append(
-                    Market(
-                        venue=Venue.POLYMARKET,
-                        market_id=market_id,
-                        title=str(item.get("question") or item.get("title") or market_id),
-                        active=bool(item.get("active", True)) and not bool(item.get("closed", False)),
-                        liquidity=decimal_or_zero(item.get("liquidityNum") or item.get("liquidity")),
-                        volume=decimal_or_zero(item.get("volumeNum") or item.get("volume")),
-                        yes_token_id=token_ids[0] if token_ids else None,
-                        no_token_id=token_ids[1] if len(token_ids) > 1 else None,
-                        metadata={
-                            "source": "network",
-                            "category": infer_category(item),
-                            "slug": item.get("slug"),
-                            "event_title": event_title,
-                            "resolution_text": item.get("description", ""),
-                            "close_time": item.get("endDate") or item.get("end_date_iso"),
-                            "raw": item,
-                        },
-                    )
-                )
-            markets = markets[:limit]
+            # Search hits first (they are the cross-venue candidate universe),
+            # most liquid first within each group; the raw listing fills the rest.
+            by_id: dict[str, Market] = {}
+            for market in sorted(await self._search_markets(), key=lambda m: m.liquidity, reverse=True):
+                by_id.setdefault(market.market_id, market)
+            for market in await self._top_liquidity_markets(limit):
+                by_id.setdefault(market.market_id, market)
+            markets = list(by_id.values())[:limit]
         self._market_cache.update({market.market_id: market for market in markets})
         return markets
+
+    async def _top_liquidity_markets(self, limit: int) -> list[Market]:
+        response = await self._http.get(
+            f"{GAMMA_URL}/markets",
+            params={
+                "active": "true",
+                "closed": "false",
+                "limit": min(max(limit, 1), 500),
+                "order": "liquidityNum",
+                "ascending": "false",
+            },
+        )
+        response.raise_for_status()
+        markets: list[Market] = []
+        for item in response.json():
+            if not isinstance(item, dict):
+                continue
+            events = item.get("events") or []
+            event = events[0] if events and isinstance(events[0], dict) else {}
+            market = self._market_from_item(item, event, discovered_by="top_liquidity")
+            if market is not None:
+                markets.append(market)
+        return markets
+
+    async def _search_markets(self) -> list[Market]:
+        """Markets of the events returned by Gamma's public search for each term."""
+        markets: list[Market] = []
+        for term in self.search_terms or ():
+            try:
+                response = await self._http.get(
+                    f"{GAMMA_URL}/public-search",
+                    params={"q": term, "limit_per_type": 10},
+                )
+                response.raise_for_status()
+                payload = response.json()
+            except (httpx.HTTPError, ValueError):
+                continue  # one failed search must not empty the universe
+            events = payload.get("events") if isinstance(payload, dict) else None
+            for event in events or []:
+                if not isinstance(event, dict) or event.get("closed"):
+                    continue
+                for item in event.get("markets") or []:
+                    if not isinstance(item, dict):
+                        continue
+                    market = self._market_from_item(item, event, discovered_by=f"search:{term}")
+                    if market is not None and market.active:
+                        markets.append(market)
+        return markets
+
+    def _market_from_item(self, item: dict[str, Any], event: dict[str, Any], *, discovered_by: str) -> Market | None:
+        token_ids = _token_ids(item)
+        market_id = str(item.get("conditionId") or item.get("id") or "")
+        if not market_id or not token_ids:
+            return None
+        tags = [str(t.get("label")) for t in (event.get("tags") or []) if isinstance(t, dict) and t.get("label")]
+        category = infer_category(item) or infer_category({"category": " ".join(tags), "question": event.get("title")})
+        return Market(
+            venue=Venue.POLYMARKET,
+            market_id=market_id,
+            title=str(item.get("question") or item.get("title") or market_id),
+            active=bool(item.get("active", True)) and not bool(item.get("closed", False)),
+            liquidity=decimal_or_zero(item.get("liquidityNum") or item.get("liquidity")),
+            volume=decimal_or_zero(item.get("volumeNum") or item.get("volume")),
+            yes_token_id=token_ids[0] if token_ids else None,
+            no_token_id=token_ids[1] if len(token_ids) > 1 else None,
+            metadata={
+                "source": "network",
+                "discovered_by": discovered_by,
+                "category": category,
+                "slug": item.get("slug"),
+                "event_slug": event.get("slug"),
+                "event_title": event.get("title"),
+                "tags": tags,
+                "resolution_text": item.get("description", ""),
+                "source_url": item.get("resolutionSource") or event.get("resolutionSource") or None,
+                "close_time": item.get("endDate") or item.get("endDateIso") or event.get("endDate"),
+                "neg_risk": item.get("negRisk"),
+                "fees_enabled": item.get("feesEnabled"),
+                "raw": item,
+            },
+        )
 
     async def get_order_book(self, market: Market) -> OrderBook:
         if self.use_fixtures:
