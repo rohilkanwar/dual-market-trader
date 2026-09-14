@@ -29,11 +29,11 @@ from typing import Any
 
 import httpx
 
-from apps.measure_all import append_jsonl, equity_curve_path, json_default, ledger_path, load_ledgers, to_jsonable, write_json
+from apps.measure_all import append_jsonl, equity_curve_path, ledger_path, load_ledgers, to_jsonable, write_json
 from core.config import require_paper_only
 from core.ledger import PaperLedger
 from core.types import Market, Outcome, Venue
-from research.flb import VERDICT_INSUFFICIENT, KalshiFeeModel
+from research.flb import KalshiFeeModel
 from research.flb_expost import harvest_settled_trades, load_settled_trades
 from research.scoreboard import TrackSummary, VenueSnapshot, _venue_pnl, capture_snapshot
 from research.scoreboard_artifact import build_scoreboard_artifact

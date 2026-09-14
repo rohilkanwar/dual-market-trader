@@ -46,7 +46,6 @@ from research.scoreboard import TrackRuntime, TrackSummary, VenueSnapshot, _bps
 from strategies.tourist_flow import (
     TOURIST_RISK_LIMITS,
     ClusterDetector,
-    ClusterSignal,
     FadeEvaluation,
     FadeTouristStrategy,
     TapeTrade,
