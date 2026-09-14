@@ -1,582 +1,135 @@
 {
-  "cash": "732.6609",
-  "created_at": "2026-09-14T21:46:01.808777+00:00",
+  "cash": "959.7214",
+  "created_at": "2026-09-14T23:30:13.571865+00:00",
   "equity_curve": [
     {
-      "cash": "959.50730",
-      "drawdown": "2.66270",
-      "equity": "997.33730",
-      "fees_paid": "1.20270",
+      "cash": "959.72140",
+      "drawdown": "2.75860",
+      "equity": "997.24140",
+      "fees_paid": "1.21860",
       "fills": 10,
-      "gross_notional": "64.69000",
-      "label": "network:2026-09-14T21:46:01.954432+00:00",
-      "net_exposure": "37.83000",
+      "gross_notional": "65.00000",
+      "label": "network:2026-09-14T23:30:27.427396+00:00",
+      "net_exposure": "37.52000",
       "open_positions": 10,
       "peak_equity": "1000.00000",
-      "position_value": "37.83000",
-      "realized_pnl": "-1.20270",
-      "timestamp": "2026-09-14T21:46:01.954784+00:00",
-      "total_pnl": "-2.66270",
+      "position_value": "37.52000",
+      "realized_pnl": "-1.21860",
+      "timestamp": "2026-09-14T23:30:27.427891+00:00",
+      "total_pnl": "-2.75860",
       "unmarked_positions": 0,
-      "unrealized_pnl": "-1.46000"
-    },
-    {
-      "cash": "732.66090",
-      "drawdown": "18.09410",
-      "equity": "981.90590",
-      "fees_paid": "4.37910",
-      "fills": 49,
-      "gross_notional": "359.21500",
-      "label": "flb:network:20260914T214602Z-flb-aed44114",
-      "net_exposure": "249.24500",
-      "open_positions": 39,
-      "peak_equity": "1000.00000",
-      "position_value": "249.24500",
-      "realized_pnl": "-4.37910",
-      "timestamp": "2026-09-14T21:46:21.274298+00:00",
-      "total_pnl": "-18.09410",
-      "unmarked_positions": 0,
-      "unrealized_pnl": "-13.71500"
+      "unrealized_pnl": "-1.54000"
     }
   ],
   "fills": [
     {
       "fee": "0.2070",
       "market_id": "KXFEDDECISION-26SEP-H0",
-      "order_id": "paper-f650c2801610",
+      "order_id": "paper-56d897a06374",
       "outcome": "no",
       "price": "0.8800",
       "quantity": "28",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.823090+00:00",
+      "timestamp": "2026-09-14T23:30:13.580677+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.2217",
       "market_id": "KXFEDDECISION-26SEP-H25",
-      "order_id": "paper-85fb49dad907",
+      "order_id": "paper-5987861eabba",
       "outcome": "yes",
       "price": "0.8700",
       "quantity": "28",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.823325+00:00",
+      "timestamp": "2026-09-14T23:30:13.580854+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.2217",
       "market_id": "KXFED-26SEP-T3.75",
-      "order_id": "paper-c1e25afcb6ec",
+      "order_id": "paper-7ab1d2274157",
       "outcome": "yes",
       "price": "0.8700",
       "quantity": "28",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.823531+00:00",
+      "timestamp": "2026-09-14T23:30:13.580993+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.0343",
       "market_id": "KXFEDDECISION-26OCT-C25",
-      "order_id": "paper-cdee16834656",
+      "order_id": "paper-016757aa6052",
       "outcome": "no",
       "price": "0.9800",
       "quantity": "25",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.823726+00:00",
+      "timestamp": "2026-09-14T23:30:13.583593+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.0174",
       "market_id": "KXFEDDECISION-26OCT-C26",
-      "order_id": "paper-eadf6dad3b14",
+      "order_id": "paper-e84d7a5f372e",
       "outcome": "no",
       "price": "0.9900",
       "quantity": "25",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.823892+00:00",
+      "timestamp": "2026-09-14T23:30:13.583742+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.0258",
       "market_id": "KXFEDDECISION-27DEC-H26",
-      "order_id": "paper-f702b71f97a5",
+      "order_id": "paper-0550141cc09b",
       "outcome": "no",
       "price": "0.9200",
       "quantity": "5",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.824079+00:00",
+      "timestamp": "2026-09-14T23:30:13.583895+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.1875",
       "market_id": "KXGDP-26OCT30-T4.0",
-      "order_id": "paper-40a32fa20d78",
+      "order_id": "paper-8540f637cce4",
       "outcome": "no",
       "price": "0.8500",
       "quantity": "21",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.824260+00:00",
+      "timestamp": "2026-09-14T23:30:13.584037+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.2589",
       "market_id": "KXCPI-26SEP-T0.6",
-      "order_id": "paper-27db4bb2f92a",
+      "order_id": "paper-a2ecacd16939",
       "outcome": "no",
       "price": "0.8500",
       "quantity": "29",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.824426+00:00",
+      "timestamp": "2026-09-14T23:30:13.584164+00:00",
       "venue": "kalshi"
     },
     {
-      "fee": "0.0184",
+      "fee": "0.0343",
       "market_id": "KXFEDDECISION-26DEC-C25",
-      "order_id": "paper-a4ed57bf158c",
+      "order_id": "paper-d52210f1045c",
       "outcome": "no",
-      "price": "0.9700",
-      "quantity": "9",
+      "price": "0.9800",
+      "quantity": "25",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.824604+00:00",
+      "timestamp": "2026-09-14T23:30:13.584297+00:00",
       "venue": "kalshi"
     },
     {
       "fee": "0.0100",
       "market_id": "KXFED-26DEC-T3.75",
-      "order_id": "paper-e8a14ae7e21d",
+      "order_id": "paper-89a99a3ae640",
       "outcome": "yes",
       "price": "0.9500",
       "quantity": "3",
       "side": "buy",
-      "timestamp": "2026-09-14T21:46:01.824755+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.2070",
-      "market_id": "KXFEDDECISION-26SEP-H0",
-      "order_id": "paper-04d927a98e91",
-      "outcome": "no",
-      "price": "0.8800",
-      "quantity": "28",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.262560+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.2217",
-      "market_id": "KXFEDDECISION-26SEP-H25",
-      "order_id": "paper-d7b40a2e7585",
-      "outcome": "yes",
-      "price": "0.8700",
-      "quantity": "28",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.262744+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.2217",
-      "market_id": "KXFED-26SEP-T3.75",
-      "order_id": "paper-323c777a6304",
-      "outcome": "yes",
-      "price": "0.8700",
-      "quantity": "28",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.262892+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXFEDDECISION-26OCT-C25",
-      "order_id": "paper-6a3120e7fd72",
-      "outcome": "no",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263032+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXFEDDECISION-26OCT-C26",
-      "order_id": "paper-18e4dfd8bc4c",
-      "outcome": "no",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263152+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0258",
-      "market_id": "KXFEDDECISION-27DEC-H26",
-      "order_id": "paper-9f40f22610aa",
-      "outcome": "no",
-      "price": "0.9200",
-      "quantity": "5",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263290+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.1875",
-      "market_id": "KXGDP-26OCT30-T4.0",
-      "order_id": "paper-13a9a49b90df",
-      "outcome": "no",
-      "price": "0.8500",
-      "quantity": "21",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263422+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.2589",
-      "market_id": "KXCPI-26SEP-T0.6",
-      "order_id": "paper-01661d0e90c0",
-      "outcome": "no",
-      "price": "0.8500",
-      "quantity": "29",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263546+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0184",
-      "market_id": "KXFEDDECISION-26DEC-C25",
-      "order_id": "paper-5b800e597dcd",
-      "outcome": "no",
-      "price": "0.9700",
-      "quantity": "9",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263680+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0100",
-      "market_id": "KXFED-26DEC-T3.75",
-      "order_id": "paper-79611d65b33f",
-      "outcome": "yes",
-      "price": "0.9500",
-      "quantity": "3",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263796+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXCPICORE-26OCT-T0.7",
-      "order_id": "paper-5ee09dde5050",
-      "outcome": "no",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.263929+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0699",
-      "market_id": "KXGDP-27APR29-T4.0",
-      "order_id": "paper-02349611b26a",
-      "outcome": "no",
-      "price": "0.9600",
-      "quantity": "26",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264050+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXFEDDECISION-26OCT-H26",
-      "order_id": "paper-157c8b8f855e",
-      "outcome": "no",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264169+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXFED-26DEC-T3.50",
-      "order_id": "paper-d9eb5032f19d",
-      "outcome": "yes",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264279+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.1548",
-      "market_id": "KXFEDDECISION-27OCT-C25",
-      "order_id": "paper-a2277ffd81e5",
-      "outcome": "no",
-      "price": "0.9100",
-      "quantity": "27",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264420+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0510",
-      "market_id": "KXFEDDECISION-27JUL-C26",
-      "order_id": "paper-664f0387ce60",
-      "outcome": "no",
-      "price": "0.9700",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264539+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXFEDDECISION-26DEC-C26",
-      "order_id": "paper-0eb3dc7d5d5e",
-      "outcome": "no",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264660+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXFEDDECISION-26DEC-H26",
-      "order_id": "paper-3bf2c69fb5c2",
-      "outcome": "no",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264778+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXFEDDECISION-27APR-H26",
-      "order_id": "paper-b987ba215129",
-      "outcome": "no",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.264903+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.1185",
-      "market_id": "KXFEDDECISION-27JUN-C26",
-      "order_id": "paper-8e5b75733e12",
-      "outcome": "no",
-      "price": "0.9300",
-      "quantity": "26",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265028+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXFED-26DEC-T2.75",
-      "order_id": "paper-76865ddf005b",
-      "outcome": "yes",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265156+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0510",
-      "market_id": "KXFEDDECISION-27SEP-C26",
-      "order_id": "paper-537c972964dd",
-      "outcome": "no",
-      "price": "0.9700",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265323+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.2070",
-      "market_id": "KXU3-26SEP-T4.2",
-      "order_id": "paper-6c1e274aeb68",
-      "outcome": "no",
-      "price": "0.8800",
-      "quantity": "28",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265459+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.1701",
-      "market_id": "KXFED-26OCT-T3.75",
-      "order_id": "paper-180233aec84b",
-      "outcome": "yes",
-      "price": "0.9000",
-      "quantity": "27",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265570+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXFED-26DEC-T3.25",
-      "order_id": "paper-ca037f6387b4",
-      "outcome": "yes",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265696+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0987",
-      "market_id": "KXFED-27JAN-T3.25",
-      "order_id": "paper-7c5455c0aba1",
-      "outcome": "yes",
-      "price": "0.9400",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.265817+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0502",
-      "market_id": "KXFEDDECISION-27OCT-H26",
-      "order_id": "paper-9a7248b2ca24",
-      "outcome": "no",
-      "price": "0.9300",
-      "quantity": "11",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266097+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.2217",
-      "market_id": "KXFEDDECISION-27JAN-C25",
-      "order_id": "paper-e6bb4bb7a3ca",
-      "outcome": "no",
-      "price": "0.8700",
-      "quantity": "28",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266227+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0258",
-      "market_id": "KXFEDDECISION-27DEC-C26",
-      "order_id": "paper-4694fd9cd6bd",
-      "outcome": "no",
-      "price": "0.9200",
-      "quantity": "5",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266363+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.1548",
-      "market_id": "KXFEDDECISION-27JUL-C25",
-      "order_id": "paper-0a898c627d5e",
-      "outcome": "no",
-      "price": "0.9100",
-      "quantity": "27",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266513+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXFEDDECISION-27JAN-C26",
-      "order_id": "paper-4912a2cc0f80",
-      "outcome": "no",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266661+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXFED-26DEC-T3.00",
-      "order_id": "paper-5d803246b4be",
-      "outcome": "yes",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266788+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.1919",
-      "market_id": "KXGDP-26OCT30-T1.0",
-      "order_id": "paper-988cd9d36153",
-      "outcome": "yes",
-      "price": "0.8900",
-      "quantity": "28",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.266931+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXFEDDECISION-27JAN-H26",
-      "order_id": "paper-4c300e681c1f",
-      "outcome": "no",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.267082+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0174",
-      "market_id": "KXCPIYOY-26SEP-T4.3",
-      "order_id": "paper-b751892f8b81",
-      "outcome": "no",
-      "price": "0.9900",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.267207+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0699",
-      "market_id": "KXCPI-26SEP-T0.3",
-      "order_id": "paper-a1415325da2a",
-      "outcome": "yes",
-      "price": "0.9600",
-      "quantity": "26",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.267332+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0343",
-      "market_id": "KXU3-26SEP-T4.4",
-      "order_id": "paper-6c67ec2896ec",
-      "outcome": "no",
-      "price": "0.9800",
-      "quantity": "25",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.267468+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0056",
-      "market_id": "KXCPI-26SEP-T0.0",
-      "order_id": "paper-8973278f42c7",
-      "outcome": "yes",
-      "price": "0.9900",
-      "quantity": "8",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.267591+00:00",
-      "venue": "kalshi"
-    },
-    {
-      "fee": "0.0052",
-      "market_id": "KXFED-27JAN-T3.00",
-      "order_id": "paper-3074c15392e4",
-      "outcome": "yes",
-      "price": "0.9200",
-      "quantity": "1",
-      "side": "buy",
-      "timestamp": "2026-09-14T21:46:21.267716+00:00",
+      "timestamp": "2026-09-14T23:30:13.584406+00:00",
       "venue": "kalshi"
     }
   ],
@@ -584,49 +137,9 @@
   "mark_method": "mid",
   "marks": [
     {
-      "market_id": "KXCPI-26SEP-T0.0",
-      "venue": "kalshi",
-      "yes_price": "0.9850"
-    },
-    {
-      "market_id": "KXCPI-26SEP-T0.3",
-      "venue": "kalshi",
-      "yes_price": "0.9350"
-    },
-    {
       "market_id": "KXCPI-26SEP-T0.6",
       "venue": "kalshi",
       "yes_price": "0.1550"
-    },
-    {
-      "market_id": "KXCPICORE-26OCT-T0.7",
-      "venue": "kalshi",
-      "yes_price": "0.0150"
-    },
-    {
-      "market_id": "KXCPIYOY-26SEP-T4.3",
-      "venue": "kalshi",
-      "yes_price": "0.0150"
-    },
-    {
-      "market_id": "KXFED-26DEC-T2.75",
-      "venue": "kalshi",
-      "yes_price": "0.9850"
-    },
-    {
-      "market_id": "KXFED-26DEC-T3.00",
-      "venue": "kalshi",
-      "yes_price": "0.9850"
-    },
-    {
-      "market_id": "KXFED-26DEC-T3.25",
-      "venue": "kalshi",
-      "yes_price": "0.9750"
-    },
-    {
-      "market_id": "KXFED-26DEC-T3.50",
-      "venue": "kalshi",
-      "yes_price": "0.9700"
     },
     {
       "market_id": "KXFED-26DEC-T3.75",
@@ -634,37 +147,12 @@
       "yes_price": "0.9400"
     },
     {
-      "market_id": "KXFED-26OCT-T3.75",
-      "venue": "kalshi",
-      "yes_price": "0.8900"
-    },
-    {
       "market_id": "KXFED-26SEP-T3.75",
       "venue": "kalshi",
       "yes_price": "0.8650"
     },
     {
-      "market_id": "KXFED-27JAN-T3.00",
-      "venue": "kalshi",
-      "yes_price": "0.8950"
-    },
-    {
-      "market_id": "KXFED-27JAN-T3.25",
-      "venue": "kalshi",
-      "yes_price": "0.9000"
-    },
-    {
       "market_id": "KXFEDDECISION-26DEC-C25",
-      "venue": "kalshi",
-      "yes_price": "0.0350"
-    },
-    {
-      "market_id": "KXFEDDECISION-26DEC-C26",
-      "venue": "kalshi",
-      "yes_price": "0.0150"
-    },
-    {
-      "market_id": "KXFEDDECISION-26DEC-H26",
       "venue": "kalshi",
       "yes_price": "0.0250"
     },
@@ -675,11 +163,6 @@
     },
     {
       "market_id": "KXFEDDECISION-26OCT-C26",
-      "venue": "kalshi",
-      "yes_price": "0.0150"
-    },
-    {
-      "market_id": "KXFEDDECISION-26OCT-H26",
       "venue": "kalshi",
       "yes_price": "0.0150"
     },
@@ -694,363 +177,48 @@
       "yes_price": "0.8650"
     },
     {
-      "market_id": "KXFEDDECISION-27APR-H26",
-      "venue": "kalshi",
-      "yes_price": "0.0150"
-    },
-    {
-      "market_id": "KXFEDDECISION-27DEC-C26",
-      "venue": "kalshi",
-      "yes_price": "0.1050"
-    },
-    {
       "market_id": "KXFEDDECISION-27DEC-H26",
       "venue": "kalshi",
       "yes_price": "0.1100"
     },
     {
-      "market_id": "KXFEDDECISION-27JAN-C25",
-      "venue": "kalshi",
-      "yes_price": "0.1400"
-    },
-    {
-      "market_id": "KXFEDDECISION-27JAN-C26",
-      "venue": "kalshi",
-      "yes_price": "0.0350"
-    },
-    {
-      "market_id": "KXFEDDECISION-27JAN-H26",
-      "venue": "kalshi",
-      "yes_price": "0.0550"
-    },
-    {
-      "market_id": "KXFEDDECISION-27JUL-C25",
-      "venue": "kalshi",
-      "yes_price": "0.1200"
-    },
-    {
-      "market_id": "KXFEDDECISION-27JUL-C26",
-      "venue": "kalshi",
-      "yes_price": "0.0350"
-    },
-    {
-      "market_id": "KXFEDDECISION-27JUN-C26",
-      "venue": "kalshi",
-      "yes_price": "0.0800"
-    },
-    {
-      "market_id": "KXFEDDECISION-27OCT-C25",
-      "venue": "kalshi",
-      "yes_price": "0.1150"
-    },
-    {
-      "market_id": "KXFEDDECISION-27OCT-H26",
-      "venue": "kalshi",
-      "yes_price": "0.1150"
-    },
-    {
-      "market_id": "KXFEDDECISION-27SEP-C26",
-      "venue": "kalshi",
-      "yes_price": "0.0550"
-    },
-    {
-      "market_id": "KXGDP-26OCT30-T1.0",
-      "venue": "kalshi",
-      "yes_price": "0.8650"
-    },
-    {
       "market_id": "KXGDP-26OCT30-T4.0",
       "venue": "kalshi",
       "yes_price": "0.1700"
-    },
-    {
-      "market_id": "KXGDP-27APR29-T4.0",
-      "venue": "kalshi",
-      "yes_price": "0.0850"
-    },
-    {
-      "market_id": "KXU3-26SEP-T4.2",
-      "venue": "kalshi",
-      "yes_price": "0.1350"
-    },
-    {
-      "market_id": "KXU3-26SEP-T4.4",
-      "venue": "kalshi",
-      "yes_price": "0.0400"
     }
   ],
-  "max_drawdown": "18.0941",
+  "max_drawdown": "2.7586",
   "paper_only": true,
   "peak_equity": "1000",
   "positions": [
     {
       "average_price": "0.1200",
-      "fees_paid": "0.4140",
-      "market_id": "KXFEDDECISION-26SEP-H0",
-      "quantity": "-56",
-      "realized_pnl": "-0.4140",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.8700",
-      "fees_paid": "0.4434",
-      "market_id": "KXFEDDECISION-26SEP-H25",
-      "quantity": "56",
-      "realized_pnl": "-0.4434",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.8700",
-      "fees_paid": "0.4434",
-      "market_id": "KXFED-26SEP-T3.75",
-      "quantity": "56",
-      "realized_pnl": "-0.4434",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0200",
-      "fees_paid": "0.0686",
-      "market_id": "KXFEDDECISION-26OCT-C25",
-      "quantity": "-50",
-      "realized_pnl": "-0.0686",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0100",
-      "fees_paid": "0.0348",
-      "market_id": "KXFEDDECISION-26OCT-C26",
-      "quantity": "-50",
-      "realized_pnl": "-0.0348",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0800",
-      "fees_paid": "0.0516",
-      "market_id": "KXFEDDECISION-27DEC-H26",
-      "quantity": "-10",
-      "realized_pnl": "-0.0516",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.1500",
-      "fees_paid": "0.3750",
-      "market_id": "KXGDP-26OCT30-T4.0",
-      "quantity": "-42",
-      "realized_pnl": "-0.3750",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.1500",
-      "fees_paid": "0.5178",
-      "market_id": "KXCPI-26SEP-T0.6",
-      "quantity": "-58",
-      "realized_pnl": "-0.5178",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0300",
-      "fees_paid": "0.0368",
-      "market_id": "KXFEDDECISION-26DEC-C25",
-      "quantity": "-18",
-      "realized_pnl": "-0.0368",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9500",
-      "fees_paid": "0.0200",
-      "market_id": "KXFED-26DEC-T3.75",
-      "quantity": "6",
-      "realized_pnl": "-0.0200",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0100",
-      "fees_paid": "0.0174",
-      "market_id": "KXCPICORE-26OCT-T0.7",
-      "quantity": "-25",
-      "realized_pnl": "-0.0174",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0400",
-      "fees_paid": "0.0699",
-      "market_id": "KXGDP-27APR29-T4.0",
-      "quantity": "-26",
-      "realized_pnl": "-0.0699",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0100",
-      "fees_paid": "0.0174",
-      "market_id": "KXFEDDECISION-26OCT-H26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0174",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9800",
-      "fees_paid": "0.0343",
-      "market_id": "KXFED-26DEC-T3.50",
-      "quantity": "25",
-      "realized_pnl": "-0.0343",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0900",
-      "fees_paid": "0.1548",
-      "market_id": "KXFEDDECISION-27OCT-C25",
-      "quantity": "-27",
-      "realized_pnl": "-0.1548",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0300",
-      "fees_paid": "0.0510",
-      "market_id": "KXFEDDECISION-27JUL-C26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0510",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0100",
-      "fees_paid": "0.0174",
-      "market_id": "KXFEDDECISION-26DEC-C26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0174",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0200",
-      "fees_paid": "0.0343",
-      "market_id": "KXFEDDECISION-26DEC-H26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0343",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0100",
-      "fees_paid": "0.0174",
-      "market_id": "KXFEDDECISION-27APR-H26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0174",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0700",
-      "fees_paid": "0.1185",
-      "market_id": "KXFEDDECISION-27JUN-C26",
-      "quantity": "-26",
-      "realized_pnl": "-0.1185",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9900",
-      "fees_paid": "0.0174",
-      "market_id": "KXFED-26DEC-T2.75",
-      "quantity": "25",
-      "realized_pnl": "-0.0174",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0300",
-      "fees_paid": "0.0510",
-      "market_id": "KXFEDDECISION-27SEP-C26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0510",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.1200",
       "fees_paid": "0.2070",
-      "market_id": "KXU3-26SEP-T4.2",
+      "market_id": "KXFEDDECISION-26SEP-H0",
       "quantity": "-28",
       "realized_pnl": "-0.2070",
       "venue": "kalshi"
     },
     {
-      "average_price": "0.9000",
-      "fees_paid": "0.1701",
-      "market_id": "KXFED-26OCT-T3.75",
-      "quantity": "27",
-      "realized_pnl": "-0.1701",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9800",
-      "fees_paid": "0.0343",
-      "market_id": "KXFED-26DEC-T3.25",
-      "quantity": "25",
-      "realized_pnl": "-0.0343",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9400",
-      "fees_paid": "0.0987",
-      "market_id": "KXFED-27JAN-T3.25",
-      "quantity": "25",
-      "realized_pnl": "-0.0987",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0700",
-      "fees_paid": "0.0502",
-      "market_id": "KXFEDDECISION-27OCT-H26",
-      "quantity": "-11",
-      "realized_pnl": "-0.0502",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.1300",
+      "average_price": "0.8700",
       "fees_paid": "0.2217",
-      "market_id": "KXFEDDECISION-27JAN-C25",
-      "quantity": "-28",
+      "market_id": "KXFEDDECISION-26SEP-H25",
+      "quantity": "28",
       "realized_pnl": "-0.2217",
       "venue": "kalshi"
     },
     {
-      "average_price": "0.0800",
-      "fees_paid": "0.0258",
-      "market_id": "KXFEDDECISION-27DEC-C26",
-      "quantity": "-5",
-      "realized_pnl": "-0.0258",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0900",
-      "fees_paid": "0.1548",
-      "market_id": "KXFEDDECISION-27JUL-C25",
-      "quantity": "-27",
-      "realized_pnl": "-0.1548",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.0200",
-      "fees_paid": "0.0343",
-      "market_id": "KXFEDDECISION-27JAN-C26",
-      "quantity": "-25",
-      "realized_pnl": "-0.0343",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9900",
-      "fees_paid": "0.0174",
-      "market_id": "KXFED-26DEC-T3.00",
-      "quantity": "25",
-      "realized_pnl": "-0.0174",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.8900",
-      "fees_paid": "0.1919",
-      "market_id": "KXGDP-26OCT30-T1.0",
+      "average_price": "0.8700",
+      "fees_paid": "0.2217",
+      "market_id": "KXFED-26SEP-T3.75",
       "quantity": "28",
-      "realized_pnl": "-0.1919",
+      "realized_pnl": "-0.2217",
       "venue": "kalshi"
     },
     {
       "average_price": "0.0200",
       "fees_paid": "0.0343",
-      "market_id": "KXFEDDECISION-27JAN-H26",
+      "market_id": "KXFEDDECISION-26OCT-C25",
       "quantity": "-25",
       "realized_pnl": "-0.0343",
       "venue": "kalshi"
@@ -1058,261 +226,115 @@
     {
       "average_price": "0.0100",
       "fees_paid": "0.0174",
-      "market_id": "KXCPIYOY-26SEP-T4.3",
+      "market_id": "KXFEDDECISION-26OCT-C26",
       "quantity": "-25",
       "realized_pnl": "-0.0174",
       "venue": "kalshi"
     },
     {
-      "average_price": "0.9600",
-      "fees_paid": "0.0699",
-      "market_id": "KXCPI-26SEP-T0.3",
-      "quantity": "26",
-      "realized_pnl": "-0.0699",
+      "average_price": "0.0800",
+      "fees_paid": "0.0258",
+      "market_id": "KXFEDDECISION-27DEC-H26",
+      "quantity": "-5",
+      "realized_pnl": "-0.0258",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.1500",
+      "fees_paid": "0.1875",
+      "market_id": "KXGDP-26OCT30-T4.0",
+      "quantity": "-21",
+      "realized_pnl": "-0.1875",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.1500",
+      "fees_paid": "0.2589",
+      "market_id": "KXCPI-26SEP-T0.6",
+      "quantity": "-29",
+      "realized_pnl": "-0.2589",
       "venue": "kalshi"
     },
     {
       "average_price": "0.0200",
       "fees_paid": "0.0343",
-      "market_id": "KXU3-26SEP-T4.4",
+      "market_id": "KXFEDDECISION-26DEC-C25",
       "quantity": "-25",
       "realized_pnl": "-0.0343",
       "venue": "kalshi"
     },
     {
-      "average_price": "0.9900",
-      "fees_paid": "0.0056",
-      "market_id": "KXCPI-26SEP-T0.0",
-      "quantity": "8",
-      "realized_pnl": "-0.0056",
-      "venue": "kalshi"
-    },
-    {
-      "average_price": "0.9200",
-      "fees_paid": "0.0052",
-      "market_id": "KXFED-27JAN-T3.00",
-      "quantity": "1",
-      "realized_pnl": "-0.0052",
+      "average_price": "0.9500",
+      "fees_paid": "0.0100",
+      "market_id": "KXFED-26DEC-T3.75",
+      "quantity": "3",
+      "realized_pnl": "-0.0100",
       "venue": "kalshi"
     }
   ],
   "schema_version": "1.0.0",
   "starting_cash": "1000",
   "summary": {
-    "cash": "732.66090",
+    "cash": "959.72140",
     "concentration": [
       {
         "venue": "kalshi",
         "weight": "1.00000"
       }
     ],
-    "created_at": "2026-09-14T21:46:01.808777+00:00",
-    "equity": "981.90590",
-    "equity_points": 2,
-    "fees_paid": "4.37910",
-    "fills": 49,
-    "gross_notional": "359.21500",
+    "created_at": "2026-09-14T23:30:13.571865+00:00",
+    "equity": "997.24140",
+    "equity_points": 1,
+    "fees_paid": "1.21860",
+    "fills": 10,
+    "gross_notional": "65.00000",
     "ledger_id": "kalshi_longshot_fade",
     "mark_method": "mid",
-    "max_drawdown": "18.09410",
-    "net_exposure": "249.24500",
-    "open_positions": 39,
+    "max_drawdown": "2.75860",
+    "net_exposure": "37.52000",
+    "open_positions": 10,
     "paper_only": true,
     "peak_equity": "1000.00000",
-    "position_value": "249.24500",
+    "position_value": "37.52000",
     "positions": [
       {
         "average_price": "0.12000",
-        "fees_paid": "0.41400",
+        "fees_paid": "0.20700",
         "mark": "0.12500",
         "market_id": "KXFEDDECISION-26SEP-H0",
-        "quantity": "-56.00000",
-        "realized_pnl": "-0.41400",
-        "unrealized_pnl": "-0.28000",
-        "value": "-7.00000",
+        "quantity": "-28.00000",
+        "realized_pnl": "-0.20700",
+        "unrealized_pnl": "-0.14000",
+        "value": "-3.50000",
         "venue": "kalshi"
       },
       {
         "average_price": "0.87000",
-        "fees_paid": "0.44340",
+        "fees_paid": "0.22170",
         "mark": "0.86500",
         "market_id": "KXFEDDECISION-26SEP-H25",
-        "quantity": "56.00000",
-        "realized_pnl": "-0.44340",
-        "unrealized_pnl": "-0.28000",
-        "value": "48.44000",
+        "quantity": "28.00000",
+        "realized_pnl": "-0.22170",
+        "unrealized_pnl": "-0.14000",
+        "value": "24.22000",
         "venue": "kalshi"
       },
       {
         "average_price": "0.87000",
-        "fees_paid": "0.44340",
+        "fees_paid": "0.22170",
         "mark": "0.86500",
         "market_id": "KXFED-26SEP-T3.75",
-        "quantity": "56.00000",
-        "realized_pnl": "-0.44340",
-        "unrealized_pnl": "-0.28000",
-        "value": "48.44000",
+        "quantity": "28.00000",
+        "realized_pnl": "-0.22170",
+        "unrealized_pnl": "-0.14000",
+        "value": "24.22000",
         "venue": "kalshi"
       },
       {
         "average_price": "0.02000",
-        "fees_paid": "0.06860",
+        "fees_paid": "0.03430",
         "mark": "0.02500",
         "market_id": "KXFEDDECISION-26OCT-C25",
-        "quantity": "-50.00000",
-        "realized_pnl": "-0.06860",
-        "unrealized_pnl": "-0.25000",
-        "value": "-1.25000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.01000",
-        "fees_paid": "0.03480",
-        "mark": "0.01500",
-        "market_id": "KXFEDDECISION-26OCT-C26",
-        "quantity": "-50.00000",
-        "realized_pnl": "-0.03480",
-        "unrealized_pnl": "-0.25000",
-        "value": "-0.75000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.08000",
-        "fees_paid": "0.05160",
-        "mark": "0.11000",
-        "market_id": "KXFEDDECISION-27DEC-H26",
-        "quantity": "-10.00000",
-        "realized_pnl": "-0.05160",
-        "unrealized_pnl": "-0.30000",
-        "value": "-1.10000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.15000",
-        "fees_paid": "0.37500",
-        "mark": "0.17000",
-        "market_id": "KXGDP-26OCT30-T4.0",
-        "quantity": "-42.00000",
-        "realized_pnl": "-0.37500",
-        "unrealized_pnl": "-0.84000",
-        "value": "-7.14000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.15000",
-        "fees_paid": "0.51780",
-        "mark": "0.15500",
-        "market_id": "KXCPI-26SEP-T0.6",
-        "quantity": "-58.00000",
-        "realized_pnl": "-0.51780",
-        "unrealized_pnl": "-0.29000",
-        "value": "-8.99000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.03000",
-        "fees_paid": "0.03680",
-        "mark": "0.03500",
-        "market_id": "KXFEDDECISION-26DEC-C25",
-        "quantity": "-18.00000",
-        "realized_pnl": "-0.03680",
-        "unrealized_pnl": "-0.09000",
-        "value": "-0.63000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.95000",
-        "fees_paid": "0.02000",
-        "mark": "0.94000",
-        "market_id": "KXFED-26DEC-T3.75",
-        "quantity": "6.00000",
-        "realized_pnl": "-0.02000",
-        "unrealized_pnl": "-0.06000",
-        "value": "5.64000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.01000",
-        "fees_paid": "0.01740",
-        "mark": "0.01500",
-        "market_id": "KXCPICORE-26OCT-T0.7",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.01740",
-        "unrealized_pnl": "-0.12500",
-        "value": "-0.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.04000",
-        "fees_paid": "0.06990",
-        "mark": "0.08500",
-        "market_id": "KXGDP-27APR29-T4.0",
-        "quantity": "-26.00000",
-        "realized_pnl": "-0.06990",
-        "unrealized_pnl": "-1.17000",
-        "value": "-2.21000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.01000",
-        "fees_paid": "0.01740",
-        "mark": "0.01500",
-        "market_id": "KXFEDDECISION-26OCT-H26",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.01740",
-        "unrealized_pnl": "-0.12500",
-        "value": "-0.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.98000",
-        "fees_paid": "0.03430",
-        "mark": "0.97000",
-        "market_id": "KXFED-26DEC-T3.50",
-        "quantity": "25.00000",
-        "realized_pnl": "-0.03430",
-        "unrealized_pnl": "-0.25000",
-        "value": "24.25000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.09000",
-        "fees_paid": "0.15480",
-        "mark": "0.11500",
-        "market_id": "KXFEDDECISION-27OCT-C25",
-        "quantity": "-27.00000",
-        "realized_pnl": "-0.15480",
-        "unrealized_pnl": "-0.67500",
-        "value": "-3.10500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.03000",
-        "fees_paid": "0.05100",
-        "mark": "0.03500",
-        "market_id": "KXFEDDECISION-27JUL-C26",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.05100",
-        "unrealized_pnl": "-0.12500",
-        "value": "-0.87500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.01000",
-        "fees_paid": "0.01740",
-        "mark": "0.01500",
-        "market_id": "KXFEDDECISION-26DEC-C26",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.01740",
-        "unrealized_pnl": "-0.12500",
-        "value": "-0.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.02000",
-        "fees_paid": "0.03430",
-        "mark": "0.02500",
-        "market_id": "KXFEDDECISION-26DEC-H26",
         "quantity": "-25.00000",
         "realized_pnl": "-0.03430",
         "unrealized_pnl": "-0.12500",
@@ -1323,242 +345,77 @@
         "average_price": "0.01000",
         "fees_paid": "0.01740",
         "mark": "0.01500",
-        "market_id": "KXFEDDECISION-27APR-H26",
+        "market_id": "KXFEDDECISION-26OCT-C26",
         "quantity": "-25.00000",
         "realized_pnl": "-0.01740",
         "unrealized_pnl": "-0.12500",
         "value": "-0.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.07000",
-        "fees_paid": "0.11850",
-        "mark": "0.08000",
-        "market_id": "KXFEDDECISION-27JUN-C26",
-        "quantity": "-26.00000",
-        "realized_pnl": "-0.11850",
-        "unrealized_pnl": "-0.26000",
-        "value": "-2.08000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.99000",
-        "fees_paid": "0.01740",
-        "mark": "0.98500",
-        "market_id": "KXFED-26DEC-T2.75",
-        "quantity": "25.00000",
-        "realized_pnl": "-0.01740",
-        "unrealized_pnl": "-0.12500",
-        "value": "24.62500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.03000",
-        "fees_paid": "0.05100",
-        "mark": "0.05500",
-        "market_id": "KXFEDDECISION-27SEP-C26",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.05100",
-        "unrealized_pnl": "-0.62500",
-        "value": "-1.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.12000",
-        "fees_paid": "0.20700",
-        "mark": "0.13500",
-        "market_id": "KXU3-26SEP-T4.2",
-        "quantity": "-28.00000",
-        "realized_pnl": "-0.20700",
-        "unrealized_pnl": "-0.42000",
-        "value": "-3.78000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.90000",
-        "fees_paid": "0.17010",
-        "mark": "0.89000",
-        "market_id": "KXFED-26OCT-T3.75",
-        "quantity": "27.00000",
-        "realized_pnl": "-0.17010",
-        "unrealized_pnl": "-0.27000",
-        "value": "24.03000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.98000",
-        "fees_paid": "0.03430",
-        "mark": "0.97500",
-        "market_id": "KXFED-26DEC-T3.25",
-        "quantity": "25.00000",
-        "realized_pnl": "-0.03430",
-        "unrealized_pnl": "-0.12500",
-        "value": "24.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.94000",
-        "fees_paid": "0.09870",
-        "mark": "0.90000",
-        "market_id": "KXFED-27JAN-T3.25",
-        "quantity": "25.00000",
-        "realized_pnl": "-0.09870",
-        "unrealized_pnl": "-1.00000",
-        "value": "22.50000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.07000",
-        "fees_paid": "0.05020",
-        "mark": "0.11500",
-        "market_id": "KXFEDDECISION-27OCT-H26",
-        "quantity": "-11.00000",
-        "realized_pnl": "-0.05020",
-        "unrealized_pnl": "-0.49500",
-        "value": "-1.26500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.13000",
-        "fees_paid": "0.22170",
-        "mark": "0.14000",
-        "market_id": "KXFEDDECISION-27JAN-C25",
-        "quantity": "-28.00000",
-        "realized_pnl": "-0.22170",
-        "unrealized_pnl": "-0.28000",
-        "value": "-3.92000",
         "venue": "kalshi"
       },
       {
         "average_price": "0.08000",
         "fees_paid": "0.02580",
-        "mark": "0.10500",
-        "market_id": "KXFEDDECISION-27DEC-C26",
+        "mark": "0.11000",
+        "market_id": "KXFEDDECISION-27DEC-H26",
         "quantity": "-5.00000",
         "realized_pnl": "-0.02580",
-        "unrealized_pnl": "-0.12500",
-        "value": "-0.52500",
+        "unrealized_pnl": "-0.15000",
+        "value": "-0.55000",
         "venue": "kalshi"
       },
       {
-        "average_price": "0.09000",
-        "fees_paid": "0.15480",
-        "mark": "0.12000",
-        "market_id": "KXFEDDECISION-27JUL-C25",
-        "quantity": "-27.00000",
-        "realized_pnl": "-0.15480",
-        "unrealized_pnl": "-0.81000",
-        "value": "-3.24000",
+        "average_price": "0.15000",
+        "fees_paid": "0.18750",
+        "mark": "0.17000",
+        "market_id": "KXGDP-26OCT30-T4.0",
+        "quantity": "-21.00000",
+        "realized_pnl": "-0.18750",
+        "unrealized_pnl": "-0.42000",
+        "value": "-3.57000",
         "venue": "kalshi"
       },
       {
-        "average_price": "0.02000",
-        "fees_paid": "0.03430",
-        "mark": "0.03500",
-        "market_id": "KXFEDDECISION-27JAN-C26",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.03430",
-        "unrealized_pnl": "-0.37500",
-        "value": "-0.87500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.99000",
-        "fees_paid": "0.01740",
-        "mark": "0.98500",
-        "market_id": "KXFED-26DEC-T3.00",
-        "quantity": "25.00000",
-        "realized_pnl": "-0.01740",
-        "unrealized_pnl": "-0.12500",
-        "value": "24.62500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.89000",
-        "fees_paid": "0.19190",
-        "mark": "0.86500",
-        "market_id": "KXGDP-26OCT30-T1.0",
-        "quantity": "28.00000",
-        "realized_pnl": "-0.19190",
-        "unrealized_pnl": "-0.70000",
-        "value": "24.22000",
+        "average_price": "0.15000",
+        "fees_paid": "0.25890",
+        "mark": "0.15500",
+        "market_id": "KXCPI-26SEP-T0.6",
+        "quantity": "-29.00000",
+        "realized_pnl": "-0.25890",
+        "unrealized_pnl": "-0.14500",
+        "value": "-4.49500",
         "venue": "kalshi"
       },
       {
         "average_price": "0.02000",
         "fees_paid": "0.03430",
-        "mark": "0.05500",
-        "market_id": "KXFEDDECISION-27JAN-H26",
+        "mark": "0.02500",
+        "market_id": "KXFEDDECISION-26DEC-C25",
         "quantity": "-25.00000",
         "realized_pnl": "-0.03430",
-        "unrealized_pnl": "-0.87500",
-        "value": "-1.37500",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.01000",
-        "fees_paid": "0.01740",
-        "mark": "0.01500",
-        "market_id": "KXCPIYOY-26SEP-T4.3",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.01740",
         "unrealized_pnl": "-0.12500",
-        "value": "-0.37500",
+        "value": "-0.62500",
         "venue": "kalshi"
       },
       {
-        "average_price": "0.96000",
-        "fees_paid": "0.06990",
-        "mark": "0.93500",
-        "market_id": "KXCPI-26SEP-T0.3",
-        "quantity": "26.00000",
-        "realized_pnl": "-0.06990",
-        "unrealized_pnl": "-0.65000",
-        "value": "24.31000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.02000",
-        "fees_paid": "0.03430",
-        "mark": "0.04000",
-        "market_id": "KXU3-26SEP-T4.4",
-        "quantity": "-25.00000",
-        "realized_pnl": "-0.03430",
-        "unrealized_pnl": "-0.50000",
-        "value": "-1.00000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.99000",
-        "fees_paid": "0.00560",
-        "mark": "0.98500",
-        "market_id": "KXCPI-26SEP-T0.0",
-        "quantity": "8.00000",
-        "realized_pnl": "-0.00560",
-        "unrealized_pnl": "-0.04000",
-        "value": "7.88000",
-        "venue": "kalshi"
-      },
-      {
-        "average_price": "0.92000",
-        "fees_paid": "0.00520",
-        "mark": "0.89500",
-        "market_id": "KXFED-27JAN-T3.00",
-        "quantity": "1.00000",
-        "realized_pnl": "-0.00520",
-        "unrealized_pnl": "-0.02500",
-        "value": "0.89500",
+        "average_price": "0.95000",
+        "fees_paid": "0.01000",
+        "mark": "0.94000",
+        "market_id": "KXFED-26DEC-T3.75",
+        "quantity": "3.00000",
+        "realized_pnl": "-0.01000",
+        "unrealized_pnl": "-0.03000",
+        "value": "2.82000",
         "venue": "kalshi"
       }
     ],
-    "realized_pnl": "-4.37910",
-    "return_pct": "-1.80941",
+    "realized_pnl": "-1.21860",
+    "return_pct": "-0.27586",
     "settlement_fills": 0,
     "starting_cash": "1000.00000",
-    "total_pnl": "-18.09410",
+    "total_pnl": "-2.75860",
     "unmarked_positions": 0,
-    "unrealized_pnl": "-13.71500",
-    "updated_at": "2026-09-14T21:46:21.274298+00:00"
+    "unrealized_pnl": "-1.54000",
+    "updated_at": "2026-09-14T23:30:27.427891+00:00"
   },
-  "updated_at": "2026-09-14T21:46:21.274298+00:00"
+  "updated_at": "2026-09-14T23:30:27.427891+00:00"
 }

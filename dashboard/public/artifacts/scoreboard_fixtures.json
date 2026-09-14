@@ -48,6 +48,10 @@
       {
         "track": "kalshi_maker_quote",
         "value": 3
+      },
+      {
+        "track": "category_specialist",
+        "value": 6
       }
     ],
     "fills_by_track": [
@@ -98,6 +102,10 @@
       {
         "track": "kalshi_maker_quote",
         "value": 0
+      },
+      {
+        "track": "category_specialist",
+        "value": 3
       }
     ],
     "pnl_by_track": [
@@ -148,6 +156,10 @@
       {
         "track": "kalshi_maker_quote",
         "value": 0.0
+      },
+      {
+        "track": "category_specialist",
+        "value": -0.35
       }
     ],
     "venue_fills": [
@@ -156,13 +168,31 @@
         "venue": "kalshi"
       },
       {
-        "value": 22,
+        "value": 25,
         "venue": "polymarket"
       }
     ]
   },
   "findings": {
     "arbai_summary": "Cross-venue macro settlement rules frequently diverge (clause, fingerprint or host mismatch). The gated track refuses those pairs; single-venue fair value is the primary paper track and carries no cross-venue settlement exposure.",
+    "category_specialist": {
+      "evaluation_status": "pending_resolutions",
+      "follow_log_pending": 3,
+      "follow_log_resolved": 0,
+      "follows_this_run": 3,
+      "hit_rate": null,
+      "hypothesis_validated": false,
+      "mean_excess_vs_mid": null,
+      "note": "Pass/fail is only declared once the pre-registered N resolved follows exist; see docs/SPECIALIST_SCOREBOARD.md.",
+      "open_bets": 6,
+      "preregistered_n": 30,
+      "resolved_bets": 100,
+      "sign_test_p": null,
+      "source": "fixture",
+      "specialists": 3,
+      "status": "fixture_synthetic",
+      "traders": 8
+    },
     "divergence_findings_status": "not_measured_in_this_run",
     "gated_cross_venue": {
       "all_stage_reject_reasons": {
@@ -232,17 +262,17 @@
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T21:45:56.173295+00:00",
+    "generated_at": "2026-09-14T23:30:08.079004+00:00",
     "kalshi_env": null,
     "label": "MEASURED / FIXTURES",
     "markets_per_venue": 25,
-    "measured_at": "2026-09-14T21:45:56.093773+00:00",
+    "measured_at": "2026-09-14T23:30:07.996453+00:00",
     "mode": "fixtures",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "single_venue_fair_value",
     "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T214556Z-68961964",
+    "run_id": "20260914T233008Z-01ea5ab1",
     "source": "measured",
     "track_family": null,
     "venue_focus": "kalshi",
@@ -253,6 +283,20 @@
   },
   "portfolio": {
     "by_track": {
+      "category_specialist": {
+        "cash": 994.3,
+        "equity": 999.65,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 3,
+        "gross_notional": 13.45,
+        "max_drawdown": 0.35,
+        "open_positions": 3,
+        "realized_pnl": 0.0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.35,
+        "unrealized_pnl": -0.35
+      },
       "gated_cross_venue": {
         "cash": 1001.72,
         "equity": 998.97,
@@ -422,23 +466,23 @@
         "unrealized_pnl": -0.98
       }
     },
-    "cash": 11925.0776,
+    "cash": 12919.3776,
     "concentration": [
       {
         "venue": "kalshi",
-        "weight": 0.3783
+        "weight": 0.3527
       },
       {
         "venue": "polymarket",
-        "weight": 0.6217
+        "weight": 0.6473
       }
     ],
-    "equity": 11994.4776,
+    "equity": 12994.1276,
     "fees_paid": 5.1924,
-    "gross_notional": 185.76,
+    "gross_notional": 199.21,
     "max_drawdown": 3.35688,
-    "net_exposure": 69.4,
-    "open_positions": 22,
+    "net_exposure": 74.75,
+    "open_positions": 25,
     "paper_only": true,
     "primary": {
       "cash": 981.26,
@@ -452,7 +496,7 @@
           "weight": 0.52368
         }
       ],
-      "created_at": "2026-09-14T21:45:56.166097+00:00",
+      "created_at": "2026-09-14T23:30:08.069374+00:00",
       "equity": 999.21,
       "equity_points": 1,
       "fees_paid": 0.34,
@@ -519,7 +563,7 @@
       "total_pnl": -0.79,
       "unmarked_positions": 0,
       "unrealized_pnl": -0.45,
-      "updated_at": "2026-09-14T21:45:56.172569+00:00"
+      "updated_at": "2026-09-14T23:30:08.078239+00:00"
     },
     "primary_track": "single_venue_fair_value",
     "realized_pnl": -0.4924,
@@ -527,15 +571,39 @@
       "settlement_risk_flagged_on_ungated_track",
       "news_signal_mapping_unvalidated",
       "combinatorial_positions_marked_at_mid_not_resolution",
+      "specialist_hypothesis_not_validated",
       "pnl_from_ledger_not_placeholder"
     ],
     "settlement_risk_pairs": 3,
     "source": "ledger_aggregate",
-    "starting_cash": 12000.0,
-    "total_pnl": -5.5224,
-    "unrealized_pnl": -5.03
+    "starting_cash": 13000.0,
+    "total_pnl": -5.8724,
+    "unrealized_pnl": -5.38
   },
   "schema_version": "1.3.0",
+  "specialist_scoreboard": {
+    "file": "specialist_scoreboard_fixtures.json",
+    "totals": {
+      "bets": 106,
+      "evaluation_status": "pending_resolutions",
+      "follow_log_pending": 3,
+      "follow_log_resolved": 0,
+      "follow_log_total": 3,
+      "follows_this_run": 3,
+      "ledger_total_pnl": -0.35,
+      "open_bets": 6,
+      "paper_fills": 3,
+      "powered": false,
+      "refused_by_reason": {
+        "market_not_in_snapshot": 1,
+        "out_of_category": 1,
+        "trader_not_promoted": 1
+      },
+      "resolved_bets": 100,
+      "specialists": 3,
+      "traders": 8
+    }
+  },
   "top_edges": [
     {
       "admitted": false,
@@ -720,10 +788,10 @@
     {
       "edge_bps": 180,
       "fee": 0.0,
-      "filled_at": "2026-09-14T21:45:56.171040+00:00",
+      "filled_at": "2026-09-14T23:30:08.076742+00:00",
       "mark": 0.45,
       "market": "0xfixture-binary-merge-feefree",
-      "order_id": "paper-5dcf00d6978d",
+      "order_id": "paper-b483d7e89332",
       "outcome": "no",
       "paper_pnl": 1.6,
       "price": 0.53,
@@ -739,10 +807,10 @@
     {
       "edge_bps": 180,
       "fee": 0.0,
-      "filled_at": "2026-09-14T21:45:56.171313+00:00",
+      "filled_at": "2026-09-14T23:30:08.077003+00:00",
       "mark": 0.52,
       "market": "0xfixture-binary-split",
-      "order_id": "paper-96d8956dbfaa",
+      "order_id": "paper-45579d9b2b8b",
       "outcome": "no",
       "paper_pnl": 1.2,
       "price": 0.5,
@@ -758,10 +826,10 @@
     {
       "edge_bps": 211,
       "fee": 0.53064,
-      "filled_at": "2026-09-14T21:45:56.172145+00:00",
+      "filled_at": "2026-09-14T23:30:08.077816+00:00",
       "mark": 0.32,
       "market": "0xfixture-ly-c",
-      "order_id": "paper-a6c4149d7a8c",
+      "order_id": "paper-e0300ae49fcb",
       "outcome": "yes",
       "paper_pnl": -1.1306,
       "price": 0.33,
@@ -777,10 +845,10 @@
     {
       "edge_bps": 211,
       "fee": 0.52224,
-      "filled_at": "2026-09-14T21:45:56.172113+00:00",
+      "filled_at": "2026-09-14T23:30:08.077787+00:00",
       "mark": 0.31,
       "market": "0xfixture-ly-b",
-      "order_id": "paper-9cfef1d6b07d",
+      "order_id": "paper-ed886a271388",
       "outcome": "yes",
       "paper_pnl": -1.1222,
       "price": 0.32,
@@ -796,10 +864,10 @@
     {
       "edge_bps": 211,
       "fee": 0.504,
-      "filled_at": "2026-09-14T21:45:56.172079+00:00",
+      "filled_at": "2026-09-14T23:30:08.077754+00:00",
       "mark": 0.29,
       "market": "0xfixture-ly-a",
-      "order_id": "paper-552a0ef98d8e",
+      "order_id": "paper-bad604a79d14",
       "outcome": "yes",
       "paper_pnl": -1.104,
       "price": 0.3,
@@ -815,10 +883,10 @@
     {
       "edge_bps": 688,
       "fee": 0.44,
-      "filled_at": "2026-09-14T21:45:56.167169+00:00",
+      "filled_at": "2026-09-14T23:30:08.070482+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-a9171dece351",
+      "order_id": "paper-8e06837fb206",
       "outcome": "no",
       "paper_pnl": -0.69,
       "price": 0.48,
@@ -834,10 +902,10 @@
     {
       "edge_bps": 500,
       "fee": 0.43,
-      "filled_at": "2026-09-14T21:45:56.169154+00:00",
+      "filled_at": "2026-09-14T23:30:08.073176+00:00",
       "mark": 0.59,
       "market": "KX-NBA-NY-BOS-NY",
-      "order_id": "paper-a028f98a1ce2",
+      "order_id": "paper-fa35d4a6a4d7",
       "outcome": "no",
       "paper_pnl": -0.68,
       "price": 0.42,
@@ -853,10 +921,10 @@
     {
       "edge_bps": 500,
       "fee": 0.35,
-      "filled_at": "2026-09-14T21:45:56.168463+00:00",
+      "filled_at": "2026-09-14T23:30:08.071812+00:00",
       "mark": 0.325,
       "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-117e8a244056",
+      "order_id": "paper-87a65ff4a8ef",
       "outcome": "yes",
       "paper_pnl": -0.68,
       "price": 0.34,
@@ -872,10 +940,10 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T21:45:56.167811+00:00",
+      "filled_at": "2026-09-14T23:30:08.071113+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-09b8d9540076",
+      "order_id": "paper-f757f1503748",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
@@ -891,10 +959,10 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T21:45:56.168251+00:00",
+      "filled_at": "2026-09-14T23:30:08.071576+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-5b215a75b26e",
+      "order_id": "paper-41d592bf2ba2",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
@@ -909,18 +977,18 @@
     }
   ],
   "totals": {
-    "admitted": 17,
+    "admitted": 20,
     "avg_edge_bps": 703,
-    "candidates": 54,
+    "candidates": 60,
     "fees_paid": 5.1924,
-    "fill_rate": 1.0667,
-    "paper_fills": 32,
-    "paper_pnl": -5.5224,
-    "proposed_orders": 30,
+    "fill_rate": 1.0606,
+    "paper_fills": 35,
+    "paper_pnl": -5.8724,
+    "proposed_orders": 33,
     "realized_pnl": -0.4924,
-    "rejects": 37,
+    "rejects": 40,
     "settlement_risk_pairs": 3,
-    "unrealized_pnl": -5.03
+    "unrealized_pnl": -5.38
   },
   "tracks": [
     {
@@ -942,7 +1010,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166033+00:00",
+        "created_at": "2026-09-14T23:30:08.069307+00:00",
         "equity": 998.97,
         "equity_points": 1,
         "fees_paid": 0.44,
@@ -987,7 +1055,7 @@
         "total_pnl": -1.03,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.59,
-        "updated_at": "2026-09-14T21:45:56.172301+00:00"
+        "updated_at": "2026-09-14T23:30:08.077972+00:00"
       },
       "metrics": {
         "admitted_pairs": {
@@ -1164,7 +1232,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166072+00:00",
+        "created_at": "2026-09-14T23:30:08.069348+00:00",
         "equity": 999.4,
         "equity_points": 1,
         "fees_paid": 0.28,
@@ -1209,7 +1277,7 @@
         "total_pnl": -0.6,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.32,
-        "updated_at": "2026-09-14T21:45:56.172399+00:00"
+        "updated_at": "2026-09-14T23:30:08.078071+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1341,7 +1409,7 @@
             "weight": 0.5
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166087+00:00",
+        "created_at": "2026-09-14T23:30:08.069364+00:00",
         "equity": 998.39,
         "equity_points": 1,
         "fees_paid": 0.63,
@@ -1408,7 +1476,7 @@
         "total_pnl": -1.61,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.98,
-        "updated_at": "2026-09-14T21:45:56.172480+00:00"
+        "updated_at": "2026-09-14T23:30:08.078150+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1527,7 +1595,7 @@
             "weight": 0.52368
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166097+00:00",
+        "created_at": "2026-09-14T23:30:08.069374+00:00",
         "equity": 999.21,
         "equity_points": 1,
         "fees_paid": 0.34,
@@ -1594,7 +1662,7 @@
         "total_pnl": -0.79,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.45,
-        "updated_at": "2026-09-14T21:45:56.172569+00:00"
+        "updated_at": "2026-09-14T23:30:08.078239+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1722,7 +1790,7 @@
             "weight": 0.46847
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166108+00:00",
+        "created_at": "2026-09-14T23:30:08.069387+00:00",
         "equity": 999.07,
         "equity_points": 1,
         "fees_paid": 0.43,
@@ -1767,7 +1835,7 @@
         "total_pnl": -0.93,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.5,
-        "updated_at": "2026-09-14T21:45:56.172653+00:00"
+        "updated_at": "2026-09-14T23:30:08.078328+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1881,7 +1949,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166116+00:00",
+        "created_at": "2026-09-14T23:30:08.069398+00:00",
         "equity": 999.92,
         "equity_points": 1,
         "fees_paid": 0.04,
@@ -1926,7 +1994,7 @@
         "total_pnl": -0.08,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.04,
-        "updated_at": "2026-09-14T21:45:56.172744+00:00"
+        "updated_at": "2026-09-14T23:30:08.078391+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2058,7 +2126,7 @@
             "weight": 0.32941
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166123+00:00",
+        "created_at": "2026-09-14T23:30:08.069405+00:00",
         "equity": 999.32,
         "equity_points": 1,
         "fees_paid": 0.33,
@@ -2114,7 +2182,7 @@
         "total_pnl": -0.68,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.35,
-        "updated_at": "2026-09-14T21:45:56.172812+00:00"
+        "updated_at": "2026-09-14T23:30:08.078453+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2383,9 +2451,9 @@
           "scored_fills": 3
         },
         "signal_source": {
-          "as_of": "2026-09-14T21:45:56.169624+00:00",
+          "as_of": "2026-09-14T23:30:08.073676+00:00",
           "errors": [],
-          "fetched_at": "2026-09-14T21:45:56.169644+00:00",
+          "fetched_at": "2026-09-14T23:30:08.073698+00:00",
           "name": "fixture",
           "note": "signals loaded from /workspace/research/fixtures/news_signals.json",
           "signals": 8
@@ -2454,7 +2522,7 @@
       "ledger": {
         "cash": 1002.8,
         "concentration": [],
-        "created_at": "2026-09-14T21:45:56.166209+00:00",
+        "created_at": "2026-09-14T23:30:08.069493+00:00",
         "equity": 1002.8,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2476,7 +2544,7 @@
         "total_pnl": 2.8,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:45:56.172875+00:00"
+        "updated_at": "2026-09-14T23:30:08.078519+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2742,7 +2810,7 @@
       "ledger": {
         "cash": 1000.75444,
         "concentration": [],
-        "created_at": "2026-09-14T21:45:56.166218+00:00",
+        "created_at": "2026-09-14T23:30:08.069504+00:00",
         "equity": 1000.75444,
         "equity_points": 1,
         "fees_paid": 1.14556,
@@ -2764,7 +2832,7 @@
         "total_pnl": 0.75444,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:45:56.172917+00:00"
+        "updated_at": "2026-09-14T23:30:08.078559+00:00"
       },
       "metrics": {
         "augmented_groups": 2,
@@ -2953,7 +3021,7 @@
             "weight": 1.0
           }
         ],
-        "created_at": "2026-09-14T21:45:56.166228+00:00",
+        "created_at": "2026-09-14T23:30:08.069511+00:00",
         "equity": 996.64312,
         "equity_points": 1,
         "fees_paid": 1.55688,
@@ -3009,7 +3077,7 @@
         "total_pnl": -3.35688,
         "unmarked_positions": 0,
         "unrealized_pnl": -1.8,
-        "updated_at": "2026-09-14T21:45:56.172969+00:00"
+        "updated_at": "2026-09-14T23:30:08.078611+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -3193,7 +3261,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:45:56.166243+00:00",
+        "created_at": "2026-09-14T23:30:08.069524+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -3215,7 +3283,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:45:56.173030+00:00"
+        "updated_at": "2026-09-14T23:30:08.078675+00:00"
       },
       "metrics": {
         "cash_at_risk": {
@@ -3311,7 +3379,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:45:56.166260+00:00",
+        "created_at": "2026-09-14T23:30:08.069541+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -3333,7 +3401,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:45:56.173090+00:00"
+        "updated_at": "2026-09-14T23:30:08.078735+00:00"
       },
       "metrics": {
         "cash_at_risk": {
@@ -3407,6 +3475,445 @@
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "kalshi_maker_quote"
+    },
+    {
+      "admitted": 3,
+      "candidates": 6,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 1.0,
+      "label": "Category specialist follow",
+      "ledger": {
+        "cash": 994.3,
+        "concentration": [
+          {
+            "venue": "polymarket",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:30:08.069556+00:00",
+        "equity": 999.65,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 3,
+        "gross_notional": 13.45,
+        "ledger_id": "category_specialist",
+        "mark_method": "mid",
+        "max_drawdown": 0.35,
+        "net_exposure": 5.35,
+        "open_positions": 3,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 5.35,
+        "positions": [
+          {
+            "average_price": 0.53,
+            "fees_paid": 0.0,
+            "mark": 0.52,
+            "market_id": "0xfixture-nba-ny-boston",
+            "quantity": 10.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.1,
+            "value": 5.2,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.39,
+            "fees_paid": 0.0,
+            "mark": 0.405,
+            "market_id": "0xfixture-cpi-august",
+            "quantity": -10.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.15,
+            "value": -4.05,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.43,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 10.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.1,
+            "value": 4.2,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": 0.0,
+        "return_pct": -0.035,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.35,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.35,
+        "updated_at": "2026-09-14T23:30:08.078773+00:00"
+      },
+      "metrics": {
+        "book_errors": [],
+        "categories": {
+          "basketball": {
+            "open_bets": 2,
+            "promoted": 1,
+            "resolved_bets": 23,
+            "scored": 2,
+            "traders": 3
+          },
+          "crypto": {
+            "open_bets": 0,
+            "promoted": 0,
+            "resolved_bets": 8,
+            "scored": 0,
+            "traders": 1
+          },
+          "macro": {
+            "open_bets": 3,
+            "promoted": 1,
+            "resolved_bets": 48,
+            "scored": 3,
+            "traders": 4
+          },
+          "tennis": {
+            "open_bets": 1,
+            "promoted": 1,
+            "resolved_bets": 21,
+            "scored": 1,
+            "traders": 2
+          }
+        },
+        "equity_point": {
+          "drawdown": 0.35,
+          "equity": 999.65,
+          "total_pnl": -0.35
+        },
+        "evaluation": {
+          "by_category": {
+            "basketball": {
+              "category": "basketball",
+              "hit_rate": null,
+              "mean_brier_skill_vs_mid": null,
+              "mean_excess_vs_mid": null,
+              "n_followed": 1,
+              "n_pending": 1,
+              "n_resolved": 0,
+              "note": "1 follow(s) await resolution; nothing can be concluded",
+              "powered": false,
+              "preregistered_n": 30,
+              "sign_test_p": null,
+              "status": "pending_resolutions",
+              "sum_excess_vs_mid": 0.0,
+              "wins": 0
+            },
+            "macro": {
+              "category": "macro",
+              "hit_rate": null,
+              "mean_brier_skill_vs_mid": null,
+              "mean_excess_vs_mid": null,
+              "n_followed": 2,
+              "n_pending": 2,
+              "n_resolved": 0,
+              "note": "2 follow(s) await resolution; nothing can be concluded",
+              "powered": false,
+              "preregistered_n": 30,
+              "sign_test_p": null,
+              "status": "pending_resolutions",
+              "sum_excess_vs_mid": 0.0,
+              "wins": 0
+            }
+          },
+          "pooled": {
+            "category": "all",
+            "hit_rate": null,
+            "mean_brier_skill_vs_mid": null,
+            "mean_excess_vs_mid": null,
+            "n_followed": 3,
+            "n_pending": 3,
+            "n_resolved": 0,
+            "note": "3 follow(s) await resolution; nothing can be concluded",
+            "powered": false,
+            "preregistered_n": 30,
+            "sign_test_p": null,
+            "status": "pending_resolutions",
+            "sum_excess_vs_mid": 0.0,
+            "wins": 0
+          }
+        },
+        "events": {
+          "fill": 3,
+          "order_acknowledged": 3,
+          "order_rejected": 0,
+          "order_submitted": 3
+        },
+        "follow_attempts": {
+          "by_reason": {
+            "followed": 3,
+            "market_not_in_snapshot": 1,
+            "out_of_category": 1,
+            "trader_not_promoted": 1
+          },
+          "count": 6
+        },
+        "follow_log": {
+          "mode": "fixtures",
+          "other_modes": 0,
+          "pending": 3,
+          "resolved": 0,
+          "runs": 1,
+          "total": 3
+        },
+        "follow_state": {
+          "detail": "specialist_scoreboard_<mode>.json",
+          "followed": 3
+        },
+        "follows_this_run": [
+          {
+            "category": "basketball",
+            "direction": "yes",
+            "direction_mid": 0.52,
+            "excess_vs_mid": null,
+            "fee": 0.0,
+            "fill_price": 0.53,
+            "follow_id": "follow-1-1",
+            "followed_at": "2026-09-14T23:30:08.074379+00:00",
+            "market_id": "0xfixture-nba-ny-boston",
+            "mid_at_follow": 0.52,
+            "mode": "fixtures",
+            "outcome": null,
+            "quantity": 10.0,
+            "resolved": false,
+            "resolved_at": null,
+            "source_bet_id": "open-delta-nba",
+            "title": "Will New York beat Boston?",
+            "trader": "fx-hoops-delta",
+            "trader_entry_price": 0.49,
+            "venue": "polymarket",
+            "won": null
+          },
+          {
+            "category": "macro",
+            "direction": "no",
+            "direction_mid": 0.595,
+            "excess_vs_mid": null,
+            "fee": 0.0,
+            "fill_price": 0.61,
+            "follow_id": "follow-1-2",
+            "followed_at": "2026-09-14T23:30:08.074379+00:00",
+            "market_id": "0xfixture-cpi-august",
+            "mid_at_follow": 0.405,
+            "mode": "fixtures",
+            "outcome": null,
+            "quantity": 10.0,
+            "resolved": false,
+            "resolved_at": null,
+            "source_bet_id": "open-alpha-cpi",
+            "title": "Will August CPI come in above 3.0%?",
+            "trader": "fx-macro-alpha",
+            "trader_entry_price": 0.58,
+            "venue": "polymarket",
+            "won": null
+          },
+          {
+            "category": "macro",
+            "direction": "yes",
+            "direction_mid": 0.42,
+            "excess_vs_mid": null,
+            "fee": 0.0,
+            "fill_price": 0.43,
+            "follow_id": "follow-1-3",
+            "followed_at": "2026-09-14T23:30:08.074379+00:00",
+            "market_id": "0xfixture-fed-september",
+            "mid_at_follow": 0.42,
+            "mode": "fixtures",
+            "outcome": null,
+            "quantity": 10.0,
+            "resolved": false,
+            "resolved_at": null,
+            "source_bet_id": "open-alpha-fed",
+            "title": "Will the Fed cut rates in September?",
+            "trader": "fx-macro-alpha",
+            "trader_entry_price": 0.4,
+            "venue": "polymarket",
+            "won": null
+          }
+        ],
+        "not_validated": [
+          "fixture traders and outcomes are SYNTHETIC; fixture results prove the arithmetic and the rails only",
+          "persistence of in-category skill (the hypothesis itself): pooled sample is underpowered until N resolved follows",
+          "category taxonomy: keyword / slug-prefix heuristic; 'other' absorbs unmatched markets",
+          "market mid at the trader's entry is unavailable from the Data API; entry price is the Brier benchmark proxy on network",
+          "open-position placement time is unknown on network (positions endpoint has no timestamp); 'next bet' means currently open",
+          "closed-position size uses totalBought and venue-reported realizedPnl; partial exits before resolution are excluded; resolved-but-unredeemed positions count as resolved",
+          "leaderboard selection by monthly volume; the top-50 cap and one-month window are operator choices, not calibrated",
+          "taker fees on followed network markets are not modelled (Data API rows carry no feeType); follow PnL is pre-fee"
+        ],
+        "oracle": {
+          "errors": [],
+          "name": "fixture_paper_settlement_outcome"
+        },
+        "parameters": {
+          "alpha": 0.05,
+          "follow_quantity": 10.0,
+          "forecast_shade": 0.5,
+          "max_spread": 0.1,
+          "min_category_notional": 1000.0,
+          "min_resolved_bets": 10,
+          "preregistered_n": 30,
+          "top_fraction": 0.1,
+          "window_bets": 20
+        },
+        "preregistration": {
+          "alpha": 0.05,
+          "hypothesis": "Top-decile in-category specialists (positive rolling ROI and positive directional Brier skill, scored on that category only) beat the market mid on their next in-category bets.",
+          "literature": "Persistence of forecaster skill by domain is documented for human forecasters (Mellers et al. 2015 'superforecasters'; Tetlock & Gardner 2015) and for prediction-market traders in aggregate; no published estimate covers Polymarket wallets by category. Reported for context only, not validated here.",
+          "n": 30,
+          "parameters": {
+            "alpha": 0.05,
+            "follow_quantity": 10.0,
+            "forecast_shade": 0.5,
+            "max_spread": 0.1,
+            "min_category_notional": 1000.0,
+            "min_resolved_bets": 10,
+            "preregistered_n": 30,
+            "top_fraction": 0.1,
+            "window_bets": 20
+          },
+          "per_category_results": "reported descriptively; not individually powered",
+          "primary_metric": "mean_excess_vs_mid (direction-signed resolution minus mid at follow time, per contract)",
+          "registered_at": "2026-09-14",
+          "secondary_metric": "mean directional Brier skill of the followed direction vs the mid at follow time",
+          "test": "one-sided exact binomial sign test on hit rate (H0: 0.5) AND mean_excess_vs_mid > 0",
+          "underpowered_rule": "fewer than 30 resolved follows is reported as 'underpowered'; never as pass or fail",
+          "unit_of_analysis": "one paper-followed bet; pooled across categories",
+          "wins_required_at_n": 20
+        },
+        "scoreboard": {
+          "detail": "specialist_scoreboard_<mode>.json",
+          "rows": 10
+        },
+        "settled_this_run": [],
+        "snapshot": {
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "source": {
+          "as_of": "2026-09-14T23:30:08.074379+00:00",
+          "bets": 106,
+          "errors": [],
+          "fetched_at": "2026-09-14T23:30:08.074383+00:00",
+          "name": "fixture",
+          "note": "SYNTHETIC trader histories for the category_specialist paper track. Every trader, market id and outcome below is invented to exercise the scoring arithmetic (ROI, directional Brier skill), the in-category rolling window, top-decile promotion and each follow-leg refusal reason. The open bets reference venues/polymarket/fixtures/markets.json so paper follows fill deterministically. Nothing here is evidence for or against the hypothesis.",
+          "open_bets": 6,
+          "requests": 0,
+          "resolved_bets": 100,
+          "traders": 8
+        },
+        "specialists": [
+          {
+            "brier_skill": 0.0599,
+            "category": "basketball",
+            "eligible": true,
+            "hit_rate": 0.75,
+            "mid_proxy_bets": 0,
+            "notional": 1812.0,
+            "open_bets": 1,
+            "pnl": 888.0,
+            "promoted": true,
+            "rank": 1,
+            "reasons": [],
+            "resolved_bets": 12,
+            "roi": 0.4901,
+            "scored_in_category": 2,
+            "specialization": 0.858,
+            "total_resolved": 12,
+            "trader": "fx-hoops-delta",
+            "window_from": "2026-07-10T12:00:00+00:00",
+            "window_to": "2026-08-23T12:00:00+00:00",
+            "wins": 9
+          },
+          {
+            "brier_skill": 0.1115,
+            "category": "macro",
+            "eligible": true,
+            "hit_rate": 0.7857,
+            "mid_proxy_bets": 2,
+            "notional": 1358.0,
+            "open_bets": 2,
+            "pnl": 842.0,
+            "promoted": true,
+            "rank": 1,
+            "reasons": [],
+            "resolved_bets": 14,
+            "roi": 0.62,
+            "scored_in_category": 3,
+            "specialization": 1.0,
+            "total_resolved": 14,
+            "trader": "fx-macro-alpha",
+            "window_from": "2026-07-07T12:00:00+00:00",
+            "window_to": "2026-08-28T12:00:00+00:00",
+            "wins": 11
+          },
+          {
+            "brier_skill": 0.0484,
+            "category": "tennis",
+            "eligible": true,
+            "hit_rate": 0.8,
+            "mid_proxy_bets": 0,
+            "notional": 1524.6,
+            "open_bets": 1,
+            "pnl": 635.4,
+            "promoted": true,
+            "rank": 1,
+            "reasons": [],
+            "resolved_bets": 15,
+            "roi": 0.4168,
+            "scored_in_category": 1,
+            "specialization": 1.0,
+            "total_resolved": 15,
+            "trader": "fx-tennis-zeta",
+            "window_from": "2026-07-13T12:00:00+00:00",
+            "window_to": "2026-09-07T12:00:00+00:00",
+            "wins": 12
+          }
+        ],
+        "status": "fixture_synthetic",
+        "taxonomy_coverage": {
+          "basketball": 25,
+          "crypto": 8,
+          "macro": 51,
+          "tennis": 22
+        },
+        "venue_pnl": {
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 3.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.35,
+            "unrealized_pnl": -0.35
+          }
+        },
+        "venue_scope": "polymarket_only (Kalshi publishes no per-trader data)"
+      },
+      "notes": "Category specialist scoreboard. Large traders are scored per category on a rolling in-category window (ROI and directional Brier skill); the top decile with both positive is promoted and its currently open in-category bets are paper-followed at the touch, with the mid at follow time as the benchmark. Pre-registered test: N=30 resolved follows pooled, one-sided sign test at alpha 0.05 plus mean excess vs mid > 0; fewer resolved follows is reported as underpowered, never as pass/fail. Polymarket only (Kalshi has no per-trader data); fixture traders are synthetic. Full board: specialist_scoreboard_<mode>.json.",
+      "paper_fills": 3,
+      "proposed_orders": 3,
+      "refused_by_reason": {
+        "market_not_in_snapshot": 1,
+        "out_of_category": 1,
+        "trader_not_promoted": 1
+      },
+      "reject_reasons": {
+        "market_not_in_snapshot": 1,
+        "out_of_category": 1,
+        "trader_not_promoted": 1
+      },
+      "rejects": 3,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "category_specialist"
     }
   ]
 }

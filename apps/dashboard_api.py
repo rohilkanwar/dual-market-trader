@@ -23,6 +23,7 @@ from pydantic import BaseModel
 from apps.measure_all import load_ledgers, persist_run, to_jsonable, write_json
 from core.config import live_environment_requested
 from research.scoreboard import TRACKS, measure_all_with_ledgers
+from research.specialist_scoreboard import load_specialist_state
 
 ARTIFACT_FILES = (
     ("latest", "scoreboard_latest.json"),
@@ -121,6 +122,7 @@ class DashboardService:
                 use_fixtures=job.mode == "fixtures",
                 limit=limit,
                 ledgers=load_ledgers(self.artifact_dir, TRACKS),
+                specialist_state=load_specialist_state(self.artifact_dir),
             )
             artifact = await asyncio.to_thread(
                 persist_run,

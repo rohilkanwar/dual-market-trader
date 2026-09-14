@@ -47,6 +47,7 @@ async function listCandidates() {
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
     if (/^gate_report_.*\.json$/.test(file)) names.add(file)
+    if (/^specialist_scoreboard_.*\.json$/.test(file)) names.add(file)
   }
   for (const file of await safeReaddir(join(runtimeRoot, 'paper'))) {
     if (/^ledger_.*\.json$/.test(file)) names.add(`paper/${file}`)
@@ -73,6 +74,20 @@ function isGateReport(doc) {
   return doc?.kind === 'gate_report' && Boolean(doc?.meta) && Array.isArray(doc?.pairs) && Boolean(doc?.totals)
 }
 
+// Category specialist board: per-trader-category scores, promotions, follow log
+// and the pre-registered evaluation. Emitted on every run; an empty follow log
+// with evaluation_status "no_follows" is a valid, expected state.
+function isSpecialistBoard(doc) {
+  return (
+    doc?.kind === 'specialist_scoreboard' &&
+    Boolean(doc?.meta) &&
+    Array.isArray(doc?.scoreboard) &&
+    Array.isArray(doc?.follow_log) &&
+    Boolean(doc?.totals) &&
+    Boolean(doc?.preregistration)
+  )
+}
+
 await mkdir(publicRoot, { recursive: true })
 const copied = {}
 for (const relative of await listCandidates()) {
@@ -86,6 +101,7 @@ for (const relative of await listCandidates()) {
   }
   const isBoard = relative.startsWith('scoreboard_')
   const isGate = relative.startsWith('gate_report_')
+  const isSpecialist = relative.startsWith('specialist_scoreboard_')
   if (isBoard && !isScoreboard(doc)) {
     console.warn(`skip ${relative}: missing meta/tracks/totals`)
     continue
@@ -94,7 +110,11 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: not a gate report (kind/meta/pairs/totals)`)
     continue
   }
-  if ((isBoard || isGate) && doc.meta.source === 'sample') {
+  if (isSpecialist && !isSpecialistBoard(doc)) {
+    console.warn(`skip ${relative}: not a specialist scoreboard (kind/meta/scoreboard/follow_log/totals/preregistration)`)
+    continue
+  }
+  if ((isBoard || isGate || isSpecialist) && doc.meta.source === 'sample') {
     console.warn(`skip ${relative}: refusing to publish meta.source=sample as a runtime artifact`)
     continue
   }

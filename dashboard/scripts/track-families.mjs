@@ -70,6 +70,12 @@ export const FAMILIES = [
     description: 'Tennis venue mid vs. free public consensus line (gap closure by match start)',
   },
   {
+    id: 'specialist',
+    label: 'Specialists',
+    lane: false,
+    description: 'Category specialist scoreboard: paper-follow top-decile in-category traders (pre-registered N=30; underpowered until then)',
+  },
+  {
     id: 'other',
     label: 'Other',
     lane: false,
@@ -97,6 +103,7 @@ export const KNOWN_TRACKS = {
   tennis_whale_copy_2m: 'tennis_copy',
   tennis_whale_copy_10m: 'tennis_copy',
   tennis_basis: 'tennis_basis',
+  category_specialist: 'specialist',
 }
 
 const tokensOf = (id) =>
@@ -122,6 +129,7 @@ export function familyOf(trackOrId) {
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
   if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'
+  if (any('specialist', 'specialists', 'copytrade', 'copytrading') || has('trader', 'follow')) return 'specialist'
   if (has('tennis', 'basis') || has('sports', 'basis')) return 'tennis_basis'
   if (any('tennis') || has('whale', 'copy')) return 'tennis_copy'
   const crossVenue = any('xv') || has('cross', 'venue') || joined.includes('crossvenue')

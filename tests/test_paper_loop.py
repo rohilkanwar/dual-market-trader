@@ -27,9 +27,11 @@ def test_paper_loop_once_with_fixtures(tmp_path: Path) -> None:
     assert latest["paper_only"] is True
     assert latest["mode"] == "fixtures"
     assert latest["primary_track"] == "single_venue_fair_value"
-    assert len(latest["tracks"]) == 12
+    assert len(latest["tracks"]) == 13
     assert len(history) == 1
     assert (artifact_dir / "gate_report_latest.json").exists()
+    assert (artifact_dir / "specialist_scoreboard_latest.json").exists()
+    assert (artifact_dir / "paper" / "specialist_follow_state.json").exists()
     structured_log = json.loads(result.stderr.strip())
     assert structured_log["event"] == "paper_loop_cycle_completed"
     assert set(structured_log["tracks"]) == {
@@ -45,4 +47,5 @@ def test_paper_loop_once_with_fixtures(tmp_path: Path) -> None:
         "polymarket_combinatorial_arb",
         "kalshi_longshot_fade",
         "kalshi_maker_quote",
+        "category_specialist",
     }

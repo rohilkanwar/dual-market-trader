@@ -17,6 +17,7 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
         "polymarket_combinatorial_arb",
         "kalshi_longshot_fade",
         "kalshi_maker_quote",
+        "category_specialist",
     }
 
     strict = summaries["gated_cross_venue"]
@@ -67,3 +68,11 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
     # on its own ledger: fills never leak between tracks.
     assert news.ledger["ledger_id"] == "news_underreaction"
     assert fair_value.ledger["fills"] == 4 and news.ledger["fills"] == 3
+
+    specialist = summaries["category_specialist"]
+    assert specialist.candidates == 6 and specialist.admitted == 3 and specialist.paper_fills == 3
+    assert specialist.metrics["status"] == "fixture_synthetic"
+    assert specialist.ledger["ledger_id"] == "category_specialist" and specialist.ledger["fills"] == 3
+    # The lane fills on the same Polymarket fixture markets as the fair-value and
+    # news tracks, on its own ledger and its own snapshot object.
+    assert not specialist.settlement_risk_flag
