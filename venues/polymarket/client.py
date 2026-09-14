@@ -97,6 +97,18 @@ def infer_category(item: dict[str, Any]) -> str:
     return ""
 
 
+def _json_list(raw: Any) -> list[str]:
+    """Gamma serialises ``outcomes`` / ``outcomePrices`` as JSON strings."""
+    if raw in (None, ""):
+        return []
+    if isinstance(raw, str):
+        try:
+            raw = json.loads(raw)
+        except json.JSONDecodeError:
+            return [part.strip().strip('"') for part in raw.strip("[]").split(",") if part.strip()]
+    return [str(value) for value in raw] if isinstance(raw, (list, tuple)) else []
+
+
 def _token_ids(item: dict[str, Any]) -> list[str]:
     if item.get("yes_token_id") and item.get("no_token_id"):
         return [str(item["yes_token_id"]), str(item["no_token_id"])]
@@ -336,6 +348,51 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
                         markets.append(market)
         return markets
 
+    async def list_markets_by_tag(self, tag_id: int, *, limit: int = 100) -> list[Market]:
+        """Active markets carrying a Gamma tag (``864`` = Tennis), most traded first.
+
+        Outcome names (player names on sports markets), ``gameStartTime`` and
+        ``sportsMarketType`` land in metadata so a caller can keep only
+        match-winner ("moneyline") markets and learn who the YES token is.
+        """
+        response = await self._http.get(
+            f"{GAMMA_URL}/markets",
+            params={
+                "tag_id": tag_id,
+                "active": "true",
+                "closed": "false",
+                "limit": min(max(limit, 1), 500),
+                "order": "volumeNum",
+                "ascending": "false",
+            },
+        )
+        response.raise_for_status()
+        markets: list[Market] = []
+        for item in response.json():
+            if not isinstance(item, dict):
+                continue
+            events = item.get("events") or []
+            event = events[0] if events and isinstance(events[0], dict) else {}
+            market = self._market_from_item(item, event, discovered_by=f"tag:{tag_id}")
+            if market is not None:
+                markets.append(market)
+        self._market_cache.update({market.market_id: market for market in markets})
+        return markets[:limit]
+
+    async def get_market_status(self, slug: str) -> dict[str, Any]:
+        """Public ``GET /markets?slug=``: closed flag and resolved prices for settlement checks."""
+        response = await self._http.get(f"{GAMMA_URL}/markets", params={"slug": slug})
+        response.raise_for_status()
+        payload = response.json()
+        item = payload[0] if isinstance(payload, list) and payload and isinstance(payload[0], dict) else {}
+        return {
+            "closed": item.get("closed"),
+            "active": item.get("active"),
+            "outcome_prices": _json_list(item.get("outcomePrices")),
+            "uma_resolution_status": item.get("umaResolutionStatus"),
+            "end_date": item.get("endDate"),
+        }
+
     def _market_from_item(self, item: dict[str, Any], event: dict[str, Any], *, discovered_by: str) -> Market | None:
         token_ids = _token_ids(item)
         market_id = str(item.get("conditionId") or item.get("id") or "")
@@ -343,6 +400,10 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
             return None
         tags = [str(t.get("label")) for t in (event.get("tags") or []) if isinstance(t, dict) and t.get("label")]
         category = infer_category(item) or infer_category({"category": " ".join(tags), "question": event.get("title")})
+        if item.get("sportsMarketType") or item.get("gameStartTime"):
+            category = "sports"
+        fees_enabled = item.get("feesEnabled")
+        fee_type = item.get("feeType")
         return Market(
             venue=Venue.POLYMARKET,
             market_id=market_id,
@@ -365,6 +426,12 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
                 "close_time": item.get("endDate") or item.get("endDateIso") or event.get("endDate"),
                 "neg_risk": item.get("negRisk"),
                 "fees_enabled": item.get("feesEnabled"),
+                "fee_type": fee_type,
+                "taker_fee_rate": str(taker_fee_rate(fee_type, bool(fees_enabled))) if fee_type else None,
+                "outcomes": _json_list(item.get("outcomes")),
+                "outcome_prices": _json_list(item.get("outcomePrices")),
+                "game_start_time": item.get("gameStartTime"),
+                "sports_market_type": item.get("sportsMarketType"),
                 "raw": item,
             },
         )

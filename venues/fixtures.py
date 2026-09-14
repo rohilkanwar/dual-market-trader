@@ -12,6 +12,11 @@ from core.types import ZERO, Market, OrderBook, PriceLevel, Venue
 
 def load_fixture(path: Path, venue: Venue) -> tuple[list[Market], dict[str, OrderBook]]:
     payload: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+    return parse_fixture(payload, venue)
+
+
+def parse_fixture(payload: dict[str, Any], venue: Venue) -> tuple[list[Market], dict[str, OrderBook]]:
+    """Build markets and YES books from a fixture document (``markets`` + ``order_books``)."""
     markets = [
         Market(
             venue=venue,

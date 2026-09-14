@@ -52,6 +52,11 @@ def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
         for veto in vetoes:
             by_reason[veto["reason"]] = by_reason.get(veto["reason"], 0) + 1
         slim["vetoed_candidates"] = {"count": len(vetoes), "by_reason": dict(sorted(by_reason.items()))}
+    if isinstance(slim.get("records"), list):
+        # tennis_basis gap register: per-record detail lives in tennis_basis_latest.json.
+        slim["records"] = {"count": len(slim["records"]), "detail": "tennis_basis_latest.json"}
+        if isinstance(slim.get("measurements"), list):
+            slim["measurements"] = {"count": len(slim["measurements"]), "detail": "tennis_basis_latest.json"}
     return slim
 
 

@@ -278,6 +278,14 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
                 "fee_type": series.get("fee_type"),
                 "fee_multiplier": series.get("fee_multiplier"),
                 "subtitle": item.get("yes_sub_title") or item.get("subtitle"),
+                "event_sub_title": event.get("sub_title"),
+                "status": item.get("status"),
+                "result": item.get("result"),
+                # Sports series: ``occurrence_datetime`` is the scheduled session
+                # (verified 2026-09-14: several same-day matches share one value),
+                # not the exact first serve; the outside feed's commence_time wins.
+                "occurrence_datetime": item.get("occurrence_datetime"),
+                "expected_expiration_time": item.get("expected_expiration_time"),
                 "resolution_text": rules.strip(),
                 "source_url": source_url,
                 "settlement_sources": sources,
@@ -288,6 +296,18 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
                 "raw": item,
             },
         )
+
+    async def get_market_status(self, ticker: str) -> dict[str, Any]:
+        """Public ``GET /markets/{ticker}``: ``status`` / ``result`` for settlement checks."""
+        response = await self._http.get(f"{self.base_url}/markets/{ticker}")
+        response.raise_for_status()
+        item = response.json().get("market") or {}
+        return {
+            "status": item.get("status"),
+            "result": item.get("result"),
+            "settlement_value": item.get("settlement_value_dollars") or item.get("settlement_value"),
+            "close_time": item.get("close_time"),
+        }
 
     async def get_order_book(self, market: Market) -> OrderBook:
         if self.use_fixtures:
