@@ -80,6 +80,7 @@ def opportunity_report(
                 "markets_checked": reb.get("markets_checked"),
                 "mirror_consistent": reb.get("mirror_consistent"),
                 "mirror_inconsistent": reb.get("mirror_inconsistent"),
+                "mirror_inconsistent_markets": reb.get("mirror_inconsistent_markets"),
                 "top_of_book_ask_sum": reb.get("top_of_book_ask_sum"),
                 "top_of_book_bid_sum": reb.get("top_of_book_bid_sum"),
                 "refused_by_reason": by_track["polymarket_rebalancing_arb"].refused_by_reason,
@@ -133,7 +134,8 @@ def _print(summaries: list[TrackSummary], snapshot: VenueSnapshot, mode: str) ->
     for row in (neg.get("groups") or [])[:8]:
         print(
             f"  negrisk {row['legs']:>3} legs  yes_bid_sum={row['yes_bid_sum']}  no_ask_sum={row['no_ask_sum']}  "
-            f"gross/set={row['gross_edge_per_set']}  {row['reason']}  {str(row['title'])[:48]}"
+            f"gross/set={row['gross_edge_per_set']}  fees/set={row['top_fees_per_set']}  slip/set={row['top_slippage_per_set']}  "
+            f"{row['reason']}  {str(row['title'])[:44]}"
         )
     if snapshot.errors:
         print(f"\nsnapshot errors ({len(snapshot.errors)}): {snapshot.errors[:3]}")

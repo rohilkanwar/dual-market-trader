@@ -22,7 +22,7 @@ the track's risk-gated :class:`core.execution.ExecutionEngine` into its own
 from __future__ import annotations
 
 import asyncio
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import UTC, datetime
 from decimal import ROUND_DOWN, Decimal
 from typing import Any
@@ -228,6 +228,7 @@ async def run_rebalancing_track(runtime: TrackRuntime, params: ArbParameters) ->
     bid_sums: list[Decimal] = []
     mirror_consistent = 0
     mirror_inconsistent = 0
+    mirror_inconsistent_markets: list[dict[str, Any]] = []
     opportunities: list[dict[str, Any]] = []
     executions: list[dict[str, Any]] = []
     for market in snap.markets:
@@ -246,6 +247,22 @@ async def run_rebalancing_track(runtime: TrackRuntime, params: ArbParameters) ->
             mirror_consistent += 1
         else:
             mirror_inconsistent += 1
+            if len(mirror_inconsistent_markets) < 25:
+                mirror_inconsistent_markets.append(
+                    {
+                        "market": market.market_id,
+                        "title": market.title,
+                        "yes_ask_plus_no_ask": ask_sums[-1],
+                        "yes_bid_plus_no_bid": bid_sums[-1],
+                        "yes_levels": len(yes_book.bids) + len(yes_book.asks),
+                        "no_levels": len(no_book.bids) + len(no_book.asks),
+                        # Non-zero skew means the two ladders were captured at
+                        # different instants inside one batch response.
+                        "book_timestamp_skew_ms": int(
+                            abs((yes_book.timestamp - no_book.timestamp).total_seconds()) * 1000
+                        ),
+                    }
+                )
         evaluation = evaluate_binary(market, yes_book, no_book, params)
         if not evaluation.traded:
             summary.refuse(evaluation.reason)
@@ -277,6 +294,7 @@ async def run_rebalancing_track(runtime: TrackRuntime, params: ArbParameters) ->
             "markets_checked": summary.candidates,
             "mirror_consistent": mirror_consistent,
             "mirror_inconsistent": mirror_inconsistent,
+            "mirror_inconsistent_markets": mirror_inconsistent_markets,
             "top_of_book_ask_sum": _quiet_top_sum(ask_sums),
             "top_of_book_bid_sum": _quiet_top_sum(bid_sums),
             "opportunities": opportunities,
@@ -316,6 +334,8 @@ def _group_row(group: MarketGroup, evaluation: ArbEvaluation, snap: VenueSnapsho
         "kind": evaluation.kind.value,
         "reason": evaluation.reason,
         "gross_edge_per_set": evaluation.gross_edge_per_set,
+        "top_fees_per_set": evaluation.top_fees_per_set.quantize(Q5) if evaluation.top_fees_per_set is not None else None,
+        "top_slippage_per_set": evaluation.top_slippage_per_set.quantize(Q5) if evaluation.top_slippage_per_set is not None else None,
         "net_edge_per_set": evaluation.net_edge_per_set.quantize(Q5) if evaluation.net_edge_per_set is not None else None,
         "sets": evaluation.quantity,
         "net_profit": evaluation.net_profit.quantize(Q5),
@@ -358,7 +378,7 @@ async def run_negrisk_track(runtime: TrackRuntime, params: ArbParameters) -> Tra
         conversions.append(conversion)
         residual += execution.residual
         summary.edges.append(_edge_row(runtime.name, evaluation, filled=execution.fills > 0))
-    rows.sort(key=lambda r: (r["gross_edge_per_set"] if r["gross_edge_per_set"] is not None else Decimal("-9")), reverse=True)
+    rows.sort(key=_group_sort_key(admissible="neg_risk"), reverse=True)
     summary.metrics.update(
         {
             "groups_checked": summary.candidates,
@@ -433,7 +453,7 @@ async def run_combinatorial_track(runtime: TrackRuntime, params: ArbParameters) 
             }
         )
         summary.edges.append(_edge_row(runtime.name, evaluation, filled=execution.fills > 0))
-    rows.sort(key=lambda r: (r["gross_edge_per_set"] if r["gross_edge_per_set"] is not None else Decimal("-9")), reverse=True)
+    rows.sort(key=_group_sort_key(admissible="exclusive"), reverse=True)
     summary.metrics.update(
         {
             "groups_checked": summary.candidates,
@@ -457,6 +477,17 @@ async def run_combinatorial_track(runtime: TrackRuntime, params: ArbParameters) 
     return summary
 
 
+def _group_sort_key(*, admissible: str) -> Any:
+    """Admissible groups first, then by top-of-book gross edge; non-admissible
+    bundles (e.g. hundreds of independent game props) never outrank them."""
+
+    def key(row: dict[str, Any]) -> tuple[int, Decimal]:
+        gross = row["gross_edge_per_set"] if row["gross_edge_per_set"] is not None else Decimal("-9")
+        return (int(bool(row.get(admissible))), gross)
+
+    return key
+
+
 def _params_dict(params: ArbParameters) -> dict[str, Any]:
     return {
         "slippage_ticks": params.slippage_ticks,
@@ -466,6 +497,7 @@ def _params_dict(params: ArbParameters) -> dict[str, Any]:
         "converter_fee_bps": params.converter_fee_bps,
         "allow_unverified_exclusivity": params.allow_unverified_exclusivity,
         "allow_hidden_outcome_long_yes": params.allow_hidden_outcome_long_yes,
+        "model_fees": params.model_fees,
     }
 
 
@@ -512,7 +544,10 @@ async def measure_polymarket_arb_with_ledgers(
         )
         for name in POLYMARKET_ARB_TRACKS
     }
-    summaries = await run_polymarket_arb_tracks(runtimes, parameters=parameters)
+    params = parameters or ArbParameters()
+    if not model_fees:
+        params = replace(params, model_fees=False)
+    summaries = await run_polymarket_arb_tracks(runtimes, parameters=params)
     label = cycle_label or f"{'fixtures' if use_fixtures else 'network'}:{_now().isoformat()}"
     for rt in runtimes.values():
         rt.finalize(label=label)

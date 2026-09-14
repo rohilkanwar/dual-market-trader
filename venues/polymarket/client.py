@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
+from datetime import UTC, datetime
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -124,7 +125,16 @@ def _book_from_levels(market_id: str, payload: dict[str, Any]) -> OrderBook:
             out.append(PriceLevel(decimal_or_zero(price), decimal_or_zero(size)))
         return tuple(out)
 
-    return OrderBook(market_id=market_id, bids=levels("bids"), asks=levels("asks"))
+    raw_ts = payload.get("timestamp")
+    timestamp = None
+    if raw_ts not in (None, ""):
+        try:
+            timestamp = datetime.fromtimestamp(int(str(raw_ts)) / 1000, tz=UTC)
+        except (ValueError, OverflowError, OSError):
+            timestamp = None
+    if timestamp is None:
+        return OrderBook(market_id=market_id, bids=levels("bids"), asks=levels("asks"))
+    return OrderBook(market_id=market_id, bids=levels("bids"), asks=levels("asks"), timestamp=timestamp)
 
 
 def _leg_market(item: dict[str, Any], event: dict[str, Any], *, source: str) -> Market | None:
@@ -396,12 +406,12 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
             if yes is None or no is None:
                 snapshot.errors.append(f"book_missing[{market.market_id}]")
             snapshot.yes_books[market.market_id] = (
-                OrderBook(market_id=market.market_id, bids=yes.bids, asks=yes.asks)
+                OrderBook(market_id=market.market_id, bids=yes.bids, asks=yes.asks, timestamp=yes.timestamp)
                 if yes is not None
                 else OrderBook(market_id=market.market_id)
             )
             snapshot.no_books[market.market_id] = (
-                OrderBook(market_id=market.market_id, bids=no.bids, asks=no.asks)
+                OrderBook(market_id=market.market_id, bids=no.bids, asks=no.asks, timestamp=no.timestamp)
                 if no is not None
                 else OrderBook(market_id=market.market_id)
             )

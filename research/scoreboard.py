@@ -923,7 +923,7 @@ async def measure_all_with_ledgers(
             flag_when_gate_would_refuse=True,
         ),
         run_news_underreaction_track(news_rt, source=news_signals, parameters=news_parameters),
-        run_polymarket_arb_tracks(arb_runtimes, parameters=arb_parameters),
+        run_polymarket_arb_tracks(arb_runtimes, parameters=_arb_params(arb_parameters, model_fees)),
     )
     arb_summaries = summaries[-1]
     summaries = list(summaries[:-1]) + list(arb_summaries)
@@ -977,3 +977,12 @@ async def measure_all_with_ledgers(
 
 async def _ready(value: Any) -> Any:
     return value
+
+
+def _arb_params(parameters: Any, model_fees: bool) -> Any:
+    from dataclasses import replace
+
+    from strategies.polymarket_arb import ArbParameters
+
+    params = parameters or ArbParameters()
+    return params if model_fees else replace(params, model_fees=False)

@@ -59,6 +59,7 @@ class ArbParameters:
     converter_fee_bps: Decimal = ZERO
     allow_unverified_exclusivity: bool = False
     allow_hidden_outcome_long_yes: bool = False
+    model_fees: bool = True
 
     def __post_init__(self) -> None:
         if self.slippage_ticks < ZERO or self.minimum_net_edge_per_set < ZERO or self.converter_fee_bps < ZERO:
@@ -160,6 +161,8 @@ class ArbEvaluation:
     payoff_per_set: Decimal = ZERO
     top_of_book_sum: Decimal | None = None
     gross_edge_per_set: Decimal | None = None
+    top_fees_per_set: Decimal | None = None
+    top_slippage_per_set: Decimal | None = None
     net_edge_per_set: Decimal | None = None
     net_profit: Decimal = ZERO
     total_fees: Decimal = ZERO
@@ -204,6 +207,8 @@ class ArbEvaluation:
             "payoff_per_set": self.payoff_per_set,
             "top_of_book_sum": self.top_of_book_sum,
             "gross_edge_per_set": self.gross_edge_per_set,
+            "top_fees_per_set": self.top_fees_per_set.quantize(Q5) if self.top_fees_per_set is not None else None,
+            "top_slippage_per_set": self.top_slippage_per_set.quantize(Q5) if self.top_slippage_per_set is not None else None,
             "net_edge_per_set": self.net_edge_per_set.quantize(Q5) if self.net_edge_per_set is not None else None,
             "edge_bps": self.edge_bps,
             "return_on_capital_bps": self.return_on_capital_bps,
@@ -229,14 +234,14 @@ def books_are_mirrors(yes_book: OrderBook, no_book: OrderBook) -> bool:
     return as_pairs(mirrored.bids) == as_pairs(no_book.bids) and as_pairs(mirrored.asks) == as_pairs(no_book.asks)
 
 
-def _leg(market: Market, outcome: Outcome, side: Side, book: OrderBook) -> ArbLeg:
+def _leg(market: Market, outcome: Outcome, side: Side, book: OrderBook, params: ArbParameters) -> ArbLeg:
     ladder = book.asks if side is Side.BUY else book.bids
     return ArbLeg(
         market=market,
         outcome=outcome,
         side=side,
         ladder=ladder,
-        fee_rate=fee_rate_of(market),
+        fee_rate=fee_rate_of(market) if params.model_fees else ZERO,
         tick=tick_of(market),
         min_order_size=min_order_size_of(market),
     )
@@ -372,11 +377,15 @@ def _evaluate(
     refuse: str | None = None,
 ) -> ArbEvaluation:
     tops = [leg.top for leg in legs]
-    top_sum = sum((t.price for t in tops if t is not None), ZERO) if all(t is not None for t in tops) else None
-    if top_sum is not None:
-        gross = (payoff_per_set + sum((leg.unit_flow(t.price, ZERO)[0] for leg, t in zip(legs, tops, strict=True) if t is not None), ZERO))
-    else:
-        gross = None
+    top_sum = gross = top_fees = top_slip = None
+    if tops and all(t is not None for t in tops):
+        top_sum = sum((t.price for t in tops if t is not None), ZERO)
+        gross, top_fees, top_slip = payoff_per_set, ZERO, ZERO
+        for leg, top in zip(legs, tops, strict=True):
+            cash, fee, slip = leg.unit_flow(top.price, params.slippage_ticks)  # type: ignore[union-attr]
+            gross += cash
+            top_fees += fee
+            top_slip += slip
     base = dict(
         kind=kind,
         group_id=group_id,
@@ -384,6 +393,8 @@ def _evaluate(
         payoff_per_set=payoff_per_set,
         top_of_book_sum=top_sum,
         gross_edge_per_set=gross,
+        top_fees_per_set=top_fees,
+        top_slippage_per_set=top_slip,
         executable_now=executable_now,
         lockup=lockup,
         lockup_until=lockup_until,
@@ -428,7 +439,7 @@ def _evaluate(
 # --------------------------------------------------------------------------
 def evaluate_merge(market: Market, yes_book: OrderBook, no_book: OrderBook, params: ArbParameters) -> ArbEvaluation:
     """Buy YES + buy NO below 1, merge to 1 USDC through the CTF."""
-    legs = (_leg(market, Outcome.YES, Side.BUY, yes_book), _leg(market, Outcome.NO, Side.BUY, no_book))
+    legs = (_leg(market, Outcome.YES, Side.BUY, yes_book, params), _leg(market, Outcome.NO, Side.BUY, no_book, params))
     return _evaluate(
         ArbKind.MERGE, market.market_id, market.title, legs,
         payoff_per_set=ONE, fixed_capital_per_set=ZERO, params=params,
@@ -439,7 +450,7 @@ def evaluate_merge(market: Market, yes_book: OrderBook, no_book: OrderBook, para
 
 def evaluate_split(market: Market, yes_book: OrderBook, no_book: OrderBook, params: ArbParameters) -> ArbEvaluation:
     """Split 1 USDC into YES + NO, sell both into the bids for more than 1."""
-    legs = (_leg(market, Outcome.YES, Side.SELL, yes_book), _leg(market, Outcome.NO, Side.SELL, no_book))
+    legs = (_leg(market, Outcome.YES, Side.SELL, yes_book, params), _leg(market, Outcome.NO, Side.SELL, no_book, params))
     return _evaluate(
         ArbKind.SPLIT, market.market_id, market.title, legs,
         payoff_per_set=-ONE, fixed_capital_per_set=ONE, params=params,
@@ -470,7 +481,7 @@ def evaluate_negrisk_convert(
 ) -> ArbEvaluation:
     """Buy NO on every visible leg, convert the set to ``K - 1`` USDC."""
     legs = tuple(
-        _leg(market, Outcome.NO, Side.BUY, no_books.get(market.market_id, OrderBook(market_id=market.market_id)))
+        _leg(market, Outcome.NO, Side.BUY, no_books.get(market.market_id, OrderBook(market_id=market.market_id)), params)
         for market in group.markets
     )
     k = Decimal(len(legs))
@@ -495,7 +506,7 @@ def evaluate_long_all_yes(
 ) -> ArbEvaluation:
     """Buy YES on every leg below 1; payoff 1 at resolution (capital locked)."""
     legs = tuple(
-        _leg(market, Outcome.YES, Side.BUY, yes_books.get(market.market_id, OrderBook(market_id=market.market_id)))
+        _leg(market, Outcome.YES, Side.BUY, yes_books.get(market.market_id, OrderBook(market_id=market.market_id)), params)
         for market in group.markets
     )
     refuse = None
