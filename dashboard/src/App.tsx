@@ -45,7 +45,7 @@ export default function App() {
   return (
     <main className="app">
       <Header data={data} />
-      <KpiStrip totals={data.totals} />
+      <KpiStrip totals={data.totals} meta={data.meta} />
       <section className="card" aria-label="Tracks">
         <TrackTable tracks={data.tracks} primaryTrack={data.meta.primary_track} />
       </section>

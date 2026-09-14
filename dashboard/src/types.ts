@@ -30,6 +30,18 @@ export interface ScoreboardMeta {
   markets_per_venue?: number
   primary_track?: TrackId
   refresh?: string
+  /** Present on ledger-backed artifacts (schema >= 1.2.0). */
+  pnl_source?: string
+  venue_focus?: string
+  kalshi_env?: string | null
+  cycle?: number | null
+  run_id?: string
+  note?: string
+}
+
+/** True only for artifacts whose PnL was produced by the paper ledger. */
+export function hasLedgerPnl(meta: ScoreboardMeta): boolean {
+  return meta.source !== 'sample' && typeof meta.pnl_source === 'string'
 }
 
 export interface ScoreboardFindings {
@@ -48,6 +60,10 @@ export interface ScoreboardTotals {
   settlement_risk_pairs: number
   paper_pnl: number
   avg_edge_bps?: number | null
+  proposed_orders?: number
+  realized_pnl?: number
+  unrealized_pnl?: number
+  fees_paid?: number
 }
 
 export interface VenueBreakdown {
@@ -116,6 +132,21 @@ export interface PortfolioConcentration {
   weight: number
 }
 
+export interface LedgerTrackSummary {
+  starting_cash?: number
+  cash?: number
+  equity?: number
+  realized_pnl?: number
+  unrealized_pnl?: number
+  total_pnl?: number
+  fees_paid?: number
+  gross_notional?: number
+  max_drawdown?: number
+  open_positions?: number
+  fills?: number
+  equity_points?: number
+}
+
 export interface PortfolioSummary {
   paper_only: boolean
   open_positions: number
@@ -127,6 +158,16 @@ export interface PortfolioSummary {
   settlement_risk_pairs: number
   concentration: PortfolioConcentration[]
   risk_flags: string[]
+  /** Ledger-backed extras (schema >= 1.2.0). */
+  source?: string
+  starting_cash?: number
+  cash?: number
+  equity?: number
+  total_pnl?: number
+  fees_paid?: number
+  primary_track?: string
+  primary?: LedgerTrackSummary & { ledger_id?: string; unmarked_positions?: number }
+  by_track?: Record<string, LedgerTrackSummary>
 }
 
 export interface ChartPoint {
@@ -173,6 +214,14 @@ export function formatPct(rate: number | null | undefined, digits = 1): string {
 export function formatNum(n: number | null | undefined, digits = 0): string {
   if (n == null || Number.isNaN(n)) return '—'
   return Number.isInteger(n) && digits === 0 ? String(n) : n.toFixed(digits)
+}
+
+export function formatSigned(n: number | null | undefined, digits = 2): string {
+  if (n == null || Number.isNaN(n)) return '—'
+  const fixed = Math.abs(n).toFixed(digits)
+  if (n > 0) return `+${fixed}`
+  if (n < 0) return `−${fixed}`
+  return fixed
 }
 
 export function shortTrack(id: string): string {

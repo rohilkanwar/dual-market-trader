@@ -1,4 +1,13 @@
+data/harvests/*.json
 data/harvests/*.json.gz
-artifacts/scoreboard_*.json
-artifacts/jobs/
-artifacts/paper_loop_*
+# Runtime measurement output (ledgers, equity curves, scoreboards). The
+# dashboard's committed copies live under dashboard/public/artifacts/.
+/artifacts/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+.env

@@ -1,10 +1,12 @@
 import type { ScoreboardArtifact } from '../types'
-import { formatNum } from '../types'
+import { formatNum, formatSigned, hasLedgerPnl } from '../types'
 
 export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
   const f = data.findings
   const p = data.portfolio
   const xv = f?.live_network_cross_venue_candidates ?? 0
+  const ledger = hasLedgerPnl(data.meta) ? p : undefined
+  const primary = ledger?.primary
 
   return (
     <div className="details-stack">
@@ -33,19 +35,54 @@ export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
                 <dd>{f.macro_admitted_bucket_divergences.label}</dd>
               </div>
             )}
-            {p && (
+            {ledger ? (
               <>
                 <div className="mini-stat">
-                  <dt>PnL</dt>
-                  <dd>{formatNum(p.realized_pnl, 2)}</dd>
+                  <dt>Realized</dt>
+                  <dd>{formatSigned(ledger.realized_pnl)}</dd>
+                </div>
+                <div className="mini-stat">
+                  <dt>Unrealized</dt>
+                  <dd>{formatSigned(ledger.unrealized_pnl)}</dd>
+                </div>
+                <div className="mini-stat">
+                  <dt>Fees</dt>
+                  <dd>{formatNum(ledger.fees_paid, 2)}</dd>
+                </div>
+                <div className="mini-stat">
+                  <dt>Max drawdown</dt>
+                  <dd>{formatNum(ledger.max_drawdown, 2)}</dd>
                 </div>
                 <div className="mini-stat">
                   <dt>Positions</dt>
-                  <dd>{formatNum(p.open_positions)}</dd>
+                  <dd>{formatNum(ledger.open_positions)}</dd>
                 </div>
+                {primary && (
+                  <div className="mini-stat">
+                    <dt>Primary equity</dt>
+                    <dd>
+                      {formatNum(primary.equity, 2)}
+                      {primary.starting_cash != null && ` / ${formatNum(primary.starting_cash, 0)}`}
+                    </dd>
+                  </div>
+                )}
               </>
+            ) : (
+              p && (
+                <div className="mini-stat">
+                  <dt>PnL</dt>
+                  <dd>sample — not measured</dd>
+                </div>
+              )
             )}
           </dl>
+          {data.meta.pnl_source && (
+            <p className="meta-line">
+              PnL from {data.meta.pnl_source}
+              {data.meta.run_id ? ` · run ${data.meta.run_id}` : ''}
+              {data.meta.mode ? ` · ${data.meta.mode}` : ''}
+            </p>
+          )}
         </div>
       </details>
     </div>

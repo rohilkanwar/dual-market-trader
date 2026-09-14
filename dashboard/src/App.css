@@ -155,7 +155,9 @@
 /* Big numbers — max 4 */
 .stat-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* One equal column per tile: 4 for sample artifacts, 5 when the ledger PnL tile is present. */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   gap: var(--space-sm);
   margin-bottom: var(--space-lg);
 }
@@ -423,6 +425,7 @@
   }
 
   .stat-strip {
+    grid-auto-flow: row;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-md) var(--space-sm);
   }
