@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T231547Z-1bb7d584.json"
+  ],
+  "run_id": "20260914T231547Z-1bb7d584",
+  "mode": "fixtures",
+  "measured_at": "2026-09-14T23:15:47.974873+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / FIXTURES / TENNIS BASIS",
+  "venues": [
+    "kalshi",
+    "polymarket"
+  ],
+  "venue_focus": "cross",
+  "kalshi_env": null,
+  "track_family": "tennis_basis",
+  "primary_track": "tennis_basis",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 63,
+    "admitted": 5,
+    "rejects": 58,
+    "proposed_orders": 5,
+    "paper_fills": 5,
+    "paper_pnl": -0.22,
+    "realized_pnl": -0.22,
+    "unrealized_pnl": 0,
+    "fees_paid": 1.22
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "tennis_basis",
+      "label": "Tennis cross-platform basis (free odds)",
+      "candidates": 63,
+      "admitted": 5,
+      "rejects": 58,
+      "proposed_orders": 5,
+      "paper_fills": 5,
+      "fill_rate": 1,
+      "edge_bps": 281,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "ambiguous_match": 5,
+        "closed_at_start": 4,
+        "consensus_insufficient_books": 5,
+        "duplicate_side": 8,
+        "event_started": 6,
+        "gap_below_threshold": 1,
+        "no_outside_match": 5,
+        "no_two_sided_mid": 4,
+        "settlement_basis_itf": 5,
+        "settlement_basis_unreadable": 5,
+        "tracking_open_gap": 10
+      },
+      "notes": "Venue mid vs. a free public consensus line (The Odds API free tier; Pinnacle when quoted, else the median of >=2 books, multiplicatively de-vigged). |gap| >= 3c opens a record and a paper lean toward the line; records close on the last observation before the scheduled start and the position is unwound at that mid. Pre-registered pass: >= 60% of gaps close >= 50% (n >= 30). Mandatory settlement filter: unreadable / ITF / mismatched retirement-walkover clauses are refused before pricing, and a match that settles as a walkover, cancellation, 50-50 or fair price (or is reported retired) is excluded after the fact. The bookmaker line is P(win | completed); venues price P(advances); that basis difference is documented, not modelled.",
+      "ledger": {
+        "ledger_id": "tennis_basis",
+        "starting_cash": 1000,
+        "cash": 999.783,
+        "equity": 999.783,
+        "realized_pnl": -0.22,
+        "unrealized_pnl": 0,
+        "total_pnl": -0.22,
+        "fees_paid": 1.22,
+        "fills": 10,
+        "open_positions": 0,
+        "max_drawdown": 0.93895
+      }
+    }
+  ]
+}

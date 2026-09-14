@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-09-14T23:05:33.218Z",
+  "generated_at": "2026-09-14T23:22:31.539Z",
   "schema_version": "1.2.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 14,
-    "measured": 13,
+    "total": 16,
+    "measured": 15,
     "sample": 1,
     "backtest": 0
   },
   "modes": {
-    "network": 9,
-    "fixtures": 5
+    "network": 10,
+    "fixtures": 6
   },
   "latest_run_id": "20260914T214601Z-d5338a8c",
   "families": [
@@ -118,6 +118,18 @@
       "sample_runs": 0
     },
     {
+      "id": "tennis_basis",
+      "label": "Tennis basis",
+      "description": "Tennis venue mid vs. free public consensus line (gap closure by match start)",
+      "lane": false,
+      "tracks": [
+        "tennis_basis"
+      ],
+      "runs": 2,
+      "measured_runs": 2,
+      "sample_runs": 0
+    },
+    {
       "id": "other",
       "label": "Other",
       "description": "Tracks not matched to a family",
@@ -190,6 +202,111 @@
     }
   ],
   "runs": [
+    {
+      "run_id": "20260914T231551Z-0640791f",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / TENNIS BASIS",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-14T23:15:48.162970+00:00",
+      "generated_at": "2026-09-14T23:15:51.809894+00:00",
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "cross",
+      "kalshi_env": "prod",
+      "primary_track": "tennis_basis",
+      "track_family": "tennis_basis",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 78,
+        "admitted": 0,
+        "rejects": 78,
+        "paper_fills": 0,
+        "paper_pnl": 0,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "fees_paid": 0
+      },
+      "tracks": [
+        {
+          "track": "tennis_basis",
+          "label": "Tennis cross-platform basis (free odds)",
+          "family": "tennis_basis",
+          "candidates": 78,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        }
+      ],
+      "gate": null,
+      "artifacts": [
+        "scoreboard_tennis_basis.json",
+        "runs/20260914T231551Z-0640791f.json"
+      ],
+      "detail": "/artifacts/scoreboard_tennis_basis.json",
+      "families": [
+        "tennis_basis"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260914T231547Z-1bb7d584",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / FIXTURES / TENNIS BASIS",
+      "mode": "fixtures",
+      "cycle": null,
+      "measured_at": "2026-09-14T23:15:47.974873+00:00",
+      "generated_at": null,
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "cross",
+      "kalshi_env": null,
+      "primary_track": "tennis_basis",
+      "track_family": "tennis_basis",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 63,
+        "admitted": 5,
+        "rejects": 58,
+        "paper_fills": 5,
+        "paper_pnl": -0.22,
+        "realized_pnl": -0.22,
+        "unrealized_pnl": 0,
+        "fees_paid": 1.22
+      },
+      "tracks": [
+        {
+          "track": "tennis_basis",
+          "label": "Tennis cross-platform basis (free odds)",
+          "family": "tennis_basis",
+          "candidates": 63,
+          "admitted": 5,
+          "paper_fills": 5,
+          "edge_bps": 281,
+          "settlement_risk": false,
+          "paper_pnl": -0.22
+        }
+      ],
+      "gate": null,
+      "artifacts": [
+        "runs/20260914T231547Z-1bb7d584.json"
+      ],
+      "detail": "/artifacts/runs/20260914T231547Z-1bb7d584.json",
+      "families": [
+        "tennis_basis"
+      ],
+      "is_latest": false
+    },
     {
       "run_id": "20260914T230348Z-tennis-63ad64de",
       "kind": "paper_run",
@@ -2165,6 +2282,20 @@
       "total_pnl": 0,
       "max_drawdown": 0,
       "artifact": "/artifacts/paper_ledger_sports_cross_venue.json"
+    },
+    {
+      "ledger_id": "tennis_basis",
+      "track": "tennis_basis",
+      "family": "tennis_basis",
+      "updated_at": "2026-09-14T23:15:51.808854+00:00",
+      "mark_method": "mid",
+      "fills": 0,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 1000,
+      "total_pnl": 0,
+      "max_drawdown": 0,
+      "artifact": "/artifacts/paper_ledger_tennis_basis.json"
     },
     {
       "ledger_id": "tennis_whale_copy_10m",

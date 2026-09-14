@@ -64,6 +64,12 @@ export const FAMILIES = [
     description: 'Polymarket tennis whale copy at 30 s / 2 min / 10 min lags (tape replay)',
   },
   {
+    id: 'tennis_basis',
+    label: 'Tennis basis',
+    lane: false,
+    description: 'Tennis venue mid vs. free public consensus line (gap closure by match start)',
+  },
+  {
     id: 'other',
     label: 'Other',
     lane: false,
@@ -90,6 +96,7 @@ export const KNOWN_TRACKS = {
   tennis_whale_copy_30s: 'tennis_copy',
   tennis_whale_copy_2m: 'tennis_copy',
   tennis_whale_copy_10m: 'tennis_copy',
+  tennis_basis: 'tennis_basis',
 }
 
 const tokensOf = (id) =>
@@ -115,6 +122,7 @@ export function familyOf(trackOrId) {
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
   if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'
+  if (has('tennis', 'basis') || has('sports', 'basis')) return 'tennis_basis'
   if (any('tennis') || has('whale', 'copy')) return 'tennis_copy'
   const crossVenue = any('xv') || has('cross', 'venue') || joined.includes('crossvenue')
   if (crossVenue) {

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T23:05:33.192Z",
+  "generated_at": "2026-09-14T23:22:31.517Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -28,16 +28,16 @@
       "measured_at": "2026-09-14T21:45:56.330050+00:00",
       "paper_pnl": null
     },
-    "paper/ledger_gated_cross_venue.json": {
-      "target": "public/artifacts/paper_ledger_gated_cross_venue.json",
-      "source": "ledger",
-      "measured_at": "2026-09-14T21:46:01.954451+00:00",
-      "paper_pnl": null
-    },
     "paper/ledger_gated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue_macro.json",
       "source": "ledger",
       "measured_at": "2026-09-14T21:46:01.954513+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_gated_cross_venue.json": {
+      "target": "public/artifacts/paper_ledger_gated_cross_venue.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T21:46:01.954451+00:00",
       "paper_pnl": null
     },
     "paper/ledger_kalshi_longshot_fade.json": {
@@ -94,6 +94,12 @@
       "measured_at": "2026-09-14T21:46:01.954600+00:00",
       "paper_pnl": null
     },
+    "paper/ledger_tennis_basis.json": {
+      "target": "public/artifacts/paper_ledger_tennis_basis.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T23:15:51.808854+00:00",
+      "paper_pnl": null
+    },
     "paper/ledger_tennis_whale_copy_10m.json": {
       "target": "public/artifacts/paper_ledger_tennis_whale_copy_10m.json",
       "source": "ledger",
@@ -142,11 +148,23 @@
       "measured_at": "2026-09-14T21:45:56.330050+00:00",
       "paper_pnl": -3.1764
     },
+    "scoreboard_tennis_basis.json": {
+      "target": "public/artifacts/scoreboard_tennis_basis.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T23:15:48.162970+00:00",
+      "paper_pnl": 0
+    },
     "scoreboard_tennis_whale.json": {
       "target": "public/artifacts/scoreboard_tennis_whale.json",
       "source": "measured",
       "measured_at": "2026-09-14T23:03:48.174731+00:00",
       "paper_pnl": -338.0628
+    },
+    "tennis_basis_latest.json": {
+      "target": "public/artifacts/tennis_basis_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T23:15:48.162970+00:00",
+      "paper_pnl": null
     },
     "tennis_whale_report_latest.json": {
       "target": "public/artifacts/tennis_whale_report_latest.json",

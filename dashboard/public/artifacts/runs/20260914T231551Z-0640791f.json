@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T231551Z-0640791f.json"
+  ],
+  "run_id": "20260914T231551Z-0640791f",
+  "mode": "network",
+  "measured_at": "2026-09-14T23:15:48.162970+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / TENNIS BASIS",
+  "venues": [
+    "kalshi",
+    "polymarket"
+  ],
+  "venue_focus": "cross",
+  "kalshi_env": "prod",
+  "track_family": "tennis_basis",
+  "primary_track": "tennis_basis",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 78,
+    "admitted": 0,
+    "rejects": 78,
+    "proposed_orders": 0,
+    "paper_fills": 0,
+    "paper_pnl": 0,
+    "realized_pnl": 0,
+    "unrealized_pnl": 0,
+    "fees_paid": 0
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "tennis_basis",
+      "label": "Tennis cross-platform basis (free odds)",
+      "candidates": 78,
+      "admitted": 0,
+      "rejects": 78,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "no_outside_match": 78
+      },
+      "notes": "Venue mid vs. a free public consensus line (The Odds API free tier; Pinnacle when quoted, else the median of >=2 books, multiplicatively de-vigged). |gap| >= 3c opens a record and a paper lean toward the line; records close on the last observation before the scheduled start and the position is unwound at that mid. Pre-registered pass: >= 60% of gaps close >= 50% (n >= 30). Mandatory settlement filter: unreadable / ITF / mismatched retirement-walkover clauses are refused before pricing, and a match that settles as a walkover, cancellation, 50-50 or fair price (or is reported retired) is excluded after the fact. The bookmaker line is P(win | completed); venues price P(advances); that basis difference is documented, not modelled.",
+      "ledger": {
+        "ledger_id": "tennis_basis",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,1810 @@
+{
+  "by_venue": {
+    "kalshi": {
+      "closed_at_start": 0,
+      "confirmed": {
+        "closed_half": 0,
+        "excluded_settlement_mismatch": 0,
+        "n": 0,
+        "open_records": 0,
+        "overshoots": 0,
+        "pending_settlement_check": 0,
+        "pre_registered": {
+          "closure_target": 0.5,
+          "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+          "final_observation": "last observation strictly before the scheduled start",
+          "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+          "gap_threshold": 0.03,
+          "min_sample": 30,
+          "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+          "pass_rate": 0.6,
+          "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+        },
+        "rate": null,
+        "status": "insufficient_sample",
+        "wilson_95": null
+      },
+      "open": 0
+    },
+    "polymarket": {
+      "closed_at_start": 0,
+      "confirmed": {
+        "closed_half": 0,
+        "excluded_settlement_mismatch": 0,
+        "n": 0,
+        "open_records": 0,
+        "overshoots": 0,
+        "pending_settlement_check": 0,
+        "pre_registered": {
+          "closure_target": 0.5,
+          "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+          "final_observation": "last observation strictly before the scheduled start",
+          "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+          "gap_threshold": 0.03,
+          "min_sample": 30,
+          "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+          "pass_rate": 0.6,
+          "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+        },
+        "rate": null,
+        "status": "insufficient_sample",
+        "wilson_95": null
+      },
+      "open": 0
+    }
+  },
+  "candidates": 78,
+  "experiment": {
+    "hypothesis": "When a Kalshi/Polymarket tennis match-winner mid drifts >= 3c from the free public consensus line, the venue mid moves back toward the line before the match starts.",
+    "outside_line": {
+      "consensus": "sharp book (pinnacle) when quoted, else median of >= min_books de-vigged books",
+      "devig": "multiplicative (normalise 1/odds to sum to 1)",
+      "source": {
+        "cost_model": "1 credit per market per region per call; GET /v4/sports is free",
+        "plan": "Starter (free): 500 credits/month, API key by e-mail sign-up, no payment details",
+        "provider": "The Odds API (the-odds-api.com)",
+        "sharp_book": "pinnacle (eu region; odds from Pinnacle's public website, may be delayed)",
+        "terms": "https://the-odds-api.com/liveapi/guides/v4/ ; personal / non-commercial use on the free plan"
+      }
+    },
+    "pre_registered": {
+      "closure_target": 0.5,
+      "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+      "final_observation": "last observation strictly before the scheduled start",
+      "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+      "gap_threshold": 0.03,
+      "min_sample": 30,
+      "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+      "pass_rate": 0.6,
+      "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+    },
+    "settlement_mismatch_filter": {
+      "after_start": "records settle 'confirmed' only on a binary venue result; walkover / cancellation / 50-50 / fair-price settlements and operator-reported retirements are excluded",
+      "at_admission": "venue rules must state retirement -> advancing player and walkover -> fair price / 50-50; ITF refused; silence refused",
+      "bookmaker_basis": {
+        "note": "Bookmaker match-winner odds are quoted on a 'match completed' basis: walkovers void the bet and most books (Pinnacle among them) void on retirement. Venue contracts pay the advancing player on retirement and settle walkovers at a fair price (Kalshi) or 50-50 (Polymarket). The outside line is therefore P(win | completed); the venue mid prices P(advances). The difference is bounded by the retirement/withdrawal rate and is NOT modelled here.",
+        "retirement": "void_or_book_specific",
+        "walkover": "void"
+      }
+    }
+  },
+  "fills": [],
+  "gaps_closed_this_run": 0,
+  "gaps_observed_this_run": 0,
+  "gaps_opened_this_run": 0,
+  "kind": "tennis_basis_report",
+  "ledger": {
+    "cash": 1000.0,
+    "concentration": [],
+    "created_at": "2026-09-14T23:15:51.803442+00:00",
+    "equity": 1000.0,
+    "equity_points": 1,
+    "fees_paid": 0.0,
+    "fills": 0,
+    "gross_notional": 0.0,
+    "ledger_id": "tennis_basis",
+    "mark_method": "mid",
+    "max_drawdown": 0.0,
+    "net_exposure": 0.0,
+    "open_positions": 0,
+    "paper_only": true,
+    "peak_equity": 1000.0,
+    "position_value": 0.0,
+    "positions": [],
+    "realized_pnl": 0.0,
+    "return_pct": 0.0,
+    "settlement_fills": 0,
+    "starting_cash": 1000.0,
+    "total_pnl": 0.0,
+    "unmarked_positions": 0,
+    "unrealized_pnl": 0.0,
+    "updated_at": "2026-09-14T23:15:51.808854+00:00"
+  },
+  "markets_by_venue": {
+    "kalshi": 48,
+    "polymarket": 30
+  },
+  "measured_at": "2026-09-14T23:15:48.162970+00:00",
+  "measurements": [
+    {
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "opponent": "Maria",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-13T19:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Taylor Townsend wins",
+      "venue": "kalshi",
+      "yes_player": "Taylor Townsend"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "opponent": "Townsend",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-13T19:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Tatjana Maria wins",
+      "venue": "kalshi",
+      "yes_player": "Tatjana Maria"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14RIEAVA-AVA",
+      "opponent": "Riera",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Elina Avanesyan wins",
+      "venue": "kalshi",
+      "yes_player": "Elina Avanesyan"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14RIEAVA-RIE",
+      "opponent": "Avanesyan",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Julia Riera wins",
+      "venue": "kalshi",
+      "yes_player": "Julia Riera"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14BOUSAL-BOU",
+      "opponent": null,
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Jessica Bouzas Maneiro wins",
+      "venue": "kalshi",
+      "yes_player": "Jessica Bouzas Maneiro"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14FREHIB-HIB",
+      "opponent": "Frech",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T00:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Nao Hibino wins",
+      "venue": "kalshi",
+      "yes_player": "Nao Hibino"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14FREHIB-FRE",
+      "opponent": "Hibino",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T00:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Magdalena Frech wins",
+      "venue": "kalshi",
+      "yes_player": "Magdalena Frech"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14BOUSAL-SAL",
+      "opponent": "Bouzas Maneiro",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Dominika Salkova wins",
+      "venue": "kalshi",
+      "yes_player": "Dominika Salkova"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14SONSHY-SON",
+      "opponent": "Shymanovich",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T02:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Zeynep Sonmez wins",
+      "venue": "kalshi",
+      "yes_player": "Zeynep Sonmez"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14BLILEE-BLI",
+      "opponent": "Lee",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Anna Blinkova wins",
+      "venue": "kalshi",
+      "yes_player": "Anna Blinkova"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14ORTPAQ-ORT",
+      "opponent": "Paquet",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T21:10:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Jazmin Ortenzi wins",
+      "venue": "kalshi",
+      "yes_player": "Jazmin Ortenzi"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+      "opponent": "Jacquemot",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-13T19:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Liudmila Samsonova wins",
+      "venue": "kalshi",
+      "yes_player": "Liudmila Samsonova"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14YOUCHA-CHA",
+      "opponent": "You",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T20:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Alina Charaeva wins",
+      "venue": "kalshi",
+      "yes_player": "Alina Charaeva"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+      "opponent": "Sonmez",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T02:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Iryna Shymanovich wins",
+      "venue": "kalshi",
+      "yes_player": "Iryna Shymanovich"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14BRASIE-SIE",
+      "opponent": "Brace",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T20:10:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Solana Sierra wins",
+      "venue": "kalshi",
+      "yes_player": "Solana Sierra"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14ORTPAQ-PAQ",
+      "opponent": "Ortenzi",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T21:10:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Chloe Paquet wins",
+      "venue": "kalshi",
+      "yes_player": "Chloe Paquet"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14VALPIG-VAL",
+      "opponent": "Pigossi",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Vendula Valdmannova wins",
+      "venue": "kalshi",
+      "yes_player": "Vendula Valdmannova"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14STEPOD-STE",
+      "opponent": "Podoroska",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Lucrezia Stefanini wins",
+      "venue": "kalshi",
+      "yes_player": "Lucrezia Stefanini"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14LYSGAB-GAB",
+      "opponent": "Lys",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Gabriela CE wins",
+      "venue": "kalshi",
+      "yes_player": "Gabriela CE"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "opponent": "Samsonova",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-13T19:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Elsa Jacquemot wins",
+      "venue": "kalshi",
+      "yes_player": "Elsa Jacquemot"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14LYSGAB-LYS",
+      "opponent": "CE",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Eva Lys wins",
+      "venue": "kalshi",
+      "yes_player": "Eva Lys"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14LAMALV-ALV",
+      "opponent": "Lamens",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Carolina Alves wins",
+      "venue": "kalshi",
+      "yes_player": "Carolina Alves"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14YOUCHA-YOU",
+      "opponent": "Charaeva",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T20:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Xiaodi You wins",
+      "venue": "kalshi",
+      "yes_player": "Xiaodi You"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15STETJE-STE",
+      "opponent": "Tjen",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Sloane Stephens wins",
+      "venue": "kalshi",
+      "yes_player": "Sloane Stephens"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15PARSTE-PAR",
+      "opponent": "Stearns",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Diane Parry wins",
+      "venue": "kalshi",
+      "yes_player": "Diane Parry"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+      "opponent": "Mikulskyte",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T23:30:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Paula Badosa wins",
+      "venue": "kalshi",
+      "yes_player": "Paula Badosa"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14VALPIG-PIG",
+      "opponent": "Valdmannova",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Laura Pigossi wins",
+      "venue": "kalshi",
+      "yes_player": "Laura Pigossi"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14STEPOD-POD",
+      "opponent": "Stefanini",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Nadia Podoroska wins",
+      "venue": "kalshi",
+      "yes_player": "Nadia Podoroska"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+      "opponent": "Badosa",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T23:30:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Justina Mikulskyte wins",
+      "venue": "kalshi",
+      "yes_player": "Justina Mikulskyte"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15OSUQUE-OSU",
+      "opponent": "Quevedo",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Whitney Osuigwe wins",
+      "venue": "kalshi",
+      "yes_player": "Whitney Osuigwe"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15STETJE-TJE",
+      "opponent": "Stephens",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Janice Tjen wins",
+      "venue": "kalshi",
+      "yes_player": "Janice Tjen"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14STOLIU-LIU",
+      "opponent": "Stoiana",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Claire Liu wins",
+      "venue": "kalshi",
+      "yes_player": "Claire Liu"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14LEMSHA-SHA",
+      "opponent": "Leme Da Silva",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Astra Sharma wins",
+      "venue": "kalshi",
+      "yes_player": "Astra Sharma"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14BRASIE-BRA",
+      "opponent": "Sierra",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T20:10:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Cadence Brace wins",
+      "venue": "kalshi",
+      "yes_player": "Cadence Brace"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14BLILEE-LEE",
+      "opponent": "Blinkova",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Carol Young Suh Lee wins",
+      "venue": "kalshi",
+      "yes_player": "Carol Young Suh Lee"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14LEMSHA-LEM",
+      "opponent": null,
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Nauhany Vitoria Leme Da Silva wins",
+      "venue": "kalshi",
+      "yes_player": "Nauhany Vitoria Leme Da Silva"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14KOSBAR-KOS",
+      "opponent": "Barros",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Teodora Kostovic wins",
+      "venue": "kalshi",
+      "yes_player": "Teodora Kostovic"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14STOLIU-STO",
+      "opponent": "Liu",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Mary Stoiana wins",
+      "venue": "kalshi",
+      "yes_player": "Mary Stoiana"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15PARBEJ-PAR",
+      "opponent": "Bejlek",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Alycia Parks wins",
+      "venue": "kalshi",
+      "yes_player": "Alycia Parks"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14LAMALV-LAM",
+      "opponent": "Alves",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Suzan Lamens wins",
+      "venue": "kalshi",
+      "yes_player": "Suzan Lamens"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14KOSBAR-BAR",
+      "opponent": "Kostovic",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Victoria Luiza Barros wins",
+      "venue": "kalshi",
+      "yes_player": "Victoria Luiza Barros"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15BUCUDV-BUC",
+      "opponent": "Udvardy",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Cristina Bucsa wins",
+      "venue": "kalshi",
+      "yes_player": "Cristina Bucsa"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15SEMKIN-SEM",
+      "opponent": "Kinoshita",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Darja Semenistaja wins",
+      "venue": "kalshi",
+      "yes_player": "Darja Semenistaja"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15PARBEJ-BEJ",
+      "opponent": "Parks",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Sara Bejlek wins",
+      "venue": "kalshi",
+      "yes_player": "Sara Bejlek"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15SEMKIN-KIN",
+      "opponent": "Semenistaja",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Hayu Kinoshita wins",
+      "venue": "kalshi",
+      "yes_player": "Hayu Kinoshita"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15OSUQUE-QUE",
+      "opponent": "Osuigwe",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Kaitlin Quevedo wins",
+      "venue": "kalshi",
+      "yes_player": "Kaitlin Quevedo"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15PARSTE-STE",
+      "opponent": "Parry",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Peyton Stearns wins",
+      "venue": "kalshi",
+      "yes_player": "Peyton Stearns"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15BUCUDV-UDV",
+      "opponent": "Bucsa",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T21:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fair_price"
+      },
+      "title": "Panna Udvardy wins",
+      "venue": "kalshi",
+      "yes_player": "Panna Udvardy"
+    },
+    {
+      "market_id": "0x0bd25ac45bb59731aa3cd124513061fba39168bac6cdf8b46a9f3ac76a3323e8",
+      "opponent": "Taylor Townsend",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T21:05:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guadalajara Open Akron: Tatjana Maria vs Taylor Townsend",
+      "venue": "polymarket",
+      "yes_player": "Tatjana Maria"
+    },
+    {
+      "market_id": "0x518139031d79ed41c430723f61155dcc762df27a0a188913d3f7765a79ac0825",
+      "opponent": "Caroline Dolehide",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T21:10:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guadalajara Open Akron: Renata Zarazua vs Caroline Dolehide",
+      "venue": "polymarket",
+      "yes_player": "Renata Zarazua"
+    },
+    {
+      "market_id": "0x27ed50353f140c9223ba0da2d6fd5ed31081107706734368a77f0632b3510f0a",
+      "opponent": "Patrick Maloney",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T21:15:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Tiburon: Alastair Gray vs Patrick Maloney",
+      "venue": "polymarket",
+      "yes_player": "Alastair Gray"
+    },
+    {
+      "market_id": "0xab267d5dcbf29c2c9521c92797415a6a1fd081a2a59292dc2f145034247c790c",
+      "opponent": "Tyler Zink",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T21:35:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Tiburon: Abedallah Shelbayh vs Tyler Zink",
+      "venue": "polymarket",
+      "yes_player": "Abedallah Shelbayh"
+    },
+    {
+      "market_id": "0xb4cc0de73ec54ac7a98c94422110879328cc857be03ee011403a051024b02aea",
+      "opponent": "Ilya Ivashka",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T09:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guangzhou: Marat Sharipov vs Ilya Ivashka",
+      "venue": "polymarket",
+      "yes_player": "Marat Sharipov"
+    },
+    {
+      "market_id": "0x7057fbab6076fc95085722534f4da794bc4b2b831a1d79a17ee132b3e64d097f",
+      "opponent": "Michael Mmoh",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T23:10:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Tiburon: Karue Sell vs Michael Mmoh",
+      "venue": "polymarket",
+      "yes_player": "Karue Sell"
+    },
+    {
+      "market_id": "0x62e0476fe91da05713136609ae0a492c39557cc82795c1c11a4de8d18364238d",
+      "opponent": "Dominika Salkova",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open: Jessica Bouzas Maneiro vs Dominika Salkova",
+      "venue": "polymarket",
+      "yes_player": "Jessica Bouzas Maneiro"
+    },
+    {
+      "market_id": "0x35135d218173dde69f1c067bd1f4fc0cd9c2bc9ff0bfacd7c5ef18c24d53960d",
+      "opponent": "Hikaru Shiraishi",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T10:30:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guangzhou: Jake Delaney vs Hikaru Shiraishi",
+      "venue": "polymarket",
+      "yes_player": "Jake Delaney"
+    },
+    {
+      "market_id": "0x5d60709f598cc61c7c7025fe477f01f01a9f979c3a848730fe7f5ed1e783f04c",
+      "opponent": "Solana Sierra",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open: Cadence Brace vs Solana Sierra",
+      "venue": "polymarket",
+      "yes_player": "Cadence Brace"
+    },
+    {
+      "market_id": "0x54059aa9810bfa065ac337f6a2cfa8e11ffe174ec21ae8bc560689e0040fed3d",
+      "opponent": "Elina Avanesyan",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open: Julia Riera vs Elina Avanesyan",
+      "venue": "polymarket",
+      "yes_player": "Julia Riera"
+    },
+    {
+      "market_id": "0xc9fa413ac3658cd39efbcf931cce40bd0012072577d2ff45b53d031ea59b2ceb",
+      "opponent": "Alina Charaeva",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open: Xiaodi You vs Alina Charaeva",
+      "venue": "polymarket",
+      "yes_player": "Xiaodi You"
+    },
+    {
+      "market_id": "0x6645c07f219f0c883729b8d9f03bf6a2df949043c03da3f61eff359c36fe4c0e",
+      "opponent": "Iryna Shymanovich",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T23:20:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guadalajara Open Akron: Zeynep Sonmez vs Iryna Shymanovich",
+      "venue": "polymarket",
+      "yes_player": "Zeynep Sonmez"
+    },
+    {
+      "market_id": "0x84940eabcae7bfcc49050b3c83bf91da5a0b6a04fcfa6fc8928725a6f8d74b80",
+      "opponent": "Francesco Forti",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T14:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Biella: Gianluca Cadenasso vs Francesco Forti",
+      "venue": "polymarket",
+      "yes_player": "Gianluca Cadenasso"
+    },
+    {
+      "market_id": "0x940bc8c1b90cf81b1509eca53d59bb21f412b051c9d27902c2750a4de6539ed8",
+      "opponent": "Nao Hibino",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-14T23:45:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guadalajara Open Akron: Magdalena Frech vs Nao Hibino",
+      "venue": "polymarket",
+      "yes_player": "Magdalena Frech"
+    },
+    {
+      "market_id": "0x25d05ec09c8770938bbda41ec283939cf3f3c17950595d9d653232f5584f7d0b",
+      "opponent": "Tai Sach",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T04:30:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Phan Thiet 4: Filip Peliwo vs Tai Sach",
+      "venue": "polymarket",
+      "yes_player": "Filip Peliwo"
+    },
+    {
+      "market_id": "0x431b618fc505ca2c9b0f15a0f8c2266f5375dd0a89ce9b9d2925b6f088e5ba83",
+      "opponent": "Gabriela Ce",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open: Eva Lys vs Gabriela Ce",
+      "venue": "polymarket",
+      "yes_player": "Eva Lys"
+    },
+    {
+      "market_id": "0x521dcb4b434b4bd4b03e656a0d707ae74b4b89a7bf39ae0e60fa182f87319e29",
+      "opponent": "Liudmila Samsonova",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T00:50:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guadalajara Open Akron: Elsa Jacquemot vs Liudmila Samsonova",
+      "venue": "polymarket",
+      "yes_player": "Elsa Jacquemot"
+    },
+    {
+      "market_id": "0x2ced4b49c6d5a4afa82bade3110b2b32552d3cb9546399015b64eec09459a3a6",
+      "opponent": "Titouan Droguet",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-16T08:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Rennes: Michele Ribecai vs Titouan Droguet",
+      "venue": "polymarket",
+      "yes_player": "Michele Ribecai"
+    },
+    {
+      "market_id": "0xd5791ff7cc096092f44824a57682d34f46e1cb2aa63423ce46811a404c1798d3",
+      "opponent": "Filip Pieczonka",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Szczecin: Tiago Pereira vs Filip Pieczonka",
+      "venue": "polymarket",
+      "yes_player": "Tiago Pereira"
+    },
+    {
+      "market_id": "0xa1c59af9cba4b0a58d452fca7bad4d9a431d83511e3467c929ac9e7ec8df8475",
+      "opponent": "Pavel Kotov",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T07:30:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guangzhou: Shintaro Mochizuki vs Pavel Kotov",
+      "venue": "polymarket",
+      "yes_player": "Shintaro Mochizuki"
+    },
+    {
+      "market_id": "0x928432eae59c4bf25b970d8c383a6645accca4c5ca62cbd89f4a7d968c362f48",
+      "opponent": "Chloe Paquet",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open: Jazmin Ortenzi vs Chloe Paquet",
+      "venue": "polymarket",
+      "yes_player": "Jazmin Ortenzi"
+    },
+    {
+      "market_id": "0x9fe2c7f445b8c8657edf1b90ef4aaaa76804e6e2521bac02640f65d8e0e69a2e",
+      "opponent": "Luka Pavlovic",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T03:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Phan Thiet 4: Ha Minh Duc Vu vs Luka Pavlovic",
+      "venue": "polymarket",
+      "yes_player": "Ha Minh Duc Vu"
+    },
+    {
+      "market_id": "0xd60852eeff794a283f79d34c00cee415a063437bf34a7997b13eb0c64f1bbe92",
+      "opponent": "Blancaneaux/Chazal",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T08:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Biella (Doubles): Martin/Valle vs Blancaneaux/Chazal",
+      "venue": "polymarket",
+      "yes_player": "Martin/Valle"
+    },
+    {
+      "market_id": "0x645a4cee83346ed3579208585293a468d3ee78149bb1ad2030f53d7120ddc285",
+      "opponent": "Koki Matsuda",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T03:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Phan Thiet 4: Arthur Weber vs Koki Matsuda",
+      "venue": "polymarket",
+      "yes_player": "Arthur Weber"
+    },
+    {
+      "market_id": "0x922264e78ddc7f8851331fc5d765734d389393834503e427435c438c4ddac93f",
+      "opponent": "Ilia Simakin",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T06:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Phan Thiet 4: Timofei Derepasko vs Ilia Simakin",
+      "venue": "polymarket",
+      "yes_player": "Timofei Derepasko"
+    },
+    {
+      "market_id": "0x8cc3c883f5b96519c59e14b4b3d19f8150605957b1b0ba871b847d35b37a5e43",
+      "opponent": "Stoiana/Valdmannova",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T13:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Sao Paulo Open (Doubles): Ovcharenko/Pigossi vs Stoiana/Valdmannova",
+      "venue": "polymarket",
+      "yes_player": "Ovcharenko/Pigossi"
+    },
+    {
+      "market_id": "0xeb455fa2292cb83285c68a572ea7e814667f041b2a90a13fa9714570b3cad877",
+      "opponent": "Daniel Galan",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T15:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Szczecin: Facundo Acosta vs Daniel Galan",
+      "venue": "polymarket",
+      "yes_player": "Facundo Acosta"
+    },
+    {
+      "market_id": "0xd3389a000a98db0cff788758c30da51c29b1acb85f6c81cea53483419bc606cb",
+      "opponent": "Philip Sekulic",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T03:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Phan Thiet 4: Yuta Shimizu vs Philip Sekulic",
+      "venue": "polymarket",
+      "yes_player": "Yuta Shimizu"
+    },
+    {
+      "market_id": "0x7a79a64a3841580f09729e476dc0d42ea4f423b7fe65ad025ca6715cef89797d",
+      "opponent": "Lloyd Harris",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-15T09:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guangzhou: Hayato Matsuoka vs Lloyd Harris",
+      "venue": "polymarket",
+      "yes_player": "Hayato Matsuoka"
+    },
+    {
+      "market_id": "0x796a47e0069bd042c38c04f9ff510f6924d428eaa2607644436ec82a7c95bdcb",
+      "opponent": "Gleason/Piter",
+      "reason": "no_outside_match",
+      "scheduled_start": "2026-09-13T16:00:00+00:00",
+      "settlement_basis": {
+        "bookmaker_basis": {
+          "retirement": "void_or_book_specific",
+          "walkover": "void"
+        },
+        "itf": false,
+        "readable": true,
+        "reason": "admitted",
+        "retirement": "advancing_player",
+        "walkover": "fifty_fifty"
+      },
+      "title": "Guadalajara Open Akron (Doubles): Panova/Tormo vs Gleason/Piter",
+      "venue": "polymarket",
+      "yes_player": "Panova/Tormo"
+    }
+  ],
+  "mode": "network",
+  "network_status": "UNKNOWN: no free outside line configured in this run; set ODDS_API_KEY (The Odds API free tier) or pass --odds-file. Fixture replays prove the arithmetic only.",
+  "not_validated": [
+    "network sample: no free-tier key was available in the build environment, so the live Kalshi/Polymarket vs. Odds-API gap distribution is UNKNOWN until an operator runs with ODDS_API_KEY",
+    "bookmaker 'match completed' basis vs. venue 'advances' basis (retirement premium) is not modelled",
+    "Pinnacle odds on the free tier come from Pinnacle's public site and may be delayed",
+    "Kalshi occurrence_datetime is a session time, not the first serve; the outside commence_time is used when paired",
+    "retirements are only detected from an operator results file; venue results pay the winner either way",
+    "fixture closure rates are hand-written and carry no evidence about the hypothesis"
+  ],
+  "outside_source": {
+    "credits_used": 0,
+    "errors": [],
+    "events": 0,
+    "fetched_at": "2026-09-14T23:15:51.803415+00:00",
+    "note": "no outside line source configured; set ODDS_API_KEY or pass --odds-file",
+    "requests_remaining": null,
+    "source": "none",
+    "sport_keys": []
+  },
+  "paper_fills": 0,
+  "paper_only": true,
+  "parameters": {
+    "closure_target": 0.5,
+    "gap_threshold": 0.03,
+    "match_window_hours": 48.0,
+    "max_quote_age_seconds": 3600.0,
+    "maximum_order_size": 10.0,
+    "min_books": 2,
+    "min_sample": 30,
+    "minimum_edge": 0.0,
+    "pass_rate": 0.6,
+    "sharp_books": [
+      "pinnacle"
+    ]
+  },
+  "proposed_orders": 0,
+  "records": [],
+  "refused_by_reason": {
+    "no_outside_match": 78
+  },
+  "register": {
+    "closed_at_start": 0,
+    "no_pre_start_observation": 0,
+    "open": 0,
+    "records": 0,
+    "settlement_checks_this_run": {
+      "checked": 0,
+      "confirmed": 0,
+      "excluded": 0,
+      "lookup_errors": 0,
+      "pending": 0
+    },
+    "settlement_confirmed": 0,
+    "settlement_excluded": 0,
+    "settlement_pending": 0
+  },
+  "run_id": "20260914T231551Z-0640791f",
+  "schema_version": "1.0.0",
+  "snapshot": {
+    "kalshi": {
+      "errors": [],
+      "groups": 0,
+      "markets": 48,
+      "source": "network"
+    },
+    "polymarket": {
+      "errors": [],
+      "groups": 0,
+      "markets": 30,
+      "source": "network"
+    }
+  },
+  "source": "measured",
+  "status": "no_outside_source",
+  "track": "tennis_basis",
+  "verdict": {
+    "closed_half": 0,
+    "excluded_settlement_mismatch": 0,
+    "n": 0,
+    "open_records": 0,
+    "overshoots": 0,
+    "pending_settlement_check": 0,
+    "pre_registered": {
+      "closure_target": 0.5,
+      "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+      "final_observation": "last observation strictly before the scheduled start",
+      "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+      "gap_threshold": 0.03,
+      "min_sample": 30,
+      "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+      "pass_rate": 0.6,
+      "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+    },
+    "rate": null,
+    "status": "insufficient_sample",
+    "wilson_95": null
+  },
+  "verdict_provisional_including_pending": {
+    "closed_half": 0,
+    "excluded_settlement_mismatch": 0,
+    "n": 0,
+    "open_records": 0,
+    "overshoots": 0,
+    "pending_settlement_check": 0,
+    "pre_registered": {
+      "closure_target": 0.5,
+      "exclusions": "settlement-basis unreadable/ITF/mismatch at admission; walkover / cancellation / retirement / non-binary settlement after the fact",
+      "final_observation": "last observation strictly before the scheduled start",
+      "gap_definition": "venue_mid - outside_consensus (YES player), contemporaneous at each observation",
+      "gap_threshold": 0.03,
+      "min_sample": 30,
+      "overshoot": "closure_fraction > 1 counts as closed (reported separately)",
+      "pass_rate": 0.6,
+      "rule": "PASS when n >= min_sample and closed_half / n >= pass_rate"
+    },
+    "rate": null,
+    "status": "insufficient_sample",
+    "wilson_95": null
+  }
+}

@@ -43,7 +43,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 | `venue_focus` | string | `kalshi` |
 | `kalshi_env` | `"demo"` \| `"prod"` \| null | Public API host used for network reads |
 | `run_id`, `cycle` | string, number \| null | Run identity; `cycle` set by the paper loop |
-| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; absent/null on the full board |
+| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; `tennis_basis` on `scoreboard_tennis_basis.json` written by `apps.measure_tennis_basis`; absent/null on the full board |
 | `note` | string | Sample files only: explains that the numbers are placeholders |
 
 ## `findings`
@@ -113,6 +113,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | `cross_venue` | Cross-venue | no | — | `cross_venue` \| `xv` without gated/ungated |
 | `single_venue` | Single venue | no | `single_venue_fair_value` | `single_venue`, `fair_value` |
 | `news` | News | no | `news_underreaction` | `news`, `underreaction`, `headline` |
+| `tennis_basis` | Tennis basis | no | `tennis_basis` (own board `scoreboard_tennis_basis.json`, report `tennis_basis_latest.json`) | `tennis`, `sports` + `basis` |
 | `other` | Other | no | — | anything else |
 
 Resolution order for a track row: explicit `family` (or `metrics.family` /
@@ -247,6 +248,11 @@ Inputs, in this directory:
   linked from `manifest.json`). Fields: `snapshot`, `parameters`, `rebalancing` (mirror
   statistics, `opportunities[]`, `executions[]`), `negrisk` (`groups[]`, `conversions[]`),
   `combinatorial` (`groups[]`, `holdings[]`, `locked_capital`, `lockup_until`), `ledgers`.
+- `scoreboard_tennis_basis.json` — the tennis-basis board (`meta.track_family = "tennis_basis"`,
+  primary track `tennis_basis`), its own run. `tennis_basis_latest.json` is the matching report
+  (not indexed as a run): pre-registered rule, `verdict` / `verdict_provisional_including_pending`,
+  `by_venue`, per-market `measurements[]`, gap `records[]`, `network_status`, `not_validated[]`.
+  See `docs/TENNIS_BASIS.md`.
 - `runs/<run_id>.json` — compact run records written by the sync script (below).
 - `paper_ledger_*.json` — ledger snapshots, listed under `ledgers[]` (they carry no run id).
 
@@ -338,13 +344,14 @@ Paper only. Do not enable live trading.
 # From repo root — network measurement writes runtime artifacts/
 uv run python -m apps.measure_all --network --kalshi-env prod --harvest-dir data/harvests
 uv run python -m apps.measure_polymarket_arb --network --limit 40   # arb-only board + report
+uv run python -m apps.measure_tennis_basis --network --kalshi-env prod   # tennis-basis board + report (ODDS_API_KEY optional)
 uv run python -m apps.paper_loop --once
 uv run python -m apps.measure_flb --network --kalshi-env prod --harvest-trades   # Kalshi FLB report
 uv run python -m apps.measure_tennis_whale --network --harvest                 # tennis whale copy report
 
 # Copy runtime JSON into the dashboard public tree
 cd dashboard
-npm run sync-artifacts   # copies every scoreboard_*.json, polymarket_arb_latest.json,
+npm run sync-artifacts   # copies every scoreboard_*.json, polymarket_arb_latest.json, tennis_basis_latest.json,
                          # paper_loop_latest.json and every paper/ledger_<track>.json, writes
                          # runs/<run_id>.json records and rebuilds experiments_index.json
                          # (families + lanes included)
