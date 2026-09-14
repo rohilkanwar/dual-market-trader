@@ -3,12 +3,15 @@ import './App.css'
 import { Header } from './components/Header'
 import { KpiStrip } from './components/KpiStrip'
 import { DetailsSection } from './components/Panels'
+import { Experiments } from './components/Experiments'
 import { TrackTable } from './components/TrackTable'
+import { loadExperiments } from './loadExperiments'
 import { loadScoreboard } from './loadScoreboard'
-import type { ScoreboardArtifact } from './types'
+import type { ExperimentsIndex, ScoreboardArtifact } from './types'
 
 export default function App() {
   const [data, setData] = useState<ScoreboardArtifact | null>(null)
+  const [experiments, setExperiments] = useState<ExperimentsIndex | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -21,6 +24,10 @@ export default function App() {
         if (!cancelled) setError(e instanceof Error ? e.message : 'Load failed')
       }
     })()
+    // History is optional: a missing index hides the section, never the scoreboard.
+    void loadExperiments().then((index) => {
+      if (!cancelled) setExperiments(index)
+    })
     return () => {
       cancelled = true
     }
@@ -49,6 +56,7 @@ export default function App() {
       <section className="card" aria-label="Tracks">
         <TrackTable tracks={data.tracks} primaryTrack={data.meta.primary_track} />
       </section>
+      <Experiments index={experiments} />
       <DetailsSection data={data} />
     </main>
   )
