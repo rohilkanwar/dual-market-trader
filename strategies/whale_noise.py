@@ -531,6 +531,11 @@ def whale_follow_quote(
     base.update({"reference_touch": touch.price, "yes_price": yes_price})
     if not ZERO < price < ONE:
         return QuoteEvaluation(reason="touch_at_bound", **base)
+    # The whale lifted the offer *above* our bid (or hit the bid below our ask).
+    # If its own print already sits on our side of the quote, the book we hold
+    # is stale and the quote would be a marketable order in disguise.
+    if (whale.direction > 0 and whale.yes_price <= yes_price) or (whale.direction < 0 and whale.yes_price >= yes_price):
+        return QuoteEvaluation(reason="stale_book_crossed", **base)
     displayed = displayed_at_level(book, outcome, yes_price)
     base["displayed_at_level"] = displayed
     headroom = params.max_market_notional - position_cash_at_risk(position)

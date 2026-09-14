@@ -296,6 +296,34 @@ jobs:
             echo "measure_tourist_fade started with live flags" && exit 1
           fi
           test ! -e /tmp/tourist-should-not-exist/scoreboard_tourist_fade.json
+      - name: Make-on-whale / take-on-noise fixture replay emits report, scoreboard and run record
+        run: |
+          uv run python -m apps.measure_whale_noise --no-persist --artifact-dir artifacts/whale-ci
+          uv run python - <<'EOF'
+          import json, glob
+          r = json.load(open("artifacts/whale-ci/whale_noise_report_latest.json"))
+          assert r["paper_only"] is True and r["kind"] == "kalshi_whale_noise_report" and r["mode"] == "fixtures"
+          v = {row["check"]: row["verdict"] for row in r["verdict_table"]}
+          assert v["combined_beats_each_leg"] == "PASS", v  # synthetic fixture is built to exercise the PASS path
+          assert v["whale_flow_ev_positive"] == "PASS" and r["ex_post"]["note"].startswith("Synthetic fixture"), v
+          cv = r["combined_vs_legs"]
+          assert cv["combined_pnl"] > max(cv["maker_leg_pnl"], cv["taker_leg_pnl"]), cv
+          maker = r["legs"]["kalshi_whale_noise_combined"]["maker"]
+          assert 0 < maker["fill_rate_contracts"] < 1, maker  # the conservative queue model never fills everything
+          assert maker["toxicity"]["300"]["fills_with_markout"] >= 5, maker["toxicity"]
+          assert r["assumptions"]["fill_model"].startswith("Conservative queue")
+          s = json.load(open("artifacts/whale-ci/scoreboard_whale_noise.json"))
+          assert s["meta"]["source"] == "measured" and s["meta"]["kind"] == "kalshi_whale_noise" and s["meta"]["track_family"] == "kalshi_flb"
+          assert [t["track"] for t in s["tracks"]] == ["kalshi_whale_noise_combined", "kalshi_whale_maker_leg", "kalshi_noise_taker_leg"]
+          assert glob.glob("artifacts/whale-ci/paper/runs/*-whale-*.json")
+          print(r["headline"])
+          EOF
+      - name: Fail-closed check - whale/noise measurement refuses live flags
+        run: |
+          if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.measure_whale_noise --no-persist --artifact-dir /tmp/whale-should-not-exist; then
+            echo "measure_whale_noise started with live flags" && exit 1
+          fi
+          test ! -e /tmp/whale-should-not-exist/scoreboard_whale_noise.json
 
   dashboard:
     runs-on: ubuntu-latest

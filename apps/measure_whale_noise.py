@@ -103,6 +103,10 @@ def _verdict_table(report: dict[str, Any]) -> list[dict[str, Any]]:
         rows.append({"scope": "replay", "check": "maker_fills_not_adversely_selected", "verdict": tox["verdict"], "detail": tox["reason"]})
     for key, section in report["ex_post"]["verdicts"].items():
         rows.append({"scope": "ex_post", "check": key, "verdict": section["verdict"], "detail": section.get("reason")})
+    early = report["ex_post"].get("excluding_final_minutes")
+    if early:
+        for key, section in early["verdicts"].items():
+            rows.append({"scope": "ex_post", "check": f"{key}_excluding_final_minutes", "verdict": section["verdict"], "detail": section.get("reason")})
     return rows
 
 
@@ -321,10 +325,10 @@ def persist_run(
 def _print_report(report: dict[str, Any]) -> None:
     print(f"\nmake-on-whale / take-on-noise paper measurement ({report['mode']}, run {report['run_id']})")
     print(report["headline"])
-    print(f"\n{'scope':<8}{'check':<40}{'verdict':<20}detail")
-    print("-" * 120)
+    print(f"\n{'scope':<8}{'check':<58}{'verdict':<20}detail")
+    print("-" * 140)
     for row in report["verdict_table"]:
-        print(f"{row['scope']:<8}{row['check']:<40}{row['verdict']:<20}{(row['detail'] or '')[:70]}")
+        print(f"{row['scope']:<8}{row['check']:<58}{row['verdict']:<20}{(row['detail'] or '')[:60]}")
     es = report["event_stream"]
     print(f"\nevent stream: {es['markets']} markets, {es['books']} books, {es['prints']} prints, classes={es['print_classes']}, whale events={es['whale_events']}")
     print(f"\n{'leg':<32}{'cand':>6}{'adm':>6}{'ord':>6}{'fill':>6}{'real':>10}{'unreal':>10}{'fees':>8}  maker fill rate / tox   taker fills")
@@ -346,7 +350,11 @@ def _print_report(report: dict[str, Any]) -> None:
     if ex_post.get("status") == "measured_from_settled_trades":
         whale = ex_post["classes"]["whale"]
         retail = ex_post["classes"]["retail_longshot"]
-        print(f"\nex post ({ex_post['markets']} settled markets, {ex_post['trades']} trades): whale class n={whale.get('n_markets')} taker net/ct={whale.get('taker_net_per_contract')} t={whale.get('t_stat_taker_gross')}; retail longshot n={retail.get('n_markets')} maker net/ct={retail.get('maker_net_per_contract')} t={retail.get('t_stat_taker_gross')}")
+        print(f"\nex post ({ex_post['markets']} settled markets, {ex_post['trades']} trades): whale class n={whale.get('n_markets')} taker net/ct={whale.get('taker_net_per_contract')} t(taker)={whale.get('t_stat_taker_gross')}; retail longshot n={retail.get('n_markets')} maker net/ct={retail.get('maker_net_per_contract')} t(taker)={retail.get('t_stat_taker_gross')}")
+        early = ex_post.get("excluding_final_minutes", {})
+        if early:
+            ew, er = early["classes"]["whale"], early["classes"]["retail_longshot"]
+            print(f"  excluding final {early['minutes']} min: whale taker net/ct={ew.get('taker_net_per_contract')} t={ew.get('t_stat_taker_gross')} -> {early['verdicts']['whale_flow_ev_positive']['verdict']}; retail longshot maker net/ct={er.get('maker_net_per_contract')} t={er.get('t_stat_taker_gross')} -> {early['verdicts']['retail_longshot_fade_ev_positive']['verdict']}")
     else:
         print(f"\nex post: {ex_post.get('status')} - {ex_post.get('reason', '')}")
 
@@ -401,6 +409,7 @@ async def run(
     tape_window_seconds: int | None = 1800,
     min_markets: int = 10,
     min_contracts: float = 1000.0,
+    exclude_final_minutes: int = 60,
 ) -> dict[str, Any]:
     require_paper_only("measure_whale_noise")
     if use_network and archive is not None:
@@ -425,7 +434,7 @@ async def run(
     fee_model = KalshiFeeModel() if model_fees else KalshiFeeModel.zero()
     if mode == "fixtures":
         markets, meta = load_settled_trades(EXPOST_FIXTURE_PATH)
-        ex_post = {**whale_flow_expost(markets, params, fee_model=fee_model, min_markets=min_markets, min_contracts=min_contracts), "source": str(EXPOST_FIXTURE_PATH), "harvest_meta": meta, "note": "Synthetic fixture: exercises the pipeline, not evidence about Kalshi."}
+        ex_post = {**whale_flow_expost(markets, params, fee_model=fee_model, min_markets=min_markets, min_contracts=min_contracts, exclude_final_minutes=exclude_final_minutes), "source": str(EXPOST_FIXTURE_PATH), "harvest_meta": meta, "note": "Synthetic fixture: exercises the pipeline, not evidence about Kalshi."}
     else:
         target = harvest_dir / HARVEST_FILE
         if harvest_trades and use_network:
@@ -433,7 +442,7 @@ async def run(
             write_json(target, payload)
         if target.exists():
             markets, meta = load_settled_trades(target)
-            ex_post = {**whale_flow_expost(markets, params, fee_model=fee_model, min_markets=min_markets, min_contracts=min_contracts), "source": str(target), "harvest_meta": meta}
+            ex_post = {**whale_flow_expost(markets, params, fee_model=fee_model, min_markets=min_markets, min_contracts=min_contracts, exclude_final_minutes=exclude_final_minutes), "source": str(target), "harvest_meta": meta}
         else:
             ex_post = not_measured_expost(f"no settled tennis-trade harvest at {target}; run with --network --harvest-trades")
     if ex_post["verdicts"]["whale_flow_ev_positive"].get("ev_status") in ("verified_expost", "refuted_expost") and params.default_rule.ev_status == "unverified":
@@ -499,6 +508,7 @@ def build_parser() -> argparse.ArgumentParser:
     ex.add_argument("--max-trades-per-market", type=int, default=4000)
     ex.add_argument("--min-markets", type=int, default=10)
     ex.add_argument("--min-contracts", type=float, default=1000.0)
+    ex.add_argument("--exclude-final-minutes", type=int, default=60, help="ex-post variant that drops prints this close to market close")
     return parser
 
 
@@ -527,6 +537,7 @@ def main(argv: list[str] | None = None) -> None:
             tape_window_seconds=args.tape_window if args.tape_window > 0 else None,
             min_markets=args.min_markets,
             min_contracts=args.min_contracts,
+            exclude_final_minutes=args.exclude_final_minutes,
         )
     )
 

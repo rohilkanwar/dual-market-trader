@@ -570,7 +570,7 @@
         {
           "ts": "2026-09-15T12:06:40Z",
           "taker_side": "no",
-          "yes_price": "0.05",
+          "yes_price": "0.02",
           "size": "1000",
           "trade_id": "C-whale-no"
         },

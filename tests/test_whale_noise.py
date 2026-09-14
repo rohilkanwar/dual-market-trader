@@ -139,6 +139,9 @@ def test_quote_refusals_are_explicit() -> None:
     assert whale_follow_quote(_market(), book, whale, params, position=None, risk=None, total_cash_at_risk=D("999.90")).reason == "capital_cap_reached"
     capped = Position(venue=Venue.KALSHI, market_id="KXWTAMATCH-26SEP15AAABBB-AAA", quantity=D("75"), average_price=D("0.10"))
     assert whale_follow_quote(_market(), book, whale, params, position=capped, risk=RiskManager(FLB_RISK_LIMITS), total_cash_at_risk=D("7.5")).reason == "risk_position_cap_reached"
+    # A whale print that already sits on our side of the quote means the book is stale.
+    assert whale_follow_quote(_market(), book, _print(60, "yes", "0.59", "1200"), params, position=None, risk=None, total_cash_at_risk=D("0")).reason == "stale_book_crossed"
+    assert whale_follow_quote(_market(), _book([("0.33", "200")], [("0.35", "250")]), _print(60, "no", "0.36", "1000"), params, position=None, risk=None, total_cash_at_risk=D("0")).reason == "stale_book_crossed"
     strict = WhaleNoiseParameters(require_ev_verified=True)
     assert whale_follow_quote(_market(), book, whale, strict, position=None, risk=None, total_cash_at_risk=D("0")).reason == "whale_ev_unverified"
     asserted = WhaleNoiseParameters(require_ev_verified=True, series_rules={"KXWTAMATCH": WhaleRule(ev_status="operator_asserted")})
@@ -408,6 +411,12 @@ def test_whale_flow_expost_fixture_passes_and_fair_prices_do_not() -> None:
     assert verdicts["whale_flow_ev_positive"]["verdict"] == "PASS" and verdicts["whale_flow_ev_positive"]["ev_status"] == "verified_expost"
     assert verdicts["retail_longshot_fade_ev_positive"]["verdict"] == "PASS"
     assert report["classes"]["whale"]["n_markets"] == 16 and report["classes"]["block"]["n_markets"] == 0
+    early = report["excluding_final_minutes"]
+    assert early["minutes"] == 60 and set(early["verdicts"]) == {"whale_flow_ev_positive", "retail_longshot_fade_ev_positive"}
+    # The fixture's prints all sit more than an hour before close; a wider window drops end-game prints
+    wide = whale_flow_expost(markets, WhaleNoiseParameters(), exclude_final_minutes=300)["excluding_final_minutes"]
+    assert wide["classes"]["retail_longshot"]["n_trades"] < report["classes"]["retail_longshot"]["n_trades"]
+    assert whale_flow_expost(markets, WhaleNoiseParameters(), exclude_final_minutes=10_000)["excluding_final_minutes"]["verdicts"]["whale_flow_ev_positive"]["verdict"] == "INSUFFICIENT_DATA"
     # Too few markets -> INSUFFICIENT_DATA, never a PASS on thin data
     thin = whale_flow_expost(markets[:3], WhaleNoiseParameters())
     assert thin["verdicts"]["whale_flow_ev_positive"]["verdict"] == "INSUFFICIENT_DATA"

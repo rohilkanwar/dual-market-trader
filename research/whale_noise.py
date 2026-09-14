@@ -1000,22 +1000,13 @@ def toxicity_verdict(summary: TrackSummary, params: WhaleNoiseParameters) -> dic
 # --------------------------------------------------------------------------
 # Ex post: is whale flow +EV, is fading retail longshot flow +EV (settled tennis)
 # --------------------------------------------------------------------------
-def whale_flow_expost(
+def _expost_classes(
     markets: list[SettledMarket],
     params: WhaleNoiseParameters,
+    fee_model: KalshiFeeModel,
     *,
-    fee_model: KalshiFeeModel | None = None,
-    min_markets: int = 10,
-    min_contracts: float = 1000.0,
-    t_threshold: float = 2.0,
-) -> dict[str, Any]:
-    """Taker return of whale-class prints vs retail prints in settled tennis markets.
-
-    Same market-clustered accounting as :mod:`research.flb_expost`; prints are
-    classified with the same rolling-median rule the live replay uses, so
-    ``whale`` here is exactly the size class the maker leg follows.
-    """
-    fee_model = fee_model or KalshiFeeModel()
+    exclude_final_minutes: int | None,
+) -> dict[str, dict[str, Any]]:
     clusters: dict[str, dict[str, Cluster]] = {"whale": {}, "retail_longshot": {}, "retail_other": {}, "block": {}}
     for market in markets:
         proxy = market.as_market()
@@ -1032,7 +1023,10 @@ def whale_flow_expost(
                 key = "retail_longshot"
             else:
                 key = "retail_other"
-            recent.append(trade.count)
+            recent.append(trade.count)  # classification history includes end-game prints even when they are excluded below
+            if exclude_final_minutes is not None:
+                if market.close_time is None or (market.close_time - trade.created_time).total_seconds() / 60 < exclude_final_minutes:
+                    continue
             cluster = clusters[key].setdefault(market.ticker, Cluster())
             won = trade.taker_side == market.result
             count = float(trade.count)
@@ -1044,7 +1038,10 @@ def whale_flow_expost(
             cluster.maker_fee += count * float(fee_model.per_contract(price, maker=True, market=proxy))
             cluster.taker_stake += count * float(price)
             cluster.maker_collateral += count * (1.0 - float(price))
-    table = {key: weighted_cluster_stats(list(group.values())) for key, group in clusters.items()}
+    return {key: weighted_cluster_stats(list(group.values())) for key, group in clusters.items()}
+
+
+def _expost_verdicts(table: dict[str, dict[str, Any]], *, min_markets: int, min_contracts: float, t_threshold: float) -> dict[str, Any]:
     whale = table["whale"]
     retail = table["retail_longshot"]
     thresholds = {"min_markets": min_markets, "min_contracts": min_contracts, "t_stat": t_threshold}
@@ -1074,14 +1071,48 @@ def whale_flow_expost(
         else:
             fade_v = {"verdict": VERDICT_FAIL, "reason": f"fading retail longshot flow was not significantly positive after fees (t={round(t, 2) if t is not None else None})", "t_stat_maker_net": round(t, 2) if t is not None else None}
     fade_v.update({"question": "Did the maker side of retail longshot prints (<20c, below whale size) earn a positive return after maker fees?", "retail_longshot": retail, "thresholds": thresholds})
+    return {"whale_flow_ev_positive": whale_v, "retail_longshot_fade_ev_positive": fade_v}
+
+
+def whale_flow_expost(
+    markets: list[SettledMarket],
+    params: WhaleNoiseParameters,
+    *,
+    fee_model: KalshiFeeModel | None = None,
+    min_markets: int = 10,
+    min_contracts: float = 1000.0,
+    t_threshold: float = 2.0,
+    exclude_final_minutes: int = 60,
+) -> dict[str, Any]:
+    """Taker return of whale-class prints vs retail prints in settled tennis markets.
+
+    Same market-clustered accounting as :mod:`research.flb_expost`; prints are
+    classified with the same rolling-median rule the live replay uses, so
+    ``whale`` here is exactly the size class the maker leg follows. The
+    ``excluding_final_minutes`` block drops end-game prints (in-play tennis
+    trades at 1c/99c near the close), which the FLB track found to carry most
+    of the sports longshot signal.
+    """
+    fee_model = fee_model or KalshiFeeModel()
+    table = _expost_classes(markets, params, fee_model, exclude_final_minutes=None)
+    early = _expost_classes(markets, params, fee_model, exclude_final_minutes=exclude_final_minutes)
+    verdicts = _expost_verdicts(table, min_markets=min_markets, min_contracts=min_contracts, t_threshold=t_threshold)
+    early_verdicts = _expost_verdicts(early, min_markets=min_markets, min_contracts=min_contracts, t_threshold=t_threshold)
     return {
         "status": "measured_from_settled_trades" if markets else "no_settled_trades",
         "markets": len(markets),
+        "markets_with_close_time": sum(1 for m in markets if m.close_time is not None),
         "trades": sum(len(m.trades) for m in markets),
         "contracts": round(sum(float(t.count) for m in markets for t in m.trades), 2),
+        "markets_with_truncated_trades": sum(1 for m in markets if m.trades_truncated),
         "series": sorted({m.series_ticker for m in markets}),
         "classes": table,
-        "verdicts": {"whale_flow_ev_positive": whale_v, "retail_longshot_fade_ev_positive": fade_v},
+        "verdicts": verdicts,
+        "excluding_final_minutes": {
+            "minutes": exclude_final_minutes,
+            "classes": early,
+            "verdicts": {k: {kk: vv for kk, vv in v.items() if kk in ("verdict", "reason", "ev_status", "t_stat_taker_net", "t_stat_maker_net")} for k, v in early_verdicts.items()},
+        },
         "whale_rule": params.default_rule.as_dict(),
     }
 
