@@ -46,7 +46,9 @@ def _now() -> datetime:
     return datetime.now(UTC)
 
 
-def _q(value: Decimal, places: str = "0.0001") -> Decimal:
+def _q(value: Decimal, places: str = "0.00001") -> Decimal:
+    # 5 dp: Polymarket fees are published to 5 decimals, so summaries stay
+    # exact and cross-ledger sums in the scoreboard do not drift by rounding.
     return value.quantize(Decimal(places))
 
 
@@ -146,23 +148,49 @@ class PaperLedger:
         return self.marks.get((position.venue, position.market_id))
 
     # ------------------------------------------------------------- settlement
-    def settle(self, venue: Venue, market_id: str, outcome: Outcome) -> Fill | None:
-        """Close an open position at the settlement price (YES=1, NO=0)."""
+    def close_position(
+        self,
+        venue: Venue,
+        market_id: str,
+        *,
+        yes_price: Decimal,
+        quantity: Decimal | None = None,
+        order_id: str,
+        fee: Decimal = ZERO,
+    ) -> Fill | None:
+        """Close ``quantity`` (default: all) of a position at a YES-equivalent price.
+
+        Used for settlement and for off-book primitives such as the Polymarket
+        NegRisk NO->collateral conversion, where the ``order_id`` records the
+        mechanism. Returns ``None`` when there is nothing to close.
+        """
+        if not ZERO <= yes_price <= ONE:
+            raise ValueError(f"close price {yes_price} must be between 0 and 1")
         position = self.portfolio.get(venue, market_id)
         if position is None or position.quantity == ZERO:
-            self.mark(venue, market_id, ONE if outcome is Outcome.YES else ZERO)
             return None
-        settle_price = ONE if outcome is Outcome.YES else ZERO
+        closing = abs(position.quantity) if quantity is None else min(abs(position.quantity), quantity)
+        if closing <= ZERO:
+            return None
         fill = Fill(
             venue=venue,
             market_id=market_id,
-            order_id=SETTLEMENT_ORDER_ID,
+            order_id=order_id,
             side=Side.SELL if position.quantity > ZERO else Side.BUY,
-            quantity=abs(position.quantity),
-            price=settle_price,
+            quantity=closing,
+            price=yes_price,
             outcome=Outcome.YES,
+            fee=fee,
         )
         self.record_fill(fill)
+        return fill
+
+    def settle(self, venue: Venue, market_id: str, outcome: Outcome) -> Fill | None:
+        """Close an open position at the settlement price (YES=1, NO=0)."""
+        settle_price = ONE if outcome is Outcome.YES else ZERO
+        fill = self.close_position(
+            venue, market_id, yes_price=settle_price, order_id=SETTLEMENT_ORDER_ID
+        )
         self.mark(venue, market_id, settle_price)
         return fill
 

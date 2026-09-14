@@ -63,6 +63,11 @@ class PaperExecutionMixin:
         if fee_schedule is not None:
             self.fee_schedule = fee_schedule  # type: ignore[assignment]
 
+    def _fee_schedule_for(self, market: Market) -> FeeSchedule:
+        """Hook for per-market fee schedules; defaults to the venue-wide one."""
+        del market
+        return self.fee_schedule
+
     async def _lookup_market(self, market_id: str) -> Market | None:
         market = self._market_cache.get(market_id)
         if market is None:
@@ -100,6 +105,7 @@ class PaperExecutionMixin:
         remaining = order.quantity
         fills: list[Fill] = []
         order_id = f"paper-{uuid4().hex[:12]}"
+        fee_schedule = self._fee_schedule_for(market)
         for level in resting:
             if remaining <= ZERO:
                 break
@@ -123,7 +129,7 @@ class PaperExecutionMixin:
                     outcome=order.outcome,
                     quantity=take,
                     price=level.price,
-                    fee=self.fee_schedule(take, level.price),
+                    fee=fee_schedule(take, level.price),
                 )
             )
             remaining -= take

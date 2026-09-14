@@ -1,0 +1,191 @@
+{
+  "_comment": "Hand-built Polymarket event fixtures for the intra-venue arbitrage tracks. Prices are YES/NO books in dollars; ticks are 0.001 like the live CLOB. Each event documents the scenario it exercises in `scenario`. None of these numbers were observed on the venue.",
+  "events": [
+    {
+      "event_id": "fixture-negrisk-convert",
+      "slug": "fixture-negrisk-convert",
+      "title": "Fixture: 4-way NegRisk event where the NO legs sum below 3",
+      "scenario": "Sum of YES bids is 1.05, so buying one NO on every leg costs 2.95 and converts to 3 USDC through the NegRisk adapter. Depth thins out on legs B and C so the depth-aware sizer stops at 40 sets. Augmented: hidden placeholders only help the NO side.",
+      "neg_risk": true,
+      "neg_risk_augmented": true,
+      "fee_type": "politics_fees",
+      "fees_enabled": true,
+      "end_date": "2028-08-01T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-nom-a", "title": "Fixture nominee A", "group_item_title": "A", "yes_token_id": "410000000000000000001", "no_token_id": "410000000000000000002"},
+        {"market_id": "0xfixture-nom-b", "title": "Fixture nominee B", "group_item_title": "B", "yes_token_id": "420000000000000000001", "no_token_id": "420000000000000000002"},
+        {"market_id": "0xfixture-nom-c", "title": "Fixture nominee C", "group_item_title": "C", "yes_token_id": "430000000000000000001", "no_token_id": "430000000000000000002"},
+        {"market_id": "0xfixture-nom-d", "title": "Fixture nominee D", "group_item_title": "D", "yes_token_id": "440000000000000000001", "no_token_id": "440000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-negrisk-long-yes",
+      "slug": "fixture-negrisk-long-yes",
+      "title": "Fixture: 3-way NegRisk event where the YES asks sum below 1",
+      "scenario": "YES asks sum to 0.95 with no hidden placeholders, so buying one YES on every leg pays exactly 1 at resolution. No converter exists for YES->collateral, so capital is locked until end_date. NO side has no edge (bids sum 0.89).",
+      "neg_risk": true,
+      "neg_risk_augmented": false,
+      "fee_type": "politics_fees",
+      "fees_enabled": true,
+      "end_date": "2027-01-15T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-ly-a", "title": "Fixture long-yes A", "group_item_title": "A", "yes_token_id": "510000000000000000001", "no_token_id": "510000000000000000002"},
+        {"market_id": "0xfixture-ly-b", "title": "Fixture long-yes B", "group_item_title": "B", "yes_token_id": "520000000000000000001", "no_token_id": "520000000000000000002"},
+        {"market_id": "0xfixture-ly-c", "title": "Fixture long-yes C", "group_item_title": "C", "yes_token_id": "530000000000000000001", "no_token_id": "530000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-negrisk-augmented-long-yes",
+      "slug": "fixture-negrisk-augmented-long-yes",
+      "title": "Fixture: augmented NegRisk event whose visible YES asks sum below 1",
+      "scenario": "Looks like a buy-all-YES arbitrage (asks sum 0.94) but the event is augmented: a hidden placeholder can win and zero every visible YES. The combinatorial track must refuse it as hidden_outcome_risk.",
+      "neg_risk": true,
+      "neg_risk_augmented": true,
+      "fee_type": "politics_fees",
+      "fees_enabled": true,
+      "end_date": "2027-06-01T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-aug-a", "title": "Fixture augmented A", "group_item_title": "A", "yes_token_id": "610000000000000000001", "no_token_id": "610000000000000000002"},
+        {"market_id": "0xfixture-aug-b", "title": "Fixture augmented B", "group_item_title": "B", "yes_token_id": "620000000000000000001", "no_token_id": "620000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-plain-multi",
+      "slug": "fixture-plain-multi",
+      "title": "Fixture: three related markets that are not a NegRisk event",
+      "scenario": "YES asks sum to 0.96, but the markets are independent conditions with no exclusivity guarantee and no converter. Both multi-outcome tracks must refuse (exclusivity_unverified / converter_unavailable).",
+      "neg_risk": false,
+      "neg_risk_augmented": false,
+      "fee_type": null,
+      "fees_enabled": false,
+      "end_date": "2026-12-31T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-plain-a", "title": "Fixture plain A", "group_item_title": "A", "yes_token_id": "710000000000000000001", "no_token_id": "710000000000000000002"},
+        {"market_id": "0xfixture-plain-b", "title": "Fixture plain B", "group_item_title": "B", "yes_token_id": "720000000000000000001", "no_token_id": "720000000000000000002"},
+        {"market_id": "0xfixture-plain-c", "title": "Fixture plain C", "group_item_title": "C", "yes_token_id": "730000000000000000001", "no_token_id": "730000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-binary-merge-feefree",
+      "slug": "fixture-binary-merge-feefree",
+      "title": "Fixture: fee-free binary market whose YES+NO asks sum below 1",
+      "scenario": "YES ask 0.45 and NO ask 0.53 (books are NOT mirrors, unlike the live CLOB). Buying both and merging through the CTF returns 1 USDC per pair. Geopolitics category: no taker fee, so the 0.02 gross survives.",
+      "neg_risk": false,
+      "neg_risk_augmented": false,
+      "fee_type": null,
+      "fees_enabled": false,
+      "end_date": "2026-11-01T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-binary-merge-feefree", "title": "Fixture merge fee-free", "group_item_title": "Yes", "yes_token_id": "810000000000000000001", "no_token_id": "810000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-binary-merge-fees",
+      "slug": "fixture-binary-merge-fees",
+      "title": "Fixture: sports binary market where fees eat the YES+NO edge",
+      "scenario": "Same 0.45 / 0.53 books as the fee-free case but sports_fees_v3 (5%). Fees per pair are 0.0248 > 0.02 gross, so the rebalancing track must refuse fees_exceed_edge.",
+      "neg_risk": false,
+      "neg_risk_augmented": false,
+      "fee_type": "sports_fees_v3",
+      "fees_enabled": true,
+      "end_date": "2026-10-01T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-binary-merge-fees", "title": "Fixture merge with fees", "group_item_title": "Yes", "yes_token_id": "820000000000000000001", "no_token_id": "820000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-binary-split",
+      "slug": "fixture-binary-split",
+      "title": "Fixture: fee-free binary market whose YES+NO bids sum above 1",
+      "scenario": "YES bid 0.52 and NO bid 0.50. Splitting 1 USDC into YES+NO and selling both into the bids returns 1.02. Depth is 60 on the NO side.",
+      "neg_risk": false,
+      "neg_risk_augmented": false,
+      "fee_type": null,
+      "fees_enabled": false,
+      "end_date": "2026-11-15T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-binary-split", "title": "Fixture split fee-free", "group_item_title": "Yes", "yes_token_id": "830000000000000000001", "no_token_id": "830000000000000000002"}
+      ]
+    },
+    {
+      "event_id": "fixture-binary-mirror",
+      "slug": "fixture-binary-mirror",
+      "title": "Fixture: binary market with mirror-consistent books (live CLOB shape)",
+      "scenario": "NO book is the exact complement of the YES book, as the live CLOB serves it. YES ask + NO ask = 1 + spread, so no merge or split edge exists; the track records mirror_consistent.",
+      "neg_risk": false,
+      "neg_risk_augmented": false,
+      "fee_type": "politics_fees",
+      "fees_enabled": true,
+      "end_date": "2026-12-01T00:00:00Z",
+      "markets": [
+        {"market_id": "0xfixture-binary-mirror", "title": "Fixture mirror", "group_item_title": "Yes", "yes_token_id": "840000000000000000001", "no_token_id": "840000000000000000002"}
+      ]
+    }
+  ],
+  "order_books": {
+    "0xfixture-nom-a": {
+      "yes": {"bids": [["0.400", "50"], ["0.390", "100"]], "asks": [["0.420", "50"], ["0.430", "100"]]},
+      "no": {"bids": [["0.580", "50"], ["0.570", "100"]], "asks": [["0.600", "50"], ["0.610", "100"]]}
+    },
+    "0xfixture-nom-b": {
+      "yes": {"bids": [["0.350", "40"], ["0.340", "100"]], "asks": [["0.370", "40"], ["0.380", "100"]]},
+      "no": {"bids": [["0.630", "40"], ["0.620", "100"]], "asks": [["0.650", "40"], ["0.660", "100"]]}
+    },
+    "0xfixture-nom-c": {
+      "yes": {"bids": [["0.200", "30"], ["0.190", "100"]], "asks": [["0.220", "30"], ["0.230", "100"]]},
+      "no": {"bids": [["0.780", "30"], ["0.770", "100"]], "asks": [["0.800", "30"], ["0.810", "100"]]}
+    },
+    "0xfixture-nom-d": {
+      "yes": {"bids": [["0.100", "200"]], "asks": [["0.120", "200"]]},
+      "no": {"bids": [["0.880", "200"]], "asks": [["0.900", "200"]]}
+    },
+    "0xfixture-ly-a": {
+      "yes": {"bids": [["0.280", "60"]], "asks": [["0.300", "60"], ["0.310", "100"]]},
+      "no": {"bids": [["0.700", "60"], ["0.690", "100"]], "asks": [["0.720", "60"]]}
+    },
+    "0xfixture-ly-b": {
+      "yes": {"bids": [["0.300", "60"]], "asks": [["0.320", "60"], ["0.330", "100"]]},
+      "no": {"bids": [["0.680", "60"], ["0.670", "100"]], "asks": [["0.700", "60"]]}
+    },
+    "0xfixture-ly-c": {
+      "yes": {"bids": [["0.310", "60"]], "asks": [["0.330", "60"], ["0.340", "100"]]},
+      "no": {"bids": [["0.670", "60"], ["0.660", "100"]], "asks": [["0.690", "60"]]}
+    },
+    "0xfixture-aug-a": {
+      "yes": {"bids": [["0.450", "80"]], "asks": [["0.470", "80"]]},
+      "no": {"bids": [["0.530", "80"]], "asks": [["0.550", "80"]]}
+    },
+    "0xfixture-aug-b": {
+      "yes": {"bids": [["0.450", "80"]], "asks": [["0.470", "80"]]},
+      "no": {"bids": [["0.530", "80"]], "asks": [["0.550", "80"]]}
+    },
+    "0xfixture-plain-a": {
+      "yes": {"bids": [["0.300", "50"]], "asks": [["0.320", "50"]]},
+      "no": {"bids": [["0.680", "50"]], "asks": [["0.700", "50"]]}
+    },
+    "0xfixture-plain-b": {
+      "yes": {"bids": [["0.300", "50"]], "asks": [["0.320", "50"]]},
+      "no": {"bids": [["0.680", "50"]], "asks": [["0.700", "50"]]}
+    },
+    "0xfixture-plain-c": {
+      "yes": {"bids": [["0.300", "50"]], "asks": [["0.320", "50"]]},
+      "no": {"bids": [["0.680", "50"]], "asks": [["0.700", "50"]]}
+    },
+    "0xfixture-binary-merge-feefree": {
+      "yes": {"bids": [["0.430", "100"]], "asks": [["0.450", "100"], ["0.460", "100"]]},
+      "no": {"bids": [["0.510", "80"]], "asks": [["0.530", "80"], ["0.560", "100"]]}
+    },
+    "0xfixture-binary-merge-fees": {
+      "yes": {"bids": [["0.430", "100"]], "asks": [["0.450", "100"]]},
+      "no": {"bids": [["0.510", "80"]], "asks": [["0.530", "80"]]}
+    },
+    "0xfixture-binary-split": {
+      "yes": {"bids": [["0.520", "100"], ["0.500", "100"]], "asks": [["0.540", "100"]]},
+      "no": {"bids": [["0.500", "60"], ["0.480", "100"]], "asks": [["0.520", "60"]]}
+    },
+    "0xfixture-binary-mirror": {
+      "yes": {"bids": [["0.410", "20"], ["0.400", "400"]], "asks": [["0.430", "16"], ["0.440", "440"]]},
+      "no": {"bids": [["0.570", "16"], ["0.560", "440"]], "asks": [["0.590", "20"], ["0.600", "400"]]}
+    }
+  }
+}

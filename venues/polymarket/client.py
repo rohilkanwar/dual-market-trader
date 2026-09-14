@@ -8,20 +8,26 @@ fail-closed stubs; no wallet key is ever read by this module.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
 import httpx
 
-from core.types import Market, OrderBook, PriceLevel, Venue
+from core.types import Market, MarketGroup, OrderBook, PriceLevel, Venue
 from core.venue import VenueClient
 from venues.fixtures import decimal_or_zero, load_fixture
 from venues.paper import FeeSchedule, PaperExecutionMixin, zero_fee
+from venues.polymarket.fees import taker_fee_rate
 
 FIXTURE_PATH = Path(__file__).with_name("fixtures") / "markets.json"
+EVENT_FIXTURE_PATH = Path(__file__).with_name("fixtures") / "events.json"
 GAMMA_URL = "https://gamma-api.polymarket.com"
 CLOB_URL = "https://clob.polymarket.com"
+BOOKS_BATCH_SIZE = 200
+DEFAULT_TICK_SIZE = Decimal("0.001")
+DEFAULT_MIN_ORDER_SIZE = Decimal("5")
 _SPORTS_HINTS = ("nba", "nfl", "mlb", "nhl", "ufc", "soccer", "premier league", " vs. ", " vs ")
 _MACRO_HINTS = ("fed", "cpi", "inflation", "rate cut", "rate hike", "gdp", "unemployment", "fomc")
 
@@ -80,6 +86,8 @@ def infer_category(item: dict[str, Any]) -> str:
 
 
 def _token_ids(item: dict[str, Any]) -> list[str]:
+    if item.get("yes_token_id") and item.get("no_token_id"):
+        return [str(item["yes_token_id"]), str(item["no_token_id"])]
     raw = item.get("clobTokenIds") or item.get("clob_token_ids") or []
     if isinstance(raw, str):
         try:
@@ -87,6 +95,136 @@ def _token_ids(item: dict[str, Any]) -> list[str]:
         except json.JSONDecodeError:
             raw = [part.strip() for part in raw.strip("[]").split(",") if part.strip()]
     return [str(token) for token in raw]
+
+
+@dataclass(slots=True)
+class EventSnapshot:
+    """Multi-outcome events with a YES *and* a NO book for every leg."""
+
+    groups: list[MarketGroup] = field(default_factory=list)
+    yes_books: dict[str, OrderBook] = field(default_factory=dict)
+    no_books: dict[str, OrderBook] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+
+    @property
+    def markets(self) -> list[Market]:
+        return [market for group in self.groups for market in group.markets]
+
+
+def _book_from_levels(market_id: str, payload: dict[str, Any]) -> OrderBook:
+    def levels(key: str) -> tuple[PriceLevel, ...]:
+        out = []
+        for level in payload.get(key) or []:
+            if isinstance(level, dict):
+                price, size = level.get("price"), level.get("size")
+            elif isinstance(level, (list, tuple)) and len(level) == 2:
+                price, size = level
+            else:
+                continue
+            out.append(PriceLevel(decimal_or_zero(price), decimal_or_zero(size)))
+        return tuple(out)
+
+    return OrderBook(market_id=market_id, bids=levels("bids"), asks=levels("asks"))
+
+
+def _leg_market(item: dict[str, Any], event: dict[str, Any], *, source: str) -> Market | None:
+    token_ids = _token_ids(item)
+    market_id = str(item.get("conditionId") or item.get("market_id") or item.get("id") or "")
+    if not market_id or len(token_ids) < 2:
+        return None
+    fees_enabled = item.get("feesEnabled", item.get("fees_enabled", event.get("fees_enabled")))
+    fee_type = item.get("feeType", item.get("fee_type", event.get("fee_type")))
+    neg_risk = bool(item.get("negRisk", item.get("neg_risk", event.get("negRisk", event.get("neg_risk", False)))))
+    return Market(
+        venue=Venue.POLYMARKET,
+        market_id=market_id,
+        title=str(item.get("question") or item.get("title") or market_id),
+        active=bool(item.get("active", True)) and not bool(item.get("closed", False)),
+        liquidity=decimal_or_zero(item.get("liquidityNum") or item.get("liquidity")),
+        volume=decimal_or_zero(item.get("volumeNum") or item.get("volume")),
+        yes_token_id=token_ids[0],
+        no_token_id=token_ids[1],
+        metadata={
+            "source": source,
+            "category": infer_category(item) or infer_category(event),
+            "slug": item.get("slug"),
+            "event_id": str(event.get("id") or event.get("event_id") or ""),
+            "event_slug": event.get("slug"),
+            "event_title": event.get("title"),
+            "group_item_title": item.get("groupItemTitle") or item.get("group_item_title"),
+            "neg_risk": neg_risk,
+            "neg_risk_market_id": item.get("negRiskMarketID") or event.get("negRiskMarketID"),
+            "neg_risk_augmented": bool(event.get("negRiskAugmented", event.get("neg_risk_augmented", False))),
+            "fees_enabled": bool(fees_enabled) if fees_enabled is not None else False,
+            "fee_type": fee_type,
+            "taker_fee_rate": str(taker_fee_rate(fee_type, bool(fees_enabled) if fees_enabled is not None else False)),
+            "tick_size": str(decimal_or_zero(item.get("orderPriceMinTickSize") or item.get("tick_size")) or DEFAULT_TICK_SIZE),
+            "min_order_size": str(decimal_or_zero(item.get("orderMinSize") or item.get("min_order_size")) or DEFAULT_MIN_ORDER_SIZE),
+            "end_date": item.get("endDate") or event.get("endDate") or event.get("end_date"),
+            "resolution_text": item.get("description", ""),
+        },
+    )
+
+
+def group_from_event(event: dict[str, Any], *, source: str) -> MarketGroup | None:
+    """Build a :class:`MarketGroup` from a Gamma ``/events`` item (or fixture)."""
+    raw_markets = event.get("markets") or []
+    legs = []
+    for item in raw_markets:
+        if not isinstance(item, dict):
+            continue
+        if source == "network" and (
+            not item.get("active", True)
+            or item.get("closed", False)
+            or item.get("enableOrderBook") is False
+            or item.get("acceptingOrders") is False
+        ):
+            continue
+        market = _leg_market(item, event, source=source)
+        if market is not None:
+            legs.append(market)
+    group_id = str(event.get("id") or event.get("event_id") or event.get("slug") or "")
+    if not group_id or not legs:
+        return None
+    neg_risk = bool(event.get("negRisk", event.get("neg_risk", False)))
+    return MarketGroup(
+        venue=Venue.POLYMARKET,
+        group_id=group_id,
+        title=str(event.get("title") or event.get("slug") or group_id),
+        markets=tuple(legs),
+        # NegRisk events guarantee exactly one YES via the adapter; anything
+        # else must say so explicitly (fixtures may set "exclusive": true).
+        exclusive=neg_risk or bool(event.get("exclusive", False)),
+        convertible=neg_risk,
+        augmented=bool(event.get("negRiskAugmented", event.get("neg_risk_augmented", False))),
+        metadata={
+            "source": source,
+            "slug": event.get("slug"),
+            "neg_risk": neg_risk,
+            "neg_risk_market_id": event.get("negRiskMarketID") or event.get("neg_risk_market_id"),
+            "end_date": event.get("endDate") or event.get("end_date"),
+            "liquidity": str(decimal_or_zero(event.get("liquidity"))),
+            "volume": str(decimal_or_zero(event.get("volume"))),
+            "listed_markets": len(raw_markets),
+            "scenario": event.get("scenario"),
+        },
+    )
+
+
+def load_event_fixture(path: Path = EVENT_FIXTURE_PATH) -> EventSnapshot:
+    payload: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+    snapshot = EventSnapshot()
+    for event in payload.get("events", []):
+        group = group_from_event(event, source="fixture")
+        if group is not None:
+            snapshot.groups.append(group)
+    for market_id, books in payload.get("order_books", {}).items():
+        snapshot.yes_books[market_id] = _book_from_levels(market_id, books.get("yes", {}))
+        snapshot.no_books[market_id] = _book_from_levels(market_id, books.get("no", {}))
+    for market in snapshot.markets:
+        snapshot.yes_books.setdefault(market.market_id, OrderBook(market_id=market.market_id))
+        snapshot.no_books.setdefault(market.market_id, OrderBook(market_id=market.market_id))
+    return snapshot
 
 
 class PolymarketClient(PaperExecutionMixin, VenueClient):
@@ -177,6 +315,97 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
             if isinstance(level, dict)
         )
         return OrderBook(market_id=market.market_id, bids=levels("bids"), asks=levels("asks"))
+
+    # ------------------------------------------------------------ events
+    async def list_events(self, *, limit: int = 20) -> list[MarketGroup]:
+        """Top events by liquidity (Gamma ``/events``), each as a MarketGroup."""
+        if self.use_fixtures:
+            groups = load_event_fixture().groups[:limit]
+        else:
+            response = await self._http.get(
+                f"{GAMMA_URL}/events",
+                params={
+                    "active": "true",
+                    "closed": "false",
+                    "limit": min(max(limit, 1), 100),
+                    "order": "liquidity",
+                    "ascending": "false",
+                },
+            )
+            response.raise_for_status()
+            groups = []
+            for event in response.json():
+                if not isinstance(event, dict):
+                    continue
+                group = group_from_event(event, source="network")
+                if group is not None:
+                    groups.append(group)
+            groups = groups[:limit]
+        for group in groups:
+            self._market_cache.update({market.market_id: market for market in group.markets})
+        return groups
+
+    async def get_books(self, token_ids: list[str]) -> dict[str, OrderBook]:
+        """Batch CLOB books keyed by token id (``POST /books``, chunked)."""
+        if self.use_fixtures:
+            snapshot = load_event_fixture()
+            by_token: dict[str, OrderBook] = {}
+            for market in snapshot.markets:
+                if market.yes_token_id:
+                    by_token[market.yes_token_id] = snapshot.yes_books[market.market_id]
+                if market.no_token_id:
+                    by_token[market.no_token_id] = snapshot.no_books[market.market_id]
+            return {token: by_token[token] for token in token_ids if token in by_token}
+        books: dict[str, OrderBook] = {}
+        for start in range(0, len(token_ids), BOOKS_BATCH_SIZE):
+            chunk = token_ids[start : start + BOOKS_BATCH_SIZE]
+            response = await self._http.post(
+                f"{CLOB_URL}/books", json=[{"token_id": token} for token in chunk]
+            )
+            response.raise_for_status()
+            for payload in response.json():
+                if not isinstance(payload, dict):
+                    continue
+                token = str(payload.get("asset_id") or "")
+                if token:
+                    books[token] = _book_from_levels(str(payload.get("market") or token), payload)
+        return books
+
+    async def capture_events(self, *, limit: int = 20) -> EventSnapshot:
+        """Events plus both books per leg; network failures land in ``errors``."""
+        snapshot = EventSnapshot()
+        try:
+            snapshot.groups = await self.list_events(limit=limit)
+        except Exception as exc:  # a dead endpoint must not kill the run
+            snapshot.errors.append(f"list_events: {type(exc).__name__}: {exc}")
+            return snapshot
+        tokens = [
+            token
+            for market in snapshot.markets
+            for token in (market.yes_token_id, market.no_token_id)
+            if token
+        ]
+        try:
+            by_token = await self.get_books(tokens)
+        except Exception as exc:
+            snapshot.errors.append(f"books: {type(exc).__name__}: {exc}")
+            by_token = {}
+        for market in snapshot.markets:
+            yes = by_token.get(market.yes_token_id or "")
+            no = by_token.get(market.no_token_id or "")
+            if yes is None or no is None:
+                snapshot.errors.append(f"book_missing[{market.market_id}]")
+            snapshot.yes_books[market.market_id] = (
+                OrderBook(market_id=market.market_id, bids=yes.bids, asks=yes.asks)
+                if yes is not None
+                else OrderBook(market_id=market.market_id)
+            )
+            snapshot.no_books[market.market_id] = (
+                OrderBook(market_id=market.market_id, bids=no.bids, asks=no.asks)
+                if no is not None
+                else OrderBook(market_id=market.market_id)
+            )
+        return snapshot
 
     async def close(self) -> None:
         if self._owns_http:

@@ -27,7 +27,7 @@ def test_paper_loop_once_with_fixtures(tmp_path: Path) -> None:
     assert latest["paper_only"] is True
     assert latest["mode"] == "fixtures"
     assert latest["primary_track"] == "single_venue_fair_value"
-    assert len(latest["tracks"]) == 6
+    assert len(latest["tracks"]) == 9
     assert len(history) == 1
     structured_log = json.loads(result.stderr.strip())
     assert structured_log["event"] == "paper_loop_cycle_completed"
@@ -38,4 +38,7 @@ def test_paper_loop_once_with_fixtures(tmp_path: Path) -> None:
         "sports_cross_venue",
         "small_deliberate_bet",
         "news_underreaction",
+        "polymarket_rebalancing_arb",
+        "polymarket_negrisk_arb",
+        "polymarket_combinatorial_arb",
     }

@@ -11,6 +11,9 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
         "sports_cross_venue",
         "small_deliberate_bet",
         "news_underreaction",
+        "polymarket_rebalancing_arb",
+        "polymarket_negrisk_arb",
+        "polymarket_combinatorial_arb",
     }
 
     gated = summaries["gated_cross_venue_macro"]

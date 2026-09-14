@@ -32,6 +32,28 @@ from research.news_signals import build_signal_source
 from research.scoreboard import TRACKS, TrackSummary, measure_all_with_ledgers
 from research.scoreboard_artifact import build_scoreboard_artifact
 from strategies.edge import load_priors
+from strategies.polymarket_arb import ArbParameters
+
+
+def add_arb_arguments(parser: argparse.ArgumentParser) -> None:
+    group = parser.add_argument_group("polymarket arbitrage tracks")
+    group.add_argument("--slippage-ticks", type=Decimal, default=None, help="per-leg slippage buffer in ticks (default 1)")
+    group.add_argument("--max-sets", type=Decimal, default=None, help="max sets per opportunity (default 100)")
+    group.add_argument("--max-capital", type=Decimal, default=None, help="max USDC per opportunity (default 250)")
+    group.add_argument("--min-net-edge", type=Decimal, default=None, help="min net edge per set after fees+slippage (default 0.001)")
+    group.add_argument("--converter-fee-bps", type=Decimal, default=None, help="NegRiskAdapter conversion fee assumption (default 0)")
+
+
+def arb_parameters_from_args(args: argparse.Namespace) -> ArbParameters | None:
+    overrides = {
+        "slippage_ticks": args.slippage_ticks,
+        "maximum_sets": args.max_sets,
+        "maximum_capital": args.max_capital,
+        "minimum_net_edge_per_set": args.min_net_edge,
+        "converter_fee_bps": args.converter_fee_bps,
+    }
+    provided = {k: v for k, v in overrides.items() if v is not None}
+    return ArbParameters(**provided) if provided else None
 
 
 def json_default(value: Any) -> Any:
@@ -99,7 +121,16 @@ def persist_run(
     kalshi_env: str | None,
     cycle: int | None = None,
     harvest_dir: Path | None = None,
+    scoreboard_name: str | None = None,
+    write_latest: bool = True,
+    artifact_kwargs: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    """Save ledgers, the scoreboard artifact(s) and the raw run manifest.
+
+    ``scoreboard_name`` defaults to ``scoreboard_<mode>.json``; a track family
+    with its own CLI passes its own name (``scoreboard_polymarket_arb.json``)
+    and ``write_latest=False`` so it does not displace the full board.
+    """
     run_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
     findings = None
     if harvest_dir is not None and harvest_dir.exists():
@@ -119,10 +150,12 @@ def persist_run(
         kalshi_env=kalshi_env,
         cycle=cycle,
         findings=findings,
+        **(artifact_kwargs or {}),
     )
     artifact["meta"]["run_id"] = run_id
-    write_json(artifact_dir / f"scoreboard_{mode}.json", artifact)
-    write_json(artifact_dir / "scoreboard_latest.json", artifact)
+    write_json(artifact_dir / (scoreboard_name or f"scoreboard_{mode}.json"), artifact)
+    if write_latest:
+        write_json(artifact_dir / "scoreboard_latest.json", artifact)
     write_json(
         artifact_dir / "paper" / "runs" / f"{run_id}.json",
         {
@@ -130,6 +163,12 @@ def persist_run(
             "paper_only": True,
             "mode": mode,
             "measured_at": measured_at,
+            "label": artifact["meta"]["label"],
+            "venues": artifact["meta"]["venues"],
+            "venue_focus": artifact["meta"]["venue_focus"],
+            "kalshi_env": kalshi_env,
+            "primary_track": artifact["meta"]["primary_track"],
+            "track_family": artifact["meta"].get("track_family"),
             "tracks": [summary.as_dict() for summary in summaries],
         },
     )
@@ -169,6 +208,8 @@ async def run(
     harvest_dir: Path | None = None,
     news_signals_path: Path | None = None,
     news_rss: tuple[str, ...] = (),
+    event_limit: int | None = None,
+    arb_parameters: ArbParameters | None = None,
 ) -> dict[str, Any]:
     require_paper_only("measure_all")
     mode = "network" if use_network else "fixtures"
@@ -185,6 +226,8 @@ async def run(
         news_signals=build_signal_source(
             use_fixtures=not use_network, signals_path=news_signals_path, rss_urls=news_rss
         ),
+        event_limit=event_limit,
+        arb_parameters=arb_parameters,
     )
     artifact = persist_run(
         summaries,
@@ -216,9 +259,11 @@ def main() -> None:
     parser.add_argument("--no-persist", action="store_true", help="do not carry ledgers across runs")
     parser.add_argument("--reset-ledgers", action="store_true", help="start every track from a fresh ledger")
     parser.add_argument("--kalshi-env", choices=("demo", "prod"), default=None, help="Kalshi public API host (default: KALSHI_ENV or demo)")
-    parser.add_argument("--no-fees", action="store_true", help="disable the Kalshi fee model on paper fills")
+    parser.add_argument("--no-fees", action="store_true", help="disable the Kalshi and Polymarket fee models on paper fills")
     parser.add_argument("--news-signals", type=Path, default=None, help="JSON signals file for the news_underreaction lane (operator owns the implied probabilities)")
     parser.add_argument("--news-rss", action="append", default=[], metavar="URL", help="public RSS/Atom feed to match headlines against snapshot markets (never mapped to a probability; repeatable)")
+    parser.add_argument("--event-limit", type=int, default=None, help="Polymarket events for the arb tracks (default: --limit)")
+    add_arb_arguments(parser)
     args = parser.parse_args()
     require_paper_only("measure_all")
     asyncio.run(
@@ -234,6 +279,8 @@ def main() -> None:
             harvest_dir=args.harvest_dir,
             news_signals_path=args.news_signals,
             news_rss=tuple(args.news_rss),
+            event_limit=args.event_limit,
+            arb_parameters=arb_parameters_from_args(args),
         )
     )
 
