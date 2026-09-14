@@ -365,7 +365,7 @@ def parse_closed_position(row: dict[str, Any], *, trader: str, as_of: datetime) 
     yes_token, no_token = _tokens(row, direction)
     title = str(row.get("title") or "")
     return TraderBet(
-        bet_id=f"pm-closed-{trader[:10]}-{market_id[:12]}-{str(row.get('asset') or '')[:8]}",
+        bet_id=_bet_id(trader, market_id, row.get("asset")),
         trader=trader,
         venue=Venue.POLYMARKET,
         market_id=market_id,
@@ -388,20 +388,34 @@ def parse_closed_position(row: dict[str, Any], *, trader: str, as_of: datetime) 
     )
 
 
+def _bet_id(trader: str, market_id: str, asset: Any) -> str:
+    return f"pm-{trader[:10]}-{market_id[:12]}-{str(asset or '')[:8]}"
+
+
 def parse_open_position(row: dict[str, Any], *, trader: str, as_of: datetime) -> TraderBet | None:
+    """One bet from a ``/positions`` row.
+
+    A position whose ``curPrice`` is already 0 or 1 has resolved but not been
+    redeemed; it is returned as a *resolved* bet so unredeemed losers count in
+    the history (dropping them would score only the winners a wallet bothered
+    to redeem). Anything else is an open bet, the candidate "next" bet.
+    """
     market_id = str(row.get("conditionId") or "")
     price = _decimal(row.get("avgPrice"))
     size = _decimal(row.get("size"))
     cur = _decimal(row.get("curPrice"))
     if not market_id or price is None or size is None or size <= ZERO:
         return None
-    if cur in (ZERO, ONE) or bool(row.get("redeemable")):
-        return None  # already resolved, awaiting redemption: not a "next" bet
     direction = _direction(row)
     yes_token, no_token = _tokens(row, direction)
     title = str(row.get("title") or "")
+    resolved = cur in (ZERO, ONE)
+    outcome = None
+    if resolved:
+        won = cur == ONE
+        outcome = direction if won else (Outcome.NO if direction is Outcome.YES else Outcome.YES)
     return TraderBet(
-        bet_id=f"pm-open-{trader[:10]}-{market_id[:12]}-{str(row.get('asset') or '')[:8]}",
+        bet_id=_bet_id(trader, market_id, row.get("asset")),
         trader=trader,
         venue=Venue.POLYMARKET,
         market_id=market_id,
@@ -411,12 +425,18 @@ def parse_open_position(row: dict[str, Any], *, trader: str, as_of: datetime) ->
         size=size,
         placed_at=as_of,
         title=title,
-        resolved=False,
+        resolved=resolved,
+        outcome=outcome,
+        resolved_at=as_of if resolved else None,
+        # ``realizedPnl`` on a positions row excludes the unredeemed payoff, so the
+        # resolved pnl is computed from the held size and entry price instead.
+        realized_pnl=None,
         yes_token_id=yes_token,
         no_token_id=no_token,
         metadata={"slug": row.get("slug"), "event_slug": row.get("eventSlug"), "end_date": row.get("endDate"),
                   "outcome_label": row.get("outcome"), "cur_price": cur, "neg_risk": row.get("negativeRisk"),
-                  "placed_at_unknown": True},
+                  "redeemable": bool(row.get("redeemable")), "placed_at_unknown": True,
+                  "resolved_unredeemed": resolved},
     )
 
 
@@ -481,6 +501,7 @@ class PolymarketDataApiSource:
             batch.errors.append(f"leaderboard: {type(exc).__name__}: {exc}")
             await self.close()
             return batch
+        by_id: dict[str, TraderBet] = {}
         for ref in batch.traders:
             wallet_ok = True
             for page in range(self.closed_pages):
@@ -500,7 +521,7 @@ class PolymarketDataApiSource:
                 for row in rows:
                     bet = parse_closed_position(row, trader=ref.trader, as_of=as_of)
                     if bet is not None:
-                        batch.bets.append(bet)
+                        by_id[bet.bet_id] = bet
                 if len(rows) < CLOSED_PAGE_SIZE:
                     break
             if not wallet_ok:
@@ -514,7 +535,8 @@ class PolymarketDataApiSource:
             for row in rows:
                 bet = parse_open_position(row, trader=ref.trader, as_of=as_of)
                 if bet is not None:
-                    batch.bets.append(bet)
+                    by_id.setdefault(bet.bet_id, bet)  # a redeemed closed row wins over its positions twin
+        batch.bets = list(by_id.values())
         await self.close()
         return batch
 

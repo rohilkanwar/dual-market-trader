@@ -283,9 +283,12 @@ async def run_category_specialist_track(
         batch = TraderHistoryBatch(source=getattr(source, "name", type(source).__name__))
         batch.errors.append(f"fetch: {type(exc).__name__}: {exc}")
 
-    # 2. settle followed bets that have since resolved
+    # 2. settle followed bets that have since resolved. Fixture and network
+    #    follows share one state file but never one evaluation: synthetic
+    #    fixture outcomes must not count toward the network hypothesis.
     settled: list[dict[str, Any]] = []
-    pending = [f for f in state.followed if not f.resolved]
+    mode_follows = [f for f in state.followed if f.mode == mode]
+    pending = [f for f in mode_follows if not f.resolved]
     oracle_errors: list[str] = []
     if pending:
         try:
@@ -455,6 +458,7 @@ async def run_category_specialist_track(
             mode=mode,
         )
         state.followed.append(follow)
+        mode_follows.append(follow)
         follows.append(follow)
         summary.admitted += 1
         row.update({"reason": "followed", "follow_id": follow.follow_id, "fill_price": follow.fill_price,
@@ -464,9 +468,9 @@ async def run_category_specialist_track(
     state.runs += 1
     state.updated_at = as_of.isoformat()
 
-    # 5. pre-registered evaluation over the whole follow log
-    pooled = evaluate_follows(state.followed, params)
-    by_category = {c: evaluate_follows(state.followed, params, category=c) for c in categories_of(state.followed)}
+    # 5. pre-registered evaluation over this mode's whole follow log
+    pooled = evaluate_follows(mode_follows, params)
+    by_category = {c: evaluate_follows(mode_follows, params, category=c) for c in categories_of(mode_follows)}
 
     # 6. metrics
     category_stats: dict[str, dict[str, Any]] = {}
@@ -512,9 +516,11 @@ async def run_category_specialist_track(
             "oracle": {"name": getattr(oracle, "name", type(oracle).__name__), "errors": oracle_errors},
             "book_errors": book_errors,
             "follow_log": {
-                "total": len(state.followed),
-                "resolved": sum(1 for f in state.followed if f.resolved),
-                "pending": sum(1 for f in state.followed if not f.resolved),
+                "mode": mode,
+                "total": len(mode_follows),
+                "resolved": sum(1 for f in mode_follows if f.resolved),
+                "pending": sum(1 for f in mode_follows if not f.resolved),
+                "other_modes": len(state.followed) - len(mode_follows),
                 "runs": state.runs,
             },
             "evaluation": {
@@ -535,7 +541,7 @@ def not_validated(mode: str) -> list[str]:
         "category taxonomy: keyword / slug-prefix heuristic; 'other' absorbs unmatched markets",
         "market mid at the trader's entry is unavailable from the Data API; entry price is the Brier benchmark proxy on network",
         "open-position placement time is unknown on network (positions endpoint has no timestamp); 'next bet' means currently open",
-        "closed-position size uses totalBought and venue-reported realizedPnl; partial exits before resolution are excluded",
+        "closed-position size uses totalBought and venue-reported realizedPnl; partial exits before resolution are excluded; resolved-but-unredeemed positions count as resolved",
         "leaderboard selection by monthly volume; the top-50 cap and one-month window are operator choices, not calibrated",
         "taker fees on followed network markets are not modelled (Data API rows carry no feeType); follow PnL is pre-fee",
     ]
@@ -594,14 +600,26 @@ def build_specialist_report(
         "taxonomy_coverage": m.get("taxonomy_coverage", {}),
         "scoreboard": m.get("scoreboard", []),
         "specialists": m.get("specialists", []),
-        "follow_attempts": m.get("follow_attempts", []),
+        # Every open bet of a non-promoted trader is one 'trader_not_promoted' row; on
+        # network that is hundreds of rows carrying no information beyond the count.
+        "follow_attempts": [a for a in m.get("follow_attempts", []) if a.get("reason") != "trader_not_promoted"],
+        "follow_attempts_by_reason": _count_by_reason(m.get("follow_attempts", [])),
         "follows_this_run": m.get("follows_this_run", []),
         "settled_this_run": m.get("settled_this_run", []),
-        "follow_log": m.get("follow_state", {}).get("followed", []),
+        "follow_log": [f for f in m.get("follow_state", {}).get("followed", []) if f.get("mode") == mode],
+        "follow_log_other_modes": m.get("follow_log", {}).get("other_modes", 0),
         "evaluation": m.get("evaluation", {}),
         "ledger": summary.ledger,
         "not_validated": m.get("not_validated", []),
     }
+
+
+def _count_by_reason(attempts: list[dict[str, Any]]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for attempt in attempts:
+        reason = str(attempt.get("reason"))
+        out[reason] = out.get(reason, 0) + 1
+    return dict(sorted(out.items()))
 
 
 def specialist_finding(summary: Any) -> dict[str, Any]:
@@ -717,7 +735,7 @@ def print_report(report: dict[str, Any]) -> None:
             f"{row['trader'][:21]:<22}{row['category']:<18}{row['resolved_bets']:>4}{notional}"
             f"{_fmt(row['roi'], 9)}{_fmt(row['brier_skill'], 9)}{_fmt(row['hit_rate'])}{_fmt(row['rank'], 6)}  {verdict}"
         )
-    print(f"\nfollow attempts this run: {len(report['follow_attempts'])}  refused={totals['refused_by_reason']}")
+    print(f"\nfollow attempts this run: {sum(report['follow_attempts_by_reason'].values())}  refused={totals['refused_by_reason']}")
     for row in report["follows_this_run"]:
         print(
             f"  followed {row['trader'][:18]:<18} {row['category']:<14} {row['direction']:<3} {row['quantity']:>6} @ "

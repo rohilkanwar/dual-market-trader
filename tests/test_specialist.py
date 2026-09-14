@@ -10,7 +10,7 @@ import pytest
 
 from apps.measure_all import json_default, persist_run
 from core.types import Outcome, Venue
-from research.scoreboard import TRACKS, measure_all_with_ledgers
+from research.scoreboard import TRACKS, VenueSnapshot, measure_all_with_ledgers
 from research.scoreboard_artifact import build_scoreboard_artifact
 from research.specialist_scoreboard import (
     SPECIALIST_TRACK,
@@ -400,7 +400,14 @@ def test_parse_open_positions_from_data_api_rows() -> None:
     assert open_bet.category == "american_football" and open_bet.direction is NO
     assert (open_bet.yes_token_id, open_bet.no_token_id) == ("666", "555")
     assert open_bet.metadata["placed_at_unknown"] is True and open_bet.placed_at == AS_OF
-    assert parse_open_position(OPEN_REDEEMABLE, trader="0xabc", as_of=AS_OF) is None
+    # Resolved but not redeemed: counted as a resolved bet (a loser sitting at 0 would otherwise vanish).
+    redeemable = parse_open_position(OPEN_REDEEMABLE, trader="0xabc", as_of=AS_OF)
+    assert redeemable is not None and redeemable.resolved and redeemable.won is True and redeemable.outcome is NO
+    unredeemed_loss = parse_open_position({**OPEN, "conditionId": "0xcond6", "curPrice": 0}, trader="0xabc", as_of=AS_OF)
+    assert unredeemed_loss is not None and unredeemed_loss.resolved and unredeemed_loss.won is False
+    assert unredeemed_loss.pnl == -(D("4853928.4209") * D("0.5551"))
+    # The same position seen through /closed-positions and /positions shares one id.
+    assert parse_closed_position({**CLOSED_WIN, "conditionId": "0xcond4", "asset": "555"}, trader="0xabc", as_of=AS_OF).bet_id == open_bet.bet_id
 
 
 def test_parse_leaderboard_accepts_v2_and_v1_shapes() -> None:
@@ -440,7 +447,8 @@ async def test_data_api_source_walks_leaderboard_and_wallets_with_fake_http() ->
     source = PolymarketDataApiSource(traders=2, http_get=fake_get)
     batch = await source.fetch(as_of=AS_OF)
     assert [t.trader for t in batch.traders] == ["0xabc", "0xdead"]
-    assert len(batch.bets) == 3 and sum(b.resolved for b in batch.bets) == 2
+    # two closed (win, loss; the exited one is dropped) + one open + one resolved-unredeemed
+    assert len(batch.bets) == 4 and sum(b.resolved for b in batch.bets) == 3
     assert batch.requests == len(calls) == 1 + 2 + 1  # leaderboard, one closed page (short), positions, dead wallet
     assert len(batch.errors) == 1 and "0xdead" in batch.errors[0] and "ConnectionError" in batch.errors[0]
     assert calls[0][1] == {"time_period": "month", "sort_by": "VOLUME", "limit": 2}
@@ -563,6 +571,30 @@ async def test_carried_state_settles_follows_and_stays_underpowered() -> None:
     json.dumps(artifact, default=json_default)
 
 
+async def test_fixture_follows_never_enter_the_network_evaluation() -> None:
+    """One state file may hold both modes; each mode settles and evaluates only its own follows."""
+    summaries, ledgers = await measure_all_with_ledgers()
+    state = SpecialistState.from_dict(next(s for s in summaries if s.track == SPECIALIST_TRACK).metrics["follow_state"])
+    assert all(f.mode == "fixtures" for f in state.followed)
+    # A network run with no trader source and the carried state: nothing to settle, nothing to evaluate.
+    summaries2, ledgers2 = await measure_all_with_ledgers(
+        use_fixtures=False,
+        ledgers=ledgers,
+        specialist_state=state,
+        specialist_source=NullTraderSource(),
+        snapshots={v: VenueSnapshot(venue=v, source="network") for v in (Venue.KALSHI, Venue.POLYMARKET)},
+        group_snapshot=VenueSnapshot(venue=Venue.POLYMARKET, source="network"),
+    )
+    spec = next(s for s in summaries2 if s.track == SPECIALIST_TRACK)
+    assert spec.metrics["follow_log"] == {"mode": "network", "total": 0, "resolved": 0, "pending": 0, "other_modes": 3, "runs": 2}
+    assert spec.metrics["evaluation"]["pooled"]["status"] == STATUS_NO_FOLLOWS
+    assert spec.metrics["settled_this_run"] == []
+    # The fixture positions are still open on the carried ledger: the network oracle never touched them.
+    assert len(ledgers2[SPECIALIST_TRACK].open_positions) == 3
+    artifact = build_scoreboard_artifact(summaries2, mode="network", measured_at="t", limit=3)
+    assert "specialist_hypothesis_not_validated" not in artifact["portfolio"]["risk_flags"]
+
+
 async def test_null_source_is_an_honest_empty_lane() -> None:
     summaries, ledgers = await measure_all_with_ledgers(specialist_source=NullTraderSource())
     spec = next(s for s in summaries if s.track == SPECIALIST_TRACK)
@@ -598,6 +630,10 @@ async def test_persist_run_writes_specialist_report_and_follow_state(tmp_path: P
     assert report["totals"]["specialists"] == 3 and report["totals"]["follows_this_run"] == 3
     assert report["totals"]["evaluation_status"] == STATUS_PENDING and report["totals"]["powered"] is False
     assert len(report["scoreboard"]) == 10 and len(report["follow_log"]) == 3
+    assert report["follow_attempts_by_reason"] == {
+        "followed": 3, "market_not_in_snapshot": 1, "out_of_category": 1, "trader_not_promoted": 1,
+    }
+    assert {a["reason"] for a in report["follow_attempts"]} == {"followed", "market_not_in_snapshot", "out_of_category"}
     assert report["preregistration"]["n"] == 30
     assert (tmp_path / "specialist_scoreboard_latest.json").exists()
     assert artifact["specialist_scoreboard"]["file"] == "specialist_scoreboard_fixtures.json"
