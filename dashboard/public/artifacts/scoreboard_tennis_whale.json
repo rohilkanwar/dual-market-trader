@@ -1,0 +1,1583 @@
+{
+  "charts": {
+    "candidates_by_track": [
+      {
+        "track": "tennis_whale_copy_30s",
+        "value": 548
+      },
+      {
+        "track": "tennis_whale_copy_2m",
+        "value": 548
+      },
+      {
+        "track": "tennis_whale_copy_10m",
+        "value": 548
+      }
+    ],
+    "fills_by_track": [
+      {
+        "track": "tennis_whale_copy_30s",
+        "value": 333
+      },
+      {
+        "track": "tennis_whale_copy_2m",
+        "value": 327
+      },
+      {
+        "track": "tennis_whale_copy_10m",
+        "value": 287
+      }
+    ],
+    "pnl_by_track": [
+      {
+        "track": "tennis_whale_copy_30s",
+        "value": -33.32602
+      },
+      {
+        "track": "tennis_whale_copy_2m",
+        "value": -142.02006
+      },
+      {
+        "track": "tennis_whale_copy_10m",
+        "value": -162.71669
+      }
+    ],
+    "venue_fills": [
+      {
+        "value": 947,
+        "venue": "polymarket"
+      }
+    ]
+  },
+  "findings": {
+    "arbai_summary": "105 whales, 947 paper copies. Overall FAIL; kill rule continue. 30s: FAIL (n=333, settlement ROI -0.102162 [-0.258601, 0.088682], CLV ROI -0.101346 [-0.266168, 0.075869]); 2m: FAIL (n=327, settlement ROI -0.11135 [-0.259805, 0.053165], CLV ROI -0.110395 [-0.258032, 0.057046]); 10m: FAIL (n=287, settlement ROI -0.071732 [-0.252248, 0.112734], CLV ROI -0.070763 [-0.253102, 0.109937])",
+    "divergence_findings_status": "not_applicable_tennis_whale_run",
+    "live_network_cross_venue_candidates": 0,
+    "tennis_whale_copy": {
+      "copies": 947,
+      "headline": "105 whales, 947 paper copies. Overall FAIL; kill rule continue. 30s: FAIL (n=333, settlement ROI -0.102162 [-0.258601, 0.088682], CLV ROI -0.101346 [-0.266168, 0.075869]); 2m: FAIL (n=327, settlement ROI -0.11135 [-0.259805, 0.053165], CLV ROI -0.110395 [-0.258032, 0.057046]); 10m: FAIL (n=287, settlement ROI -0.071732 [-0.252248, 0.112734], CLV ROI -0.070763 [-0.253102, 0.109937])",
+      "kill_rule": {
+        "components": {
+          "copy_negative_all_lags": false,
+          "lags_evaluable": 3,
+          "whale_own_evaluable": true,
+          "whale_own_negative": false
+        },
+        "reason": "no trigger: some lag or the whale-own benchmark is not significantly negative",
+        "status": "continue",
+        "triggered": false
+      },
+      "overall_verdict": "FAIL",
+      "report": "tennis_whale_report_latest.json",
+      "status": "measured_from_public_tape",
+      "verdicts": {
+        "copy_ev_or_clv_positive_10m": "FAIL",
+        "copy_ev_or_clv_positive_2m": "FAIL",
+        "copy_ev_or_clv_positive_30s": "FAIL",
+        "copy_portfolio_positive_at_any_lag": "FAIL",
+        "kalshi_whales_identifiable": "NOT_IDENTIFIABLE",
+        "kill_rule": "CONTINUE"
+      },
+      "whales": 105
+    }
+  },
+  "meta": {
+    "cycle": null,
+    "generated_at": "2026-09-14T23:04:26.853628+00:00",
+    "kalshi_env": null,
+    "kind": "tennis_whale_copy",
+    "label": "MEASURED / NETWORK / TENNIS WHALE COPY",
+    "markets_per_venue": 127,
+    "measured_at": "2026-09-14T23:03:48.174731+00:00",
+    "mode": "network",
+    "paper_only": true,
+    "pnl_source": "core.ledger.PaperLedger",
+    "primary_track": "tennis_whale_copy_30s",
+    "refresh": "python -m apps.measure_tennis_whale [--network --harvest] && cd dashboard && npm run sync-artifacts",
+    "run_id": "20260914T230348Z-tennis-63ad64de",
+    "source": "measured",
+    "track_family": "tennis_copy",
+    "venue_focus": "polymarket",
+    "venues": [
+      "polymarket"
+    ]
+  },
+  "portfolio": {
+    "by_track": {
+      "tennis_whale_copy_10m": {
+        "cash": 922.58862,
+        "equity": 837.28331,
+        "equity_points": 1,
+        "fees_paid": 47.25156,
+        "fills": 329,
+        "gross_notional": 111.06531,
+        "max_drawdown": 162.71669,
+        "open_positions": 11,
+        "realized_pnl": -163.67478,
+        "starting_cash": 1000.0,
+        "total_pnl": -162.71669,
+        "unrealized_pnl": 0.95809
+      },
+      "tennis_whale_copy_2m": {
+        "cash": 921.7326,
+        "equity": 857.97994,
+        "equity_points": 1,
+        "fees_paid": 53.03315,
+        "fills": 370,
+        "gross_notional": 170.97265,
+        "max_drawdown": 142.02006,
+        "open_positions": 15,
+        "realized_pnl": -155.15911,
+        "starting_cash": 1000.0,
+        "total_pnl": -142.02006,
+        "unrealized_pnl": 13.13906
+      },
+      "tennis_whale_copy_30s": {
+        "cash": 1002.7493,
+        "equity": 966.67398,
+        "equity_points": 1,
+        "fees_paid": 52.31328,
+        "fills": 376,
+        "gross_notional": 170.11531,
+        "max_drawdown": 33.32602,
+        "open_positions": 17,
+        "realized_pnl": -68.27268,
+        "starting_cash": 1000.0,
+        "total_pnl": -33.32602,
+        "unrealized_pnl": 34.94666
+      }
+    },
+    "cash": 2847.0705,
+    "concentration": [
+      {
+        "venue": "polymarket",
+        "weight": 1.0
+      }
+    ],
+    "equity": 2661.9372,
+    "fees_paid": 152.598,
+    "gross_notional": 452.1533,
+    "max_drawdown": 162.71669,
+    "net_exposure": -185.1333,
+    "open_positions": 43,
+    "paper_only": true,
+    "primary": {
+      "cash": 1002.7493,
+      "concentration": [
+        {
+          "venue": "polymarket",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-09-14T23:04:26.440517+00:00",
+      "equity": 966.67398,
+      "equity_points": 1,
+      "fees_paid": 52.31328,
+      "fills": 376,
+      "gross_notional": 170.11531,
+      "ledger_id": "tennis_whale_copy_30s",
+      "mark_method": "mid",
+      "max_drawdown": 33.32602,
+      "net_exposure": -36.07531,
+      "open_positions": 17,
+      "paper_only": true,
+      "peak_equity": 1000.0,
+      "position_value": -36.07531,
+      "positions": [
+        {
+          "average_price": 0.365,
+          "fees_paid": 0.34762,
+          "mark": 0.35551,
+          "market_id": "0x5d60709f598cc61c7c7025fe477f01f01a9f979c3a848730fe7f5ed1e783f04c",
+          "quantity": -30.0,
+          "realized_pnl": -0.34762,
+          "unrealized_pnl": 0.28469,
+          "value": -10.66531,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.37375,
+          "fees_paid": 3.89595,
+          "mark": 0.27,
+          "market_id": "0x0bd25ac45bb59731aa3cd124513061fba39168bac6cdf8b46a9f3ac76a3323e8",
+          "quantity": 3.0,
+          "realized_pnl": -3.70549,
+          "unrealized_pnl": -0.31125,
+          "value": 0.81,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.40707,
+          "fees_paid": 0.19309,
+          "mark": 0.43,
+          "market_id": "0x84940eabcae7bfcc49050b3c83bf91da5a0b6a04fcfa6fc8928725a6f8d74b80",
+          "quantity": -16.0,
+          "realized_pnl": -0.19309,
+          "unrealized_pnl": -0.36687,
+          "value": -6.88,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.44444,
+          "fees_paid": 0.2222,
+          "mark": 0.44,
+          "market_id": "0x54059aa9810bfa065ac337f6a2cfa8e11ffe174ec21ae8bc560689e0040fed3d",
+          "quantity": -18.0,
+          "realized_pnl": -0.2222,
+          "unrealized_pnl": 0.08,
+          "value": -7.92,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.73,
+          "fees_paid": 0.34493,
+          "mark": 0.75,
+          "market_id": "0x62e0476fe91da05713136609ae0a492c39557cc82795c1c11a4de8d18364238d",
+          "quantity": -35.0,
+          "realized_pnl": -0.34493,
+          "unrealized_pnl": -0.7,
+          "value": -26.25,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.21,
+          "fees_paid": 0.09954,
+          "mark": 0.19,
+          "market_id": "0x521dcb4b434b4bd4b03e656a0d707ae74b4b89a7bf39ae0e60fa182f87319e29",
+          "quantity": -12.0,
+          "realized_pnl": -0.09954,
+          "unrealized_pnl": 0.24,
+          "value": -2.28,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.04,
+          "fees_paid": 0.01536,
+          "mark": 0.06,
+          "market_id": "0x9fe2c7f445b8c8657edf1b90ef4aaaa76804e6e2521bac02640f65d8e0e69a2e",
+          "quantity": -8.0,
+          "realized_pnl": -0.01536,
+          "unrealized_pnl": -0.16,
+          "value": -0.48,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.29,
+          "fees_paid": 0.07207,
+          "mark": 0.3,
+          "market_id": "0xc9fa413ac3658cd39efbcf931cce40bd0012072577d2ff45b53d031ea59b2ceb",
+          "quantity": -7.0,
+          "realized_pnl": -0.07207,
+          "unrealized_pnl": -0.07,
+          "value": -2.1,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.4,
+          "fees_paid": 0.06,
+          "mark": 0.41,
+          "market_id": "0x9257040547b652608253f2d979fcee8b37f15510f2b0d8eab88f6a30eb86c6b9",
+          "quantity": -5.0,
+          "realized_pnl": -0.06,
+          "unrealized_pnl": -0.05,
+          "value": -2.05,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.57,
+          "fees_paid": 0.18383,
+          "mark": 0.56,
+          "market_id": "0x25d05ec09c8770938bbda41ec283939cf3f3c17950595d9d653232f5584f7d0b",
+          "quantity": 15.0,
+          "realized_pnl": -0.18383,
+          "unrealized_pnl": -0.15,
+          "value": 8.4,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.71,
+          "fees_paid": 0.35003,
+          "mark": 0.72,
+          "market_id": "0x6645c07f219f0c883729b8d9f03bf6a2df949043c03da3f61eff359c36fe4c0e",
+          "quantity": -34.0,
+          "realized_pnl": -0.35003,
+          "unrealized_pnl": -0.34,
+          "value": -24.48,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.3636,
+          "fees_paid": 1.83213,
+          "mark": 0.01,
+          "market_id": "0x518139031d79ed41c430723f61155dcc762df27a0a188913d3f7765a79ac0825",
+          "quantity": -88.0,
+          "realized_pnl": -0.78851,
+          "unrealized_pnl": 31.11646,
+          "value": -0.88,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.59389,
+          "fees_paid": 1.28299,
+          "mark": 0.9,
+          "market_id": "0x27ed50353f140c9223ba0da2d6fd5ed31081107706734368a77f0632b3510f0a",
+          "quantity": 64.0,
+          "realized_pnl": 1.81582,
+          "unrealized_pnl": 19.59119,
+          "value": 57.6,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.61,
+          "fees_paid": 0.4889,
+          "mark": 0.92,
+          "market_id": "0xab267d5dcbf29c2c9521c92797415a6a1fd081a2a59292dc2f145034247c790c",
+          "quantity": -1.0,
+          "realized_pnl": -5.0489,
+          "unrealized_pnl": -0.31,
+          "value": -0.92,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.4585,
+          "fees_paid": 0.26069,
+          "mark": 0.01,
+          "market_id": "0x796a47e0069bd042c38c04f9ff510f6924d428eaa2607644436ec82a7c95bdcb",
+          "quantity": 21.0,
+          "realized_pnl": -0.26069,
+          "unrealized_pnl": -9.41856,
+          "value": 0.21,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.509,
+          "fees_paid": 0.11246,
+          "mark": 0.99,
+          "market_id": "0xe012d12f07af8c57c5b3bc5389224f81b92e67349164710deffa448a83514eeb",
+          "quantity": -9.0,
+          "realized_pnl": -0.11246,
+          "unrealized_pnl": -4.329,
+          "value": -8.91,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.57,
+          "fees_paid": 0.19608,
+          "mark": 0.58,
+          "market_id": "0xd3389a000a98db0cff788758c30da51c29b1acb85f6c81cea53483419bc606cb",
+          "quantity": -16.0,
+          "realized_pnl": -0.19608,
+          "unrealized_pnl": -0.16,
+          "value": -9.28,
+          "venue": "polymarket"
+        }
+      ],
+      "realized_pnl": -68.27268,
+      "return_pct": -3.3326,
+      "settlement_fills": 43,
+      "starting_cash": 1000.0,
+      "total_pnl": -33.32602,
+      "unmarked_positions": 0,
+      "unrealized_pnl": 34.94666,
+      "updated_at": "2026-09-14T23:04:26.589840+00:00"
+    },
+    "primary_track": "tennis_whale_copy_30s",
+    "realized_pnl": -387.1066,
+    "risk_flags": [
+      "snapshot_errors_present",
+      "pnl_from_ledger_not_placeholder"
+    ],
+    "settlement_risk_pairs": 0,
+    "source": "ledger_aggregate",
+    "starting_cash": 3000.0,
+    "total_pnl": -338.0628,
+    "unrealized_pnl": 49.0438
+  },
+  "schema_version": "1.3.0",
+  "top_edges": [],
+  "top_fills": [
+    {
+      "edge_bps": null,
+      "fee": 0.43259,
+      "filled_at": "2026-09-14T15:21:22+00:00",
+      "mark": 1.0,
+      "market": "0xe5aeb84ebe22a3abeb1f4ea2b50ec4281b34f1263f2e660fb7b21e5108e64d9e",
+      "order_id": "paper-copy-5bc109e4ba3d",
+      "outcome": "yes",
+      "paper_pnl": 65.6114,
+      "price": 0.1309999999,
+      "qty": 76.0,
+      "rank": 1,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_10m",
+      "title": "Guangzhou: Colin Sinclair vs Linang Xiao",
+      "track": "tennis_whale_copy_10m",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.1309999999
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.41874,
+      "filled_at": "2026-09-14T15:26:16+00:00",
+      "mark": 1.0,
+      "market": "0xe5aeb84ebe22a3abeb1f4ea2b50ec4281b34f1263f2e660fb7b21e5108e64d9e",
+      "order_id": "paper-copy-edb1a7b38ddf",
+      "outcome": "yes",
+      "paper_pnl": 51.5993,
+      "price": 0.161,
+      "qty": 62.0,
+      "rank": 2,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_30s",
+      "title": "Guangzhou: Colin Sinclair vs Linang Xiao",
+      "track": "tennis_whale_copy_30s",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.161
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.35125,
+      "filled_at": "2026-09-14T15:10:39+00:00",
+      "mark": 1.0,
+      "market": "0xe5aeb84ebe22a3abeb1f4ea2b50ec4281b34f1263f2e660fb7b21e5108e64d9e",
+      "order_id": "paper-copy-a144acc438a5",
+      "outcome": "yes",
+      "paper_pnl": 49.4708,
+      "price": 0.141,
+      "qty": 58.0,
+      "rank": 3,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_10m",
+      "title": "Guangzhou: Colin Sinclair vs Linang Xiao",
+      "track": "tennis_whale_copy_10m",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.141
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.40766,
+      "filled_at": "2026-09-14T15:13:30+00:00",
+      "mark": 1.0,
+      "market": "0xe5aeb84ebe22a3abeb1f4ea2b50ec4281b34f1263f2e660fb7b21e5108e64d9e",
+      "order_id": "paper-copy-40ce4aff646a",
+      "outcome": "yes",
+      "paper_pnl": 44.6373,
+      "price": 0.181,
+      "qty": 55.0,
+      "rank": 4,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_2m",
+      "title": "Guangzhou: Colin Sinclair vs Linang Xiao",
+      "track": "tennis_whale_copy_2m",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.181
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.39123,
+      "filled_at": "2026-09-14T19:42:03+00:00",
+      "mark": 0.0,
+      "market": "0x78972130b80db09446e75cbea5e4324ded453e1237e00d01c6ae8578bf76e279",
+      "order_id": "paper-copy-feffd2b6df57",
+      "outcome": "no",
+      "paper_pnl": 36.6918,
+      "price": 0.2109999998,
+      "qty": 47.0,
+      "rank": 5,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_30s",
+      "title": "Tiburon: Spencer Johnson vs Erik Arutiunian",
+      "track": "tennis_whale_copy_30s",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.7890000002
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.38192,
+      "filled_at": "2026-09-14T13:15:40+00:00",
+      "mark": 0.0,
+      "market": "0xba94c9ce709e48f1b259da3897ff224ccd4dead1c762946cbe3e9811fb81c9ae",
+      "order_id": "paper-copy-644b8bc25220",
+      "outcome": "no",
+      "paper_pnl": 32.6851,
+      "price": 0.231,
+      "qty": 43.0,
+      "rank": 6,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_30s",
+      "title": "M25 Nevers: Paul Theate vs Yannis Batsabaken",
+      "track": "tennis_whale_copy_30s",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.769
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.38192,
+      "filled_at": "2026-09-14T13:15:40+00:00",
+      "mark": 0.0,
+      "market": "0xba94c9ce709e48f1b259da3897ff224ccd4dead1c762946cbe3e9811fb81c9ae",
+      "order_id": "paper-copy-e57c261b0e80",
+      "outcome": "no",
+      "paper_pnl": 32.6851,
+      "price": 0.231,
+      "qty": 43.0,
+      "rank": 7,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_2m",
+      "title": "M25 Nevers: Paul Theate vs Yannis Batsabaken",
+      "track": "tennis_whale_copy_2m",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.769
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.37498,
+      "filled_at": "2026-09-14T13:38:27+00:00",
+      "mark": 1.0,
+      "market": "0x76f33d5abb2b4224dc96abbcbdbdde23d761a2f4f6954dffe2d8d9e20031e201",
+      "order_id": "paper-copy-f37089e00cef",
+      "outcome": "yes",
+      "paper_pnl": 30.744,
+      "price": 0.241,
+      "qty": 41.0,
+      "rank": 8,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_10m",
+      "title": "Biella: Jay Clarke vs Jonas Forejtek",
+      "track": "tennis_whale_copy_10m",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.241
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.29711,
+      "filled_at": "2026-09-14T19:43:31+00:00",
+      "mark": 0.0,
+      "market": "0x78972130b80db09446e75cbea5e4324ded453e1237e00d01c6ae8578bf76e279",
+      "order_id": "paper-copy-5a3753d7d11e",
+      "outcome": "no",
+      "paper_pnl": 29.2659,
+      "price": 0.201,
+      "qty": 37.0,
+      "rank": 9,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_2m",
+      "title": "Tiburon: Spencer Johnson vs Erik Arutiunian",
+      "track": "tennis_whale_copy_2m",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.799
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.3666,
+      "filled_at": "2026-09-14T13:13:52+00:00",
+      "mark": 0.0,
+      "market": "0xb646c4f1fdb16063e57fa8253e5b40dfa0e46da6866643e7cd45284cb05d287c",
+      "order_id": "paper-copy-7a9c298b5fe7",
+      "outcome": "no",
+      "paper_pnl": 28.8444,
+      "price": 0.251,
+      "qty": 39.0,
+      "rank": 10,
+      "side": "buy",
+      "strategy": "tennis_whale_copy_30s",
+      "title": "Ljubljana: Arantxa Rus vs Samira De Stefano",
+      "track": "tennis_whale_copy_30s",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.749
+    }
+  ],
+  "totals": {
+    "admitted": 986,
+    "avg_edge_bps": null,
+    "candidates": 1644,
+    "fees_paid": 152.598,
+    "fill_rate": 0.9604,
+    "paper_fills": 947,
+    "paper_pnl": -338.0628,
+    "proposed_orders": 986,
+    "realized_pnl": -387.1066,
+    "rejects": 658,
+    "settlement_risk_pairs": 0,
+    "unrealized_pnl": 49.0438
+  },
+  "tracks": [
+    {
+      "admitted": 349,
+      "candidates": 548,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 0.9542,
+      "label": "Tennis whale copy (30 s lag)",
+      "ledger": {
+        "cash": 1002.7493,
+        "concentration": [
+          {
+            "venue": "polymarket",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:04:26.440517+00:00",
+        "equity": 966.67398,
+        "equity_points": 1,
+        "fees_paid": 52.31328,
+        "fills": 376,
+        "gross_notional": 170.11531,
+        "ledger_id": "tennis_whale_copy_30s",
+        "mark_method": "mid",
+        "max_drawdown": 33.32602,
+        "net_exposure": -36.07531,
+        "open_positions": 17,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -36.07531,
+        "positions": [
+          {
+            "average_price": 0.365,
+            "fees_paid": 0.34762,
+            "mark": 0.35551,
+            "market_id": "0x5d60709f598cc61c7c7025fe477f01f01a9f979c3a848730fe7f5ed1e783f04c",
+            "quantity": -30.0,
+            "realized_pnl": -0.34762,
+            "unrealized_pnl": 0.28469,
+            "value": -10.66531,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.37375,
+            "fees_paid": 3.89595,
+            "mark": 0.27,
+            "market_id": "0x0bd25ac45bb59731aa3cd124513061fba39168bac6cdf8b46a9f3ac76a3323e8",
+            "quantity": 3.0,
+            "realized_pnl": -3.70549,
+            "unrealized_pnl": -0.31125,
+            "value": 0.81,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.40707,
+            "fees_paid": 0.19309,
+            "mark": 0.43,
+            "market_id": "0x84940eabcae7bfcc49050b3c83bf91da5a0b6a04fcfa6fc8928725a6f8d74b80",
+            "quantity": -16.0,
+            "realized_pnl": -0.19309,
+            "unrealized_pnl": -0.36687,
+            "value": -6.88,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.44444,
+            "fees_paid": 0.2222,
+            "mark": 0.44,
+            "market_id": "0x54059aa9810bfa065ac337f6a2cfa8e11ffe174ec21ae8bc560689e0040fed3d",
+            "quantity": -18.0,
+            "realized_pnl": -0.2222,
+            "unrealized_pnl": 0.08,
+            "value": -7.92,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.73,
+            "fees_paid": 0.34493,
+            "mark": 0.75,
+            "market_id": "0x62e0476fe91da05713136609ae0a492c39557cc82795c1c11a4de8d18364238d",
+            "quantity": -35.0,
+            "realized_pnl": -0.34493,
+            "unrealized_pnl": -0.7,
+            "value": -26.25,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.21,
+            "fees_paid": 0.09954,
+            "mark": 0.19,
+            "market_id": "0x521dcb4b434b4bd4b03e656a0d707ae74b4b89a7bf39ae0e60fa182f87319e29",
+            "quantity": -12.0,
+            "realized_pnl": -0.09954,
+            "unrealized_pnl": 0.24,
+            "value": -2.28,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.04,
+            "fees_paid": 0.01536,
+            "mark": 0.06,
+            "market_id": "0x9fe2c7f445b8c8657edf1b90ef4aaaa76804e6e2521bac02640f65d8e0e69a2e",
+            "quantity": -8.0,
+            "realized_pnl": -0.01536,
+            "unrealized_pnl": -0.16,
+            "value": -0.48,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.29,
+            "fees_paid": 0.07207,
+            "mark": 0.3,
+            "market_id": "0xc9fa413ac3658cd39efbcf931cce40bd0012072577d2ff45b53d031ea59b2ceb",
+            "quantity": -7.0,
+            "realized_pnl": -0.07207,
+            "unrealized_pnl": -0.07,
+            "value": -2.1,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.4,
+            "fees_paid": 0.06,
+            "mark": 0.41,
+            "market_id": "0x9257040547b652608253f2d979fcee8b37f15510f2b0d8eab88f6a30eb86c6b9",
+            "quantity": -5.0,
+            "realized_pnl": -0.06,
+            "unrealized_pnl": -0.05,
+            "value": -2.05,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.57,
+            "fees_paid": 0.18383,
+            "mark": 0.56,
+            "market_id": "0x25d05ec09c8770938bbda41ec283939cf3f3c17950595d9d653232f5584f7d0b",
+            "quantity": 15.0,
+            "realized_pnl": -0.18383,
+            "unrealized_pnl": -0.15,
+            "value": 8.4,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.71,
+            "fees_paid": 0.35003,
+            "mark": 0.72,
+            "market_id": "0x6645c07f219f0c883729b8d9f03bf6a2df949043c03da3f61eff359c36fe4c0e",
+            "quantity": -34.0,
+            "realized_pnl": -0.35003,
+            "unrealized_pnl": -0.34,
+            "value": -24.48,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.3636,
+            "fees_paid": 1.83213,
+            "mark": 0.01,
+            "market_id": "0x518139031d79ed41c430723f61155dcc762df27a0a188913d3f7765a79ac0825",
+            "quantity": -88.0,
+            "realized_pnl": -0.78851,
+            "unrealized_pnl": 31.11646,
+            "value": -0.88,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.59389,
+            "fees_paid": 1.28299,
+            "mark": 0.9,
+            "market_id": "0x27ed50353f140c9223ba0da2d6fd5ed31081107706734368a77f0632b3510f0a",
+            "quantity": 64.0,
+            "realized_pnl": 1.81582,
+            "unrealized_pnl": 19.59119,
+            "value": 57.6,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.61,
+            "fees_paid": 0.4889,
+            "mark": 0.92,
+            "market_id": "0xab267d5dcbf29c2c9521c92797415a6a1fd081a2a59292dc2f145034247c790c",
+            "quantity": -1.0,
+            "realized_pnl": -5.0489,
+            "unrealized_pnl": -0.31,
+            "value": -0.92,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.4585,
+            "fees_paid": 0.26069,
+            "mark": 0.01,
+            "market_id": "0x796a47e0069bd042c38c04f9ff510f6924d428eaa2607644436ec82a7c95bdcb",
+            "quantity": 21.0,
+            "realized_pnl": -0.26069,
+            "unrealized_pnl": -9.41856,
+            "value": 0.21,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.509,
+            "fees_paid": 0.11246,
+            "mark": 0.99,
+            "market_id": "0xe012d12f07af8c57c5b3bc5389224f81b92e67349164710deffa448a83514eeb",
+            "quantity": -9.0,
+            "realized_pnl": -0.11246,
+            "unrealized_pnl": -4.329,
+            "value": -8.91,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.57,
+            "fees_paid": 0.19608,
+            "mark": 0.58,
+            "market_id": "0xd3389a000a98db0cff788758c30da51c29b1acb85f6c81cea53483419bc606cb",
+            "quantity": -16.0,
+            "realized_pnl": -0.19608,
+            "unrealized_pnl": -0.16,
+            "value": -9.28,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": -68.27268,
+        "return_pct": -3.3326,
+        "settlement_fills": 43,
+        "starting_cash": 1000.0,
+        "total_pnl": -33.32602,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 34.94666,
+        "updated_at": "2026-09-14T23:04:26.589840+00:00"
+      },
+      "metrics": {
+        "closed_copies": 266,
+        "copied_markets": 60,
+        "copied_wallets": 54,
+        "copies": 333,
+        "copy_reasons": {
+          "cooldown": 144,
+          "copy": 333,
+          "no_print_within_window": 15,
+          "price_out_of_bounds": 39,
+          "size_below_one_contract": 1
+        },
+        "equity_point": {
+          "drawdown": 33.32602,
+          "equity": 966.67398,
+          "total_pnl": -33.32602
+        },
+        "events": {
+          "fill": 333,
+          "order_acknowledged": 333,
+          "order_rejected": 16,
+          "order_submitted": 333
+        },
+        "family": "tennis_copy",
+        "lag": "30s",
+        "lag_seconds": 30,
+        "resolved_copies": 266,
+        "risk_rejections": [
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 147 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 147 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 147 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 150 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 150 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 150 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xea7431f4b003efe127578c25e155c06cfcd64e76ef185749272b83e4cbd3156f",
+            "reason": "projected position -127 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xb8b4d594afc2ac0988ed1b9448be9c05b08f11e137dcb64c90e9eb18df94c31b",
+            "reason": "projected position -102 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xb646c4f1fdb16063e57fa8253e5b40dfa0e46da6866643e7cd45284cb05d287c",
+            "reason": "projected position 116 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d43d5758f0c9869c63a1b1ef3bc38ad33e6462ce1dd6752ded429d4f7492db2",
+            "reason": "projected position 160 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -141 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -141 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xc2c07f8b2276aed610ee446b9e107672fcd35451243aa5cf2de685b3a13dab66",
+            "reason": "projected position 222 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x524007ca86e5f996fc9880e546bbcfa0cb28bb557dafe1157ccfc91dc7672171",
+            "reason": "projected position -183 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x302cd16140548ec461998cdf27c40f330d4f29f4bbc69cbece097d9d0b774fa5",
+            "reason": "projected position -116 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x3a6805c40816d9b0cf43baa932c4330c1788a4eef0e25c3ec4610d219be1d603",
+            "reason": "projected position 120 exceeds 100",
+            "venue": "polymarket"
+          }
+        ],
+        "snapshot": {
+          "polymarket": {
+            "errors": [
+              "resolved_listing[page 21]: HTTPStatusError: Client error '422 Unprocessable Entity' for url 'https://gamma-api.polymarket.com/markets?closed=true&tag_id=864&order=closedTime&ascending=false&limit=100&offset=2100'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422"
+            ],
+            "markets": 127,
+            "prints": 27450,
+            "source": "network"
+          }
+        },
+        "stake_usdc": 2376.94
+      },
+      "notes": "Paper copy of qualified tennis whales' taker prints 30s after the print, at the first executed print on the market plus slippage, venue taker fee, $10 stake per copy capped by the print size; $25/order, 100 contracts/market, $75 daily-loss rails. Resolved markets settled in the ledger, open ones marked at the last print.",
+      "paper_fills": 333,
+      "proposed_orders": 349,
+      "refused_by_reason": {
+        "cooldown": 144,
+        "no_print_within_window": 15,
+        "price_out_of_bounds": 39,
+        "risk_projected": 16,
+        "size_below_one_contract": 1
+      },
+      "reject_reasons": {
+        "cooldown": 144,
+        "no_print_within_window": 15,
+        "price_out_of_bounds": 39,
+        "risk_projected": 16,
+        "size_below_one_contract": 1
+      },
+      "rejects": 199,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "tennis_whale_copy_30s"
+    },
+    {
+      "admitted": 339,
+      "candidates": 548,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 0.9646,
+      "label": "Tennis whale copy (2 min lag)",
+      "ledger": {
+        "cash": 921.7326,
+        "concentration": [
+          {
+            "venue": "polymarket",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:04:26.440606+00:00",
+        "equity": 857.97994,
+        "equity_points": 1,
+        "fees_paid": 53.03315,
+        "fills": 370,
+        "gross_notional": 170.97265,
+        "ledger_id": "tennis_whale_copy_2m",
+        "mark_method": "mid",
+        "max_drawdown": 142.02006,
+        "net_exposure": -63.75265,
+        "open_positions": 15,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -63.75265,
+        "positions": [
+          {
+            "average_price": 0.41781,
+            "fees_paid": 4.7358,
+            "mark": 0.27,
+            "market_id": "0x0bd25ac45bb59731aa3cd124513061fba39168bac6cdf8b46a9f3ac76a3323e8",
+            "quantity": -54.0,
+            "realized_pnl": -1.77735,
+            "unrealized_pnl": 7.98155,
+            "value": -14.58,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.42,
+            "fees_paid": 0.02436,
+            "mark": 0.43,
+            "market_id": "0x84940eabcae7bfcc49050b3c83bf91da5a0b6a04fcfa6fc8928725a6f8d74b80",
+            "quantity": -2.0,
+            "realized_pnl": -0.02436,
+            "unrealized_pnl": -0.02,
+            "value": -0.86,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.44867,
+            "fees_paid": 0.37103,
+            "mark": 0.44,
+            "market_id": "0x54059aa9810bfa065ac337f6a2cfa8e11ffe174ec21ae8bc560689e0040fed3d",
+            "quantity": -30.0,
+            "realized_pnl": -0.37103,
+            "unrealized_pnl": 0.26,
+            "value": -13.2,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.73,
+            "fees_paid": 0.34493,
+            "mark": 0.75,
+            "market_id": "0x62e0476fe91da05713136609ae0a492c39557cc82795c1c11a4de8d18364238d",
+            "quantity": -35.0,
+            "realized_pnl": -0.34493,
+            "unrealized_pnl": -0.7,
+            "value": -26.25,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.19552,
+            "fees_paid": 0.07078,
+            "mark": 0.19,
+            "market_id": "0x521dcb4b434b4bd4b03e656a0d707ae74b4b89a7bf39ae0e60fa182f87319e29",
+            "quantity": -9.0,
+            "realized_pnl": -0.07078,
+            "unrealized_pnl": 0.04972,
+            "value": -1.71,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.04,
+            "fees_paid": 0.0192,
+            "mark": 0.06,
+            "market_id": "0x9fe2c7f445b8c8657edf1b90ef4aaaa76804e6e2521bac02640f65d8e0e69a2e",
+            "quantity": -10.0,
+            "realized_pnl": -0.0192,
+            "unrealized_pnl": -0.2,
+            "value": -0.6,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.29,
+            "fees_paid": 0.14413,
+            "mark": 0.3,
+            "market_id": "0xc9fa413ac3658cd39efbcf931cce40bd0012072577d2ff45b53d031ea59b2ceb",
+            "quantity": -14.0,
+            "realized_pnl": -0.14413,
+            "unrealized_pnl": -0.14,
+            "value": -4.2,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.36,
+            "fees_paid": 0.1728,
+            "mark": 0.35551,
+            "market_id": "0x5d60709f598cc61c7c7025fe477f01f01a9f979c3a848730fe7f5ed1e783f04c",
+            "quantity": -15.0,
+            "realized_pnl": -0.1728,
+            "unrealized_pnl": 0.06734,
+            "value": -5.33266,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.57,
+            "fees_paid": 0.18383,
+            "mark": 0.56,
+            "market_id": "0x25d05ec09c8770938bbda41ec283939cf3f3c17950595d9d653232f5584f7d0b",
+            "quantity": 15.0,
+            "realized_pnl": -0.18383,
+            "unrealized_pnl": -0.15,
+            "value": 8.4,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.71,
+            "fees_paid": 0.35003,
+            "mark": 0.72,
+            "market_id": "0x6645c07f219f0c883729b8d9f03bf6a2df949043c03da3f61eff359c36fe4c0e",
+            "quantity": -34.0,
+            "realized_pnl": -0.35003,
+            "unrealized_pnl": -0.34,
+            "value": -24.48,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.35803,
+            "fees_paid": 2.16316,
+            "mark": 0.01,
+            "market_id": "0x518139031d79ed41c430723f61155dcc762df27a0a188913d3f7765a79ac0825",
+            "quantity": -31.0,
+            "realized_pnl": 9.84684,
+            "unrealized_pnl": 10.789,
+            "value": -0.31,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.704,
+            "fees_paid": 1.28429,
+            "mark": 0.9,
+            "market_id": "0x27ed50353f140c9223ba0da2d6fd5ed31081107706734368a77f0632b3510f0a",
+            "quantity": 50.0,
+            "realized_pnl": -1.12429,
+            "unrealized_pnl": 9.8,
+            "value": 45.0,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.66,
+            "fees_paid": 0.40155,
+            "mark": 0.92,
+            "market_id": "0xab267d5dcbf29c2c9521c92797415a6a1fd081a2a59292dc2f145034247c790c",
+            "quantity": -18.0,
+            "realized_pnl": -2.28155,
+            "unrealized_pnl": -4.68,
+            "value": -16.56,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.4585,
+            "fees_paid": 0.26069,
+            "mark": 0.01,
+            "market_id": "0x796a47e0069bd042c38c04f9ff510f6924d428eaa2607644436ec82a7c95bdcb",
+            "quantity": 21.0,
+            "realized_pnl": -0.26069,
+            "unrealized_pnl": -9.41856,
+            "value": 0.21,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.57,
+            "fees_paid": 0.19608,
+            "mark": 0.58,
+            "market_id": "0xd3389a000a98db0cff788758c30da51c29b1acb85f6c81cea53483419bc606cb",
+            "quantity": -16.0,
+            "realized_pnl": -0.19608,
+            "unrealized_pnl": -0.16,
+            "value": -9.28,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": -155.15911,
+        "return_pct": -14.20201,
+        "settlement_fills": 43,
+        "starting_cash": 1000.0,
+        "total_pnl": -142.02006,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 13.13906,
+        "updated_at": "2026-09-14T23:04:26.591169+00:00"
+      },
+      "metrics": {
+        "closed_copies": 262,
+        "copied_markets": 58,
+        "copied_wallets": 52,
+        "copies": 327,
+        "copy_reasons": {
+          "cooldown": 147,
+          "copy": 327,
+          "no_print_within_window": 17,
+          "price_out_of_bounds": 43,
+          "size_below_one_contract": 2
+        },
+        "equity_point": {
+          "drawdown": 142.02006,
+          "equity": 857.97994,
+          "total_pnl": -142.02006
+        },
+        "events": {
+          "fill": 327,
+          "order_acknowledged": 327,
+          "order_rejected": 12,
+          "order_submitted": 327
+        },
+        "family": "tennis_copy",
+        "lag": "2m",
+        "lag_seconds": 120,
+        "resolved_copies": 262,
+        "risk_rejections": [
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 104 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -222 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -269 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xb4a77c9272a8a6b25b06cede4b454186773bdb29a5a4317e2e614d2aacdc2c51",
+            "reason": "projected position -152 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x524007ca86e5f996fc9880e546bbcfa0cb28bb557dafe1157ccfc91dc7672171",
+            "reason": "projected position -112 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x2582c61a365cd1414c2607a9a8cd7cc557cd8b37079588782a995db673f6ce02",
+            "reason": "projected position -111 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x524007ca86e5f996fc9880e546bbcfa0cb28bb557dafe1157ccfc91dc7672171",
+            "reason": "projected position -104 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x36ba1235b2696fb16311fb3810e08d8198e144ef3bd7fa6ab51ac4da7b8db74b",
+            "reason": "projected position -141 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x36ba1235b2696fb16311fb3810e08d8198e144ef3bd7fa6ab51ac4da7b8db74b",
+            "reason": "projected position -168 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x36ba1235b2696fb16311fb3810e08d8198e144ef3bd7fa6ab51ac4da7b8db74b",
+            "reason": "projected position -196 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x78972130b80db09446e75cbea5e4324ded453e1237e00d01c6ae8578bf76e279",
+            "reason": "projected position 184 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xdb4b523a2da86baf17d97e678a91c70f2c9ceef76da11f34bd6aaaa12346e1f1",
+            "reason": "projected position -105 exceeds 100",
+            "venue": "polymarket"
+          }
+        ],
+        "snapshot": {
+          "polymarket": {
+            "errors": [
+              "resolved_listing[page 21]: HTTPStatusError: Client error '422 Unprocessable Entity' for url 'https://gamma-api.polymarket.com/markets?closed=true&tag_id=864&order=closedTime&ascending=false&limit=100&offset=2100'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422"
+            ],
+            "markets": 127,
+            "prints": 27450,
+            "source": "network"
+          }
+        },
+        "stake_usdc": 2345.23
+      },
+      "notes": "Paper copy of qualified tennis whales' taker prints 2m after the print, at the first executed print on the market plus slippage, venue taker fee, $10 stake per copy capped by the print size; $25/order, 100 contracts/market, $75 daily-loss rails. Resolved markets settled in the ledger, open ones marked at the last print.",
+      "paper_fills": 327,
+      "proposed_orders": 339,
+      "refused_by_reason": {
+        "cooldown": 147,
+        "no_print_within_window": 17,
+        "price_out_of_bounds": 43,
+        "risk_projected": 12,
+        "size_below_one_contract": 2
+      },
+      "reject_reasons": {
+        "cooldown": 147,
+        "no_print_within_window": 17,
+        "price_out_of_bounds": 43,
+        "risk_projected": 12,
+        "size_below_one_contract": 2
+      },
+      "rejects": 209,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "tennis_whale_copy_2m"
+    },
+    {
+      "admitted": 298,
+      "candidates": 548,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 0.9631,
+      "label": "Tennis whale copy (10 min lag)",
+      "ledger": {
+        "cash": 922.58862,
+        "concentration": [
+          {
+            "venue": "polymarket",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:04:26.440629+00:00",
+        "equity": 837.28331,
+        "equity_points": 1,
+        "fees_paid": 47.25156,
+        "fills": 329,
+        "gross_notional": 111.06531,
+        "ledger_id": "tennis_whale_copy_10m",
+        "mark_method": "mid",
+        "max_drawdown": 162.71669,
+        "net_exposure": -85.30531,
+        "open_positions": 11,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -85.30531,
+        "positions": [
+          {
+            "average_price": 0.35,
+            "fees_paid": 0.3411,
+            "mark": 0.35551,
+            "market_id": "0x5d60709f598cc61c7c7025fe477f01f01a9f979c3a848730fe7f5ed1e783f04c",
+            "quantity": -30.0,
+            "realized_pnl": -0.3411,
+            "unrealized_pnl": -0.16531,
+            "value": -10.66531,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.40004,
+            "fees_paid": 3.52432,
+            "mark": 0.27,
+            "market_id": "0x0bd25ac45bb59731aa3cd124513061fba39168bac6cdf8b46a9f3ac76a3323e8",
+            "quantity": -48.0,
+            "realized_pnl": -4.45622,
+            "unrealized_pnl": 6.2419,
+            "value": -12.96,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.42,
+            "fees_paid": 0.04872,
+            "mark": 0.43,
+            "market_id": "0x84940eabcae7bfcc49050b3c83bf91da5a0b6a04fcfa6fc8928725a6f8d74b80",
+            "quantity": -4.0,
+            "realized_pnl": -0.04872,
+            "unrealized_pnl": -0.04,
+            "value": -1.72,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.44029,
+            "fees_paid": 0.43109,
+            "mark": 0.44,
+            "market_id": "0x54059aa9810bfa065ac337f6a2cfa8e11ffe174ec21ae8bc560689e0040fed3d",
+            "quantity": -35.0,
+            "realized_pnl": -0.43109,
+            "unrealized_pnl": 0.01,
+            "value": -15.4,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.73,
+            "fees_paid": 0.1971,
+            "mark": 0.75,
+            "market_id": "0x62e0476fe91da05713136609ae0a492c39557cc82795c1c11a4de8d18364238d",
+            "quantity": -20.0,
+            "realized_pnl": -0.1971,
+            "unrealized_pnl": -0.4,
+            "value": -15.0,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.21,
+            "fees_paid": 0.09954,
+            "mark": 0.19,
+            "market_id": "0x521dcb4b434b4bd4b03e656a0d707ae74b4b89a7bf39ae0e60fa182f87319e29",
+            "quantity": -12.0,
+            "realized_pnl": -0.09954,
+            "unrealized_pnl": 0.24,
+            "value": -2.28,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.29,
+            "fees_paid": 0.0103,
+            "mark": 0.3,
+            "market_id": "0xc9fa413ac3658cd39efbcf931cce40bd0012072577d2ff45b53d031ea59b2ceb",
+            "quantity": -1.0,
+            "realized_pnl": -0.0103,
+            "unrealized_pnl": -0.01,
+            "value": -0.3,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.71,
+            "fees_paid": 0.35003,
+            "mark": 0.72,
+            "market_id": "0x6645c07f219f0c883729b8d9f03bf6a2df949043c03da3f61eff359c36fe4c0e",
+            "quantity": -34.0,
+            "realized_pnl": -0.35003,
+            "unrealized_pnl": -0.34,
+            "value": -24.48,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.16025,
+            "fees_paid": 2.57911,
+            "mark": 0.01,
+            "market_id": "0x518139031d79ed41c430723f61155dcc762df27a0a188913d3f7765a79ac0825",
+            "quantity": -8.0,
+            "realized_pnl": 15.53489,
+            "unrealized_pnl": 1.202,
+            "value": -0.08,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.5835,
+            "fees_paid": 1.15336,
+            "mark": 0.9,
+            "market_id": "0x27ed50353f140c9223ba0da2d6fd5ed31081107706734368a77f0632b3510f0a",
+            "quantity": -17.0,
+            "realized_pnl": -9.44286,
+            "unrealized_pnl": -5.3805,
+            "value": -15.3,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.94857,
+            "fees_paid": 0.12017,
+            "mark": 0.92,
+            "market_id": "0xab267d5dcbf29c2c9521c92797415a6a1fd081a2a59292dc2f145034247c790c",
+            "quantity": 14.0,
+            "realized_pnl": -1.50017,
+            "unrealized_pnl": -0.4,
+            "value": 12.88,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": -163.67478,
+        "return_pct": -16.27167,
+        "settlement_fills": 42,
+        "starting_cash": 1000.0,
+        "total_pnl": -162.71669,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.95809,
+        "updated_at": "2026-09-14T23:04:26.592445+00:00"
+      },
+      "metrics": {
+        "closed_copies": 228,
+        "copied_markets": 53,
+        "copied_wallets": 50,
+        "copies": 287,
+        "copy_reasons": {
+          "cooldown": 133,
+          "copy": 287,
+          "no_print_within_window": 29,
+          "price_out_of_bounds": 84,
+          "size_below_one_contract": 4
+        },
+        "equity_point": {
+          "drawdown": 162.71669,
+          "equity": 837.28331,
+          "total_pnl": -162.71669
+        },
+        "events": {
+          "fill": 287,
+          "order_acknowledged": 287,
+          "order_rejected": 11,
+          "order_submitted": 287
+        },
+        "family": "tennis_copy",
+        "lag": "10m",
+        "lag_seconds": 600,
+        "resolved_copies": 228,
+        "risk_rejections": [
+          {
+            "market_id": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+            "reason": "projected position 120 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -106 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d43d5758f0c9869c63a1b1ef3bc38ad33e6462ce1dd6752ded429d4f7492db2",
+            "reason": "projected position 207 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -220 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+            "reason": "projected position -278 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xc2ec86de8dfffe3af25283d1295c6c9bb6fde41f729aa3cc56a8ed0fd65cdbbb",
+            "reason": "projected position -104 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0xc2c07f8b2276aed610ee446b9e107672fcd35451243aa5cf2de685b3a13dab66",
+            "reason": "projected position 538 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x77acf73f6d39d480266913cbe996a117b5fa7e301dfd6ebcbefa727eb1979153",
+            "reason": "projected position 178 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x36ba1235b2696fb16311fb3810e08d8198e144ef3bd7fa6ab51ac4da7b8db74b",
+            "reason": "projected position -122 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x3a6805c40816d9b0cf43baa932c4330c1788a4eef0e25c3ec4610d219be1d603",
+            "reason": "projected position 176 exceeds 100",
+            "venue": "polymarket"
+          },
+          {
+            "market_id": "0x3a6805c40816d9b0cf43baa932c4330c1788a4eef0e25c3ec4610d219be1d603",
+            "reason": "projected position 147 exceeds 100",
+            "venue": "polymarket"
+          }
+        ],
+        "snapshot": {
+          "polymarket": {
+            "errors": [
+              "resolved_listing[page 21]: HTTPStatusError: Client error '422 Unprocessable Entity' for url 'https://gamma-api.polymarket.com/markets?closed=true&tag_id=864&order=closedTime&ascending=false&limit=100&offset=2100'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422"
+            ],
+            "markets": 127,
+            "prints": 27450,
+            "source": "network"
+          }
+        },
+        "stake_usdc": 2086.16
+      },
+      "notes": "Paper copy of qualified tennis whales' taker prints 10m after the print, at the first executed print on the market plus slippage, venue taker fee, $10 stake per copy capped by the print size; $25/order, 100 contracts/market, $75 daily-loss rails. Resolved markets settled in the ledger, open ones marked at the last print.",
+      "paper_fills": 287,
+      "proposed_orders": 298,
+      "refused_by_reason": {
+        "cooldown": 133,
+        "no_print_within_window": 29,
+        "price_out_of_bounds": 84,
+        "risk_projected": 11,
+        "size_below_one_contract": 4
+      },
+      "reject_reasons": {
+        "cooldown": 133,
+        "no_print_within_window": 29,
+        "price_out_of_bounds": 84,
+        "risk_projected": 11,
+        "size_below_one_contract": 4
+      },
+      "rejects": 250,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "tennis_whale_copy_10m"
+    }
+  ]
+}

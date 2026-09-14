@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T230348Z-tennis-63ad64de.json"
+  ],
+  "run_id": "20260914T230348Z-tennis-63ad64de",
+  "mode": "network",
+  "measured_at": "2026-09-14T23:03:48.174731+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / TENNIS WHALE COPY",
+  "venues": [
+    "polymarket"
+  ],
+  "venue_focus": "polymarket",
+  "kalshi_env": null,
+  "track_family": "tennis_copy",
+  "primary_track": "tennis_whale_copy_30s",
+  "run_kind": "tennis_whale_copy",
+  "tennis_whale_copy": {
+    "copies": 947,
+    "headline": "105 whales, 947 paper copies. Overall FAIL; kill rule continue. 30s: FAIL (n=333, settlement ROI -0.102162 [-0.258601, 0.088682], CLV ROI -0.101346 [-0.266168, 0.075869]); 2m: FAIL (n=327, settlement ROI -0.11135 [-0.259805, 0.053165], CLV ROI -0.110395 [-0.258032, 0.057046]); 10m: FAIL (n=287, settlement ROI -0.071732 [-0.252248, 0.112734], CLV ROI -0.070763 [-0.253102, 0.109937])",
+    "kill_rule": {
+      "components": {
+        "copy_negative_all_lags": false,
+        "lags_evaluable": 3,
+        "whale_own_evaluable": true,
+        "whale_own_negative": false
+      },
+      "reason": "no trigger: some lag or the whale-own benchmark is not significantly negative",
+      "status": "continue",
+      "triggered": false
+    },
+    "overall_verdict": "FAIL",
+    "report": "tennis_whale_report_latest.json",
+    "status": "measured_from_public_tape",
+    "verdicts": {
+      "copy_ev_or_clv_positive_10m": "FAIL",
+      "copy_ev_or_clv_positive_2m": "FAIL",
+      "copy_ev_or_clv_positive_30s": "FAIL",
+      "copy_portfolio_positive_at_any_lag": "FAIL",
+      "kalshi_whales_identifiable": "NOT_IDENTIFIABLE",
+      "kill_rule": "CONTINUE"
+    },
+    "whales": 105
+  },
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 1644,
+    "admitted": 986,
+    "rejects": 658,
+    "proposed_orders": 986,
+    "paper_fills": 947,
+    "paper_pnl": -338.07,
+    "realized_pnl": -387.1,
+    "unrealized_pnl": 49.05,
+    "fees_paid": 152.59
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "tennis_whale_copy_30s",
+      "label": "Tennis whale copy (30 s lag)",
+      "family": "tennis_copy",
+      "candidates": 548,
+      "admitted": 349,
+      "rejects": 199,
+      "proposed_orders": 349,
+      "paper_fills": 333,
+      "fill_rate": 0.9542,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "cooldown": 144,
+        "no_print_within_window": 15,
+        "price_out_of_bounds": 39,
+        "risk_projected": 16,
+        "size_below_one_contract": 1
+      },
+      "notes": "Paper copy of qualified tennis whales' taker prints 30s after the print, at the first executed print on the market plus slippage, venue taker fee, $10 stake per copy capped by the print size; $25/order, 100 contracts/market, $75 daily-loss rails. Resolved markets settled in the ledger, open ones marked at the last print.",
+      "ledger": {
+        "ledger_id": "tennis_whale_copy_30s",
+        "starting_cash": 1000,
+        "cash": 1002.7493,
+        "equity": 966.67398,
+        "realized_pnl": -68.27,
+        "unrealized_pnl": 34.95,
+        "total_pnl": -33.33,
+        "fees_paid": 52.31,
+        "fills": 376,
+        "open_positions": 17,
+        "max_drawdown": 33.32602
+      }
+    },
+    {
+      "track": "tennis_whale_copy_2m",
+      "label": "Tennis whale copy (2 min lag)",
+      "family": "tennis_copy",
+      "candidates": 548,
+      "admitted": 339,
+      "rejects": 209,
+      "proposed_orders": 339,
+      "paper_fills": 327,
+      "fill_rate": 0.9646,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "cooldown": 147,
+        "no_print_within_window": 17,
+        "price_out_of_bounds": 43,
+        "risk_projected": 12,
+        "size_below_one_contract": 2
+      },
+      "notes": "Paper copy of qualified tennis whales' taker prints 2m after the print, at the first executed print on the market plus slippage, venue taker fee, $10 stake per copy capped by the print size; $25/order, 100 contracts/market, $75 daily-loss rails. Resolved markets settled in the ledger, open ones marked at the last print.",
+      "ledger": {
+        "ledger_id": "tennis_whale_copy_2m",
+        "starting_cash": 1000,
+        "cash": 921.7326,
+        "equity": 857.97994,
+        "realized_pnl": -155.16,
+        "unrealized_pnl": 13.14,
+        "total_pnl": -142.02,
+        "fees_paid": 53.03,
+        "fills": 370,
+        "open_positions": 15,
+        "max_drawdown": 142.02006
+      }
+    },
+    {
+      "track": "tennis_whale_copy_10m",
+      "label": "Tennis whale copy (10 min lag)",
+      "family": "tennis_copy",
+      "candidates": 548,
+      "admitted": 298,
+      "rejects": 250,
+      "proposed_orders": 298,
+      "paper_fills": 287,
+      "fill_rate": 0.9631,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "cooldown": 133,
+        "no_print_within_window": 29,
+        "price_out_of_bounds": 84,
+        "risk_projected": 11,
+        "size_below_one_contract": 4
+      },
+      "notes": "Paper copy of qualified tennis whales' taker prints 10m after the print, at the first executed print on the market plus slippage, venue taker fee, $10 stake per copy capped by the print size; $25/order, 100 contracts/market, $75 daily-loss rails. Resolved markets settled in the ledger, open ones marked at the last print.",
+      "ledger": {
+        "ledger_id": "tennis_whale_copy_10m",
+        "starting_cash": 1000,
+        "cash": 922.58862,
+        "equity": 837.28331,
+        "realized_pnl": -163.67,
+        "unrealized_pnl": 0.96,
+        "total_pnl": -162.72,
+        "fees_paid": 47.25,
+        "fills": 329,
+        "open_positions": 11,
+        "max_drawdown": 162.71669
+      }
+    }
+  ]
+}

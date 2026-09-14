@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-14T21:46:54.328Z",
+  "generated_at": "2026-09-14T23:05:33.218Z",
   "schema_version": "1.2.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 13,
-    "measured": 12,
+    "total": 14,
+    "measured": 13,
     "sample": 1,
     "backtest": 0
   },
   "modes": {
-    "network": 8,
+    "network": 9,
     "fixtures": 5
   },
   "latest_run_id": "20260914T214601Z-d5338a8c",
@@ -104,6 +104,20 @@
       "sample_runs": 0
     },
     {
+      "id": "tennis_copy",
+      "label": "Tennis copy",
+      "description": "Polymarket tennis whale copy at 30 s / 2 min / 10 min lags (tape replay)",
+      "lane": false,
+      "tracks": [
+        "tennis_whale_copy_10m",
+        "tennis_whale_copy_2m",
+        "tennis_whale_copy_30s"
+      ],
+      "runs": 1,
+      "measured_runs": 1,
+      "sample_runs": 0
+    },
+    {
       "id": "other",
       "label": "Other",
       "description": "Tracks not matched to a family",
@@ -176,6 +190,80 @@
     }
   ],
   "runs": [
+    {
+      "run_id": "20260914T230348Z-tennis-63ad64de",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / TENNIS WHALE COPY",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-14T23:03:48.174731+00:00",
+      "generated_at": "2026-09-14T23:04:26.853628+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "tennis_whale_copy_30s",
+      "track_family": "tennis_copy",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 1644,
+        "admitted": 986,
+        "rejects": 658,
+        "paper_fills": 947,
+        "paper_pnl": -338.06,
+        "realized_pnl": -387.11,
+        "unrealized_pnl": 49.04,
+        "fees_paid": 152.6
+      },
+      "tracks": [
+        {
+          "track": "tennis_whale_copy_30s",
+          "label": "Tennis whale copy (30 s lag)",
+          "family": "tennis_copy",
+          "candidates": 548,
+          "admitted": 349,
+          "paper_fills": 333,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -33.33
+        },
+        {
+          "track": "tennis_whale_copy_2m",
+          "label": "Tennis whale copy (2 min lag)",
+          "family": "tennis_copy",
+          "candidates": 548,
+          "admitted": 339,
+          "paper_fills": 327,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -142.02
+        },
+        {
+          "track": "tennis_whale_copy_10m",
+          "label": "Tennis whale copy (10 min lag)",
+          "family": "tennis_copy",
+          "candidates": 548,
+          "admitted": 298,
+          "paper_fills": 287,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -162.72
+        }
+      ],
+      "gate": null,
+      "artifacts": [
+        "scoreboard_tennis_whale.json",
+        "runs/20260914T230348Z-tennis-63ad64de.json"
+      ],
+      "detail": "/artifacts/scoreboard_tennis_whale.json",
+      "families": [
+        "tennis_copy"
+      ],
+      "is_latest": false
+    },
     {
       "run_id": "20260914T214602Z-flb-aed44114",
       "kind": "paper_run",
@@ -2077,6 +2165,48 @@
       "total_pnl": 0,
       "max_drawdown": 0,
       "artifact": "/artifacts/paper_ledger_sports_cross_venue.json"
+    },
+    {
+      "ledger_id": "tennis_whale_copy_10m",
+      "track": "tennis_whale_copy_10m",
+      "family": "tennis_copy",
+      "updated_at": "2026-09-14T23:04:26.592445+00:00",
+      "mark_method": "mid",
+      "fills": 329,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 837.28331,
+      "total_pnl": -162.72,
+      "max_drawdown": 162.71669,
+      "artifact": "/artifacts/paper_ledger_tennis_whale_copy_10m.json"
+    },
+    {
+      "ledger_id": "tennis_whale_copy_2m",
+      "track": "tennis_whale_copy_2m",
+      "family": "tennis_copy",
+      "updated_at": "2026-09-14T23:04:26.591169+00:00",
+      "mark_method": "mid",
+      "fills": 370,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 857.97994,
+      "total_pnl": -142.02,
+      "max_drawdown": 142.02006,
+      "artifact": "/artifacts/paper_ledger_tennis_whale_copy_2m.json"
+    },
+    {
+      "ledger_id": "tennis_whale_copy_30s",
+      "track": "tennis_whale_copy_30s",
+      "family": "tennis_copy",
+      "updated_at": "2026-09-14T23:04:26.589840+00:00",
+      "mark_method": "mid",
+      "fills": 376,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 966.67398,
+      "total_pnl": -33.33,
+      "max_drawdown": 33.32602,
+      "artifact": "/artifacts/paper_ledger_tennis_whale_copy_30s.json"
     },
     {
       "ledger_id": "ungated_cross_venue_macro",

@@ -1,0 +1,1976 @@
+{
+  "assumptions": {
+    "clv": "Closing line = YES-equivalent price of the last print strictly before Gamma closedTime (or the last print when closedTime is missing). CLV ROI is (signed*(close - entry)*qty - fee)/stake.",
+    "copy_price": "First executed print on the same market at or after signal_time + lag, plus slippage_ticks against us. A print is evidence liquidity existed; it is not a resting quote.",
+    "copy_size": "stake_per_copy / price, whole contracts, capped by the reference print's size (no depth on the tape). Risk rails: $25/order, 100 contracts/market, $75 daily loss.",
+    "farmer_filter": "two_sided_share = markets where the wallet ended up long both outcomes / markets traded; above max_two_sided_share the wallet's prints are refused two_sided_flow.",
+    "fees": "Polymarket taker fee C*rate*p*(1-p) with rate from Gamma feeType (sports 5%); makers pay nothing; rebates ignored.",
+    "fixture": "Network tape harvested from public endpoints at harvested_at; see universe.",
+    "kalshi": "Not identifiable: public /markets/trades carries no account identity. Whether tennis series are listed is recorded but changes nothing.",
+    "settlement": "Resolved markets (umaResolutionStatus=resolved, outcomePrices 1/0) settle in the ledger at 1/0; open positions marked at the last print's YES-equivalent price and counted as unrealized.",
+    "whale_definition": "Walk-forward: min_large_fills taker prints >= large_fill_notional USDC across >= min_markets tennis markets, all strictly before the print being evaluated."
+  },
+  "copies_by_market": [
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 24,
+        "2m": 25,
+        "30s": 24
+      },
+      "market": "0x0bd25ac45bb59731aa3cd124513061fba39168bac6cdf8b46a9f3ac76a3323e8",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 528.14,
+      "title": "Guadalajara Open Akron: Tatjana Maria vs Taylor Townsend",
+      "wallets": 15
+    },
+    {
+      "clv_pnl": 146.4154,
+      "copies_by_lag": {
+        "10m": 20,
+        "2m": 20,
+        "30s": 20
+      },
+      "market": "0xe5aeb84ebe22a3abeb1f4ea2b50ec4281b34f1263f2e660fb7b21e5108e64d9e",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 146.5674,
+      "stake_usdc": 478.29,
+      "title": "Guangzhou: Colin Sinclair vs Linang Xiao",
+      "wallets": 11
+    },
+    {
+      "clv_pnl": 63.5836,
+      "copies_by_lag": {
+        "10m": 18,
+        "2m": 18,
+        "30s": 19
+      },
+      "market": "0x2582c61a365cd1414c2607a9a8cd7cc557cd8b37079588782a995db673f6ce02",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 63.7376,
+      "stake_usdc": 396.22,
+      "title": "Caldas da Rainha: Erika Andreeva vs Viktoria Hruncakova",
+      "wallets": 11
+    },
+    {
+      "clv_pnl": -53.2593,
+      "copies_by_lag": {
+        "10m": 15,
+        "2m": 20,
+        "30s": 20
+      },
+      "market": "0x3a6805c40816d9b0cf43baa932c4330c1788a4eef0e25c3ec4610d219be1d603",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -53.4603,
+      "stake_usdc": 348.13,
+      "title": "Guadalajara Open Akron: Elvina Kalieva vs Kayla Day",
+      "wallets": 13
+    },
+    {
+      "clv_pnl": -86.9087,
+      "copies_by_lag": {
+        "10m": 13,
+        "2m": 15,
+        "30s": 15
+      },
+      "market": "0x8d2e270e17fcaece7d60e222442d75206894fef808b0633cc96ea7ef845870c7",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -87.0787,
+      "stake_usdc": 331.12,
+      "title": "Guangzhou: Elias Ymer vs Semen Pankin",
+      "wallets": 9
+    },
+    {
+      "clv_pnl": -8.7828,
+      "copies_by_lag": {
+        "10m": 14,
+        "2m": 15,
+        "30s": 15
+      },
+      "market": "0xc2ec86de8dfffe3af25283d1295c6c9bb6fde41f729aa3cc56a8ed0fd65cdbbb",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -8.8068,
+      "stake_usdc": 327.73,
+      "title": "Ljubljana: Miriam Bulgaru vs Lina Gjorcheska",
+      "wallets": 9
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 15,
+        "2m": 15,
+        "30s": 15
+      },
+      "market": "0x518139031d79ed41c430723f61155dcc762df27a0a188913d3f7765a79ac0825",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 299.45,
+      "title": "Guadalajara Open Akron: Renata Zarazua vs Caroline Dolehide",
+      "wallets": 12
+    },
+    {
+      "clv_pnl": -100.3471,
+      "copies_by_lag": {
+        "10m": 10,
+        "2m": 11,
+        "30s": 11
+      },
+      "market": "0x76f33d5abb2b4224dc96abbcbdbdde23d761a2f4f6954dffe2d8d9e20031e201",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -100.5031,
+      "stake_usdc": 257.62,
+      "title": "Biella: Jay Clarke vs Jonas Forejtek",
+      "wallets": 8
+    },
+    {
+      "clv_pnl": -83.8417,
+      "copies_by_lag": {
+        "10m": 10,
+        "2m": 11,
+        "30s": 15
+      },
+      "market": "0x36ba1235b2696fb16311fb3810e08d8198e144ef3bd7fa6ab51ac4da7b8db74b",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -84.0897,
+      "stake_usdc": 249.86,
+      "title": "Rennes: Ugo Blanchet vs Billy Harris",
+      "wallets": 11
+    },
+    {
+      "clv_pnl": -56.0819,
+      "copies_by_lag": {
+        "10m": 12,
+        "2m": 12,
+        "30s": 9
+      },
+      "market": "0x21381f8ad69280d14e49104d57311fcda79aebd03b15340e97066222cbaddbd4",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -56.2869,
+      "stake_usdc": 248.55,
+      "title": "Guangzhou: Kaichi Uchida vs Rio Noguchi",
+      "wallets": 7
+    },
+    {
+      "clv_pnl": -100.6747,
+      "copies_by_lag": {
+        "10m": 8,
+        "2m": 9,
+        "30s": 9
+      },
+      "market": "0xd7c1a62328e4aea75a9d28b56233eb0ca56519e8ace0f7690336ee7b75782b94",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -100.9097,
+      "stake_usdc": 224.29,
+      "title": "Tiburon: Ozan Baris vs Evan Zhu",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": -60.0944,
+      "copies_by_lag": {
+        "10m": 7,
+        "2m": 9,
+        "30s": 10
+      },
+      "market": "0xdb4b523a2da86baf17d97e678a91c70f2c9ceef76da11f34bd6aaaa12346e1f1",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -60.2084,
+      "stake_usdc": 197.69,
+      "title": "Rennes: Murphy Cassone vs Inaki Montes",
+      "wallets": 9
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 8,
+        "2m": 9,
+        "30s": 9
+      },
+      "market": "0x27ed50353f140c9223ba0da2d6fd5ed31081107706734368a77f0632b3510f0a",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 195.32,
+      "title": "Tiburon: Alastair Gray vs Patrick Maloney",
+      "wallets": 5
+    },
+    {
+      "clv_pnl": 35.4836,
+      "copies_by_lag": {
+        "10m": 7,
+        "2m": 7,
+        "30s": 8
+      },
+      "market": "0x78972130b80db09446e75cbea5e4324ded453e1237e00d01c6ae8578bf76e279",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 35.3886,
+      "stake_usdc": 191.94,
+      "title": "Tiburon: Spencer Johnson vs Erik Arutiunian",
+      "wallets": 8
+    },
+    {
+      "clv_pnl": -19.5865,
+      "copies_by_lag": {
+        "10m": 6,
+        "2m": 7,
+        "30s": 7
+      },
+      "market": "0x4b82a24378e379b1f366f6a908603526966441350e1375e3c8c79901bba3f4eb",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -19.6095,
+      "stake_usdc": 159.05,
+      "title": "Valencia: Katarzyna Kawa vs Maria Garcia Cid",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": 33.5698,
+      "copies_by_lag": {
+        "10m": 8,
+        "2m": 10,
+        "30s": 9
+      },
+      "market": "0xb646c4f1fdb16063e57fa8253e5b40dfa0e46da6866643e7cd45284cb05d287c",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 33.5658,
+      "stake_usdc": 156.02,
+      "title": "Ljubljana: Arantxa Rus vs Samira De Stefano",
+      "wallets": 6
+    },
+    {
+      "clv_pnl": -22.4912,
+      "copies_by_lag": {
+        "10m": 7,
+        "2m": 9,
+        "30s": 9
+      },
+      "market": "0xc2c07f8b2276aed610ee446b9e107672fcd35451243aa5cf2de685b3a13dab66",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -22.6362,
+      "stake_usdc": 149.63,
+      "title": "Rennes: David Jorda Sanchis vs Lucas Poullain",
+      "wallets": 7
+    },
+    {
+      "clv_pnl": -26.7628,
+      "copies_by_lag": {
+        "10m": 5,
+        "2m": 6,
+        "30s": 7
+      },
+      "market": "0x9b84601b292fe4af2f732aea797d13234ad27857be38a718dd25dc18d4489e81",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -26.9498,
+      "stake_usdc": 141.05,
+      "title": "Guadalajara Open Akron: Carole Monnet vs Sloane Stephens",
+      "wallets": 5
+    },
+    {
+      "clv_pnl": -41.8593,
+      "copies_by_lag": {
+        "10m": 4,
+        "2m": 7,
+        "30s": 7
+      },
+      "market": "0xe27eb96703785345fed69bf64f03301360f9bdc9b7bc71c55344e2c8020fb1c0",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -42.0313,
+      "stake_usdc": 128.18,
+      "title": "Szczecin: Thiago Monteiro vs Stefano Travaglia",
+      "wallets": 6
+    },
+    {
+      "clv_pnl": -36.8572,
+      "copies_by_lag": {
+        "10m": 8,
+        "2m": 6,
+        "30s": 7
+      },
+      "market": "0x524007ca86e5f996fc9880e546bbcfa0cb28bb557dafe1157ccfc91dc7672171",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -37.0292,
+      "stake_usdc": 126.31,
+      "title": "Szczecin: Tom Gentzsch vs Alan Wazny",
+      "wallets": 6
+    },
+    {
+      "clv_pnl": -34.3471,
+      "copies_by_lag": {
+        "10m": 6,
+        "2m": 6,
+        "30s": 6
+      },
+      "market": "0xf4bd82197b09cb4da8586aa3a1407d79830b824ede61f59ec65fb5e0e38be349",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -34.4541,
+      "stake_usdc": 121.56,
+      "title": "Valencia: Eva Bennemann vs Marina Bassols Ribera",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": 4.1068,
+      "copies_by_lag": {
+        "10m": 4,
+        "2m": 5,
+        "30s": 4
+      },
+      "market": "0x302cd16140548ec461998cdf27c40f330d4f29f4bbc69cbece097d9d0b774fa5",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 3.9608,
+      "stake_usdc": 100.22,
+      "title": "Tiburon: Luca Staeheli vs Roger Pascual Ferra",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": 10.472,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 6,
+        "30s": 6
+      },
+      "market": "0x77acf73f6d39d480266913cbe996a117b5fa7e301dfd6ebcbefa727eb1979153",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 10.543,
+      "stake_usdc": 96.27,
+      "title": "Caldas da Rainha: Sinja Kraus vs Mia Pohankova",
+      "wallets": 6
+    },
+    {
+      "clv_pnl": 33.7228,
+      "copies_by_lag": {
+        "10m": 4,
+        "2m": 4,
+        "30s": 5
+      },
+      "market": "0xef816c0cede7a6607cac9949e88265f38bed6d668d6d32a10f13917dadb68cb4",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 33.7358,
+      "stake_usdc": 92.84,
+      "title": "Rennes: Daniel Masur vs Daniel de Jonge",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": -36.7825,
+      "copies_by_lag": {
+        "10m": 5,
+        "2m": 5,
+        "30s": 5
+      },
+      "market": "0xc8a9ed3630ec7aed26143d7fb13f5d512fb9a70ec0031b31ba488d936d1f8897",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -36.8705,
+      "stake_usdc": 83.93,
+      "title": "Valencia: Francesca Curmi vs Veronika Erjavec",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": 52.2371,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 3,
+        "30s": 3
+      },
+      "market": "0xe074a116e89d7c415871aff5674e1f848b8d85dfa20017b11cd95b4599df9ad7",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 52.3671,
+      "stake_usdc": 76.24,
+      "title": "Tiburon: Quinn Vandecasteele vs Bryce Nakashima",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": 50.2518,
+      "copies_by_lag": {
+        "10m": 4,
+        "2m": 4,
+        "30s": 4
+      },
+      "market": "0x06ab9869c06a8202116a55cf6a1d9989e465598af97dec78e5be07585763d8b4",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 50.3378,
+      "stake_usdc": 75.64,
+      "title": "Valencia: Nuria Brancaccio vs Despina Papamichail",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": -37.3052,
+      "copies_by_lag": {
+        "10m": 3,
+        "2m": 4,
+        "30s": 4
+      },
+      "market": "0xb8b4d594afc2ac0988ed1b9448be9c05b08f11e137dcb64c90e9eb18df94c31b",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -37.5402,
+      "stake_usdc": 68.63,
+      "title": "Biella: Alejandro Moro Canas vs Geoffrey Blancaneaux",
+      "wallets": 5
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 3,
+        "2m": 3,
+        "30s": 3
+      },
+      "market": "0xab267d5dcbf29c2c9521c92797415a6a1fd081a2a59292dc2f145034247c790c",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 68.61,
+      "title": "Tiburon: Abedallah Shelbayh vs Tyler Zink",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": -17.3435,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 5,
+        "30s": 5
+      },
+      "market": "0xea7431f4b003efe127578c25e155c06cfcd64e76ef185749272b83e4cbd3156f",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -17.4655,
+      "stake_usdc": 63.39,
+      "title": "Ljubljana: Barbora Palicova vs Gina Feistel",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": -9.5101,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 2,
+        "30s": 2
+      },
+      "market": "0xd2bb0a0b4aa82f369c299145dfeb0f985acb7d28cc778a727bf91e658bc686c0",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -9.6061,
+      "stake_usdc": 58.81,
+      "title": "W75 Le Neubourg: Anastasiia Firman vs Gyeong Seo Lee",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": -28.8076,
+      "copies_by_lag": {
+        "10m": 3,
+        "2m": 3,
+        "30s": 4
+      },
+      "market": "0xb4a77c9272a8a6b25b06cede4b454186773bdb29a5a4317e2e614d2aacdc2c51",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -28.9746,
+      "stake_usdc": 57.72,
+      "title": "Biella: Petr Brunclik vs Filippo Romano",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": 22.5912,
+      "copies_by_lag": {
+        "10m": 3,
+        "2m": 3,
+        "30s": 3
+      },
+      "market": "0xfdd3444a586eff700a0f14923bef7f08e268d267b2611d7b4f1e324fd1368c1e",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 22.6422,
+      "stake_usdc": 54.07,
+      "title": "Tiburon: Ryan Seggerman vs Alex Rybakov",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": 33.3108,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 4,
+        "30s": 2
+      },
+      "market": "0x8d43d5758f0c9869c63a1b1ef3bc38ad33e6462ce1dd6752ded429d4f7492db2",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 33.3908,
+      "stake_usdc": 53.88,
+      "title": "Rennes: Justin Boulais vs Matisse Bobichon",
+      "wallets": 4
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 1,
+        "30s": 2
+      },
+      "market": "0x5d60709f598cc61c7c7025fe477f01f01a9f979c3a848730fe7f5ed1e783f04c",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 48.15,
+      "title": "Sao Paulo Open: Cadence Brace vs Solana Sierra",
+      "wallets": 2
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 3,
+        "30s": 3
+      },
+      "market": "0x54059aa9810bfa065ac337f6a2cfa8e11ffe174ec21ae8bc560689e0040fed3d",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 46.13,
+      "title": "Sao Paulo Open: Julia Riera vs Elina Avanesyan",
+      "wallets": 3
+    },
+    {
+      "clv_pnl": -3.2795,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 2,
+        "30s": 2
+      },
+      "market": "0x909b2c93d5549b59706dca52dc53382ec3234b34238b94fbef19c7509f20b1d1",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -3.2845,
+      "stake_usdc": 40.43,
+      "title": "Phan Thiet 4: Rodrigo Pacheco vs Sergio Callejon",
+      "wallets": 2
+    },
+    {
+      "clv_pnl": 1.3818,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x647c25c2c5590ed6bfb88a79958da0294d36e43fd094de2e80520e9ff39cb8a0",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 1.6807,
+      "stake_usdc": 38.24,
+      "title": "Caldas da Rainha: Sana Garakani vs Lisa Pigato",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 2.0617,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 2,
+        "30s": 2
+      },
+      "market": "0x33a1a5a39dc0e533f66eac67b27475ca3c9793f26cdd76773e141587f8f7cd0f",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 2.0957,
+      "stake_usdc": 31.8,
+      "title": "Guangzhou: Yaojie Zeng vs Akira Santillan",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": -31.4254,
+      "copies_by_lag": {
+        "10m": 2,
+        "2m": 2,
+        "30s": 2
+      },
+      "market": "0xeb80a45a69c0556809d4e26a37681688b276b1c5f25df971aa56f496c8312d42",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -31.5794,
+      "stake_usdc": 30.56,
+      "title": "Biella: Mika Petkovic vs Felix Gill",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": -30.7984,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x4ab7c23ab620220b13b94b4851dc1b42e77080194f8e310bec28ed48c404be2b",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": -30.9654,
+      "stake_usdc": 29.75,
+      "title": "Ljubljana: Giorgia Pedone vs Denisa Zoldakova",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x6645c07f219f0c883729b8d9f03bf6a2df949043c03da3f61eff359c36fe4c0e",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 29.58,
+      "title": "Guadalajara Open Akron: Zeynep Sonmez vs Iryna Shymanovich",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 66.5245,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0xba94c9ce709e48f1b259da3897ff224ccd4dead1c762946cbe3e9811fb81c9ae",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 66.6215,
+      "stake_usdc": 29.56,
+      "title": "M25 Nevers: Paul Theate vs Yannis Batsabaken",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.6294,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x3aa4c7c20b7c306145b58b7a516f0bc8c26114fc13f493d51f4ccfbc87018033",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 0.6594,
+      "stake_usdc": 29.31,
+      "title": "Caldas da Rainha: Jeline Vandromme vs Carla Tomai",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 1.1891,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0xefe2303ac09f5352964ab6b2f9c88f0871793c605f2eba7805c3dccfb0ff46de",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 1.2191,
+      "stake_usdc": 28.72,
+      "title": "Szczecin: Kacper Knitter vs Martin Krumich",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x521dcb4b434b4bd4b03e656a0d707ae74b4b89a7bf39ae0e60fa182f87319e29",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 26.2,
+      "title": "Guadalajara Open Akron: Elsa Jacquemot vs Liudmila Samsonova",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x62e0476fe91da05713136609ae0a492c39557cc82795c1c11a4de8d18364238d",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 24.3,
+      "title": "Sao Paulo Open: Jessica Bouzas Maneiro vs Dominika Salkova",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 4.0437,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x33b737bfe603b55891e5abee269de9f5e823acb0e720b600c13df3fc65db54cf",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 4.0677,
+      "stake_usdc": 19.76,
+      "title": "Tiburon: Timo Legout vs Daniil Ostapenkov",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.4388,
+      "copies_by_lag": {
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x8790a9382280fabe1e94fa9750c4a5bd1324947a23f288d54cdab226560f3d6d",
+      "market_type": "moneyline",
+      "resolved_outcome": "no",
+      "settlement_pnl": 0.4588,
+      "stake_usdc": 19.52,
+      "title": "Caldas da Rainha: Mariia Nozdrachova vs Kayla Cross",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x796a47e0069bd042c38c04f9ff510f6924d428eaa2607644436ec82a7c95bdcb",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 19.26,
+      "title": "Guadalajara Open Akron (Doubles): Panova/Tormo vs Gleason/Piter",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x9fe2c7f445b8c8657edf1b90ef4aaaa76804e6e2521bac02640f65d8e0e69a2e",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 17.28,
+      "title": "Phan Thiet 4: Ha Minh Duc Vu vs Luka Pavlovic",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x25d05ec09c8770938bbda41ec283939cf3f3c17950595d9d653232f5584f7d0b",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 17.1,
+      "title": "Phan Thiet 4: Filip Peliwo vs Tai Sach",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0xc9fa413ac3658cd39efbcf931cce40bd0012072577d2ff45b53d031ea59b2ceb",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 15.62,
+      "title": "Sao Paulo Open: Xiaodi You vs Alina Charaeva",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0xd3389a000a98db0cff788758c30da51c29b1acb85f6c81cea53483419bc606cb",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 13.76,
+      "title": "Phan Thiet 4: Yuta Shimizu vs Philip Sekulic",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x84940eabcae7bfcc49050b3c83bf91da5a0b6a04fcfa6fc8928725a6f8d74b80",
+      "market_type": "moneyline",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 12.97,
+      "title": "Biella: Gianluca Cadenasso vs Francesco Forti",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": -12.9054,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x9071c0473585f8c466ac066f8c88d67d1ac1197debadc7df7e9083e25f0ddbd7",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": -12.9234,
+      "stake_usdc": 12.74,
+      "title": "M25 Nevers: Lenny Couturier vs Evan Jarzaguet",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 1.5044,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0xa06574e1cc33cdaad90dff51bf78dce8ab426140343eef7143c6ac26da55f52b",
+      "market_type": "moneyline",
+      "resolved_outcome": "yes",
+      "settlement_pnl": 1.5174,
+      "stake_usdc": 11.41,
+      "title": "W75 Le Neubourg: Mathilde Lollia vs Marine Szostak",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "30s": 1
+      },
+      "market": "0xe012d12f07af8c57c5b3bc5389224f81b92e67349164710deffa448a83514eeb",
+      "market_type": "tennis_match_totals",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 4.42,
+      "title": "Zarazua vs. Dolehide: Match O/U 23.5",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.0,
+      "copies_by_lag": {
+        "30s": 1
+      },
+      "market": "0x9257040547b652608253f2d979fcee8b37f15510f2b0d8eab88f6a30eb86c6b9",
+      "market_type": "tennis_set_handicap",
+      "resolved_outcome": null,
+      "settlement_pnl": 0.0,
+      "stake_usdc": 3.0,
+      "title": "Set Handicap: Solana Sierra (-1.5) vs Cadence Brace (+1.5)",
+      "wallets": 1
+    },
+    {
+      "clv_pnl": 0.5991,
+      "copies_by_lag": {
+        "10m": 1,
+        "2m": 1,
+        "30s": 1
+      },
+      "market": "0x90c77d633c2a234e17857090b8c3e890342b2405d380fd0811859b5746cfbf9f",
+      "market_type": "tennis_set_winner",
+      "resolved_outcome": "no",
+      "settlement_pnl": 0.6021,
+      "stake_usdc": 2.37,
+      "title": "Set 2 Winner: Carole Monnet vs Sloane Stephens",
+      "wallets": 1
+    }
+  ],
+  "copies_file": "tennis_whale_copies_latest.json",
+  "copies_total": 947,
+  "fail_risks": [
+    "exit_liquidity: a copy fills at a print, not a resting book; the tape shows no depth, so real fills at size may be worse than the print+slippage assumption and exits before settlement are not modelled.",
+    "farmers_and_makers: volume farmers, hedgers and market makers take both sides; the two_sided_share filter removes the obvious ones only, and a whale can be a farmer on other sports we do not see.",
+    "selection_on_notional: whales are chosen by taker size, not skill; large takers can be informed, or simply rich and wrong. The whale-own benchmark shows whether the signal itself had edge.",
+    "wallet_fragmentation: one actor may use several proxy wallets, so repeat-size detection undercounts (false negatives) and clustering by market is the only dependence structure modelled.",
+    "resolved_universe_bias: resolved markets are listed by close time; short in-play markets dominate and long-dated tournament futures are underrepresented.",
+    "tape_truncation: per-market trade caps keep the newest prints (endgame flow) when a market is truncated; markets_truncated is reported.",
+    "fee_model: venue taker fee C*rate*p*(1-p) by Gamma feeType; rebates and maker programmes are not modelled.",
+    "multiple_lags: three lags are three tests; CIs are Bonferroni-corrected but the PASS-at-any-lag rule is still a disjunction."
+  ],
+  "generated_at": "2026-09-14T23:04:26.813629+00:00",
+  "headline": "105 whales, 947 paper copies. Overall FAIL; kill rule continue. 30s: FAIL (n=333, settlement ROI -0.102162 [-0.258601, 0.088682], CLV ROI -0.101346 [-0.266168, 0.075869]); 2m: FAIL (n=327, settlement ROI -0.11135 [-0.259805, 0.053165], CLV ROI -0.110395 [-0.258032, 0.057046]); 10m: FAIL (n=287, settlement ROI -0.071732 [-0.252248, 0.112734], CLV ROI -0.070763 [-0.253102, 0.109937])",
+  "kalshi": {
+    "checked": true,
+    "reason": "Kalshi public /markets/trades exposes taker_side, price and count only; no account identity, so whales cannot be tracked from public data.",
+    "sports_series": 3778,
+    "tennis_series": [
+      {
+        "ticker": "KXMCMEN",
+        "title": "ATP Monte-Carlo Winner"
+      },
+      {
+        "ticker": "KXATPMATCH",
+        "title": "ATP Tennis Match"
+      },
+      {
+        "ticker": "KXWTAMIA",
+        "title": "WTA Miami"
+      },
+      {
+        "ticker": "KXATPS4GWINNER",
+        "title": "ATP set 4 game winner"
+      },
+      {
+        "ticker": "KXATPWDDF",
+        "title": "ATP Tour Dubai Duty Free"
+      },
+      {
+        "ticker": "KXWTAGAME",
+        "title": "WTA Tennis Winner"
+      },
+      {
+        "ticker": "KXBATTLEOFSEXES",
+        "title": "Battle of the Sexes Tennis Match"
+      },
+      {
+        "ticker": "KXATPNATSTAGE",
+        "title": "How many players from country reach stage of tournament?"
+      },
+      {
+        "ticker": "KXGOLFTENNISMAJORS",
+        "title": "More Major Wins, Tennis vs Golf"
+      },
+      {
+        "ticker": "KXATPGTOTAL",
+        "title": "ATP Total Games"
+      },
+      {
+        "ticker": "KXWTTMATCH",
+        "title": "Women's Table Tennis Match"
+      },
+      {
+        "ticker": "KXWIMMEN",
+        "title": "Wimbledon Championship Men's"
+      },
+      {
+        "ticker": "KXATPANYSET",
+        "title": "ATP Any Set Winner"
+      },
+      {
+        "ticker": "KXWTADDF",
+        "title": "WTA Tour Dubai Duty Free"
+      },
+      {
+        "ticker": "KXWTAIWO",
+        "title": "Indian Wells Open"
+      },
+      {
+        "ticker": "KXTABLETENNIS",
+        "title": "Table Tennis Match"
+      },
+      {
+        "ticker": "KXWTAGTOTAL",
+        "title": "WTA Total Games"
+      },
+      {
+        "ticker": "KXATPS5GWINNER",
+        "title": "ATP set 5 game winner"
+      },
+      {
+        "ticker": "KXWTASERENA",
+        "title": "Serena Williams WTA"
+      },
+      {
+        "ticker": "KXATPIWO",
+        "title": "Indian Wells Open"
+      },
+      {
+        "ticker": "KXTABLETENNISMATCH",
+        "title": "Men's Table Tennis Match"
+      },
+      {
+        "ticker": "KXATPROUND",
+        "title": "Will player reach round?"
+      },
+      {
+        "ticker": "KXWTA1RANK",
+        "title": "WTA #1 Ranked"
+      },
+      {
+        "ticker": "KXWTAIT",
+        "title": "WTA Italian Open"
+      },
+      {
+        "ticker": "KXWTASETWINNER",
+        "title": "WTA Set Winner"
+      },
+      {
+        "ticker": "KXWTABLETENNISMATCH",
+        "title": "Women's Table Tennis Match"
+      },
+      {
+        "ticker": "KXWTAATX",
+        "title": "WTA Tour ATX Open"
+      },
+      {
+        "ticker": "KXATPEXACTSETS",
+        "title": "testing"
+      },
+      {
+        "ticker": "KXATPTOTALSETS",
+        "title": "ATP Total Sets"
+      },
+      {
+        "ticker": "KXATP",
+        "title": "Men's Tournament Winner"
+      },
+      {
+        "ticker": "KXATPGWINNER",
+        "title": "ATP Game Winner"
+      },
+      {
+        "ticker": "KXTENNISMAJORDJOKOVIC",
+        "title": "Djokovic major"
+      },
+      {
+        "ticker": "KXWTAEXACTMATCH",
+        "title": "WTA Exact Match Score"
+      },
+      {
+        "ticker": "KXTENNISEXHIBITION",
+        "title": "Tennis Exhibition Match"
+      },
+      {
+        "ticker": "KXATP1RANK",
+        "title": "ATP #1 Ranked Player"
+      },
+      {
+        "ticker": "KXATPSETSWEEP",
+        "title": "Winner without dropping a set"
+      },
+      {
+        "ticker": "KXITTFMENMATCH",
+        "title": "ITTF Table Tennis"
+      },
+      {
+        "ticker": "KXATPS3GWINNER",
+        "title": "ATP set 3 game winner"
+      },
+      {
+        "ticker": "KXATPGAMETOTAL",
+        "title": "ATP Total Games"
+      },
+      {
+        "ticker": "KXATPGRANDSLAM",
+        "title": "ATP Grand Slam"
+      },
+      {
+        "ticker": "KXWTAROE",
+        "title": "WTA Round of Elimination"
+      },
+      {
+        "ticker": "KXATPMCO",
+        "title": "Movistar Chile Open"
+      },
+      {
+        "ticker": "KXDDFWOMENSINGLES",
+        "title": "Dubai Duty Free Tennis Championships"
+      },
+      {
+        "ticker": "KXATPRETIRE",
+        "title": "Will Djokovic Retire?"
+      },
+      {
+        "ticker": "KXDAVISCUPADVANCE",
+        "title": "Davis Cup Advance"
+      },
+      {
+        "ticker": "KXATPGAME",
+        "title": "ATP Tennis Winner"
+      },
+      {
+        "ticker": "KXATPIT",
+        "title": "ATP Italian Open"
+      },
+      {
+        "ticker": "KXUSOWOMENSINGLES",
+        "title": "US Open women's singles"
+      },
+      {
+        "ticker": "KXAOWOMEN",
+        "title": "Australian Open Womens"
+      },
+      {
+        "ticker": "KXEXHIBITIONMEN",
+        "title": "Men's Tennis Exhibition Match"
+      }
+    ],
+    "tennis_series_count": 113,
+    "verdict": "NOT_IDENTIFIABLE",
+    "whale_identifiable": false
+  },
+  "kill_rule": {
+    "components": {
+      "copy_negative_all_lags": false,
+      "lags_evaluable": 3,
+      "whale_own_evaluable": true,
+      "whale_own_negative": false
+    },
+    "reason": "no trigger: some lag or the whale-own benchmark is not significantly negative",
+    "status": "continue",
+    "triggered": false
+  },
+  "kind": "tennis_whale_copy_report",
+  "lags": {
+    "10m": {
+      "by_market_type": {
+        "moneyline": {
+          "clv_roi_mean": -0.0722,
+          "copies": 286,
+          "markets": 52,
+          "n_settled": 227,
+          "settlement_roi_mean": -0.0732
+        },
+        "tennis_set_winner": {
+          "clv_roi_mean": 0.2525,
+          "copies": 1,
+          "markets": 1,
+          "n_settled": 1,
+          "settlement_roi_mean": 0.2537
+        }
+      },
+      "clv_roi": {
+        "alpha": 0.016666666666666666,
+        "ci_high": 0.109937,
+        "ci_low": -0.253102,
+        "effective_n_clusters": 23.12,
+        "mean": -0.070763,
+        "n": 228,
+        "n_clusters": 42,
+        "resamples": 2000,
+        "seed": 20260915,
+        "share_positive": 0.4868,
+        "total_pnl": -161.4598,
+        "verdict": "FAIL"
+      },
+      "copies": 287,
+      "lag": "10m",
+      "lag_seconds": 600,
+      "reason": "no statistic with ci_low > 0",
+      "settlement_roi": {
+        "alpha": 0.016666666666666666,
+        "ci_high": 0.112734,
+        "ci_low": -0.252248,
+        "effective_n_clusters": 23.12,
+        "mean": -0.071732,
+        "n": 228,
+        "n_clusters": 42,
+        "resamples": 2000,
+        "seed": 20260914,
+        "share_positive": 0.4868,
+        "total_pnl": -162.3323,
+        "verdict": "FAIL"
+      },
+      "significantly_negative_both": false,
+      "track": "tennis_whale_copy_10m",
+      "verdict": "FAIL"
+    },
+    "2m": {
+      "by_market_type": {
+        "moneyline": {
+          "clv_roi_mean": -0.1118,
+          "copies": 326,
+          "markets": 57,
+          "n_settled": 261,
+          "settlement_roi_mean": -0.1127
+        },
+        "tennis_set_winner": {
+          "clv_roi_mean": 0.2525,
+          "copies": 1,
+          "markets": 1,
+          "n_settled": 1,
+          "settlement_roi_mean": 0.2537
+        }
+      },
+      "clv_roi": {
+        "alpha": 0.016666666666666666,
+        "ci_high": 0.057046,
+        "ci_low": -0.258032,
+        "effective_n_clusters": 24.64,
+        "mean": -0.110395,
+        "n": 262,
+        "n_clusters": 43,
+        "resamples": 2000,
+        "seed": 20260915,
+        "share_positive": 0.4924,
+        "total_pnl": -156.8504,
+        "verdict": "FAIL"
+      },
+      "copies": 327,
+      "lag": "2m",
+      "lag_seconds": 120,
+      "reason": "no statistic with ci_low > 0",
+      "settlement_roi": {
+        "alpha": 0.016666666666666666,
+        "ci_high": 0.053165,
+        "ci_low": -0.259805,
+        "effective_n_clusters": 24.64,
+        "mean": -0.11135,
+        "n": 262,
+        "n_clusters": 43,
+        "resamples": 2000,
+        "seed": 20260914,
+        "share_positive": 0.4924,
+        "total_pnl": -157.6847,
+        "verdict": "FAIL"
+      },
+      "significantly_negative_both": false,
+      "track": "tennis_whale_copy_2m",
+      "verdict": "FAIL"
+    },
+    "30s": {
+      "by_market_type": {
+        "moneyline": {
+          "clv_roi_mean": -0.1027,
+          "copies": 330,
+          "markets": 57,
+          "n_settled": 265,
+          "settlement_roi_mean": -0.1035
+        },
+        "tennis_match_totals": {
+          "clv_roi_mean": null,
+          "copies": 1,
+          "markets": 1,
+          "n_settled": 0,
+          "settlement_roi_mean": null
+        },
+        "tennis_set_handicap": {
+          "clv_roi_mean": null,
+          "copies": 1,
+          "markets": 1,
+          "n_settled": 0,
+          "settlement_roi_mean": null
+        },
+        "tennis_set_winner": {
+          "clv_roi_mean": 0.2525,
+          "copies": 1,
+          "markets": 1,
+          "n_settled": 1,
+          "settlement_roi_mean": 0.2537
+        }
+      },
+      "clv_roi": {
+        "alpha": 0.016666666666666666,
+        "ci_high": 0.075869,
+        "ci_low": -0.266168,
+        "effective_n_clusters": 24.4,
+        "mean": -0.101346,
+        "n": 266,
+        "n_clusters": 43,
+        "resamples": 2000,
+        "seed": 20260915,
+        "share_positive": 0.5,
+        "total_pnl": -57.6247,
+        "verdict": "FAIL"
+      },
+      "copies": 333,
+      "lag": "30s",
+      "lag_seconds": 30,
+      "reason": "no statistic with ci_low > 0",
+      "settlement_roi": {
+        "alpha": 0.016666666666666666,
+        "ci_high": 0.088682,
+        "ci_low": -0.258601,
+        "effective_n_clusters": 24.4,
+        "mean": -0.102162,
+        "n": 266,
+        "n_clusters": 43,
+        "resamples": 2000,
+        "seed": 20260914,
+        "share_positive": 0.5,
+        "total_pnl": -58.087,
+        "verdict": "FAIL"
+      },
+      "significantly_negative_both": false,
+      "track": "tennis_whale_copy_30s",
+      "verdict": "FAIL"
+    }
+  },
+  "measured_at": "2026-09-14T23:03:48.174731+00:00",
+  "mode": "network",
+  "overall_verdict": "FAIL",
+  "paper_only": true,
+  "pnl_source": "core.ledger.PaperLedger",
+  "pre_registration": {
+    "hypothesis": "Wallets that repeatedly take size on Polymarket tennis carry information; copying their next print at a lag earns positive settlement EV or CLV after fees.",
+    "inference": {
+      "alpha_family": 0.05,
+      "alpha_per_lag_bonferroni": 0.016666666666666666,
+      "cluster": "market (conditionId)",
+      "resamples": 2000,
+      "seed": 20260914,
+      "statistic": "equal-weighted mean ROI per copy"
+    },
+    "kill_rule": "Kill when (a) every lag has sufficient data and both settlement ROI and CLV ROI have CI upper bound < 0, or (b) the whale-own benchmark (the whales' own fills at lag 0, taker fee) has settlement-ROI CI upper bound < 0 with sufficient data. Either trigger ends the track; there is no re-tuning of thresholds after seeing results.",
+    "parameters": {
+      "cooldown_seconds": 600,
+      "lags_seconds": [
+        30,
+        120,
+        600
+      ],
+      "large_fill_notional_usdc": 500.0,
+      "max_copy_price": 0.98,
+      "max_two_sided_share": 0.5,
+      "max_wait_seconds": 1800,
+      "min_copy_price": 0.02,
+      "min_large_fills": 3,
+      "min_markets": 2,
+      "signal_min_notional_usdc": 200.0,
+      "slippage_ticks": 1,
+      "stake_per_copy_usdc": 10.0
+    },
+    "pass_rule": "At one or more lags in [30, 120, 600] s, the market-clustered bootstrap CI lower bound of equal-weighted per-copy ROI is > 0 for settlement ROI or CLV ROI after fees and slippage.",
+    "risk_limits": {
+      "max_daily_loss": 75.0,
+      "max_notional_per_order": 25.0,
+      "max_position_per_market": 100.0
+    },
+    "sufficiency": {
+      "min_copies_with_outcome": 30,
+      "min_markets_with_outcome": 10
+    }
+  },
+  "run_id": "20260914T230348Z-tennis-63ad64de",
+  "schema_version": "1.0.0",
+  "status": "measured_from_public_tape",
+  "track_family": "tennis_copy",
+  "tracks": {
+    "tennis_whale_copy_10m": {
+      "admitted": 298,
+      "candidates": 548,
+      "copied_markets": 53,
+      "copied_wallets": 50,
+      "label": "Tennis whale copy (10 min lag)",
+      "lag": "10m",
+      "ledger": {
+        "cash": 922.58862,
+        "equity": 837.28331,
+        "fees_paid": 47.25156,
+        "fills": 329,
+        "gross_notional": 111.06531,
+        "mark_method": "mid",
+        "max_drawdown": 162.71669,
+        "open_positions": 11,
+        "realized_pnl": -163.67478,
+        "settlement_fills": 42,
+        "starting_cash": 1000.0,
+        "total_pnl": -162.71669,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.95809
+      },
+      "paper_fills": 287,
+      "refused_by_reason": {
+        "cooldown": 133,
+        "no_print_within_window": 29,
+        "price_out_of_bounds": 84,
+        "risk_projected": 11,
+        "size_below_one_contract": 4
+      }
+    },
+    "tennis_whale_copy_2m": {
+      "admitted": 339,
+      "candidates": 548,
+      "copied_markets": 58,
+      "copied_wallets": 52,
+      "label": "Tennis whale copy (2 min lag)",
+      "lag": "2m",
+      "ledger": {
+        "cash": 921.7326,
+        "equity": 857.97994,
+        "fees_paid": 53.03315,
+        "fills": 370,
+        "gross_notional": 170.97265,
+        "mark_method": "mid",
+        "max_drawdown": 142.02006,
+        "open_positions": 15,
+        "realized_pnl": -155.15911,
+        "settlement_fills": 43,
+        "starting_cash": 1000.0,
+        "total_pnl": -142.02006,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 13.13906
+      },
+      "paper_fills": 327,
+      "refused_by_reason": {
+        "cooldown": 147,
+        "no_print_within_window": 17,
+        "price_out_of_bounds": 43,
+        "risk_projected": 12,
+        "size_below_one_contract": 2
+      }
+    },
+    "tennis_whale_copy_30s": {
+      "admitted": 349,
+      "candidates": 548,
+      "copied_markets": 60,
+      "copied_wallets": 54,
+      "label": "Tennis whale copy (30 s lag)",
+      "lag": "30s",
+      "ledger": {
+        "cash": 1002.7493,
+        "equity": 966.67398,
+        "fees_paid": 52.31328,
+        "fills": 376,
+        "gross_notional": 170.11531,
+        "mark_method": "mid",
+        "max_drawdown": 33.32602,
+        "open_positions": 17,
+        "realized_pnl": -68.27268,
+        "settlement_fills": 43,
+        "starting_cash": 1000.0,
+        "total_pnl": -33.32602,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 34.94666
+      },
+      "paper_fills": 333,
+      "refused_by_reason": {
+        "cooldown": 144,
+        "no_print_within_window": 15,
+        "price_out_of_bounds": 39,
+        "risk_projected": 16,
+        "size_below_one_contract": 1
+      }
+    }
+  },
+  "universe": {
+    "closed_markets": 87,
+    "endpoints": [
+      "https://gamma-api.polymarket.com/markets?tag_id=864",
+      "https://data-api.polymarket.com/trades?takerOnly=true",
+      "https://api.elections.kalshi.com/trade-api/v2/series"
+    ],
+    "errors": [
+      "resolved_listing[page 21]: HTTPStatusError: Client error '422 Unprocessable Entity' for url 'https://gamma-api.polymarket.com/markets?closed=true&tag_id=864&order=closedTime&ascending=false&limit=100&offset=2100'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422"
+    ],
+    "first_print_at": "2026-08-08T04:07:12+00:00",
+    "harvested_at": "2026-09-14T23:03:48.201633+00:00",
+    "last_print_at": "2026-09-14T23:02:57+00:00",
+    "market_types": {
+      "moneyline": 90,
+      "tennis_completed_match": 21,
+      "tennis_first_set_winner": 4,
+      "tennis_game_handicap": 2,
+      "tennis_match_totals": 2,
+      "tennis_set_handicap": 4,
+      "tennis_set_winner": 2,
+      "unknown": 2
+    },
+    "markets": 127,
+    "markets_truncated": 0,
+    "open_markets": 40,
+    "prints": 27450,
+    "requests": 155,
+    "resolved_markets": 87,
+    "source": "network",
+    "wallets": 2211
+  },
+  "verdict_table": [
+    {
+      "check": "copy_ev_or_clv_positive_30s",
+      "detail": "no statistic with ci_low > 0",
+      "scope": "lag",
+      "verdict": "FAIL"
+    },
+    {
+      "check": "copy_ev_or_clv_positive_2m",
+      "detail": "no statistic with ci_low > 0",
+      "scope": "lag",
+      "verdict": "FAIL"
+    },
+    {
+      "check": "copy_ev_or_clv_positive_10m",
+      "detail": "no statistic with ci_low > 0",
+      "scope": "lag",
+      "verdict": "FAIL"
+    },
+    {
+      "check": "copy_portfolio_positive_at_any_lag",
+      "detail": "pre-registered pass rule",
+      "scope": "overall",
+      "verdict": "FAIL"
+    },
+    {
+      "check": "kill_rule",
+      "detail": "no trigger: some lag or the whale-own benchmark is not significantly negative",
+      "scope": "overall",
+      "verdict": "CONTINUE"
+    },
+    {
+      "check": "kalshi_whales_identifiable",
+      "detail": "Kalshi public /markets/trades exposes taker_side, price and count only; no account identity, so whales cannot be tracked from public data.",
+      "scope": "kalshi",
+      "verdict": "NOT_IDENTIFIABLE"
+    }
+  ],
+  "whale_own_benchmark": {
+    "clv_roi": {
+      "alpha": 0.016666666666666666,
+      "ci_high": 0.031261,
+      "ci_low": -0.327234,
+      "effective_n_clusters": 24.47,
+      "mean": -0.152878,
+      "n": 460,
+      "n_clusters": 47,
+      "resamples": 2000,
+      "seed": 20260922,
+      "share_positive": 0.4435,
+      "sufficient": true
+    },
+    "note": "The whales' own signal fills scored like a copy at lag 0 (their price, taker fee). If this is not positive, no lag can be.",
+    "settlement_roi": {
+      "alpha": 0.016666666666666666,
+      "ci_high": 0.034633,
+      "ci_low": -0.337171,
+      "effective_n_clusters": 24.47,
+      "mean": -0.153495,
+      "n": 460,
+      "n_clusters": 47,
+      "resamples": 2000,
+      "seed": 20260921,
+      "share_positive": 0.4587,
+      "sufficient": true
+    }
+  },
+  "whales": {
+    "qualified": 105,
+    "refused_two_sided": 44,
+    "signal_reasons": {
+      "below_signal_notional": 1000,
+      "not_whale": 20561,
+      "signal": 548,
+      "two_sided_flow": 5341
+    },
+    "signals": 548,
+    "top": [
+      {
+        "copies_all_lags": 45,
+        "large_fill_markets": 40,
+        "large_fills": 115,
+        "markets": 51,
+        "notional_usdc": 395290.82,
+        "own_scored_signals": 76,
+        "own_settlement_roi_mean": -0.6153,
+        "prints": 3018,
+        "qualified_at": "2026-09-14T12:37:06+00:00",
+        "refused_two_sided": true,
+        "signals": 76,
+        "two_sided_markets": 45,
+        "two_sided_share": 0.8824,
+        "wallet": "0x2a69660046d7acc4ab204d7cc5ba78b0776cd2f7"
+      },
+      {
+        "copies_all_lags": 34,
+        "large_fill_markets": 12,
+        "large_fills": 30,
+        "markets": 12,
+        "notional_usdc": 204735.96,
+        "own_scored_signals": 26,
+        "own_settlement_roi_mean": -0.0817,
+        "prints": 34,
+        "qualified_at": "2026-09-14T13:17:57+00:00",
+        "refused_two_sided": false,
+        "signals": 27,
+        "two_sided_markets": 4,
+        "two_sided_share": 0.3333,
+        "wallet": "0x75f204b39709544f763ca68c2e3f4a60a309ff6d"
+      },
+      {
+        "copies_all_lags": 44,
+        "large_fill_markets": 9,
+        "large_fills": 25,
+        "markets": 9,
+        "notional_usdc": 189877.09,
+        "own_scored_signals": 20,
+        "own_settlement_roi_mean": -0.155,
+        "prints": 27,
+        "qualified_at": "2026-09-14T12:39:51+00:00",
+        "refused_two_sided": false,
+        "signals": 24,
+        "two_sided_markets": 4,
+        "two_sided_share": 0.4444,
+        "wallet": "0x2e6cbf2564cc6b9702d79dad46279c2865710c51"
+      },
+      {
+        "copies_all_lags": 6,
+        "large_fill_markets": 25,
+        "large_fills": 103,
+        "markets": 31,
+        "notional_usdc": 178484.69,
+        "own_scored_signals": 3,
+        "own_settlement_roi_mean": 0.2672,
+        "prints": 349,
+        "qualified_at": "2026-09-14T14:47:43+00:00",
+        "refused_two_sided": true,
+        "signals": 3,
+        "two_sided_markets": 26,
+        "two_sided_share": 0.8387,
+        "wallet": "0x5268527977f700f9bf9b6d5cd843859e4e70135d"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 9,
+        "large_fills": 19,
+        "markets": 28,
+        "notional_usdc": 148286.09,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 142,
+        "qualified_at": "2026-09-14T16:04:58+00:00",
+        "refused_two_sided": true,
+        "signals": 0,
+        "two_sided_markets": 18,
+        "two_sided_share": 0.6429,
+        "wallet": "0x9e3ed7b661a903fc97afcf49e0f014ebe869f882"
+      },
+      {
+        "copies_all_lags": 143,
+        "large_fill_markets": 20,
+        "large_fills": 43,
+        "markets": 39,
+        "notional_usdc": 131117.17,
+        "own_scored_signals": 58,
+        "own_settlement_roi_mean": -0.1345,
+        "prints": 118,
+        "qualified_at": "2026-09-14T06:14:03+00:00",
+        "refused_two_sided": false,
+        "signals": 71,
+        "two_sided_markets": 13,
+        "two_sided_share": 0.3333,
+        "wallet": "0xfe787d2da716d60e8acff57fb87eb13cd4d10319"
+      },
+      {
+        "copies_all_lags": 64,
+        "large_fill_markets": 20,
+        "large_fills": 53,
+        "markets": 43,
+        "notional_usdc": 125637.31,
+        "own_scored_signals": 40,
+        "own_settlement_roi_mean": -0.1526,
+        "prints": 278,
+        "qualified_at": "2026-09-14T04:55:07+00:00",
+        "refused_two_sided": true,
+        "signals": 41,
+        "two_sided_markets": 30,
+        "two_sided_share": 0.6977,
+        "wallet": "0x076daa87c4fe1a85402a9b6b8e0a866224388d4c"
+      },
+      {
+        "copies_all_lags": 39,
+        "large_fill_markets": 18,
+        "large_fills": 46,
+        "markets": 39,
+        "notional_usdc": 89702.45,
+        "own_scored_signals": 16,
+        "own_settlement_roi_mean": -0.082,
+        "prints": 272,
+        "qualified_at": "2026-09-14T11:45:30+00:00",
+        "refused_two_sided": true,
+        "signals": 16,
+        "two_sided_markets": 26,
+        "two_sided_share": 0.6667,
+        "wallet": "0xde9f7f4e77a1595623ceb58e469f776257ccd43c"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 5,
+        "large_fills": 22,
+        "markets": 25,
+        "notional_usdc": 85514.0,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 120,
+        "qualified_at": "2026-09-14T14:12:45+00:00",
+        "refused_two_sided": true,
+        "signals": 0,
+        "two_sided_markets": 16,
+        "two_sided_share": 0.64,
+        "wallet": "0xe9076a87c5ed90ef16e6fe6529c943baeca0cff6"
+      },
+      {
+        "copies_all_lags": 5,
+        "large_fill_markets": 15,
+        "large_fills": 31,
+        "markets": 44,
+        "notional_usdc": 84107.24,
+        "own_scored_signals": 4,
+        "own_settlement_roi_mean": 0.072,
+        "prints": 608,
+        "qualified_at": "2026-09-14T12:37:06+00:00",
+        "refused_two_sided": true,
+        "signals": 4,
+        "two_sided_markets": 38,
+        "two_sided_share": 0.8636,
+        "wallet": "0x821dab0565ebf5b327f51db06223fdcfe01acf16"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 6,
+        "large_fills": 8,
+        "markets": 40,
+        "notional_usdc": 84091.46,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 989,
+        "qualified_at": "2026-09-14T15:29:55+00:00",
+        "refused_two_sided": true,
+        "signals": 0,
+        "two_sided_markets": 37,
+        "two_sided_share": 0.925,
+        "wallet": "0xeea3f08e8a36081233e4c4b4142fd61a7b56a6a2"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 13,
+        "large_fills": 31,
+        "markets": 35,
+        "notional_usdc": 82345.34,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 343,
+        "qualified_at": "2026-09-14T13:45:25+00:00",
+        "refused_two_sided": true,
+        "signals": 0,
+        "two_sided_markets": 26,
+        "two_sided_share": 0.7429,
+        "wallet": "0x2005d16a84ceefa912d4e380cd32e7ff827875ea"
+      },
+      {
+        "copies_all_lags": 9,
+        "large_fill_markets": 5,
+        "large_fills": 10,
+        "markets": 5,
+        "notional_usdc": 76416.31,
+        "own_scored_signals": 5,
+        "own_settlement_roi_mean": -0.0651,
+        "prints": 11,
+        "qualified_at": "2026-09-14T11:27:48+00:00",
+        "refused_two_sided": false,
+        "signals": 6,
+        "two_sided_markets": 2,
+        "two_sided_share": 0.4,
+        "wallet": "0x160223e42e22a4d8b7d81ff45d83e3aaa27dfbb0"
+      },
+      {
+        "copies_all_lags": 14,
+        "large_fill_markets": 13,
+        "large_fills": 23,
+        "markets": 13,
+        "notional_usdc": 66602.15,
+        "own_scored_signals": 8,
+        "own_settlement_roi_mean": 0.0891,
+        "prints": 47,
+        "qualified_at": "2026-09-14T14:22:12+00:00",
+        "refused_two_sided": true,
+        "signals": 8,
+        "two_sided_markets": 9,
+        "two_sided_share": 0.6923,
+        "wallet": "0x4ccc0117ef9506fd57db87537ad785a385bf77ab"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 3,
+        "large_fills": 9,
+        "markets": 5,
+        "notional_usdc": 63302.03,
+        "own_scored_signals": 1,
+        "own_settlement_roi_mean": -0.0106,
+        "prints": 15,
+        "qualified_at": "2026-09-14T13:59:55+00:00",
+        "refused_two_sided": true,
+        "signals": 1,
+        "two_sided_markets": 4,
+        "two_sided_share": 0.8,
+        "wallet": "0x9abbdf321694eec4028e9b3be0d2a07a662f3f96"
+      },
+      {
+        "copies_all_lags": 3,
+        "large_fill_markets": 3,
+        "large_fills": 5,
+        "markets": 3,
+        "notional_usdc": 60277.99,
+        "own_scored_signals": 1,
+        "own_settlement_roi_mean": -1.027,
+        "prints": 7,
+        "qualified_at": "2026-09-14T14:35:07+00:00",
+        "refused_two_sided": false,
+        "signals": 1,
+        "two_sided_markets": 1,
+        "two_sided_share": 0.3333,
+        "wallet": "0x658e4eca37bfe9f11ea54e3aac9df4f64020d758"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 2,
+        "large_fills": 3,
+        "markets": 2,
+        "notional_usdc": 56124.34,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 3,
+        "qualified_at": "2026-09-14T21:21:49+00:00",
+        "refused_two_sided": false,
+        "signals": 0,
+        "two_sided_markets": 1,
+        "two_sided_share": 0.5,
+        "wallet": "0x26b46988d027c6c03cfa12a7c0c6d778be49b8a9"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 12,
+        "large_fills": 32,
+        "markets": 35,
+        "notional_usdc": 55774.96,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 215,
+        "qualified_at": "2026-09-14T11:45:28+00:00",
+        "refused_two_sided": true,
+        "signals": 0,
+        "two_sided_markets": 34,
+        "two_sided_share": 0.9714,
+        "wallet": "0x6485f47d0344c03eb4340f985159f6eb2dcba265"
+      },
+      {
+        "copies_all_lags": 3,
+        "large_fill_markets": 4,
+        "large_fills": 6,
+        "markets": 4,
+        "notional_usdc": 45866.5,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 6,
+        "qualified_at": "2026-09-14T20:56:58+00:00",
+        "refused_two_sided": false,
+        "signals": 3,
+        "two_sided_markets": 0,
+        "two_sided_share": 0.0,
+        "wallet": "0x441909510a0b18a7df9f5ea588314a53d5bcfcf4"
+      },
+      {
+        "copies_all_lags": 67,
+        "large_fill_markets": 13,
+        "large_fills": 22,
+        "markets": 34,
+        "notional_usdc": 39747.94,
+        "own_scored_signals": 26,
+        "own_settlement_roi_mean": 0.0003,
+        "prints": 95,
+        "qualified_at": "2026-09-14T12:07:52+00:00",
+        "refused_two_sided": false,
+        "signals": 27,
+        "two_sided_markets": 17,
+        "two_sided_share": 0.5,
+        "wallet": "0x42c99f38d2b951b0dc8e8bd5371fa80c9dd19623"
+      },
+      {
+        "copies_all_lags": 4,
+        "large_fill_markets": 4,
+        "large_fills": 18,
+        "markets": 4,
+        "notional_usdc": 39300.7,
+        "own_scored_signals": 3,
+        "own_settlement_roi_mean": 0.1255,
+        "prints": 25,
+        "qualified_at": "2026-09-14T13:04:31+00:00",
+        "refused_two_sided": true,
+        "signals": 3,
+        "two_sided_markets": 4,
+        "two_sided_share": 1.0,
+        "wallet": "0x1a16db2990230cc3d5d5a402f21107d6ce54a7f6"
+      },
+      {
+        "copies_all_lags": 9,
+        "large_fill_markets": 3,
+        "large_fills": 6,
+        "markets": 4,
+        "notional_usdc": 38247.36,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 7,
+        "qualified_at": "2026-09-14T21:15:31+00:00",
+        "refused_two_sided": false,
+        "signals": 3,
+        "two_sided_markets": 2,
+        "two_sided_share": 0.5,
+        "wallet": "0x0353aaf82abbd3e69c00059df0a825bc198fc2ff"
+      },
+      {
+        "copies_all_lags": 13,
+        "large_fill_markets": 6,
+        "large_fills": 8,
+        "markets": 6,
+        "notional_usdc": 36925.82,
+        "own_scored_signals": 5,
+        "own_settlement_roi_mean": -0.6372,
+        "prints": 10,
+        "qualified_at": "2026-09-14T14:26:03+00:00",
+        "refused_two_sided": false,
+        "signals": 5,
+        "two_sided_markets": 2,
+        "two_sided_share": 0.3333,
+        "wallet": "0x3f985e3a68f88e6ed8da1a22e1a5eda81c8e0aa1"
+      },
+      {
+        "copies_all_lags": 0,
+        "large_fill_markets": 2,
+        "large_fills": 15,
+        "markets": 4,
+        "notional_usdc": 33587.28,
+        "own_scored_signals": 0,
+        "own_settlement_roi_mean": null,
+        "prints": 40,
+        "qualified_at": "2026-09-14T15:52:39+00:00",
+        "refused_two_sided": true,
+        "signals": 0,
+        "two_sided_markets": 4,
+        "two_sided_share": 1.0,
+        "wallet": "0x737365b37169b6f5158dca160d89b93a3631fc38"
+      },
+      {
+        "copies_all_lags": 19,
+        "large_fill_markets": 6,
+        "large_fills": 12,
+        "markets": 6,
+        "notional_usdc": 32444.06,
+        "own_scored_signals": 5,
+        "own_settlement_roi_mean": -0.4515,
+        "prints": 12,
+        "qualified_at": "2026-09-14T18:36:36+00:00",
+        "refused_two_sided": false,
+        "signals": 9,
+        "two_sided_markets": 1,
+        "two_sided_share": 0.1667,
+        "wallet": "0x081e14554b92ee3dc53a21bd5b01f306692ef76e"
+      }
+    ]
+  }
+}
