@@ -73,8 +73,9 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source) |
+| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source). Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
+| `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
 | `admitted` | number | |
 | `rejects` | number | |
@@ -87,6 +88,41 @@ Captures research headlines that explain empty cross-venue panels:
 | `notes` | string | Operator-facing explanation |
 | `reject_reasons` | Record<string, number> | Histogram |
 | `metrics` | object | Track-specific extras (venue breakdown, host conflicts, …) |
+
+## Track ids and families
+
+Track ids are stable snake_case strings chosen by the Python scoreboard
+(`research/scoreboard.py` `TRACKS` / `TRACK_LABELS`). The dashboard groups them into
+**families** (strategy lanes) using `dashboard/scripts/track-families.mjs`; that file is
+the only place the mapping lives. Nothing else in the UI needs to know a track id.
+
+| Family id | Lane label | Pinned lane | Tracks emitted today | Matches new ids containing |
+| --- | --- | --- | --- | --- |
+| `negrisk` | NegRisk | yes | — (sister branch) | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
+| `kalshi_flb` | Kalshi FLB | yes | — (sister branch) | `flb`, `maker` |
+| `xv_gated` | XV gated | yes | `gated_cross_venue_macro`, `small_deliberate_bet` | `gated` + (`cross_venue` \| `xv`) |
+| `xv_ungated` | XV ungated | no | `ungated_cross_venue_macro`, `sports_cross_venue` | `ungated` + (`cross_venue` \| `xv`) |
+| `cross_venue` | Cross-venue | no | — | `cross_venue` \| `xv` without gated/ungated |
+| `single_venue` | Single venue | no | `single_venue_fair_value` | `single_venue`, `fair_value` |
+| `news` | News | no | `news_underreaction` | `news`, `underreaction`, `headline` |
+| `other` | Other | no | — | anything else |
+
+Resolution order for a track row: explicit `family` (or `metrics.family` /
+`metrics.track_family`) naming a registered family → the known-id table → keyword match
+on the id → `other`. An unknown id therefore never breaks the index; it lands in `other`
+until either the id is added to `KNOWN_TRACKS` or the artifact declares its family.
+
+Conventions for the parallel tracks (ids are the sister branches' choice; these are the
+patterns the matcher already recognises, not a claim that any of them has run):
+
+- Polymarket NegRisk / combinatorial: `polymarket_negrisk`, `polymarket_negrisk_combinatorial`, …
+- Kalshi maker / FLB: `kalshi_maker_flb`, `kalshi_flb`, …
+- Gated cross-venue variants: `gated_cross_venue_<scope>`
+
+To add a track to a lane explicitly, either extend `KNOWN_TRACKS` in
+`track-families.mjs` or emit `"family": "<family id>"` on the track row (the sync script
+copies it into the run record). The three pinned lanes render even when they have no
+artifacts yet, with the copy "Not measured yet".
 
 ## `top_fills[]` / `top_edges[]`
 
@@ -120,18 +156,36 @@ Inputs, in this directory:
 
 | Field | Type | Notes |
 | --- | --- | --- |
+| `schema_version` | string | `1.1.0`. Additive over `1.0.0`: `families`, `lanes`, `track.family`, `run.families`, `ledger.track/family` |
 | `counts` | `{ total, measured, sample, backtest }` | `measured` = everything that is not a sample |
 | `modes` | Record<string, number> | Runs per `meta.mode` |
 | `latest_run_id` | string \| null | Run id found in `scoreboard_latest.json` |
+| `families[]` | TrackFamilySummary[] | Every registered family, in registry order, including those with zero runs |
+| `lanes[]` | LaneSummary[] | The pinned lanes (`negrisk`, `kalshi_flb`, `xv_gated`) |
 | `runs[]` | ExperimentEntry[] | Newest `measured_at` first |
-| `ledgers[]` | LedgerSnapshotEntry[] | `ledger_id`, `updated_at`, `fills`, `equity`, `total_pnl`, … |
+| `ledgers[]` | LedgerSnapshotEntry[] | `ledger_id`, `track`, `family`, `updated_at`, `fills`, `equity`, `total_pnl`, … |
 
 `runs[]` entries: `run_id`, `kind` (`paper_run` \| `sample` \| `backtest`), `source`, `label`,
 `mode`, `cycle`, `measured_at`, `venues`, `venue_focus`, `kalshi_env`, `primary_track`,
 `pnl_source`, `totals` (`candidates`, `admitted`, `rejects`, `paper_fills`, `paper_pnl`,
-`realized_pnl`, `unrealized_pnl`, `fees_paid`), `tracks[]` (`track`, `label`, `candidates`,
-`admitted`, `paper_fills`, `edge_bps`, `settlement_risk`, `paper_pnl`), `artifacts[]`,
-`detail` (URL of the richest file), `is_latest`.
+`realized_pnl`, `unrealized_pnl`, `fees_paid`), `tracks[]` (`track`, `label`, `family`,
+`candidates`, `admitted`, `paper_fills`, `edge_bps`, `settlement_risk`, `paper_pnl`),
+`families[]` (distinct families in `tracks`), `artifacts[]`, `detail` (URL of the richest
+file), `is_latest`.
+
+`families[]` entries: `id`, `label`, `description`, `lane` (pinned in the strip), `tracks[]`
+(ids seen under the family across all runs), `runs`, `measured_runs`, `sample_runs`.
+
+`lanes[]` entries: `family`, `label`, `description`, `status`, `run_id`, `measured_at`,
+`mode`, `pnl_source`, `tracks[]`, `candidates`, `admitted`, `paper_fills`, `paper_pnl`,
+`detail`. A lane is the **newest measured run that carries at least one track of the
+family**, reduced to that family's tracks. `status` is:
+
+- `measured` — numbers are that run's per-family sums; `paper_pnl` is `null` unless the run
+  has `pnl_source` and every family track carries a ledger PnL.
+- `sample_only` — only sample files carry the family; every number is `null`.
+- `missing` — no file in this directory has a track in the family; every number is `null`.
+  This is the state of NegRisk and Kalshi FLB until their branches merge and a run is synced.
 
 Honesty rules baked into the builder:
 
@@ -140,6 +194,25 @@ Honesty rules baked into the builder:
 - Sample files (`meta.source: "sample"`) are indexed as `kind: "sample"` with every PnL
   field set to `null`; the UI shows a SAMPLE pill and `—` for PnL.
 - PnL is copied only when `meta.pnl_source` is present (ledger-backed artifacts).
+- Lanes and family filters only ever sum numbers already present in a run; there is no
+  backfill, interpolation or backtest.
+- A track row without a string `track` id is dropped with a warning; the rest of the run
+  is still indexed.
+
+### How a new track appears
+
+1. A branch adds the track to `TRACKS` / `TRACK_LABELS` in `research/scoreboard.py` and it
+   is measured by `measure_all` (or the paper loop). The run writes
+   `artifacts/scoreboard_<mode>.json`, `artifacts/scoreboard_latest.json`,
+   `artifacts/paper/ledger_<track>.json` and `artifacts/paper/runs/<run_id>.json`.
+2. `cd dashboard && npm run sync-artifacts` discovers every `scoreboard_*.json` and
+   `paper/ledger_*.json` (no file list to edit), writes `runs/<run_id>.json` and rebuilds
+   this index. The new track row is stamped with a `family` by `track-families.mjs`.
+3. In the UI the track shows up inside its run's detail table under its family heading;
+   the family appears as a filter pill; if the family is a pinned lane its tile switches
+   from "Not measured yet" to fills / paper PnL / date. If the id matched nothing it shows
+   under **Other** — add it to `KNOWN_TRACKS` or emit `family` on the row to place it.
+4. Commit `public/artifacts` (CI fails if the committed index is stale) and push.
 
 ## `runs/<run_id>.json` — compact run record
 
@@ -149,8 +222,10 @@ from the paper loop. Per-fill and per-edge rows are dropped; per-track counts an
 `PaperLedger.summary()` totals are kept, so the record stays ~2 KB. Fields: `run_id`,
 `mode`, `measured_at`, `completed_at`, `cycle`, `duration_seconds`, `primary_track`,
 `pnl_source`, `totals`, `tracks[]` (with a `ledger` block: `equity`, `realized_pnl`,
-`unrealized_pnl`, `total_pnl`, `fees_paid`, `fills`, `open_positions`, `max_drawdown`),
-`derived_from[]`. The newest 200 manifests are kept (`MAX_RUN_RECORDS`).
+`unrealized_pnl`, `total_pnl`, `fees_paid`, `fills`, `open_positions`, `max_drawdown`, and
+`family` when the manifest row declared one), `derived_from[]`. `primary_track` is taken
+from the manifest, then the loop history row, then `single_venue_fair_value`. The newest
+200 manifests are kept (`MAX_RUN_RECORDS`).
 
 These records are what keeps a run visible in the history after the next run overwrites
 `scoreboard_latest.json` / `scoreboard_<mode>.json`.
@@ -166,8 +241,9 @@ uv run python -m apps.paper_loop --once
 
 # Copy runtime JSON into the dashboard public tree
 cd dashboard
-npm run sync-artifacts   # copies scoreboard_*.json, paper_loop_latest.json and the primary ledger,
-                         # writes runs/<run_id>.json records and rebuilds experiments_index.json
+npm run sync-artifacts   # copies every scoreboard_*.json, paper_loop_latest.json and every
+                         # paper/ledger_<track>.json, writes runs/<run_id>.json records and
+                         # rebuilds experiments_index.json (families + lanes included)
 
 # Commit snapshots for static Vercel (parent / operator)
 git add public/artifacts

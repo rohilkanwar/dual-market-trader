@@ -140,17 +140,30 @@ UI labels it **Sample** and hides PnL.
 cd dashboard
 npm ci
 npm run typecheck && npm run build
-npm run sync-artifacts     # copies ../artifacts/scoreboard_*.json when they exist,
-                           # writes compact public/artifacts/runs/<run_id>.json records
-                           # and rebuilds public/artifacts/experiments_index.json
+npm test                   # node --test: experiments index + sync against unknown track ids
+npm run sync-artifacts     # copies every ../artifacts/scoreboard_*.json and
+                           # paper/ledger_<track>.json when they exist, writes compact
+                           # public/artifacts/runs/<run_id>.json records and rebuilds
+                           # public/artifacts/experiments_index.json
 ```
 
 The dashboard's **Experiments** card lists every run found in
 `dashboard/public/artifacts/` (scoreboards deduped by `run_id`, plus `runs/*.json`
 records). The index is regenerated on every `npm run build`, so it never claims a
 run that is not on disk; sample files are marked SAMPLE with PnL hidden, and nothing
-is labelled a backtest unless the artifact's `meta` says so. See
-`dashboard/public/artifacts/schema.md`.
+is labelled a backtest unless the artifact's `meta` says so.
+
+Tracks are grouped into **families** (strategy lanes) by
+`dashboard/scripts/track-families.mjs`: NegRisk (Polymarket NegRisk / combinatorial),
+Kalshi FLB (maker / FLB), XV gated, XV ungated, cross-venue, single venue, news, other. The
+card shows a thin lanes strip for the three pinned lanes — "Not measured yet" until a
+run carrying that family is synced — and filter pills that scope fills / paper PnL to
+one family. A track from a parallel branch appears after `measure_all` + `npm run
+sync-artifacts` with no dashboard change: the sync discovers the new scoreboard and
+ledger files, the index stamps a family on the track (by explicit `family`, known id, or
+keyword match on the id; unknown ids land in **Other**), and the UI reads only those
+stamps. See `dashboard/public/artifacts/schema.md` for the id conventions and the
+step-by-step.
 
 ## Public deployment
 

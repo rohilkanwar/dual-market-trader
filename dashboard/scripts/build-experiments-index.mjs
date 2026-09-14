@@ -7,12 +7,19 @@
 //   scoreboard_*.json   full dashboard artifacts; one run each (deduped by meta.run_id)
 //   runs/*.json         compact run records written by sync-artifacts.mjs
 //   paper_ledger_*.json ledger snapshots (listed separately; they carry no run_id)
+//
+// Every track is stamped with a `family` (see track-families.mjs) so the UI can
+// filter or group by strategy lane. Unknown track ids never fail the build: they
+// fall back to keyword matching and finally to the `other` family.
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { FAMILIES, LANE_FAMILIES, familyOf } from './track-families.mjs'
 
 const INDEX_FILE = 'experiments_index.json'
-const INDEX_SCHEMA = '1.0.0'
+// 1.1.0: tracks carry `family`; runs carry `families[]`; root gains `families[]`
+// and `lanes[]`; ledgers carry `track` + `family`. 1.0.0 readers still work.
+const INDEX_SCHEMA = '1.1.0'
 const KNOWN_MODES = new Set(['fixtures', 'network', 'harvest', 'sample'])
 
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : v == null ? null : Number(v))
@@ -53,6 +60,7 @@ function trackRow(t, ledgerByTrack) {
   return {
     track: t.track,
     label: t.label ?? t.track.replace(/_/g, ' '),
+    family: familyOf(t),
     candidates: finite(t.candidates) ?? 0,
     admitted: finite(t.admitted) ?? 0,
     paper_fills: finite(t.paper_fills) ?? 0,
@@ -95,7 +103,7 @@ function entryFromScoreboard(file, doc) {
       unrealized_pnl: measuredPnl ? round2(finite(t.unrealized_pnl)) : null,
       fees_paid: measuredPnl ? round2(finite(t.fees_paid)) : null,
     },
-    tracks: (doc.tracks ?? []).map((tr) => {
+    tracks: validTracks(doc.tracks, file).map((tr) => {
       const row = trackRow(tr, byTrack)
       return measuredPnl ? row : { ...row, paper_pnl: null }
     }),
@@ -103,6 +111,17 @@ function entryFromScoreboard(file, doc) {
     detail: `/artifacts/${file}`,
   }
 }
+
+// A track row needs a string id to be indexed; anything else is reported and dropped
+// so one malformed row from an in-progress branch cannot hide the whole run.
+function validTracks(tracks, file) {
+  const rows = Array.isArray(tracks) ? tracks : []
+  const kept = rows.filter((tr) => typeof tr?.track === 'string' && tr.track.length > 0)
+  if (kept.length !== rows.length) console.warn(`${file}: dropped ${rows.length - kept.length} track row(s) without an id`)
+  return kept
+}
+
+const distinctFamilies = (tracks) => [...new Set(tracks.map((t) => t.family))].sort()
 
 function entryFromRunRecord(file, doc) {
   const t = doc.totals ?? {}
@@ -132,7 +151,7 @@ function entryFromRunRecord(file, doc) {
       unrealized_pnl: measuredPnl ? round2(finite(t.unrealized_pnl)) : null,
       fees_paid: measuredPnl ? round2(finite(t.fees_paid)) : null,
     },
-    tracks: (doc.tracks ?? []).map((tr) => trackRow(tr)),
+    tracks: validTracks(doc.tracks, `runs/${file}`).map((tr) => trackRow(tr)),
     artifacts: [`runs/${file}`],
     detail: `/artifacts/runs/${file}`,
   }
@@ -156,8 +175,13 @@ function merge(existing, incoming) {
 
 function ledgerEntry(file, doc) {
   const s = doc.summary ?? doc
+  // measure_all names each ledger after its track (paper/ledger_<track>.json,
+  // ledger_id = track), so the filename is the fallback when ledger_id is absent.
+  const track = doc.track ?? doc.ledger_id ?? s.ledger_id ?? file.replace(/^paper_ledger_/, '').replace(/\.json$/, '')
   return {
     ledger_id: doc.ledger_id ?? s.ledger_id ?? file,
+    track,
+    family: familyOf(track),
     updated_at: doc.updated_at ?? s.updated_at ?? null,
     mark_method: doc.mark_method ?? s.mark_method ?? null,
     fills: finite(s.fills) ?? (Array.isArray(doc.fills) ? doc.fills.length : 0),
@@ -209,7 +233,7 @@ export async function buildExperimentsIndex(publicRoot) {
   }
 
   const runs = [...byRun.values()]
-    .map((e) => ({ ...e, is_latest: e.run_id === latestRunId }))
+    .map((e) => ({ ...e, families: distinctFamilies(e.tracks), is_latest: e.run_id === latestRunId }))
     .sort((a, b) => {
       const ta = a.measured_at ?? ''
       const tb = b.measured_at ?? ''
@@ -233,8 +257,80 @@ export async function buildExperimentsIndex(publicRoot) {
     counts,
     modes,
     latest_run_id: latestRunId,
+    families: familySummaries(runs),
+    lanes: LANE_FAMILIES.map((family) => laneFor(family, runs)),
     runs,
     ledgers,
+  }
+}
+
+// Every registered family, with the track ids seen under it and how many runs
+// touched it. Families with zero runs stay listed so the UI can render empty lanes.
+function familySummaries(runs) {
+  return FAMILIES.map((f) => {
+    const tracks = new Set()
+    let measured = 0
+    let sample = 0
+    for (const run of runs) {
+      const mine = run.tracks.filter((t) => t.family === f.id)
+      if (mine.length === 0) continue
+      for (const t of mine) tracks.add(t.track)
+      if (run.kind === 'sample') sample += 1
+      else measured += 1
+    }
+    return {
+      id: f.id,
+      label: f.label,
+      description: f.description,
+      lane: f.lane,
+      tracks: [...tracks].sort(),
+      runs: measured + sample,
+      measured_runs: measured,
+      sample_runs: sample,
+    }
+  })
+}
+
+// Lane = the newest measured run that carries at least one track of the family,
+// reduced to that family's tracks. Nothing is estimated: when no measured run
+// has the family the lane reports `missing` (or `sample_only`) with null numbers.
+function laneFor(family, runs) {
+  const f = FAMILIES.find((x) => x.id === family)
+  const base = { family, label: f?.label ?? family, description: f?.description ?? null }
+  const carrying = runs.filter((run) => run.tracks.some((t) => t.family === family))
+  const measured = carrying.find((run) => run.kind !== 'sample')
+  if (!measured) {
+    return {
+      ...base,
+      status: carrying.length > 0 ? 'sample_only' : 'missing',
+      run_id: null,
+      measured_at: null,
+      mode: null,
+      pnl_source: null,
+      tracks: [...new Set(carrying.flatMap((r) => r.tracks.filter((t) => t.family === family).map((t) => t.track)))].sort(),
+      candidates: null,
+      admitted: null,
+      paper_fills: null,
+      paper_pnl: null,
+      detail: null,
+    }
+  }
+  const mine = measured.tracks.filter((t) => t.family === family)
+  const pnlKnown = Boolean(measured.pnl_source) && mine.every((t) => t.paper_pnl != null)
+  const total = (pick) => mine.reduce((acc, t) => acc + (pick(t) ?? 0), 0)
+  return {
+    ...base,
+    status: 'measured',
+    run_id: measured.run_id,
+    measured_at: measured.measured_at,
+    mode: measured.mode,
+    pnl_source: measured.pnl_source,
+    tracks: mine.map((t) => t.track),
+    candidates: total((t) => t.candidates),
+    admitted: total((t) => t.admitted),
+    paper_fills: total((t) => t.paper_fills),
+    paper_pnl: pnlKnown ? round2(total((t) => t.paper_pnl)) : null,
+    detail: measured.detail,
   }
 }
 
@@ -255,8 +351,9 @@ export async function writeExperimentsIndex(publicRoot) {
     target,
     `${JSON.stringify({ generated_at: new Date().toISOString(), ...index }, null, 2)}\n`,
   )
+  const lanes = index.lanes.map((l) => `${l.label}=${l.status}`).join(', ')
   console.log(
-    `Wrote ${INDEX_FILE}: ${index.counts.total} runs (${index.counts.measured} measured, ${index.counts.sample} sample, ${index.counts.backtest} backtest), ${index.ledgers.length} ledgers.`,
+    `Wrote ${INDEX_FILE}: ${index.counts.total} runs (${index.counts.measured} measured, ${index.counts.sample} sample, ${index.counts.backtest} backtest), ${index.ledgers.length} ledgers; lanes: ${lanes}.`,
   )
   return { index, changed: true }
 }
