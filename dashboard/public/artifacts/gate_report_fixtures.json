@@ -16,8 +16,8 @@
       "kalshi": "kalshi_fee",
       "polymarket": "zero_fee"
     },
-    "generated_at": "2026-09-14T21:34:24.081172+00:00",
-    "measured_at": "2026-09-14T21:34:24.006439+00:00",
+    "generated_at": "2026-09-14T21:45:56.173458+00:00",
+    "measured_at": "2026-09-14T21:45:56.093773+00:00",
     "mode": "fixtures",
     "paper_only": true,
     "parameters": {
@@ -35,7 +35,7 @@
       "name": "strict",
       "require_same_publisher": true
     },
-    "run_id": "20260914T213424Z-85083a97",
+    "run_id": "20260914T214556Z-68961964",
     "source": "measured",
     "stage_order": [
       "match",

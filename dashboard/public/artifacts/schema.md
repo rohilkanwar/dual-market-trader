@@ -80,7 +80,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`. Grouping: see [Track ids and families](#track-ids-and-families) |
+| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote` (Kalshi FLB lane). Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
 | `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
@@ -106,7 +106,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | Family id | Lane label | Pinned lane | Tracks emitted today | Matches new ids containing |
 | --- | --- | --- | --- | --- |
 | `negrisk` | NegRisk | yes | `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb` | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
-| `kalshi_flb` | Kalshi FLB | yes | — (sister branch) | `flb`, `maker` |
+| `kalshi_flb` | Kalshi FLB | yes | `kalshi_longshot_fade`, `kalshi_maker_quote` | `flb`, `maker`, `longshot` |
 | `xv_gated` | XV gated | yes | `gated_cross_venue_macro`, `small_deliberate_bet` | `gated` + (`cross_venue` \| `xv`) |
 | `xv_ungated` | XV ungated | no | `ungated_cross_venue_macro`, `sports_cross_venue` | `ungated` + (`cross_venue` \| `xv`) |
 | `cross_venue` | Cross-venue | no | — | `cross_venue` \| `xv` without gated/ungated |
@@ -123,7 +123,7 @@ Conventions for the parallel tracks (ids are the sister branches' choice; these 
 patterns the matcher already recognises, not a claim that any of them has run):
 
 - Polymarket NegRisk / combinatorial / rebalancing: the three `polymarket_*_arb` ids above (registered in `KNOWN_TRACKS`)
-- Kalshi maker / FLB: `kalshi_maker_flb`, `kalshi_flb`, …
+- Kalshi maker / FLB: `kalshi_longshot_fade`, `kalshi_maker_quote` (registered in `KNOWN_TRACKS`), `kalshi_maker_flb`, `kalshi_flb`, …
 - Gated cross-venue variants: `gated_cross_venue_<scope>`
 
 To add a track to a lane explicitly, either extend `KNOWN_TRACKS` in
@@ -178,6 +178,28 @@ only for admitted pairs, `edge` (depth-aware pricing: `reason`, `quantity`, `net
 `npm run sync-artifacts` copies `gate_report_{latest,network,fixtures}.json` when present
 (never a `sample`), and the experiments index joins each report to its run by `meta.run_id`
 (`runs[].gate`, `runs[].gate_report`) and lists them under `gate_reports[]`.
+
+## `scoreboard_flb.json` and `flb_report_latest.json` — Kalshi FLB run
+
+`apps.measure_flb` writes a normal scoreboard artifact for the two FLB tracks only
+(`meta.kind = "kalshi_flb"`, `meta.venues = ["kalshi"]`, `meta.primary_track =
+"kalshi_maker_quote"`, `meta.label` ends in `/ KALSHI FLB`) whose `findings.kalshi_flb`
+carries the verdict map and headline, plus the full report:
+
+| Field | Notes |
+| --- | --- |
+| `kind` | `kalshi_flb_report`; `paper_only: true`; `pnl_source: core.ledger.PaperLedger` |
+| `headline`, `verdict_table[]` | `{scope: snapshot \| ex_post, check, verdict: PASS \| FAIL \| INSUFFICIENT_DATA \| NOT_IDENTIFIABLE, detail}` |
+| `snapshot` | `band_table` by YES price band (`<10c` … `>=90c`: markets, spread, taker fee and take cost as a fraction of price, depth), `event_overround` for mutually exclusive events, `verdicts` |
+| `tracks` | per track: counts, refusals, ledger totals, `longshot_bands`, `paper_pnl_by_longshot_band`, `paper_pnl_by_price_paid_band`, `shadow_longshot_buyer` (fade track only) |
+| `ex_post` | `status` (`measured_from_settled_trades` \| `not_measured`), `band_table` by taker purchase price (taker/maker gross and net per contract, `taker_roi`, `maker_roi_net`, market-clustered `t_stat_taker_gross`, `effective_n_markets`, equal-weighted mean and t), `band_table_excluding_final_minutes`, `by_category`, `verdicts` |
+| `assumptions` | fee model, fill probability, queue, adverse selection, marks, sizing, longshot definition, snapshot and ex-post limits |
+
+`flb_identifiable_from_snapshot` is `NOT_IDENTIFIABLE` on every non-empty snapshot by
+design: prices without outcomes cannot establish favorite–longshot bias. The synced
+`paper_ledger_kalshi_longshot_fade.json` / `paper_ledger_kalshi_maker_quote.json` are the
+two FLB ledgers. Run records from `measure_flb` carry `run_kind: "kalshi_flb"`,
+`primary_track: "kalshi_maker_quote"` and the `flb` verdict map. See `docs/FLB_RUNBOOK.md`.
 
 ## `experiments_index.json` — run history
 
@@ -288,6 +310,7 @@ Paper only. Do not enable live trading.
 uv run python -m apps.measure_all --network --kalshi-env prod --harvest-dir data/harvests
 uv run python -m apps.measure_polymarket_arb --network --limit 40   # arb-only board + report
 uv run python -m apps.paper_loop --once
+uv run python -m apps.measure_flb --network --kalshi-env prod --harvest-trades   # Kalshi FLB report
 
 # Copy runtime JSON into the dashboard public tree
 cd dashboard

@@ -1,0 +1,406 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T214601Z-d5338a8c.json"
+  ],
+  "run_id": "20260914T214601Z-d5338a8c",
+  "mode": "network",
+  "measured_at": "2026-09-14T21:45:56.330050+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK",
+  "venues": [
+    "kalshi",
+    "polymarket"
+  ],
+  "venue_focus": "kalshi",
+  "kalshi_env": "prod",
+  "track_family": null,
+  "primary_track": "single_venue_fair_value",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 751,
+    "admitted": 20,
+    "rejects": 731,
+    "proposed_orders": 20,
+    "paper_fills": 14,
+    "paper_pnl": -3.17,
+    "realized_pnl": -1.29,
+    "unrealized_pnl": -1.88,
+    "fees_paid": 1.29
+  },
+  "gate": {
+    "track": "gated_cross_venue",
+    "policy": "strict",
+    "candidates": 2,
+    "gate_admitted": 0,
+    "gate_refused": 2,
+    "priced_but_no_edge": 0,
+    "traded": 0,
+    "paper_fills": 0,
+    "primary_reject_reasons": {
+      "clause_refuse_mismatch": 2
+    },
+    "all_stage_reject_reasons": {
+      "clause_refuse_mismatch": 2,
+      "fingerprint_indeterminate": 2,
+      "polarity_unverified": 2
+    },
+    "status": "zero_admits_expected"
+  },
+  "tracks": [
+    {
+      "track": "gated_cross_venue",
+      "label": "Gated cross-venue (clause-matched)",
+      "candidates": 2,
+      "admitted": 0,
+      "rejects": 2,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "clause_refuse_mismatch": 2
+      },
+      "notes": "Settlement-safe track. Every matched pair (any category) must pass all eight gate stages - match confidence, clauses, fingerprint, polarity, Fed bucket, interval, hosts, expiry - before it is priced; then both legs must clear venue fees through book depth. Zero admits is the expected state: the gate exists to prove that most cross-venue pairs are not settlement-equivalent. Control: ungated_cross_venue_macro.",
+      "ledger": {
+        "ledger_id": "gated_cross_venue",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "gated_cross_venue_macro",
+      "label": "Gated cross-venue macro",
+      "candidates": 2,
+      "admitted": 0,
+      "rejects": 2,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "clause_refuse_mismatch": 2
+      },
+      "notes": "Macro pairs must pass the same strict gate before any paper order, priced at the touch with a flat fee buffer. Refusals are the expected state when venues' settlement rules diverge.",
+      "ledger": {
+        "ledger_id": "gated_cross_venue_macro",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "ungated_cross_venue_macro",
+      "label": "Ungated cross-venue macro (control)",
+      "candidates": 2,
+      "admitted": 0,
+      "rejects": 2,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "below_mid_edge_threshold": 2
+      },
+      "notes": "CONTROL. Same macro pairs traded without the settlement gate. Exists only to measure what the gate refuses; flagged settlement-risk whenever a traded pair would have been refused. Its PnL is not realisable: the legs may settle on different events.",
+      "ledger": {
+        "ledger_id": "ungated_cross_venue_macro",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "single_venue_fair_value",
+      "label": "Single-venue fair value",
+      "candidates": 30,
+      "admitted": 0,
+      "rejects": 30,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "no_fair_value": 30
+      },
+      "notes": "Primary track. Single-venue fair value from explicit priors; no cross-venue settlement exposure by construction. Markets without a prior are never traded.",
+      "ledger": {
+        "ledger_id": "single_venue_fair_value",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "sports_cross_venue",
+      "label": "Sports cross-venue",
+      "candidates": 0,
+      "admitted": 0,
+      "rejects": 0,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {},
+      "notes": "Sports pairs trade ungated but every host-tier conflict is counted and flags the track.",
+      "ledger": {
+        "ledger_id": "sports_cross_venue",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "small_deliberate_bet",
+      "label": "Small deliberate bet",
+      "candidates": 2,
+      "admitted": 0,
+      "rejects": 2,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "clause_refuse_mismatch": 2
+      },
+      "notes": "Gated macro pairs at a 2-contract cap: a process probe, not an edge source.",
+      "ledger": {
+        "ledger_id": "small_deliberate_bet",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "news_underreaction",
+      "label": "News underreaction",
+      "candidates": 0,
+      "admitted": 0,
+      "rejects": 0,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {},
+      "notes": "Optional lane. Public signal -> implied probability -> underreaction residual -> paper order via the same fair-value engine as the primary track. The signal-to-probability mapping is UNKNOWN and never computed here: fixture signals are synthetic, network runs stay empty unless an operator supplies signals; RSS headlines are matched but never mapped, so they never trade. Literature anchor arXiv:2606.07811 (0.64 pass-through) is reported for comparison, not validated.",
+      "ledger": {
+        "ledger_id": "news_underreaction",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "polymarket_rebalancing_arb",
+      "label": "Polymarket YES+NO rebalancing",
+      "candidates": 653,
+      "admitted": 0,
+      "rejects": 653,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "empty_book": 118,
+        "no_edge": 653
+      },
+      "notes": "Binary YES+NO rebalancing: buy both below 1 and merge, or split and sell both above 1. Depth-aware, fee- and slippage-adjusted. The live CLOB serves mirror books, so this is expected to be quiet; mirror_consistent counts how often that held.",
+      "ledger": {
+        "ledger_id": "polymarket_rebalancing_arb",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "polymarket_negrisk_arb",
+      "label": "Polymarket NegRisk convert",
+      "candidates": 15,
+      "admitted": 0,
+      "rejects": 15,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "converter_unavailable": 1,
+        "empty_book": 10,
+        "fees_exceed_edge": 2,
+        "no_edge": 2
+      },
+      "notes": "Buy one NO on every visible leg of a NegRisk event when the NO asks sum below K-1, then convert the set to K-1 USDC through the NegRiskAdapter (one-way NO->collateral, no resolution wait). Hidden placeholder outcomes only help this side. Fees and a per-leg slippage buffer are deducted.",
+      "ledger": {
+        "ledger_id": "polymarket_negrisk_arb",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "polymarket_combinatorial_arb",
+      "label": "Polymarket sum-to-one (hold)",
+      "candidates": 15,
+      "admitted": 0,
+      "rejects": 15,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "exclusivity_unverified": 1,
+        "hidden_outcome_risk": 13,
+        "no_edge": 1
+      },
+      "notes": "Buy one YES on every leg of an exclusive event when the asks sum below 1. No converter exists for YES->collateral, so positions are held to resolution: the ledger marks them at mid and locked_capital / payoff_at_resolution report the lockup. Augmented events (hidden placeholders) and groups without an exclusivity guarantee are refused.",
+      "ledger": {
+        "ledger_id": "polymarket_combinatorial_arb",
+        "starting_cash": 1000,
+        "cash": 1000,
+        "equity": 1000,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "total_pnl": 0,
+        "fees_paid": 0,
+        "fills": 0,
+        "open_positions": 0,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "kalshi_longshot_fade",
+      "label": "Kalshi longshot fade (taker)",
+      "candidates": 15,
+      "admitted": 10,
+      "rejects": 5,
+      "proposed_orders": 10,
+      "paper_fills": 10,
+      "fill_rate": 1,
+      "edge_bps": -95,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "not_longshot": 5
+      },
+      "notes": "Taker fade of every Kalshi longshot (<=20c side) in the shared snapshot: buys the favourite at the touch, pays the taker fee, marked at mid. shadow_longshot_buyer is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
+      "ledger": {
+        "ledger_id": "kalshi_longshot_fade",
+        "starting_cash": 1000,
+        "cash": 959.5073,
+        "equity": 997.3373,
+        "realized_pnl": -1.2,
+        "unrealized_pnl": -1.46,
+        "total_pnl": -2.66,
+        "fees_paid": 1.2,
+        "fills": 10,
+        "open_positions": 10,
+        "max_drawdown": 2.6627
+      }
+    },
+    {
+      "track": "kalshi_maker_quote",
+      "label": "Kalshi maker quote (resting fade)",
+      "candidates": 15,
+      "admitted": 10,
+      "rejects": 5,
+      "proposed_orders": 10,
+      "paper_fills": 4,
+      "fill_rate": 0.4,
+      "edge_bps": 41,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "not_longshot": 5
+      },
+      "notes": "Resting fade one tick inside the spread (or joining the touch). Expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks. Not a measurement of fill rates.",
+      "ledger": {
+        "ledger_id": "kalshi_maker_quote",
+        "starting_cash": 1000,
+        "cash": 993.1663,
+        "equity": 999.4863,
+        "realized_pnl": -0.09,
+        "unrealized_pnl": -0.42,
+        "total_pnl": -0.51,
+        "fees_paid": 0.09,
+        "fills": 4,
+        "open_positions": 4,
+        "max_drawdown": 0.5137
+      }
+    }
+  ]
+}

@@ -51,6 +51,7 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
 | `artifacts/paper_loop_latest.json`, `paper_loop_history.jsonl` | Paper-loop cycle payloads (append-only history) |
+| `artifacts/flb_report_latest.json`, `scoreboard_flb.json` | Kalshi favorite–longshot bias report + scoreboard from `apps.measure_flb` (see `docs/FLB_RUNBOOK.md`) |
 
 `artifacts/` is git-ignored. The dashboard's committed copies live in
 `dashboard/public/artifacts/` and are refreshed with `npm run sync-artifacts`.
@@ -115,11 +116,32 @@ python -m apps.measure_all --network --kalshi-env prod --news-rss https://www.fe
 ledger isolation, graceful empty) and what is not (the mapping, pre-signal
 price provenance, the drift window, the 0.64 constant on these venues).
 
+### Kalshi favorite–longshot bias (FLB) track
+
+Two paper tracks fade the longshot side (<20¢) of every qualifying Kalshi market —
+`kalshi_longshot_fade` takes the favourite at the touch, `kalshi_maker_quote` rests
+one tick inside the spread with documented fill-probability assumptions — with paper
+caps $25/order, $75/market, $75 daily loss, $1,000 collateral, and Kalshi's fee
+schedule (taker `M·0.07·P·(1−P)`, maker `M·0.0175·P·(1−P)`). `apps.measure_flb`
+adds a snapshot band table and, from the public settled-trade tape (`taker_side`
+per trade), ex-post maker-vs-taker returns by price band with explicit
+PASS/FAIL/NOT_IDENTIFIABLE verdicts:
+
+```bash
+uv run python -m apps.measure_flb                                   # fixtures, no network
+uv run python -m apps.measure_flb --network --kalshi-env prod --harvest-trades   # snapshot + settled trades
+```
+
+A snapshot cannot identify FLB (prices without outcomes), and the report says so;
+ex-post verdicts need settlement outcomes, which the harvest provides. Measured
+results, assumptions and limits: `docs/FLB_RUNBOOK.md`.
+
 ### Other entry points
 
 ```bash
-uv run python -m apps.measure_all --help            # one-shot measurement, all 9 tracks, all flags
+uv run python -m apps.measure_all --help            # one-shot measurement, all 12 tracks, all flags
 uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only (see docs/POLYMARKET_ARB.md)
+uv run python -m apps.measure_flb --help            # Kalshi FLB tracks + ex-post band table (see docs/FLB_RUNBOOK.md)
 uv run python -m apps.paper_runner --strategy both  # strategy runner with logging event sink
 uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges
@@ -269,12 +291,13 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors
+strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker)
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
-research/      scoreboard (10 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs
-apps/          measure_all, measure_polymarket_arb, paper_loop, paper_runner, dashboard_api
+research/      scoreboard (12 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
+               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns)
+apps/          measure_all, measure_polymarket_arb, measure_flb, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md
 ```
 
 ### Tracks
@@ -292,10 +315,15 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 | `polymarket_negrisk_arb` | NegRisk only, fee + slippage, capital cap | buy-all-NO + `NegRiskAdapter` conversion (executable, no lockup) |
 | `polymarket_combinatorial_arb` | exclusive + non-augmented only | buy-all-YES held to resolution; locked capital reported |
 
+| `kalshi_longshot_fade` | longshot side < 20¢, $25/$75/$75 paper caps, taker fee | taker fade of Kalshi longshots; shadow longshot buyer as benchmark |
+| `kalshi_maker_quote` | same trigger, resting order, expected-value fills, maker fee, conservative marks | maker fade of Kalshi longshots |
+
 Each track has its own risk manager, execution engine, portfolio and ledger.
-The cross-venue, fair-value and news tracks share one frozen per-venue
+The cross-venue, fair-value, news and Kalshi FLB tracks share one frozen per-venue
 snapshot; the three Polymarket arb tracks share one frozen event snapshot (YES
-and NO book per leg) captured in the same run.
+and NO book per leg) captured in the same run. The two FLB tracks use their own
+risk defaults ($25/order, $75/market, $75 daily) rather than the $100/$500/$250
+defaults of the other tracks.
 
 ### Cross-venue admissibility in one paragraph
 

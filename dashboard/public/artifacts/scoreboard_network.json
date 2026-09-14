@@ -3,19 +3,19 @@
     "candidates_by_track": [
       {
         "track": "gated_cross_venue",
-        "value": 8
+        "value": 2
       },
       {
         "track": "gated_cross_venue_macro",
-        "value": 8
+        "value": 2
       },
       {
         "track": "ungated_cross_venue_macro",
-        "value": 8
+        "value": 2
       },
       {
         "track": "single_venue_fair_value",
-        "value": 80
+        "value": 30
       },
       {
         "track": "sports_cross_venue",
@@ -23,7 +23,7 @@
       },
       {
         "track": "small_deliberate_bet",
-        "value": 8
+        "value": 2
       },
       {
         "track": "news_underreaction",
@@ -31,15 +31,23 @@
       },
       {
         "track": "polymarket_rebalancing_arb",
-        "value": 1138
+        "value": 653
       },
       {
         "track": "polymarket_negrisk_arb",
-        "value": 39
+        "value": 15
       },
       {
         "track": "polymarket_combinatorial_arb",
-        "value": 39
+        "value": 15
+      },
+      {
+        "track": "kalshi_longshot_fade",
+        "value": 15
+      },
+      {
+        "track": "kalshi_maker_quote",
+        "value": 15
       }
     ],
     "fills_by_track": [
@@ -53,7 +61,7 @@
       },
       {
         "track": "ungated_cross_venue_macro",
-        "value": 6
+        "value": 0
       },
       {
         "track": "single_venue_fair_value",
@@ -82,6 +90,14 @@
       {
         "track": "polymarket_combinatorial_arb",
         "value": 0
+      },
+      {
+        "track": "kalshi_longshot_fade",
+        "value": 10
+      },
+      {
+        "track": "kalshi_maker_quote",
+        "value": 4
       }
     ],
     "pnl_by_track": [
@@ -95,7 +111,7 @@
       },
       {
         "track": "ungated_cross_venue_macro",
-        "value": -1.1
+        "value": 0.0
       },
       {
         "track": "single_venue_fair_value",
@@ -124,15 +140,23 @@
       {
         "track": "polymarket_combinatorial_arb",
         "value": 0.0
+      },
+      {
+        "track": "kalshi_longshot_fade",
+        "value": -2.6627
+      },
+      {
+        "track": "kalshi_maker_quote",
+        "value": -0.5137
       }
     ],
     "venue_fills": [
       {
-        "value": 3,
+        "value": 14,
         "venue": "kalshi"
       },
       {
-        "value": 3,
+        "value": 0,
         "venue": "polymarket"
       }
     ]
@@ -142,31 +166,27 @@
     "divergence_findings_status": "not_measured_in_this_run",
     "gated_cross_venue": {
       "all_stage_reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "expiry_mismatch": 3,
-        "fed_bucket_one_side": 3,
-        "fingerprint_indeterminate": 8,
-        "match_low_confidence": 3,
-        "polarity_unverified": 8
+        "clause_refuse_mismatch": 2,
+        "fingerprint_indeterminate": 2,
+        "polarity_unverified": 2
       },
-      "candidates": 8,
+      "candidates": 2,
       "expected_locked_pnl_if_settlement_equivalent": 0.0,
       "gate_admitted": 0,
-      "gate_refused": 8,
+      "gate_refused": 2,
       "ledger_total_pnl": 0.0,
       "paper_fills": 0,
       "policy": "strict",
       "priced_but_no_edge": 0,
       "primary_reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
       "status": "zero_admits_expected",
       "track": "gated_cross_venue",
       "traded": 0,
-      "vetoed_candidates": 147
+      "vetoed_candidates": 24
     },
-    "live_network_cross_venue_candidates": 8,
+    "live_network_cross_venue_candidates": 2,
     "news_underreaction": {
       "literature_reference": "arXiv:2606.07811",
       "mapped": 0,
@@ -185,44 +205,40 @@
     "file": "gate_report_network.json",
     "totals": {
       "all_stage_reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "expiry_mismatch": 3,
-        "fed_bucket_one_side": 3,
-        "fingerprint_indeterminate": 8,
-        "match_low_confidence": 3,
-        "polarity_unverified": 8
+        "clause_refuse_mismatch": 2,
+        "fingerprint_indeterminate": 2,
+        "polarity_unverified": 2
       },
-      "candidates": 8,
+      "candidates": 2,
       "expected_locked_pnl_if_settlement_equivalent": 0.0,
       "gate_admitted": 0,
-      "gate_refused": 8,
+      "gate_refused": 2,
       "ledger_total_pnl": 0.0,
       "paper_fills": 0,
       "policy": "strict",
       "priced_but_no_edge": 0,
       "primary_reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
       "status": "zero_admits_expected",
       "track": "gated_cross_venue",
       "traded": 0,
-      "vetoed_candidates": 147
+      "vetoed_candidates": 24
     }
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T21:34:33.580640+00:00",
+    "generated_at": "2026-09-14T21:46:01.963479+00:00",
     "kalshi_env": "prod",
     "label": "MEASURED / NETWORK",
-    "markets_per_venue": 40,
-    "measured_at": "2026-09-14T21:34:24.229907+00:00",
+    "markets_per_venue": 15,
+    "measured_at": "2026-09-14T21:45:56.330050+00:00",
     "mode": "network",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "single_venue_fair_value",
     "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T213433Z-e04a35c8",
+    "run_id": "20260914T214601Z-d5338a8c",
     "source": "measured",
     "track_family": null,
     "venue_focus": "kalshi",
@@ -260,6 +276,34 @@
         "starting_cash": 1000.0,
         "total_pnl": 0.0,
         "unrealized_pnl": 0.0
+      },
+      "kalshi_longshot_fade": {
+        "cash": 959.5073,
+        "equity": 997.3373,
+        "equity_points": 1,
+        "fees_paid": 1.2027,
+        "fills": 10,
+        "gross_notional": 64.69,
+        "max_drawdown": 2.6627,
+        "open_positions": 10,
+        "realized_pnl": -1.2027,
+        "starting_cash": 1000.0,
+        "total_pnl": -2.6627,
+        "unrealized_pnl": -1.46
+      },
+      "kalshi_maker_quote": {
+        "cash": 993.1663,
+        "equity": 999.4863,
+        "equity_points": 1,
+        "fees_paid": 0.0937,
+        "fills": 4,
+        "gross_notional": 17.86,
+        "max_drawdown": 0.5137,
+        "open_positions": 4,
+        "realized_pnl": -0.0937,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.5137,
+        "unrealized_pnl": -0.42
       },
       "news_underreaction": {
         "cash": 1000.0,
@@ -360,42 +404,38 @@
         "unrealized_pnl": 0.0
       },
       "ungated_cross_venue_macro": {
-        "cash": 1021.91,
-        "equity": 998.9,
+        "cash": 1000.0,
+        "equity": 1000.0,
         "equity_points": 1,
-        "fees_paid": 0.39,
-        "fills": 6,
-        "gross_notional": 40.125,
-        "max_drawdown": 1.1,
-        "open_positions": 6,
-        "realized_pnl": -0.39,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "max_drawdown": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 0.0,
         "starting_cash": 1000.0,
-        "total_pnl": -1.1,
-        "unrealized_pnl": -0.71
+        "total_pnl": 0.0,
+        "unrealized_pnl": 0.0
       }
     },
-    "cash": 10021.91,
+    "cash": 11952.6736,
     "concentration": [
       {
         "venue": "kalshi",
-        "weight": 0.2133
-      },
-      {
-        "venue": "polymarket",
-        "weight": 0.7867
+        "weight": 1.0
       }
     ],
-    "equity": 9998.9,
-    "fees_paid": 0.39,
-    "gross_notional": 40.125,
-    "max_drawdown": 1.1,
-    "net_exposure": -23.01,
-    "open_positions": 6,
+    "equity": 11996.8236,
+    "fees_paid": 1.2964,
+    "gross_notional": 82.55,
+    "max_drawdown": 2.6627,
+    "net_exposure": 44.15,
+    "open_positions": 14,
     "paper_only": true,
     "primary": {
       "cash": 1000.0,
       "concentration": [],
-      "created_at": "2026-09-14T21:34:33.334275+00:00",
+      "created_at": "2026-09-14T21:46:01.808411+00:00",
       "equity": 1000.0,
       "equity_points": 1,
       "fees_paid": 0.0,
@@ -417,221 +457,44 @@
       "total_pnl": 0.0,
       "unmarked_positions": 0,
       "unrealized_pnl": 0.0,
-      "updated_at": "2026-09-14T21:34:33.569211+00:00"
+      "updated_at": "2026-09-14T21:46:01.954574+00:00"
     },
     "primary_track": "single_venue_fair_value",
-    "realized_pnl": -0.39,
+    "realized_pnl": -1.2964,
     "risk_flags": [
-      "settlement_risk_flagged_on_ungated_track",
       "pnl_from_ledger_not_placeholder"
     ],
-    "settlement_risk_pairs": 3,
+    "settlement_risk_pairs": 0,
     "source": "ledger_aggregate",
-    "starting_cash": 10000.0,
-    "total_pnl": -1.1,
-    "unrealized_pnl": -0.71
+    "starting_cash": 12000.0,
+    "total_pnl": -3.1764,
+    "unrealized_pnl": -1.88
   },
   "schema_version": "1.3.0",
   "top_edges": [
     {
       "admitted": false,
       "capital_required": 0.0,
-      "edge_bps": 63100,
+      "edge_bps": 794990,
       "executable_now": false,
-      "fair_value": 16.0,
+      "fair_value": 370.0,
       "filled": false,
-      "gross_edge_bps": 63100,
+      "gross_edge_bps": 794990,
       "hidden_outcome_risk": false,
       "kind": "negrisk_convert",
       "lockup": "none",
       "lockup_until": null,
-      "market": "988205",
-      "mid": 9.69,
+      "market": "795799",
+      "mid": 290.501,
       "net_profit": 0.0,
-      "payoff_per_set": 16.0,
+      "payoff_per_set": 370.0,
       "rank": 1,
       "reason": "converter_unavailable",
       "sets": 0.0,
-      "title": "Atlanta Braves vs. Chicago Cubs",
-      "top_of_book_sum": 9.69,
+      "title": "Broncos vs. Chiefs",
+      "top_of_book_sum": 290.501,
       "track": "polymarket_negrisk_arb",
       "venue": "polymarket"
-    },
-    {
-      "admitted": false,
-      "capital_required": 0.0,
-      "edge_bps": 57100,
-      "executable_now": false,
-      "fair_value": 16.0,
-      "filled": false,
-      "gross_edge_bps": 57100,
-      "hidden_outcome_risk": false,
-      "kind": "negrisk_convert",
-      "lockup": "none",
-      "lockup_until": null,
-      "market": "988206",
-      "mid": 10.29,
-      "net_profit": 0.0,
-      "payoff_per_set": 16.0,
-      "rank": 2,
-      "reason": "converter_unavailable",
-      "sets": 0.0,
-      "title": "New York Yankees vs. Minnesota Twins",
-      "top_of_book_sum": 10.29,
-      "track": "polymarket_negrisk_arb",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": false,
-      "capital_required": 0.0,
-      "edge_bps": 54900,
-      "executable_now": false,
-      "fair_value": 16.0,
-      "filled": false,
-      "gross_edge_bps": 54900,
-      "hidden_outcome_risk": false,
-      "kind": "negrisk_convert",
-      "lockup": "none",
-      "lockup_until": null,
-      "market": "988204",
-      "mid": 10.51,
-      "net_profit": 0.0,
-      "payoff_per_set": 16.0,
-      "rank": 3,
-      "reason": "converter_unavailable",
-      "sets": 0.0,
-      "title": "Baltimore Orioles vs. New York Mets",
-      "top_of_book_sum": 10.51,
-      "track": "polymarket_negrisk_arb",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": false,
-      "capital_required": 0.0,
-      "edge_bps": 53200,
-      "executable_now": false,
-      "fair_value": 16.0,
-      "filled": false,
-      "gross_edge_bps": 53200,
-      "hidden_outcome_risk": false,
-      "kind": "negrisk_convert",
-      "lockup": "none",
-      "lockup_until": null,
-      "market": "988203",
-      "mid": 10.68,
-      "net_profit": 0.0,
-      "payoff_per_set": 16.0,
-      "rank": 4,
-      "reason": "converter_unavailable",
-      "sets": 0.0,
-      "title": "Detroit Tigers vs. Toronto Blue Jays",
-      "top_of_book_sum": 10.68,
-      "track": "polymarket_negrisk_arb",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": false,
-      "capital_required": 0.0,
-      "edge_bps": 52700,
-      "executable_now": false,
-      "fair_value": 16.0,
-      "filled": false,
-      "gross_edge_bps": 52700,
-      "hidden_outcome_risk": false,
-      "kind": "negrisk_convert",
-      "lockup": "none",
-      "lockup_until": null,
-      "market": "988198",
-      "mid": 10.73,
-      "net_profit": 0.0,
-      "payoff_per_set": 16.0,
-      "rank": 5,
-      "reason": "converter_unavailable",
-      "sets": 0.0,
-      "title": "Los Angeles Dodgers vs. Cincinnati Reds",
-      "top_of_book_sum": 10.73,
-      "track": "polymarket_negrisk_arb",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": false,
-      "capital_required": 0.0,
-      "edge_bps": 37950,
-      "executable_now": false,
-      "fair_value": 31.0,
-      "filled": false,
-      "gross_edge_bps": 37950,
-      "hidden_outcome_risk": false,
-      "kind": "negrisk_convert",
-      "lockup": "none",
-      "lockup_until": null,
-      "market": "89502",
-      "mid": 27.205,
-      "net_profit": 0.0,
-      "payoff_per_set": 31.0,
-      "rank": 6,
-      "reason": "converter_unavailable",
-      "sets": 0.0,
-      "title": "What price will Bitcoin hit in 2026?",
-      "top_of_book_sum": 27.205,
-      "track": "polymarket_negrisk_arb",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 7500,
-      "fair_value": 0.885,
-      "filled": true,
-      "kalshi_mid": 0.125,
-      "market": "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c",
-      "mid": 0.125,
-      "polymarket_mid": 0.885,
-      "rank": 7,
-      "raw_edge_bps": 7600,
-      "reason": "trade",
-      "title": "Will the Federal Reserve Hike rates by 0bps at their September 2026 meeting?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "cross"
-    },
-    {
-      "admitted": false,
-      "capital_required": 0.0,
-      "edge_bps": 3350,
-      "executable_now": false,
-      "fair_value": 1.0,
-      "filled": false,
-      "gross_edge_bps": 3350,
-      "hidden_outcome_risk": true,
-      "kind": "long_all_yes",
-      "lockup": "until_resolution",
-      "lockup_until": "2026-10-10T00:00:00Z",
-      "market": "60182",
-      "mid": 0.665,
-      "net_profit": 0.0,
-      "payoff_per_set": 1.0,
-      "rank": 8,
-      "reason": "hidden_outcome_risk",
-      "sets": 0.0,
-      "title": "Nobel Peace Prize Winner 2026",
-      "top_of_book_sum": 0.665,
-      "track": "polymarket_combinatorial_arb",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 3000,
-      "fair_value": 0.905,
-      "filled": true,
-      "kalshi_mid": 0.595,
-      "market": "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e",
-      "mid": 0.595,
-      "polymarket_mid": 0.905,
-      "rank": 9,
-      "raw_edge_bps": 3100,
-      "reason": "trade",
-      "title": "Will the Federal Reserve Hike rates by 0bps at their October 2026 meeting?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "cross"
     },
     {
       "admitted": false,
@@ -649,149 +512,465 @@
       "mid": 0.895,
       "net_profit": 0.0,
       "payoff_per_set": 1.0,
-      "rank": 10,
+      "rank": 2,
       "reason": "hidden_outcome_risk",
       "sets": 0.0,
       "title": "Republican Presidential Nominee 2028",
       "top_of_book_sum": 0.895,
       "track": "polymarket_combinatorial_arb",
       "venue": "polymarket"
+    },
+    {
+      "admitted": false,
+      "capital_required": 0.0,
+      "edge_bps": 610,
+      "executable_now": false,
+      "fair_value": 1.0,
+      "filled": false,
+      "gross_edge_bps": 610,
+      "hidden_outcome_risk": true,
+      "kind": "long_all_yes",
+      "lockup": "until_resolution",
+      "lockup_until": "2028-11-07T00:00:00Z",
+      "market": "30829",
+      "mid": 0.939,
+      "net_profit": 0.0,
+      "payoff_per_set": 1.0,
+      "rank": 3,
+      "reason": "hidden_outcome_risk",
+      "sets": 0.0,
+      "title": "Democratic Presidential Nominee 2028",
+      "top_of_book_sum": 0.939,
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": false,
+      "capital_required": 0.0,
+      "edge_bps": 160,
+      "executable_now": false,
+      "fair_value": 1.0,
+      "filled": false,
+      "gross_edge_bps": 160,
+      "hidden_outcome_risk": true,
+      "kind": "long_all_yes",
+      "lockup": "until_resolution",
+      "lockup_until": "2028-11-07T00:00:00Z",
+      "market": "31552",
+      "mid": 0.984,
+      "net_profit": 0.0,
+      "payoff_per_set": 1.0,
+      "rank": 4,
+      "reason": "hidden_outcome_risk",
+      "sets": 0.0,
+      "title": "Presidential Election Winner 2028",
+      "top_of_book_sum": 0.984,
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 125,
+      "fair_value": 0.11,
+      "fill_probability": 0.5,
+      "filled": true,
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.14,
+      "market": "KXFEDDECISION-27DEC-H26",
+      "mid": 0.11,
+      "placement": "improve",
+      "quote_yes_price": 0.13,
+      "rank": 5,
+      "raw_edge_bps": 200,
+      "reason": "trade",
+      "spread": 0.06,
+      "title": "Will the Federal Reserve Hike rates by >25bps at their December 2027 meeting?",
+      "track": "kalshi_maker_quote",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": false,
+      "capital_required": 0.0,
+      "edge_bps": 120,
+      "executable_now": true,
+      "fair_value": 31.0,
+      "filled": false,
+      "gross_edge_bps": 120,
+      "hidden_outcome_risk": false,
+      "kind": "negrisk_convert",
+      "lockup": "none",
+      "lockup_until": null,
+      "market": "202857",
+      "mid": 30.988,
+      "net_profit": 0.0,
+      "payoff_per_set": 31.0,
+      "rank": 6,
+      "reason": "fees_exceed_edge",
+      "sets": 0.0,
+      "title": "Pro Football: 2027 Champion",
+      "top_of_book_sum": 30.988,
+      "track": "polymarket_negrisk_arb",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": false,
+      "capital_required": 0.0,
+      "edge_bps": 120,
+      "executable_now": false,
+      "fair_value": 1.0,
+      "filled": false,
+      "gross_edge_bps": 120,
+      "hidden_outcome_risk": true,
+      "kind": "long_all_yes",
+      "lockup": "until_resolution",
+      "lockup_until": "2026-12-06T00:00:00Z",
+      "market": "100371",
+      "mid": 0.988,
+      "net_profit": 0.0,
+      "payoff_per_set": 1.0,
+      "rank": 7,
+      "reason": "hidden_outcome_risk",
+      "sets": 0.0,
+      "title": "F1 Drivers' Champion",
+      "top_of_book_sum": 0.988,
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": false,
+      "edge_bps": 100,
+      "fair_value": 0.875,
+      "filled": false,
+      "kalshi_mid": 0.865,
+      "market": "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "mid": 0.865,
+      "polymarket_mid": 0.875,
+      "rank": 8,
+      "raw_edge_bps": 100,
+      "reason": "below_mid_edge_threshold",
+      "title": "Will the Federal Reserve Hike rates by 25bps at their September 2026 meeting?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "cross"
+    },
+    {
+      "admitted": false,
+      "edge_bps": 100,
+      "fair_value": 0.365,
+      "filled": false,
+      "kalshi_mid": 0.375,
+      "market": "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "mid": 0.375,
+      "polymarket_mid": 0.365,
+      "rank": 9,
+      "raw_edge_bps": 100,
+      "reason": "below_mid_edge_threshold",
+      "title": "Will the Federal Reserve Hike rates by 25bps at their October 2026 meeting?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "cross"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 50,
+      "fair_value": 0.17,
+      "fill_probability": 0.5,
+      "filled": true,
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.19,
+      "market": "KXGDP-26OCT30-T4.0",
+      "mid": 0.17,
+      "placement": "improve",
+      "quote_yes_price": 0.18,
+      "rank": 10,
+      "raw_edge_bps": 100,
+      "reason": "trade",
+      "spread": 0.04,
+      "title": "Will **real GDP** increase by more than 4.0% in Q3 2026?",
+      "track": "kalshi_maker_quote",
+      "venue": "kalshi"
     }
   ],
   "top_fills": [
     {
-      "edge_bps": 7500,
-      "fee": 0.2,
-      "filled_at": "2026-09-14T21:34:33.367537+00:00",
+      "band": "80-90c",
+      "edge_bps": -200,
+      "fee": 0.1875,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.824260+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.19,
+      "mark": 0.17,
+      "market": "KXGDP-26OCT30-T4.0",
+      "order_id": "paper-40a32fa20d78",
+      "outcome": "no",
+      "paper_pnl": -0.6075,
+      "placement": "take",
+      "price": 0.85,
+      "qty": 21.0,
+      "rank": 1,
+      "role": "taker",
+      "side": "buy",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will **real GDP** increase by more than 4.0% in Q3 2026?",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.15
+    },
+    {
+      "band": "80-90c",
+      "edge_bps": -50,
+      "fee": 0.2589,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.824426+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.16,
+      "mark": 0.155,
+      "market": "KXCPI-26SEP-T0.6",
+      "order_id": "paper-27db4bb2f92a",
+      "outcome": "no",
+      "paper_pnl": -0.4039,
+      "placement": "take",
+      "price": 0.85,
+      "qty": 29.0,
+      "rank": 2,
+      "role": "taker",
+      "side": "buy",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will CPI rise more than 0.6% in September 2026?",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.15
+    },
+    {
+      "band": "80-90c",
+      "edge_bps": -50,
+      "fee": 0.2217,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.823325+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "no",
+      "longshot_price": 0.14,
+      "mark": 0.865,
+      "market": "KXFEDDECISION-26SEP-H25",
+      "order_id": "paper-85fb49dad907",
+      "outcome": "yes",
+      "paper_pnl": -0.3617,
+      "placement": "take",
+      "price": 0.87,
+      "qty": 28.0,
+      "rank": 3,
+      "role": "taker",
+      "side": "buy",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will the Federal Reserve Hike rates by 25bps at their September 2026 meeting?",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.87
+    },
+    {
+      "band": "80-90c",
+      "edge_bps": -50,
+      "fee": 0.2217,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.823531+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "no",
+      "longshot_price": 0.14,
+      "mark": 0.865,
+      "market": "KXFED-26SEP-T3.75",
+      "order_id": "paper-c1e25afcb6ec",
+      "outcome": "yes",
+      "paper_pnl": -0.3617,
+      "placement": "take",
+      "price": 0.87,
+      "qty": 28.0,
+      "rank": 4,
+      "role": "taker",
+      "side": "buy",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will the upper bound of the federal funds rate be above 3.75% following the Fed's Sep 16, 2026 meeting?",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.87
+    },
+    {
+      "band": "80-90c",
+      "edge_bps": -50,
+      "fee": 0.207,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.823090+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.13,
       "mark": 0.125,
       "market": "KXFEDDECISION-26SEP-H0",
-      "order_id": "paper-e938adefd38d",
-      "outcome": "yes",
-      "paper_pnl": -0.325,
-      "price": 0.13,
-      "qty": 25.0,
-      "rank": 1,
+      "order_id": "paper-f650c2801610",
+      "outcome": "no",
+      "paper_pnl": -0.347,
+      "placement": "take",
+      "price": 0.88,
+      "qty": 28.0,
+      "rank": 5,
+      "role": "taker",
       "side": "buy",
-      "strategy": "cross_venue_mispricing",
+      "strategy": "kalshi_longshot_fade",
       "title": "Will the Federal Reserve Hike rates by 0bps at their September 2026 meeting?",
-      "track": "ungated_cross_venue_macro",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.12
+    },
+    {
+      "band": "80-90c",
+      "edge_bps": 50,
+      "fee": 0.0388,
+      "fill_probability": 0.5,
+      "filled_at": "2026-09-14T21:46:01.825548+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.19,
+      "mark": 0.19,
+      "market": "KXGDP-26OCT30-T4.0",
+      "order_id": "paper-maker-ed157fdc0301",
+      "outcome": "no",
+      "paper_pnl": -0.1888,
+      "placement": "improve",
+      "price": 0.82,
+      "qty": 15.0,
+      "rank": 6,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_maker_quote",
+      "title": "Will **real GDP** increase by more than 4.0% in Q3 2026?",
+      "track": "kalshi_maker_quote",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.18
+    },
+    {
+      "band": ">=90c",
+      "edge_bps": -300,
+      "fee": 0.0258,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.824079+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.14,
+      "mark": 0.11,
+      "market": "KXFEDDECISION-27DEC-H26",
+      "order_id": "paper-f702b71f97a5",
+      "outcome": "no",
+      "paper_pnl": -0.1758,
+      "placement": "take",
+      "price": 0.92,
+      "qty": 5.0,
+      "rank": 7,
+      "role": "taker",
+      "side": "buy",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will the Federal Reserve Hike rates by >25bps at their December 2027 meeting?",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.08
+    },
+    {
+      "band": "80-90c",
+      "edge_bps": 125,
+      "fee": 0.0278,
+      "fill_probability": 0.5,
+      "filled_at": "2026-09-14T21:46:01.825417+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.14,
+      "mark": 0.14,
+      "market": "KXFEDDECISION-27DEC-H26",
+      "order_id": "paper-maker-a0153c27394e",
+      "outcome": "no",
+      "paper_pnl": -0.1678,
+      "placement": "improve",
+      "price": 0.87,
+      "qty": 14.0,
+      "rank": 8,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_maker_quote",
+      "title": "Will the Federal Reserve Hike rates by >25bps at their December 2027 meeting?",
+      "track": "kalshi_maker_quote",
       "venue": "kalshi",
       "yes_equivalent_price": 0.13
     },
     {
-      "edge_bps": 400,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T21:34:33.368525+00:00",
-      "mark": 0.07,
-      "market": "0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93",
-      "order_id": "paper-85da2d2f0395",
+      "band": ">=90c",
+      "edge_bps": -50,
+      "fee": 0.0343,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:01.823726+00:00",
+      "longshot_band": "<10c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.03,
+      "mark": 0.025,
+      "market": "KXFEDDECISION-26OCT-C25",
+      "order_id": "paper-cdee16834656",
       "outcome": "no",
-      "paper_pnl": -0.25,
-      "price": 0.94,
+      "paper_pnl": -0.1593,
+      "placement": "take",
+      "price": 0.98,
       "qty": 25.0,
-      "rank": 2,
+      "rank": 9,
+      "role": "taker",
       "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Fed rate cut by December 2026 meeting?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.06
-    },
-    {
-      "edge_bps": 3000,
-      "fee": 0.15,
-      "filled_at": "2026-09-14T21:34:33.368030+00:00",
-      "mark": 0.595,
-      "market": "KXFEDDECISION-26OCT-H0",
-      "order_id": "paper-4fba866038a6",
-      "outcome": "yes",
-      "paper_pnl": -0.1925,
-      "price": 0.6,
-      "qty": 8.5,
-      "rank": 3,
-      "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Will the Federal Reserve Hike rates by 0bps at their October 2026 meeting?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "kalshi",
-      "yes_equivalent_price": 0.6
-    },
-    {
-      "edge_bps": 400,
-      "fee": 0.04,
-      "filled_at": "2026-09-14T21:34:33.368469+00:00",
-      "mark": 0.015,
-      "market": "KXFEDDECISION-26DEC-C26",
-      "order_id": "paper-7fafab081e0a",
-      "outcome": "yes",
-      "paper_pnl": -0.165,
-      "price": 0.02,
-      "qty": 25.0,
-      "rank": 4,
-      "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Will the Federal Reserve Cut rates by >25bps at their December 2026 meeting?",
-      "track": "ungated_cross_venue_macro",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will the Federal Reserve Cut rates by 25bps at their October 2026 meeting?",
+      "track": "kalshi_longshot_fade",
       "venue": "kalshi",
       "yes_equivalent_price": 0.02
     },
     {
-      "edge_bps": 7500,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T21:34:33.367643+00:00",
-      "mark": 0.885,
-      "market": "0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c",
-      "order_id": "paper-418b0fed38a2",
-      "outcome": "no",
-      "paper_pnl": -0.125,
-      "price": 0.12,
-      "qty": 25.0,
-      "rank": 5,
+      "band": ">=90c",
+      "edge_bps": -25,
+      "fee": 0.0129,
+      "fill_probability": 0.5,
+      "filled_at": "2026-09-14T21:46:01.825853+00:00",
+      "longshot_band": "<10c",
+      "longshot_outcome": "no",
+      "longshot_price": 0.07,
+      "mark": 0.93,
+      "market": "KXFED-26DEC-T3.75",
+      "order_id": "paper-maker-ece0f00836f6",
+      "outcome": "yes",
+      "paper_pnl": -0.1429,
+      "placement": "improve",
+      "price": 0.94,
+      "qty": 13.0,
+      "rank": 10,
+      "role": "maker",
       "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Fed Rate Hike by September 2026 Meeting?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.88
-    },
-    {
-      "edge_bps": 3000,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T21:34:33.368096+00:00",
-      "mark": 0.905,
-      "market": "0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e",
-      "order_id": "paper-60d566750539",
-      "outcome": "no",
-      "paper_pnl": -0.0425,
-      "price": 0.1,
-      "qty": 8.5,
-      "rank": 6,
-      "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Fed Rate Hike by October 2026 Meeting?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.9
+      "strategy": "kalshi_maker_quote",
+      "title": "Will the upper bound of the federal funds rate be above 3.75% following the Fed's Dec 9, 2026 meeting?",
+      "track": "kalshi_maker_quote",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.94
     }
   ],
   "totals": {
-    "admitted": 3,
-    "avg_edge_bps": 3633,
-    "candidates": 1328,
-    "fees_paid": 0.39,
-    "fill_rate": 1.0,
-    "paper_fills": 6,
-    "paper_pnl": -1.1,
-    "proposed_orders": 6,
-    "realized_pnl": -0.39,
-    "rejects": 1325,
-    "settlement_risk_pairs": 3,
-    "unrealized_pnl": -0.71
+    "admitted": 20,
+    "avg_edge_bps": -27,
+    "candidates": 751,
+    "fees_paid": 1.2964,
+    "fill_rate": 0.7,
+    "paper_fills": 14,
+    "paper_pnl": -3.1764,
+    "proposed_orders": 20,
+    "realized_pnl": -1.2964,
+    "rejects": 731,
+    "settlement_risk_pairs": 0,
+    "unrealized_pnl": -1.88
   },
   "tracks": [
     {
       "admitted": 0,
-      "candidates": 8,
+      "candidates": 2,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -799,7 +978,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334182+00:00",
+        "created_at": "2026-09-14T21:46:01.808320+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -821,7 +1000,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.568961+00:00"
+        "updated_at": "2026-09-14T21:46:01.954451+00:00"
       },
       "metrics": {
         "admitted_pairs": {},
@@ -852,65 +1031,13 @@
           "name": "strict",
           "require_same_publisher": true
         },
-        "gate_refused": 8,
+        "gate_refused": 2,
         "gate_reject_reasons_all": {
-          "clause_refuse_mismatch": 5,
-          "expiry_mismatch": 3,
-          "fed_bucket_one_side": 3,
-          "fingerprint_indeterminate": 8,
-          "match_low_confidence": 3,
-          "polarity_unverified": 8
+          "clause_refuse_mismatch": 2,
+          "fingerprint_indeterminate": 2,
+          "polarity_unverified": 2
         },
         "gate_results": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "admitted": false,
             "reason": "clause_refuse_mismatch",
@@ -918,17 +1045,6 @@
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -944,7 +1060,7 @@
         "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
-        "matched_pairs_all_categories": 8,
+        "matched_pairs_all_categories": 2,
         "parameters": {
           "maximum_order_size": "25",
           "minimum_net_edge": "0.01",
@@ -952,66 +1068,12 @@
         },
         "priced_but_no_edge": {},
         "refused_pairs": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "reason": "clause_refuse_mismatch",
             "reasons": [
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -1027,13 +1089,13 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
@@ -1050,32 +1112,30 @@
         "venue_pnl": {},
         "vetoed_candidates": {
           "by_reason": {
-            "direction_disagrees": 5,
-            "period_disagrees": 108,
-            "threshold_disagrees": 34
+            "direction_disagrees": 2,
+            "period_disagrees": 16,
+            "threshold_disagrees": 6
           },
-          "count": 147
+          "count": 24
         }
       },
       "notes": "Settlement-safe track. Every matched pair (any category) must pass all eight gate stages - match confidence, clauses, fingerprint, polarity, Fed bucket, interval, hosts, expiry - before it is priced; then both legs must clear venue fees through book depth. Zero admits is the expected state: the gate exists to prove that most cross-venue pairs are not settlement-equivalent. Control: ungated_cross_venue_macro.",
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
       "reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
-      "rejects": 8,
+      "rejects": 2,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "gated_cross_venue"
     },
     {
       "admitted": 0,
-      "candidates": 8,
+      "candidates": 2,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -1083,7 +1143,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334244+00:00",
+        "created_at": "2026-09-14T21:46:01.808381+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -1105,7 +1165,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569021+00:00"
+        "updated_at": "2026-09-14T21:46:01.954513+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1130,63 +1190,11 @@
           "require_same_publisher": true
         },
         "gate_reject_reasons_all": {
-          "clause_refuse_mismatch": 5,
-          "expiry_mismatch": 3,
-          "fed_bucket_one_side": 3,
-          "fingerprint_indeterminate": 8,
-          "match_low_confidence": 3,
-          "polarity_unverified": 8
+          "clause_refuse_mismatch": 2,
+          "fingerprint_indeterminate": 2,
+          "polarity_unverified": 2
         },
         "gate_results": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "admitted": false,
             "reason": "clause_refuse_mismatch",
@@ -1194,17 +1202,6 @@
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -1220,73 +1217,19 @@
         "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
-        "matched_pairs_all_categories": 8,
+        "matched_pairs_all_categories": 2,
         "parameters": {
           "fee_buffer_per_contract": 0.01,
           "maximum_order_size": 25.0,
           "minimum_mid_edge": 0.04
         },
         "refused_pairs": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "reason": "clause_refuse_mismatch",
             "reasons": [
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -1302,163 +1245,85 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
         "venue_pnl": {},
         "vetoed_candidates": {
           "by_reason": {
-            "direction_disagrees": 5,
-            "period_disagrees": 108,
-            "threshold_disagrees": 34
+            "direction_disagrees": 2,
+            "period_disagrees": 16,
+            "threshold_disagrees": 6
           },
-          "count": 147
+          "count": 24
         }
       },
       "notes": "Macro pairs must pass the same strict gate before any paper order, priced at the touch with a flat fee buffer. Refusals are the expected state when venues' settlement rules diverge.",
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
       "reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
-      "rejects": 8,
+      "rejects": 2,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "gated_cross_venue_macro"
     },
     {
-      "admitted": 3,
-      "candidates": 8,
-      "edge_bps": 3633,
-      "estimated_fees_buffer": 1.17,
-      "fill_rate": 1.0,
+      "admitted": 0,
+      "candidates": 2,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": null,
       "label": "Ungated cross-venue macro (control)",
       "ledger": {
-        "cash": 1021.91,
-        "concentration": [
-          {
-            "venue": "kalshi",
-            "weight": 0.21327
-          },
-          {
-            "venue": "polymarket",
-            "weight": 0.78673
-          }
-        ],
-        "created_at": "2026-09-14T21:34:33.334263+00:00",
-        "equity": 998.9,
+        "cash": 1000.0,
+        "concentration": [],
+        "created_at": "2026-09-14T21:46:01.808399+00:00",
+        "equity": 1000.0,
         "equity_points": 1,
-        "fees_paid": 0.39,
-        "fills": 6,
-        "gross_notional": 40.125,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
         "ledger_id": "ungated_cross_venue_macro",
         "mark_method": "mid",
-        "max_drawdown": 1.1,
-        "net_exposure": -23.01,
-        "open_positions": 6,
+        "max_drawdown": 0.0,
+        "net_exposure": 0.0,
+        "open_positions": 0,
         "paper_only": true,
         "peak_equity": 1000.0,
-        "position_value": -23.01,
-        "positions": [
-          {
-            "average_price": 0.13,
-            "fees_paid": 0.2,
-            "mark": 0.125,
-            "market_id": "KXFEDDECISION-26SEP-H0",
-            "quantity": 25.0,
-            "realized_pnl": -0.2,
-            "unrealized_pnl": -0.125,
-            "value": 3.125,
-            "venue": "kalshi"
-          },
-          {
-            "average_price": 0.88,
-            "fees_paid": 0.0,
-            "mark": 0.885,
-            "market_id": "0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c",
-            "quantity": -25.0,
-            "realized_pnl": 0.0,
-            "unrealized_pnl": -0.125,
-            "value": -22.125,
-            "venue": "polymarket"
-          },
-          {
-            "average_price": 0.6,
-            "fees_paid": 0.15,
-            "mark": 0.595,
-            "market_id": "KXFEDDECISION-26OCT-H0",
-            "quantity": 8.5,
-            "realized_pnl": -0.15,
-            "unrealized_pnl": -0.0425,
-            "value": 5.0575,
-            "venue": "kalshi"
-          },
-          {
-            "average_price": 0.9,
-            "fees_paid": 0.0,
-            "mark": 0.905,
-            "market_id": "0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e",
-            "quantity": -8.5,
-            "realized_pnl": 0.0,
-            "unrealized_pnl": -0.0425,
-            "value": -7.6925,
-            "venue": "polymarket"
-          },
-          {
-            "average_price": 0.02,
-            "fees_paid": 0.04,
-            "mark": 0.015,
-            "market_id": "KXFEDDECISION-26DEC-C26",
-            "quantity": 25.0,
-            "realized_pnl": -0.04,
-            "unrealized_pnl": -0.125,
-            "value": 0.375,
-            "venue": "kalshi"
-          },
-          {
-            "average_price": 0.06,
-            "fees_paid": 0.0,
-            "mark": 0.07,
-            "market_id": "0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93",
-            "quantity": -25.0,
-            "realized_pnl": 0.0,
-            "unrealized_pnl": -0.25,
-            "value": -1.75,
-            "venue": "polymarket"
-          }
-        ],
-        "realized_pnl": -0.39,
-        "return_pct": -0.11,
+        "position_value": 0.0,
+        "positions": [],
+        "realized_pnl": 0.0,
+        "return_pct": 0.0,
         "settlement_fills": 0,
         "starting_cash": 1000.0,
-        "total_pnl": -1.1,
+        "total_pnl": 0.0,
         "unmarked_positions": 0,
-        "unrealized_pnl": -0.71,
-        "updated_at": "2026-09-14T21:34:33.569092+00:00"
+        "unrealized_pnl": 0.0,
+        "updated_at": "2026-09-14T21:46:01.954547+00:00"
       },
       "metrics": {
         "equity_point": {
-          "drawdown": 1.1,
-          "equity": 998.9,
-          "total_pnl": -1.1
+          "drawdown": 0.0,
+          "equity": 1000.0,
+          "total_pnl": 0.0
         },
         "events": {
-          "fill": 6,
-          "order_acknowledged": 6,
+          "fill": 0,
+          "order_acknowledged": 0,
           "order_rejected": 0,
-          "order_submitted": 6
+          "order_submitted": 0
         },
         "gate_enabled": false,
         "gate_policy": {
@@ -1471,63 +1336,11 @@
           "require_same_publisher": true
         },
         "gate_reject_reasons_all": {
-          "clause_refuse_mismatch": 5,
-          "expiry_mismatch": 3,
-          "fed_bucket_one_side": 3,
-          "fingerprint_indeterminate": 8,
-          "match_low_confidence": 3,
-          "polarity_unverified": 8
+          "clause_refuse_mismatch": 2,
+          "fingerprint_indeterminate": 2,
+          "polarity_unverified": 2
         },
         "gate_results": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "admitted": false,
             "reason": "clause_refuse_mismatch",
@@ -1535,17 +1348,6 @@
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -1559,9 +1361,9 @@
           }
         },
         "gate_results_detail": "gate_report_<mode>.json",
-        "gate_would_have_refused_traded_pairs": 3,
+        "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
-        "matched_pairs_all_categories": 8,
+        "matched_pairs_all_categories": 2,
         "parameters": {
           "fee_buffer_per_contract": 0.01,
           "maximum_order_size": 25.0,
@@ -1572,58 +1374,43 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
-        "venue_pnl": {
-          "kalshi": {
-            "fees_paid": 0.39,
-            "open_positions": 3.0,
-            "realized_pnl": -0.39,
-            "total_pnl": -0.6825,
-            "unrealized_pnl": -0.2925
-          },
-          "polymarket": {
-            "fees_paid": 0.0,
-            "open_positions": 3.0,
-            "realized_pnl": 0.0,
-            "total_pnl": -0.4175,
-            "unrealized_pnl": -0.4175
-          }
-        },
+        "venue_pnl": {},
         "vetoed_candidates": {
           "by_reason": {
-            "direction_disagrees": 5,
-            "period_disagrees": 108,
-            "threshold_disagrees": 34
+            "direction_disagrees": 2,
+            "period_disagrees": 16,
+            "threshold_disagrees": 6
           },
-          "count": 147
+          "count": 24
         }
       },
       "notes": "CONTROL. Same macro pairs traded without the settlement gate. Exists only to measure what the gate refuses; flagged settlement-risk whenever a traded pair would have been refused. Its PnL is not realisable: the legs may settle on different events.",
-      "paper_fills": 6,
-      "proposed_orders": 6,
+      "paper_fills": 0,
+      "proposed_orders": 0,
       "refused_by_reason": {
-        "below_mid_edge_threshold": 5
+        "below_mid_edge_threshold": 2
       },
       "reject_reasons": {
-        "below_mid_edge_threshold": 5
+        "below_mid_edge_threshold": 2
       },
-      "rejects": 5,
-      "settlement_risk": true,
-      "settlement_risk_flag": true,
+      "rejects": 2,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
       "track": "ungated_cross_venue_macro"
     },
     {
       "admitted": 0,
-      "candidates": 80,
+      "candidates": 30,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -1631,7 +1418,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334275+00:00",
+        "created_at": "2026-09-14T21:46:01.808411+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -1653,7 +1440,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569211+00:00"
+        "updated_at": "2026-09-14T21:46:01.954574+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1672,11 +1459,11 @@
           "pnl": {},
           "venue_breakdown": {
             "admitted": 0,
-            "candidates": 40,
+            "candidates": 15,
             "fills": 0,
-            "markets": 40,
+            "markets": 15,
             "reasons": {
-              "no_fair_value": 40
+              "no_fair_value": 15
             },
             "snapshot_errors": 0
           }
@@ -1691,34 +1478,34 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
         "venue_breakdown": {
           "kalshi": {
             "admitted": 0,
-            "candidates": 40,
+            "candidates": 15,
             "fills": 0,
-            "markets": 40,
+            "markets": 15,
             "reasons": {
-              "no_fair_value": 40
+              "no_fair_value": 15
             },
             "snapshot_errors": 0
           },
           "polymarket": {
             "admitted": 0,
-            "candidates": 40,
+            "candidates": 15,
             "fills": 0,
-            "markets": 40,
+            "markets": 15,
             "reasons": {
-              "no_fair_value": 40
+              "no_fair_value": 15
             },
             "snapshot_errors": 0
           }
@@ -1729,12 +1516,12 @@
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "no_fair_value": 80
+        "no_fair_value": 30
       },
       "reject_reasons": {
-        "no_fair_value": 80
+        "no_fair_value": 30
       },
-      "rejects": 80,
+      "rejects": 30,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "single_venue_fair_value"
@@ -1749,7 +1536,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334288+00:00",
+        "created_at": "2026-09-14T21:46:01.808421+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -1771,7 +1558,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569239+00:00"
+        "updated_at": "2026-09-14T21:46:01.954600+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1800,7 +1587,7 @@
         "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
-        "matched_pairs_all_categories": 8,
+        "matched_pairs_all_categories": 2,
         "parameters": {
           "fee_buffer_per_contract": 0.01,
           "maximum_order_size": 25.0,
@@ -1811,24 +1598,24 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
         "venue_pnl": {},
         "vetoed_candidates": {
           "by_reason": {
-            "direction_disagrees": 5,
-            "period_disagrees": 108,
-            "threshold_disagrees": 34
+            "direction_disagrees": 2,
+            "period_disagrees": 16,
+            "threshold_disagrees": 6
           },
-          "count": 147
+          "count": 24
         }
       },
       "notes": "Sports pairs trade ungated but every host-tier conflict is counted and flags the track.",
@@ -1843,7 +1630,7 @@
     },
     {
       "admitted": 0,
-      "candidates": 8,
+      "candidates": 2,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -1851,7 +1638,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334298+00:00",
+        "created_at": "2026-09-14T21:46:01.808431+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -1873,7 +1660,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569264+00:00"
+        "updated_at": "2026-09-14T21:46:01.954625+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1898,63 +1685,11 @@
           "require_same_publisher": true
         },
         "gate_reject_reasons_all": {
-          "clause_refuse_mismatch": 5,
-          "expiry_mismatch": 3,
-          "fed_bucket_one_side": 3,
-          "fingerprint_indeterminate": 8,
-          "match_low_confidence": 3,
-          "polarity_unverified": 8
+          "clause_refuse_mismatch": 2,
+          "fingerprint_indeterminate": 2,
+          "polarity_unverified": 2
         },
         "gate_results": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "admitted": false,
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "admitted": false,
             "reason": "clause_refuse_mismatch",
@@ -1962,17 +1697,6 @@
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "admitted": false,
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -1988,73 +1712,19 @@
         "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
-        "matched_pairs_all_categories": 8,
+        "matched_pairs_all_categories": 2,
         "parameters": {
           "fee_buffer_per_contract": 0.01,
           "maximum_order_size": 2.0,
           "minimum_mid_edge": 0.04
         },
         "refused_pairs": {
-          "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297": {
-            "reason": "clause_refuse_mismatch",
-            "reasons": [
-              "clause_refuse_mismatch",
-              "fingerprint_indeterminate",
-              "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
-            ]
-          },
           "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b": {
             "reason": "clause_refuse_mismatch",
             "reasons": [
               "clause_refuse_mismatch",
               "fingerprint_indeterminate",
               "polarity_unverified"
-            ]
-          },
-          "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c": {
-            "reason": "match_low_confidence",
-            "reasons": [
-              "match_low_confidence",
-              "fingerprint_indeterminate",
-              "polarity_unverified",
-              "fed_bucket_one_side",
-              "expiry_mismatch"
             ]
           },
           "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d": {
@@ -2070,38 +1740,36 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
         "venue_pnl": {},
         "vetoed_candidates": {
           "by_reason": {
-            "direction_disagrees": 5,
-            "period_disagrees": 108,
-            "threshold_disagrees": 34
+            "direction_disagrees": 2,
+            "period_disagrees": 16,
+            "threshold_disagrees": 6
           },
-          "count": 147
+          "count": 24
         }
       },
       "notes": "Gated macro pairs at a 2-contract cap: a process probe, not an edge source.",
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
       "reject_reasons": {
-        "clause_refuse_mismatch": 5,
-        "match_low_confidence": 3
+        "clause_refuse_mismatch": 2
       },
-      "rejects": 8,
+      "rejects": 2,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "small_deliberate_bet"
@@ -2116,7 +1784,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334307+00:00",
+        "created_at": "2026-09-14T21:46:01.808439+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2138,7 +1806,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569288+00:00"
+        "updated_at": "2026-09-14T21:46:01.954649+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2184,9 +1852,9 @@
           "scored_fills": 0
         },
         "signal_source": {
-          "as_of": "2026-09-14T21:34:33.387485+00:00",
+          "as_of": "2026-09-14T21:46:01.822748+00:00",
           "errors": [],
-          "fetched_at": "2026-09-14T21:34:33.387496+00:00",
+          "fetched_at": "2026-09-14T21:46:01.822762+00:00",
           "name": "none",
           "note": "no signal source configured; pass --news-signals or --news-rss to supply one",
           "signals": 0
@@ -2195,13 +1863,13 @@
           "kalshi": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           },
           "polymarket": {
             "errors": [],
             "groups": 0,
-            "markets": 40,
+            "markets": 15,
             "source": "network"
           }
         },
@@ -2220,7 +1888,7 @@
     },
     {
       "admitted": 0,
-      "candidates": 1138,
+      "candidates": 653,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -2228,7 +1896,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334318+00:00",
+        "created_at": "2026-09-14T21:46:01.808449+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2250,7 +1918,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569312+00:00"
+        "updated_at": "2026-09-14T21:46:01.954672+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2266,108 +1934,27 @@
         },
         "executions": [],
         "literature": "arXiv:2508.03474 (rebalancing); live CLOB YES/NO books are mirrors so ask_sum >= 1 + spread",
-        "markets_checked": 1138,
-        "mirror_consistent": 1127,
-        "mirror_inconsistent": 11,
+        "markets_checked": 653,
+        "mirror_consistent": 651,
+        "mirror_inconsistent": 2,
         "mirror_inconsistent_markets": [
           {
             "book_timestamp_skew_ms": 1,
-            "market": "0x88c805f8d638bd14c188a67112bc40ae85d5eea4b7370d7586e8f5b8d37da304",
-            "no_levels": 63,
-            "title": "Will Abigail Spanberger win the 2028 Democratic presidential nomination?",
-            "yes_ask_plus_no_ask": 1.001,
-            "yes_bid_plus_no_bid": 0.999,
-            "yes_levels": 63
-          },
-          {
-            "book_timestamp_skew_ms": 2,
-            "market": "0x4244328520c94e608a39dd5ff0b643c71841f7bc6a9d8f27d8365b021a4d3606",
-            "no_levels": 52,
-            "title": "Broncos vs. Chiefs: O/U 39.5",
-            "yes_ask_plus_no_ask": 1.01,
-            "yes_bid_plus_no_bid": 0.99,
-            "yes_levels": 51
-          },
-          {
-            "book_timestamp_skew_ms": 1,
-            "market": "0xe20d335ac6aa1bc49c6e99c5c05aeb87632d71fd1b455b172074194f62c3bff0",
-            "no_levels": 37,
-            "title": "Spread: Broncos (-3.5)",
-            "yes_ask_plus_no_ask": 1.01,
-            "yes_bid_plus_no_bid": 0.99,
-            "yes_levels": 37
-          },
-          {
-            "book_timestamp_skew_ms": 1,
-            "market": "0x87f0b061076a7309abeb719136246303ce17fe40b4e9c65aca4149bbdbdd3236",
-            "no_levels": 128,
-            "title": "Will the Chicago Bears win the 2027 NFL league championship?",
-            "yes_ask_plus_no_ask": 1.001,
-            "yes_bid_plus_no_bid": 0.999,
-            "yes_levels": 128
-          },
-          {
-            "book_timestamp_skew_ms": 81515,
-            "market": "0x63eaf41ce1f475323e2202d7dfa3b1def8b82cd166f7007c50bfbf47615c7b01",
-            "no_levels": 94,
-            "title": "Will Bitcoin reach $110,000 by December 31, 2026?",
-            "yes_ask_plus_no_ask": 1.02,
-            "yes_bid_plus_no_bid": 0.98,
-            "yes_levels": 94
+            "market": "0xfcb242b5a16b64a7c3186d282b586398d4010d19ce513ff0dd51001d7bf0d3ad",
+            "no_levels": 34,
+            "title": "Broncos vs. Chiefs: O/U 32.5",
+            "yes_ask_plus_no_ask": 1.05,
+            "yes_bid_plus_no_bid": 0.95,
+            "yes_levels": 33
           },
           {
             "book_timestamp_skew_ms": 0,
-            "market": "0x3e38887e936b8fedd5373852777e7a3e90805affd8139971ebeb4b4956f000f5",
-            "no_levels": 159,
-            "title": "Will the Boston Red Sox win the 2026 World Series?",
-            "yes_ask_plus_no_ask": 1.001,
-            "yes_bid_plus_no_bid": 0.999,
-            "yes_levels": 159
-          },
-          {
-            "book_timestamp_skew_ms": 0,
-            "market": "0x809342858cd959a479d720255797ff9fd8c827cef7bdf8b740f4ac44be34466e",
-            "no_levels": 71,
-            "title": "Will Nicol\u00e1s Maduro be the #1 searched person on Google this year?",
-            "yes_ask_plus_no_ask": 1.023,
-            "yes_bid_plus_no_bid": 0.977,
-            "yes_levels": 71
-          },
-          {
-            "book_timestamp_skew_ms": 0,
-            "market": "0xdd84a0f9830eb540be5cd7a22bcaaa27aedced37c7994c480f95669a341f1c4e",
-            "no_levels": 81,
-            "title": "Will Greta Thunberg win the Nobel Peace Prize in 2026?",
-            "yes_ask_plus_no_ask": 1.001,
-            "yes_bid_plus_no_bid": 0.999,
-            "yes_levels": 81
-          },
-          {
-            "book_timestamp_skew_ms": 1,
-            "market": "0x23f8c8f98142daf5c057e32d9be82a618ce39af6f44d02b785c0cb7aae3f7dda",
-            "no_levels": 54,
-            "title": "Will Jude Bellingham be the #1 searched person on Google in the US this year?",
-            "yes_ask_plus_no_ask": 1.001,
-            "yes_bid_plus_no_bid": 0.999,
-            "yes_levels": 54
-          },
-          {
-            "book_timestamp_skew_ms": 0,
-            "market": "0x537df24dbae425e973a421983b6ee570d582cac06b5fdbebef099d3d07913985",
-            "no_levels": 91,
-            "title": "Will Anthropic have the best AI model at the end of September 2026?",
-            "yes_ask_plus_no_ask": 1.003,
-            "yes_bid_plus_no_bid": 0.997,
-            "yes_levels": 91
-          },
-          {
-            "book_timestamp_skew_ms": 1,
-            "market": "0x297a7e53bd42e7355f3a499ccfacd58c0760dc322cd11d35ef75d63acc427fc6",
-            "no_levels": 50,
-            "title": "Will Rooster be the #1 searched TV show on Google this year?",
-            "yes_ask_plus_no_ask": 1.005,
-            "yes_bid_plus_no_bid": 0.995,
-            "yes_levels": 50
+            "market": "0xee307e0609e90bd64e7bb75135662091ff438b043031d79337a67b4d1f54763d",
+            "no_levels": 147,
+            "title": "Will the Kansas City Chiefs win the 2027 NFL league championship?",
+            "yes_ask_plus_no_ask": 1.002,
+            "yes_bid_plus_no_bid": 0.998,
+            "yes_levels": 147
           }
         ],
         "opportunities": [],
@@ -2384,21 +1971,21 @@
         "snapshot": {
           "polymarket": {
             "errors": [],
-            "groups": 40,
-            "markets": 1369,
+            "groups": 15,
+            "markets": 771,
             "source": "network"
           }
         },
         "top_of_book_ask_sum": {
-          "count": 1138,
+          "count": 653,
           "max": 1.98,
-          "median": 1.01,
+          "median": 1.02,
           "min": 1.001
         },
         "top_of_book_bid_sum": {
-          "count": 1138,
+          "count": 653,
           "max": 0.999,
-          "median": 0.99,
+          "median": 0.98,
           "min": 0.02
         },
         "venue_pnl": {}
@@ -2407,21 +1994,21 @@
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "empty_book": 231,
-        "no_edge": 1138
+        "empty_book": 118,
+        "no_edge": 653
       },
       "reject_reasons": {
-        "empty_book": 231,
-        "no_edge": 1138
+        "empty_book": 118,
+        "no_edge": 653
       },
-      "rejects": 1138,
+      "rejects": 653,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "polymarket_rebalancing_arb"
     },
     {
       "admitted": 0,
-      "candidates": 39,
+      "candidates": 15,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -2429,7 +2016,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334587+00:00",
+        "created_at": "2026-09-14T21:46:01.808692+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2451,13 +2038,13 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569334+00:00"
+        "updated_at": "2026-09-14T21:46:01.954693+00:00"
       },
       "metrics": {
-        "augmented_groups": 29,
+        "augmented_groups": 13,
         "conversions": [],
         "converter_fee_bps": 0.0,
-        "convertible_groups": 32,
+        "convertible_groups": 14,
         "equity_point": {
           "drawdown": 0.0,
           "equity": 1000.0,
@@ -2475,7 +2062,7 @@
             "capital_required": 0.0,
             "end_date": "2027-02-14T23:55:00Z",
             "exclusive": true,
-            "gross_edge_per_set": 0.019,
+            "gross_edge_per_set": 0.012,
             "group": "202857",
             "kind": "negrisk_convert",
             "legs": 32,
@@ -2483,15 +2070,15 @@
             "neg_risk": true,
             "net_edge_per_set": null,
             "net_profit": 0.0,
-            "no_ask_sum": 30.981,
+            "no_ask_sum": 30.988,
             "reason": "fees_exceed_edge",
             "sets": 0.0,
             "slug": "pro-football-2027-champion-20260729185915366",
             "title": "Pro Football: 2027 Champion",
-            "top_fees_per_set": 0.04802,
+            "top_fees_per_set": 0.04771,
             "top_slippage_per_set": 0.059,
-            "yes_ask_sum": 1.084,
-            "yes_bid_sum": 1.019
+            "yes_ask_sum": 1.077,
+            "yes_bid_sum": 1.012
           },
           {
             "augmented": true,
@@ -2519,29 +2106,6 @@
           {
             "augmented": true,
             "capital_required": 0.0,
-            "end_date": "2026-11-03T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": 0.0,
-            "group": "32225",
-            "kind": "negrisk_convert",
-            "legs": 2,
-            "listed_markets": 9,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 1.0,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "which-party-will-win-the-house-in-2026",
-            "title": "Which party will win the House in 2026?",
-            "top_fees_per_set": 0.00905,
-            "top_slippage_per_set": 0.02,
-            "yes_ask_sum": 1.02,
-            "yes_bid_sum": 1.0
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
             "end_date": "2027-07-01T00:00:00Z",
             "exclusive": true,
             "gross_edge_per_set": -0.018,
@@ -2565,52 +2129,6 @@
           {
             "augmented": true,
             "capital_required": 0.0,
-            "end_date": "2027-07-01T03:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.027,
-            "group": "588160",
-            "kind": "negrisk_convert",
-            "legs": 32,
-            "listed_markets": 38,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 31.027,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "nhl-2027-champion-20260612185656162",
-            "title": "NHL: 2027 Champion",
-            "top_fees_per_set": 0.04573,
-            "top_slippage_per_set": 0.104,
-            "yes_ask_sum": 1.092,
-            "yes_bid_sum": 0.973
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-11-03T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.028,
-            "group": "32228",
-            "kind": "negrisk_convert",
-            "legs": 5,
-            "listed_markets": 5,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 4.028,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "balance-of-power-2026-midterms",
-            "title": "Balance of Power: 2026 Midterms",
-            "top_fees_per_set": 0.02339,
-            "top_slippage_per_set": 0.032,
-            "yes_ask_sum": 1.004,
-            "yes_bid_sum": 0.972
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
             "end_date": "2027-05-30T23:59:00Z",
             "exclusive": true,
             "gross_edge_per_set": -0.029,
@@ -2630,121 +2148,6 @@
             "top_slippage_per_set": 0.047,
             "yes_ask_sum": 1.019,
             "yes_bid_sum": 0.971
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T23:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.058,
-            "group": "779079",
-            "kind": "negrisk_convert",
-            "legs": 45,
-            "listed_markets": 83,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 44.058,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "1-searched-tv-show-on-google-2026-20260730185304",
-            "title": "#1 Searched TV Show on Google 2026?",
-            "top_fees_per_set": 0.03666,
-            "top_slippage_per_set": 0.045,
-            "yes_ask_sum": 1.426,
-            "yes_bid_sum": 0.942
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T23:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.079,
-            "group": "779081",
-            "kind": "negrisk_convert",
-            "legs": 57,
-            "listed_markets": 103,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 56.079,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "1-searched-person-on-google-in-the-us-2026-20260730192940",
-            "title": "#1 Searched Person on Google in the US 2026?",
-            "top_fees_per_set": 0.03814,
-            "top_slippage_per_set": 0.066,
-            "yes_ask_sum": 1.196,
-            "yes_bid_sum": 0.921
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2028-08-10T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.133,
-            "group": "378769",
-            "kind": "negrisk_convert",
-            "legs": 43,
-            "listed_markets": 128,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 42.133,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "democratic-vp-nominee-2028",
-            "title": "Democratic VP Nominee 2028",
-            "top_fees_per_set": 0.0334,
-            "top_slippage_per_set": 0.052,
-            "yes_ask_sum": 1.682,
-            "yes_bid_sum": 0.867
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T23:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.257,
-            "group": "715392",
-            "kind": "negrisk_convert",
-            "legs": 46,
-            "listed_markets": 93,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 45.257,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "1-searched-person-on-google-this-year-20260717214320563",
-            "title": "#1 Searched Person on Google 2026?",
-            "top_fees_per_set": 0.0333,
-            "top_slippage_per_set": 0.082,
-            "yes_ask_sum": 1.453,
-            "yes_bid_sum": 0.743
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-10T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.478,
-            "group": "60182",
-            "kind": "negrisk_convert",
-            "legs": 31,
-            "listed_markets": 71,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 30.478,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "nobel-peace-prize-winner-2026-139",
-            "title": "Nobel Peace Prize Winner 2026",
-            "top_fees_per_set": 0.02462,
-            "top_slippage_per_set": 0.04,
-            "yes_ask_sum": 0.665,
-            "yes_bid_sum": 0.522
           },
           {
             "augmented": true,
@@ -2858,7 +2261,7 @@
             "title": "Next French Presidential Election",
             "top_fees_per_set": null,
             "top_slippage_per_set": null,
-            "yes_ask_sum": 1.029,
+            "yes_ask_sum": 1.027,
             "yes_bid_sum": null
           },
           {
@@ -2881,7 +2284,7 @@
             "title": "Fed Decision in September?",
             "top_fees_per_set": null,
             "top_slippage_per_set": null,
-            "yes_ask_sum": 1.013,
+            "yes_ask_sum": 1.023,
             "yes_bid_sum": null
           },
           {
@@ -2973,383 +2376,15 @@
             "title": "F1 Drivers' Champion",
             "top_fees_per_set": null,
             "top_slippage_per_set": null,
-            "yes_ask_sum": 0.986,
+            "yes_ask_sum": 0.988,
             "yes_bid_sum": null
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "51456",
-            "kind": "negrisk_convert",
-            "legs": 13,
-            "listed_markets": 13,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "how-many-fed-rate-cuts-in-2026",
-            "title": "How many Fed rate cuts in 2026?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.004,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": null,
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "726377",
-            "kind": "negrisk_convert",
-            "legs": 55,
-            "listed_markets": 66,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "uefa-euro-2028-winner-20260720162754434",
-            "title": "UEFA EURO 2028: Winner",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.388,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-31T23:55:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "179312",
-            "kind": "negrisk_convert",
-            "legs": 25,
-            "listed_markets": 31,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "mlb-world-series-champion-2026",
-            "title": "MLB World Series Champion 2026",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.027,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "81557",
-            "kind": "negrisk_convert",
-            "legs": 19,
-            "listed_markets": 28,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "who-will-be-the-next-prime-minister-of-israel-after-the-next-election",
-            "title": "Prime Minister of Israel after the next election?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.013,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "79831",
-            "kind": "negrisk_convert",
-            "legs": 14,
-            "listed_markets": 28,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "highest-grossing-movie-in-2026",
-            "title": "Highest grossing movie in 2026?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.005,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-09-20T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "149589",
-            "kind": "negrisk_convert",
-            "legs": 8,
-            "listed_markets": 34,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "which-party-will-gain-most-seats-in-russian-parliamentary-election",
-            "title": "Which party will gain most seats in Russian Parliamentary Election?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.016,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-04T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "204972",
-            "kind": "negrisk_convert",
-            "legs": 18,
-            "listed_markets": 32,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "brazil-presidential-election-first-round-2nd-place",
-            "title": "Brazil Presidential Election First Round: 2nd Place",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.029,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "143443",
-            "kind": "negrisk_convert",
-            "legs": 16,
-            "listed_markets": 57,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "venezuela-leader-end-of-2026",
-            "title": "Venezuela leader end of 2026?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.014,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-01T03:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "727186",
-            "kind": "negrisk_convert",
-            "legs": 21,
-            "listed_markets": 32,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "which-company-has-the-best-ai-model-end-of-september-20260717143435868",
-            "title": "Which company has the best AI model end of September?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 1.027,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": null,
-            "group": "237598",
-            "kind": "negrisk_convert",
-            "legs": 30,
-            "listed_markets": 123,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "empty_book",
-            "sets": 0.0,
-            "slug": "iran-leader-end-of-2026",
-            "title": "Iran leader end of 2026?",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": 0.995,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:40:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": 6.31,
-            "group": "988205",
-            "kind": "negrisk_convert",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 9.69,
-            "reason": "converter_unavailable",
-            "sets": 0.0,
-            "slug": "mlb-atl-chc-2026-09-14",
-            "title": "Atlanta Braves vs. Chicago Cubs",
-            "top_fees_per_set": 0.18274,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 7.62,
-            "yes_bid_sum": 7.31
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:40:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": 5.71,
-            "group": "988206",
-            "kind": "negrisk_convert",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.29,
-            "reason": "converter_unavailable",
-            "sets": 0.0,
-            "slug": "mlb-nyy-min-2026-09-14",
-            "title": "New York Yankees vs. Minnesota Twins",
-            "top_fees_per_set": 0.18172,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 7.04,
-            "yes_bid_sum": 6.71
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:10:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": 5.49,
-            "group": "988204",
-            "kind": "negrisk_convert",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.51,
-            "reason": "converter_unavailable",
-            "sets": 0.0,
-            "slug": "mlb-bal-nym-2026-09-14",
-            "title": "Baltimore Orioles vs. New York Mets",
-            "top_fees_per_set": 0.18042,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 6.77,
-            "yes_bid_sum": 6.49
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:07:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": 5.32,
-            "group": "988203",
-            "kind": "negrisk_convert",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.68,
-            "reason": "converter_unavailable",
-            "sets": 0.0,
-            "slug": "mlb-det-tor-2026-09-14",
-            "title": "Detroit Tigers vs. Toronto Blue Jays",
-            "top_fees_per_set": 0.17958,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 6.58,
-            "yes_bid_sum": 6.32
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T22:40:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": 5.27,
-            "group": "988198",
-            "kind": "negrisk_convert",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.73,
-            "reason": "converter_unavailable",
-            "sets": 0.0,
-            "slug": "mlb-lad-cin-2026-09-14",
-            "title": "Los Angeles Dodgers vs. Cincinnati Reds",
-            "top_fees_per_set": 0.17224,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 6.55,
-            "yes_bid_sum": 6.27
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2027-01-01T05:00:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": 3.795,
-            "group": "89502",
-            "kind": "negrisk_convert",
-            "legs": 32,
-            "listed_markets": 47,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 27.205,
-            "reason": "converter_unavailable",
-            "sets": 0.0,
-            "slug": "what-price-will-bitcoin-hit-before-2027",
-            "title": "What price will Bitcoin hit in 2026?",
-            "top_fees_per_set": 0.18212,
-            "top_slippage_per_set": 0.167,
-            "yes_ask_sum": 5.04,
-            "yes_bid_sum": 4.795
           },
           {
             "augmented": false,
             "capital_required": 0.0,
             "end_date": "2026-09-15T00:15:00Z",
             "exclusive": false,
-            "gross_edge_per_set": null,
+            "gross_edge_per_set": 79.499,
             "group": "795799",
             "kind": "negrisk_convert",
             "legs": 371,
@@ -3357,18 +2392,18 @@
             "neg_risk": false,
             "net_edge_per_set": null,
             "net_profit": 0.0,
-            "no_ask_sum": null,
+            "no_ask_sum": 290.501,
             "reason": "converter_unavailable",
             "sets": 0.0,
             "slug": "nfl-den-kc-2026-09-15",
             "title": "Broncos vs. Chiefs",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": null,
-            "yes_bid_sum": null
+            "top_fees_per_set": 2.27391,
+            "top_slippage_per_set": 3.638,
+            "yes_ask_sum": 200.062,
+            "yes_bid_sum": 80.499
           }
         ],
-        "groups_checked": 39,
+        "groups_checked": 15,
         "legging_residual_contracts": 0.0,
         "literature": "arXiv:2608.00666 (executable NegRisk arbitrage; NO->YES converter asymmetry)",
         "parameters": {
@@ -3381,12 +2416,12 @@
           "model_fees": true,
           "slippage_ticks": 1.0
         },
-        "single_outcome_groups_skipped": 1,
+        "single_outcome_groups_skipped": 0,
         "snapshot": {
           "polymarket": {
             "errors": [],
-            "groups": 40,
-            "markets": 1369,
+            "groups": 15,
+            "markets": 771,
             "source": "network"
           }
         },
@@ -3396,25 +2431,25 @@
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "converter_unavailable": 7,
-        "empty_book": 20,
+        "converter_unavailable": 1,
+        "empty_book": 10,
         "fees_exceed_edge": 2,
-        "no_edge": 10
+        "no_edge": 2
       },
       "reject_reasons": {
-        "converter_unavailable": 7,
-        "empty_book": 20,
+        "converter_unavailable": 1,
+        "empty_book": 10,
         "fees_exceed_edge": 2,
-        "no_edge": 10
+        "no_edge": 2
       },
-      "rejects": 39,
+      "rejects": 15,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "polymarket_negrisk_arb"
     },
     {
       "admitted": 0,
-      "candidates": 39,
+      "candidates": 15,
       "edge_bps": null,
       "estimated_fees_buffer": 0.0,
       "fill_rate": null,
@@ -3422,7 +2457,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:33.334660+00:00",
+        "created_at": "2026-09-14T21:46:01.808732+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -3444,7 +2479,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:33.569358+00:00"
+        "updated_at": "2026-09-14T21:46:01.954716+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -3459,29 +2494,6 @@
           "order_submitted": 0
         },
         "groups": [
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-10T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": 0.335,
-            "group": "60182",
-            "kind": "long_all_yes",
-            "legs": 31,
-            "listed_markets": 71,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 30.478,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "nobel-peace-prize-winner-2026-139",
-            "title": "Nobel Peace Prize Winner 2026",
-            "top_fees_per_set": 0.03122,
-            "top_slippage_per_set": 0.04,
-            "yes_ask_sum": 0.665,
-            "yes_bid_sum": 0.522
-          },
           {
             "augmented": true,
             "capital_required": 0.0,
@@ -3556,7 +2568,7 @@
             "capital_required": 0.0,
             "end_date": "2026-12-06T00:00:00Z",
             "exclusive": true,
-            "gross_edge_per_set": 0.014,
+            "gross_edge_per_set": 0.012,
             "group": "100371",
             "kind": "long_all_yes",
             "legs": 9,
@@ -3569,193 +2581,9 @@
             "sets": 0.0,
             "slug": "2026-f1-drivers-champion",
             "title": "F1 Drivers' Champion",
-            "top_fees_per_set": 0.00772,
+            "top_fees_per_set": 0.00773,
             "top_slippage_per_set": 0.009,
-            "yes_ask_sum": 0.986,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": 0.005,
-            "group": "237598",
-            "kind": "long_all_yes",
-            "legs": 30,
-            "listed_markets": 123,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "iran-leader-end-of-2026",
-            "title": "Iran leader end of 2026?",
-            "top_fees_per_set": 0.0,
-            "top_slippage_per_set": 0.03,
-            "yes_ask_sum": 0.995,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.004,
-            "group": "51456",
-            "kind": "long_all_yes",
-            "legs": 13,
-            "listed_markets": 13,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "how-many-fed-rate-cuts-in-2026",
-            "title": "How many Fed rate cuts in 2026?",
-            "top_fees_per_set": 0.00602,
-            "top_slippage_per_set": 0.013,
-            "yes_ask_sum": 1.004,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-11-03T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.004,
-            "group": "32228",
-            "kind": "long_all_yes",
-            "legs": 5,
-            "listed_markets": 5,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 4.028,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "balance-of-power-2026-midterms",
-            "title": "Balance of Power: 2026 Midterms",
-            "top_fees_per_set": 0.02389,
-            "top_slippage_per_set": 0.032,
-            "yes_ask_sum": 1.004,
-            "yes_bid_sum": 0.972
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.005,
-            "group": "79831",
-            "kind": "long_all_yes",
-            "legs": 14,
-            "listed_markets": 28,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "highest-grossing-movie-in-2026",
-            "title": "Highest grossing movie in 2026?",
-            "top_fees_per_set": 0.00594,
-            "top_slippage_per_set": 0.032,
-            "yes_ask_sum": 1.005,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-16T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.013,
-            "group": "481717",
-            "kind": "long_all_yes",
-            "legs": 5,
-            "listed_markets": 5,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "no_edge",
-            "sets": 0.0,
-            "slug": "fed-decision-in-september-762",
-            "title": "Fed Decision in September?",
-            "top_fees_per_set": 0.0112,
-            "top_slippage_per_set": 0.023,
-            "yes_ask_sum": 1.013,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.013,
-            "group": "81557",
-            "kind": "long_all_yes",
-            "legs": 19,
-            "listed_markets": 28,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "who-will-be-the-next-prime-minister-of-israel-after-the-next-election",
-            "title": "Prime Minister of Israel after the next election?",
-            "top_fees_per_set": 0.0,
-            "top_slippage_per_set": 0.037,
-            "yes_ask_sum": 1.013,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.014,
-            "group": "143443",
-            "kind": "long_all_yes",
-            "legs": 16,
-            "listed_markets": 57,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "venezuela-leader-end-of-2026",
-            "title": "Venezuela leader end of 2026?",
-            "top_fees_per_set": 0.01174,
-            "top_slippage_per_set": 0.025,
-            "yes_ask_sum": 1.014,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-09-20T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.016,
-            "group": "149589",
-            "kind": "long_all_yes",
-            "legs": 8,
-            "listed_markets": 34,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "which-party-will-gain-most-seats-in-russian-parliamentary-election",
-            "title": "Which party will gain most seats in Russian Parliamentary Election?",
-            "top_fees_per_set": 0.0,
-            "top_slippage_per_set": 0.017,
-            "yes_ask_sum": 1.016,
+            "yes_ask_sum": 0.988,
             "yes_bid_sum": null
           },
           {
@@ -3807,29 +2635,6 @@
           {
             "augmented": true,
             "capital_required": 0.0,
-            "end_date": "2026-11-03T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.02,
-            "group": "32225",
-            "kind": "long_all_yes",
-            "legs": 2,
-            "listed_markets": 9,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 1.0,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "which-party-will-win-the-house-in-2026",
-            "title": "Which party will win the House in 2026?",
-            "top_fees_per_set": 0.00904,
-            "top_slippage_per_set": 0.02,
-            "yes_ask_sum": 1.02,
-            "yes_bid_sum": 1.0
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
             "end_date": "2026-10-31T00:00:00Z",
             "exclusive": true,
             "gross_edge_per_set": -0.021,
@@ -3848,6 +2653,29 @@
             "top_fees_per_set": 0.03144,
             "top_slippage_per_set": 0.028,
             "yes_ask_sum": 1.021,
+            "yes_bid_sum": null
+          },
+          {
+            "augmented": false,
+            "capital_required": 0.0,
+            "end_date": "2026-09-16T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": -0.023,
+            "group": "481717",
+            "kind": "long_all_yes",
+            "legs": 5,
+            "listed_markets": 5,
+            "neg_risk": true,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": null,
+            "reason": "no_edge",
+            "sets": 0.0,
+            "slug": "fed-decision-in-september-762",
+            "title": "Fed Decision in September?",
+            "top_fees_per_set": 0.01158,
+            "top_slippage_per_set": 0.023,
+            "yes_ask_sum": 1.023,
             "yes_bid_sum": null
           },
           {
@@ -3876,55 +2704,9 @@
           {
             "augmented": true,
             "capital_required": 0.0,
-            "end_date": "2026-10-31T23:55:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.027,
-            "group": "179312",
-            "kind": "long_all_yes",
-            "legs": 25,
-            "listed_markets": 31,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "mlb-world-series-champion-2026",
-            "title": "MLB World Series Champion 2026",
-            "top_fees_per_set": 0.04363,
-            "top_slippage_per_set": 0.043,
-            "yes_ask_sum": 1.027,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-01T03:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.027,
-            "group": "727186",
-            "kind": "long_all_yes",
-            "legs": 21,
-            "listed_markets": 32,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "which-company-has-the-best-ai-model-end-of-september-20260717143435868",
-            "title": "Which company has the best AI model end of September?",
-            "top_fees_per_set": 0.00388,
-            "top_slippage_per_set": 0.021,
-            "yes_ask_sum": 1.027,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
             "end_date": "2027-04-30T00:00:00Z",
             "exclusive": true,
-            "gross_edge_per_set": -0.029,
+            "gross_edge_per_set": -0.027,
             "group": "79987",
             "kind": "long_all_yes",
             "legs": 41,
@@ -3937,32 +2719,9 @@
             "sets": 0.0,
             "slug": "next-french-presidential-election",
             "title": "Next French Presidential Election",
-            "top_fees_per_set": 0.03228,
+            "top_fees_per_set": 0.03226,
             "top_slippage_per_set": 0.059,
-            "yes_ask_sum": 1.029,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-10-04T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.029,
-            "group": "204972",
-            "kind": "long_all_yes",
-            "legs": 18,
-            "listed_markets": 32,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "brazil-presidential-election-first-round-2nd-place",
-            "title": "Brazil Presidential Election First Round: 2nd Place",
-            "top_fees_per_set": 0.01578,
-            "top_slippage_per_set": 0.027,
-            "yes_ask_sum": 1.029,
+            "yes_ask_sum": 1.027,
             "yes_bid_sum": null
           },
           {
@@ -4016,7 +2775,7 @@
             "capital_required": 0.0,
             "end_date": "2027-02-14T23:55:00Z",
             "exclusive": true,
-            "gross_edge_per_set": -0.084,
+            "gross_edge_per_set": -0.077,
             "group": "202857",
             "kind": "long_all_yes",
             "legs": 32,
@@ -4024,38 +2783,15 @@
             "neg_risk": true,
             "net_edge_per_set": null,
             "net_profit": 0.0,
-            "no_ask_sum": 30.981,
+            "no_ask_sum": 30.988,
             "reason": "hidden_outcome_risk",
             "sets": 0.0,
             "slug": "pro-football-2027-champion-20260729185915366",
             "title": "Pro Football: 2027 Champion",
-            "top_fees_per_set": 0.0509,
+            "top_fees_per_set": 0.05058,
             "top_slippage_per_set": 0.059,
-            "yes_ask_sum": 1.084,
-            "yes_bid_sum": 1.019
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2027-07-01T03:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.092,
-            "group": "588160",
-            "kind": "long_all_yes",
-            "legs": 32,
-            "listed_markets": 38,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 31.027,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "nhl-2027-champion-20260612185656162",
-            "title": "NHL: 2027 Champion",
-            "top_fees_per_set": 0.05093,
-            "top_slippage_per_set": 0.104,
-            "yes_ask_sum": 1.092,
-            "yes_bid_sum": 0.973
+            "yes_ask_sum": 1.077,
+            "yes_bid_sum": 1.012
           },
           {
             "augmented": true,
@@ -4081,264 +2817,11 @@
             "yes_bid_sum": 1.002
           },
           {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T23:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.196,
-            "group": "779081",
-            "kind": "long_all_yes",
-            "legs": 57,
-            "listed_markets": 103,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 56.079,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "1-searched-person-on-google-in-the-us-2026-20260730192940",
-            "title": "#1 Searched Person on Google in the US 2026?",
-            "top_fees_per_set": 0.05062,
-            "top_slippage_per_set": 0.066,
-            "yes_ask_sum": 1.196,
-            "yes_bid_sum": 0.921
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": null,
-            "exclusive": true,
-            "gross_edge_per_set": -0.388,
-            "group": "726377",
-            "kind": "long_all_yes",
-            "legs": 55,
-            "listed_markets": 66,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": null,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "uefa-euro-2028-winner-20260720162754434",
-            "title": "UEFA EURO 2028: Winner",
-            "top_fees_per_set": 0.06118,
-            "top_slippage_per_set": 0.109,
-            "yes_ask_sum": 1.388,
-            "yes_bid_sum": null
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T23:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.426,
-            "group": "779079",
-            "kind": "long_all_yes",
-            "legs": 45,
-            "listed_markets": 83,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 44.058,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "1-searched-tv-show-on-google-2026-20260730185304",
-            "title": "#1 Searched TV Show on Google 2026?",
-            "top_fees_per_set": 0.05892,
-            "top_slippage_per_set": 0.045,
-            "yes_ask_sum": 1.426,
-            "yes_bid_sum": 0.942
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2026-12-31T23:59:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.453,
-            "group": "715392",
-            "kind": "long_all_yes",
-            "legs": 46,
-            "listed_markets": 93,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 45.257,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "1-searched-person-on-google-this-year-20260717214320563",
-            "title": "#1 Searched Person on Google 2026?",
-            "top_fees_per_set": 0.06634,
-            "top_slippage_per_set": 0.082,
-            "yes_ask_sum": 1.453,
-            "yes_bid_sum": 0.743
-          },
-          {
-            "augmented": true,
-            "capital_required": 0.0,
-            "end_date": "2028-08-10T00:00:00Z",
-            "exclusive": true,
-            "gross_edge_per_set": -0.682,
-            "group": "378769",
-            "kind": "long_all_yes",
-            "legs": 43,
-            "listed_markets": 128,
-            "neg_risk": true,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 42.133,
-            "reason": "hidden_outcome_risk",
-            "sets": 0.0,
-            "slug": "democratic-vp-nominee-2028",
-            "title": "Democratic VP Nominee 2028",
-            "top_fees_per_set": 0.06366,
-            "top_slippage_per_set": 0.052,
-            "yes_ask_sum": 1.682,
-            "yes_bid_sum": 0.867
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2027-01-01T05:00:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": -4.04,
-            "group": "89502",
-            "kind": "long_all_yes",
-            "legs": 32,
-            "listed_markets": 47,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 27.205,
-            "reason": "exclusivity_unverified",
-            "sets": 0.0,
-            "slug": "what-price-will-bitcoin-hit-before-2027",
-            "title": "What price will Bitcoin hit in 2026?",
-            "top_fees_per_set": 0.1894,
-            "top_slippage_per_set": 0.167,
-            "yes_ask_sum": 5.04,
-            "yes_bid_sum": 4.795
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T22:40:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": -5.55,
-            "group": "988198",
-            "kind": "long_all_yes",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.73,
-            "reason": "exclusivity_unverified",
-            "sets": 0.0,
-            "slug": "mlb-lad-cin-2026-09-14",
-            "title": "Los Angeles Dodgers vs. Cincinnati Reds",
-            "top_fees_per_set": 0.17588,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 6.55,
-            "yes_bid_sum": 6.27
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:07:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": -5.58,
-            "group": "988203",
-            "kind": "long_all_yes",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.68,
-            "reason": "exclusivity_unverified",
-            "sets": 0.0,
-            "slug": "mlb-det-tor-2026-09-14",
-            "title": "Detroit Tigers vs. Toronto Blue Jays",
-            "top_fees_per_set": 0.18279,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 6.58,
-            "yes_bid_sum": 6.32
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:10:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": -5.77,
-            "group": "988204",
-            "kind": "long_all_yes",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.51,
-            "reason": "exclusivity_unverified",
-            "sets": 0.0,
-            "slug": "mlb-bal-nym-2026-09-14",
-            "title": "Baltimore Orioles vs. New York Mets",
-            "top_fees_per_set": 0.18358,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 6.77,
-            "yes_bid_sum": 6.49
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:40:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": -6.04,
-            "group": "988206",
-            "kind": "long_all_yes",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 10.29,
-            "reason": "exclusivity_unverified",
-            "sets": 0.0,
-            "slug": "mlb-nyy-min-2026-09-14",
-            "title": "New York Yankees vs. Minnesota Twins",
-            "top_fees_per_set": 0.18441,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 7.04,
-            "yes_bid_sum": 6.71
-          },
-          {
-            "augmented": false,
-            "capital_required": 0.0,
-            "end_date": "2026-09-21T23:40:00Z",
-            "exclusive": false,
-            "gross_edge_per_set": -6.62,
-            "group": "988205",
-            "kind": "long_all_yes",
-            "legs": 17,
-            "listed_markets": 17,
-            "neg_risk": false,
-            "net_edge_per_set": null,
-            "net_profit": 0.0,
-            "no_ask_sum": 9.69,
-            "reason": "exclusivity_unverified",
-            "sets": 0.0,
-            "slug": "mlb-atl-chc-2026-09-14",
-            "title": "Atlanta Braves vs. Chicago Cubs",
-            "top_fees_per_set": 0.18409,
-            "top_slippage_per_set": 0.17,
-            "yes_ask_sum": 7.62,
-            "yes_bid_sum": 7.31
-          },
-          {
             "augmented": false,
             "capital_required": 0.0,
             "end_date": "2026-09-15T00:15:00Z",
             "exclusive": false,
-            "gross_edge_per_set": null,
+            "gross_edge_per_set": -199.062,
             "group": "795799",
             "kind": "long_all_yes",
             "legs": 371,
@@ -4346,18 +2829,18 @@
             "neg_risk": false,
             "net_edge_per_set": null,
             "net_profit": 0.0,
-            "no_ask_sum": null,
+            "no_ask_sum": 290.501,
             "reason": "exclusivity_unverified",
             "sets": 0.0,
             "slug": "nfl-den-kc-2026-09-15",
             "title": "Broncos vs. Chiefs",
-            "top_fees_per_set": null,
-            "top_slippage_per_set": null,
-            "yes_ask_sum": null,
-            "yes_bid_sum": null
+            "top_fees_per_set": 2.57267,
+            "top_slippage_per_set": 3.638,
+            "yes_ask_sum": 200.062,
+            "yes_bid_sum": 80.499
           }
         ],
-        "groups_checked": 39,
+        "groups_checked": 15,
         "holdings": [],
         "literature": "arXiv:2508.03474 (combinatorial / sum-to-one); one-way converter means capital is locked",
         "locked_capital": 0.0,
@@ -4373,12 +2856,12 @@
           "slippage_ticks": 1.0
         },
         "payoff_at_resolution": 0.0,
-        "single_outcome_groups_skipped": 1,
+        "single_outcome_groups_skipped": 0,
         "snapshot": {
           "polymarket": {
             "errors": [],
-            "groups": 40,
-            "markets": 1369,
+            "groups": 15,
+            "markets": 771,
             "source": "network"
           }
         },
@@ -4388,19 +2871,573 @@
       "paper_fills": 0,
       "proposed_orders": 0,
       "refused_by_reason": {
-        "exclusivity_unverified": 7,
-        "hidden_outcome_risk": 29,
-        "no_edge": 3
+        "exclusivity_unverified": 1,
+        "hidden_outcome_risk": 13,
+        "no_edge": 1
       },
       "reject_reasons": {
-        "exclusivity_unverified": 7,
-        "hidden_outcome_risk": 29,
-        "no_edge": 3
+        "exclusivity_unverified": 1,
+        "hidden_outcome_risk": 13,
+        "no_edge": 1
       },
-      "rejects": 39,
+      "rejects": 15,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "polymarket_combinatorial_arb"
+    },
+    {
+      "admitted": 10,
+      "candidates": 15,
+      "edge_bps": -95,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 1.0,
+      "label": "Kalshi longshot fade (taker)",
+      "ledger": {
+        "cash": 959.5073,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T21:46:01.808777+00:00",
+        "equity": 997.3373,
+        "equity_points": 1,
+        "fees_paid": 1.2027,
+        "fills": 10,
+        "gross_notional": 64.69,
+        "ledger_id": "kalshi_longshot_fade",
+        "mark_method": "mid",
+        "max_drawdown": 2.6627,
+        "net_exposure": 37.83,
+        "open_positions": 10,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 37.83,
+        "positions": [
+          {
+            "average_price": 0.12,
+            "fees_paid": 0.207,
+            "mark": 0.125,
+            "market_id": "KXFEDDECISION-26SEP-H0",
+            "quantity": -28.0,
+            "realized_pnl": -0.207,
+            "unrealized_pnl": -0.14,
+            "value": -3.5,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.87,
+            "fees_paid": 0.2217,
+            "mark": 0.865,
+            "market_id": "KXFEDDECISION-26SEP-H25",
+            "quantity": 28.0,
+            "realized_pnl": -0.2217,
+            "unrealized_pnl": -0.14,
+            "value": 24.22,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.87,
+            "fees_paid": 0.2217,
+            "mark": 0.865,
+            "market_id": "KXFED-26SEP-T3.75",
+            "quantity": 28.0,
+            "realized_pnl": -0.2217,
+            "unrealized_pnl": -0.14,
+            "value": 24.22,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.02,
+            "fees_paid": 0.0343,
+            "mark": 0.025,
+            "market_id": "KXFEDDECISION-26OCT-C25",
+            "quantity": -25.0,
+            "realized_pnl": -0.0343,
+            "unrealized_pnl": -0.125,
+            "value": -0.625,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.01,
+            "fees_paid": 0.0174,
+            "mark": 0.015,
+            "market_id": "KXFEDDECISION-26OCT-C26",
+            "quantity": -25.0,
+            "realized_pnl": -0.0174,
+            "unrealized_pnl": -0.125,
+            "value": -0.375,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.08,
+            "fees_paid": 0.0258,
+            "mark": 0.11,
+            "market_id": "KXFEDDECISION-27DEC-H26",
+            "quantity": -5.0,
+            "realized_pnl": -0.0258,
+            "unrealized_pnl": -0.15,
+            "value": -0.55,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.15,
+            "fees_paid": 0.1875,
+            "mark": 0.17,
+            "market_id": "KXGDP-26OCT30-T4.0",
+            "quantity": -21.0,
+            "realized_pnl": -0.1875,
+            "unrealized_pnl": -0.42,
+            "value": -3.57,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.15,
+            "fees_paid": 0.2589,
+            "mark": 0.155,
+            "market_id": "KXCPI-26SEP-T0.6",
+            "quantity": -29.0,
+            "realized_pnl": -0.2589,
+            "unrealized_pnl": -0.145,
+            "value": -4.495,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.03,
+            "fees_paid": 0.0184,
+            "mark": 0.035,
+            "market_id": "KXFEDDECISION-26DEC-C25",
+            "quantity": -9.0,
+            "realized_pnl": -0.0184,
+            "unrealized_pnl": -0.045,
+            "value": -0.315,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.95,
+            "fees_paid": 0.01,
+            "mark": 0.94,
+            "market_id": "KXFED-26DEC-T3.75",
+            "quantity": 3.0,
+            "realized_pnl": -0.01,
+            "unrealized_pnl": -0.03,
+            "value": 2.82,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -1.2027,
+        "return_pct": -0.26627,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -2.6627,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -1.46,
+        "updated_at": "2026-09-14T21:46:01.954784+00:00"
+      },
+      "metrics": {
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 181.29,
+          "resting_orders_reserved": 0.0
+        },
+        "equity_point": {
+          "drawdown": 2.6627,
+          "equity": 997.3373,
+          "total_pnl": -2.6627
+        },
+        "events": {
+          "fill": 10,
+          "order_acknowledged": 10,
+          "order_rejected": 0,
+          "order_submitted": 10
+        },
+        "fee_model": {
+          "formula": "round_up(M * rate * C * P * (1-P)); M = series fee_multiplier",
+          "maker_rate": 0.0175,
+          "quantum": 0.0001,
+          "taker_rate": 0.07
+        },
+        "longshot_bands": {
+          "10-20c": {
+            "candidates": 6,
+            "contracts": 139.0,
+            "expected_edge_bps_mean": -116,
+            "fees": 1.1226,
+            "fill_probability_mean": 1.0,
+            "fills": 6,
+            "notional": 120.46,
+            "orders": 6
+          },
+          "<10c": {
+            "candidates": 4,
+            "contracts": 62.0,
+            "expected_edge_bps_mean": -62,
+            "fees": 0.0801,
+            "fill_probability_mean": 1.0,
+            "fills": 4,
+            "notional": 60.83,
+            "orders": 4
+          }
+        },
+        "longshot_candidates": 10,
+        "mark_method": "mid",
+        "paper_pnl_by_longshot_band": {
+          "10-20c": {
+            "contracts": 139.0,
+            "fees": 1.1226,
+            "fills": 6,
+            "marked": 6,
+            "notional": 120.46,
+            "paper_pnl": -2.2576,
+            "paper_pnl_per_contract": -0.0162,
+            "return_on_notional_bps": -187
+          },
+          "<10c": {
+            "contracts": 62.0,
+            "fees": 0.0801,
+            "fills": 4,
+            "marked": 4,
+            "notional": 60.83,
+            "paper_pnl": -0.4051,
+            "paper_pnl_per_contract": -0.0065,
+            "return_on_notional_bps": -67
+          }
+        },
+        "paper_pnl_by_price_paid_band": {
+          "80-90c": {
+            "contracts": 134.0,
+            "fees": 1.0968,
+            "fills": 5,
+            "marked": 5,
+            "notional": 115.86,
+            "paper_pnl": -2.0818,
+            "paper_pnl_per_contract": -0.0155,
+            "return_on_notional_bps": -180
+          },
+          ">=90c": {
+            "contracts": 67.0,
+            "fees": 0.1059,
+            "fills": 5,
+            "marked": 5,
+            "notional": 65.43,
+            "paper_pnl": -0.5809,
+            "paper_pnl_per_contract": -0.0087,
+            "return_on_notional_bps": -89
+          }
+        },
+        "parameters": {
+          "adverse_selection_haircut": 0.25,
+          "improve_fill_probability": 0.5,
+          "join_fill_probability": 0.25,
+          "longshot_threshold": 0.2,
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_total_cash_at_risk": 1000.0,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "tick": 0.01
+        },
+        "shadow_longshot_buyer": {
+          "fees_paid": 12.7841,
+          "fills": 10,
+          "gross_notional": 487.095,
+          "mark_method": "mid",
+          "note": "Mirror of every fade: takes the longshot at its ask with the same $25/$75 caps. Hypothetical benchmark only; never proposed to the risk-gated engine.",
+          "paper_pnl_by_longshot_band": {
+            "10-20c": {
+              "contracts": 858.0,
+              "fees": 7.4415,
+              "fills": 6,
+              "marked": 6,
+              "notional": 124.77,
+              "paper_pnl": -18.1465,
+              "paper_pnl_per_contract": -0.0211,
+              "return_on_notional_bps": -1454
+            },
+            "<10c": {
+              "contracts": 2763.0,
+              "fees": 5.3426,
+              "fills": 4,
+              "marked": 4,
+              "notional": 78.84,
+              "paper_pnl": -19.4326,
+              "paper_pnl_per_contract": -0.007,
+              "return_on_notional_bps": -2465
+            }
+          },
+          "realized_pnl": -12.7841,
+          "total_pnl": -37.5791,
+          "unrealized_pnl": -24.795
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "groups": 0,
+            "markets": 15,
+            "source": "network"
+          },
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 15,
+            "source": "network"
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 1.2027,
+            "open_positions": 10.0,
+            "realized_pnl": -1.2027,
+            "total_pnl": -2.6627,
+            "unrealized_pnl": -1.46
+          }
+        }
+      },
+      "notes": "Taker fade of every Kalshi longshot (<=20c side) in the shared snapshot: buys the favourite at the touch, pays the taker fee, marked at mid. shadow_longshot_buyer is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
+      "paper_fills": 10,
+      "proposed_orders": 10,
+      "refused_by_reason": {
+        "not_longshot": 5
+      },
+      "reject_reasons": {
+        "not_longshot": 5
+      },
+      "rejects": 5,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_longshot_fade"
+    },
+    {
+      "admitted": 10,
+      "candidates": 15,
+      "edge_bps": 41,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 0.4,
+      "label": "Kalshi maker quote (resting fade)",
+      "ledger": {
+        "cash": 993.1663,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T21:46:01.808798+00:00",
+        "equity": 999.4863,
+        "equity_points": 1,
+        "fees_paid": 0.0937,
+        "fills": 4,
+        "gross_notional": 17.86,
+        "ledger_id": "kalshi_maker_quote",
+        "mark_method": "conservative",
+        "max_drawdown": 0.5137,
+        "net_exposure": 6.32,
+        "open_positions": 4,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 6.32,
+        "positions": [
+          {
+            "average_price": 0.13,
+            "fees_paid": 0.0278,
+            "mark": 0.14,
+            "market_id": "KXFEDDECISION-27DEC-H26",
+            "quantity": -14.0,
+            "realized_pnl": -0.0278,
+            "unrealized_pnl": -0.14,
+            "value": -1.96,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.18,
+            "fees_paid": 0.0388,
+            "mark": 0.19,
+            "market_id": "KXGDP-26OCT30-T4.0",
+            "quantity": -15.0,
+            "realized_pnl": -0.0388,
+            "unrealized_pnl": -0.15,
+            "value": -2.85,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.16,
+            "fees_paid": 0.0142,
+            "mark": 0.16,
+            "market_id": "KXCPI-26SEP-T0.6",
+            "quantity": -6.0,
+            "realized_pnl": -0.0142,
+            "unrealized_pnl": -0.0,
+            "value": -0.96,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.94,
+            "fees_paid": 0.0129,
+            "mark": 0.93,
+            "market_id": "KXFED-26DEC-T3.75",
+            "quantity": 13.0,
+            "realized_pnl": -0.0129,
+            "unrealized_pnl": -0.13,
+            "value": 12.09,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.0937,
+        "return_pct": -0.05137,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.5137,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.42,
+        "updated_at": "2026-09-14T21:46:01.955146+00:00"
+      },
+      "metrics": {
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 41.74,
+          "resting_orders_reserved": 203.97
+        },
+        "equity_point": {
+          "drawdown": 0.5137,
+          "equity": 999.4863,
+          "total_pnl": -0.5137
+        },
+        "events": {
+          "fill": 4,
+          "order_acknowledged": 10,
+          "order_rejected": 0,
+          "order_submitted": 10
+        },
+        "fee_model": {
+          "formula": "round_up(M * rate * C * P * (1-P)); M = series fee_multiplier",
+          "maker_rate": 0.0175,
+          "quantum": 0.0001,
+          "taker_rate": 0.07
+        },
+        "longshot_bands": {
+          "10-20c": {
+            "candidates": 6,
+            "contracts": 35.0,
+            "expected_edge_bps_mean": 54,
+            "fees": 0.0808,
+            "fill_probability_mean": 0.2066,
+            "fills": 3,
+            "notional": 29.52,
+            "orders": 6
+          },
+          "<10c": {
+            "candidates": 4,
+            "contracts": 13.0,
+            "expected_edge_bps_mean": 22,
+            "fees": 0.0129,
+            "fill_probability_mean": 0.1271,
+            "fills": 1,
+            "notional": 12.22,
+            "orders": 4
+          }
+        },
+        "longshot_candidates": 10,
+        "mark_method": "conservative",
+        "paper_pnl_by_longshot_band": {
+          "10-20c": {
+            "contracts": 35.0,
+            "fees": 0.0808,
+            "fills": 3,
+            "marked": 3,
+            "notional": 29.52,
+            "paper_pnl": -0.3708,
+            "paper_pnl_per_contract": -0.0106,
+            "return_on_notional_bps": -126
+          },
+          "<10c": {
+            "contracts": 13.0,
+            "fees": 0.0129,
+            "fills": 1,
+            "marked": 1,
+            "notional": 12.22,
+            "paper_pnl": -0.1429,
+            "paper_pnl_per_contract": -0.011,
+            "return_on_notional_bps": -117
+          }
+        },
+        "paper_pnl_by_price_paid_band": {
+          "80-90c": {
+            "contracts": 35.0,
+            "fees": 0.0808,
+            "fills": 3,
+            "marked": 3,
+            "notional": 29.52,
+            "paper_pnl": -0.3708,
+            "paper_pnl_per_contract": -0.0106,
+            "return_on_notional_bps": -126
+          },
+          ">=90c": {
+            "contracts": 13.0,
+            "fees": 0.0129,
+            "fills": 1,
+            "marked": 1,
+            "notional": 12.22,
+            "paper_pnl": -0.1429,
+            "paper_pnl_per_contract": -0.011,
+            "return_on_notional_bps": -117
+          }
+        },
+        "parameters": {
+          "adverse_selection_haircut": 0.25,
+          "improve_fill_probability": 0.5,
+          "join_fill_probability": 0.25,
+          "longshot_threshold": 0.2,
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_total_cash_at_risk": 1000.0,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "tick": 0.01
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "groups": 0,
+            "markets": 15,
+            "source": "network"
+          },
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 15,
+            "source": "network"
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.0937,
+            "open_positions": 4.0,
+            "realized_pnl": -0.0937,
+            "total_pnl": -0.5137,
+            "unrealized_pnl": -0.42
+          }
+        }
+      },
+      "notes": "Resting fade one tick inside the spread (or joining the touch). Expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks. Not a measurement of fill rates.",
+      "paper_fills": 4,
+      "proposed_orders": 10,
+      "refused_by_reason": {
+        "not_longshot": 5
+      },
+      "reject_reasons": {
+        "not_longshot": 5
+      },
+      "rejects": 5,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_maker_quote"
     }
   ]
 }

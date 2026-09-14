@@ -82,6 +82,28 @@ jobs:
             echo "paper loop started with live flags" && exit 1
           fi
           test ! -e /tmp/should-not-exist/scoreboard_latest.json
+      - name: Kalshi FLB fixture run emits report, scoreboard and run record
+        run: |
+          uv run python -m apps.measure_flb --no-persist --artifact-dir artifacts/flb-ci
+          uv run python - <<'EOF'
+          import json, glob
+          r = json.load(open("artifacts/flb-ci/flb_report_latest.json"))
+          assert r["paper_only"] is True and r["kind"] == "kalshi_flb_report"
+          v = {row["check"]: row["verdict"] for row in r["verdict_table"]}
+          assert v["flb_identifiable_from_snapshot"] == "NOT_IDENTIFIABLE", v
+          assert v["ex_post_flb"] == "PASS", v  # synthetic fixture is built to show FLB
+          s = json.load(open("artifacts/flb-ci/scoreboard_flb.json"))
+          assert s["meta"]["source"] == "measured" and s["meta"]["kind"] == "kalshi_flb"
+          assert [t["track"] for t in s["tracks"]] == ["kalshi_longshot_fade", "kalshi_maker_quote"]
+          assert glob.glob("artifacts/flb-ci/paper/runs/*-flb-*.json")
+          print(r["headline"])
+          EOF
+      - name: Fail-closed check - FLB measurement refuses live flags
+        run: |
+          if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.measure_flb --no-persist --artifact-dir /tmp/flb-should-not-exist; then
+            echo "measure_flb started with live flags" && exit 1
+          fi
+          test ! -e /tmp/flb-should-not-exist/scoreboard_flb.json
 
   dashboard:
     runs-on: ubuntu-latest
@@ -132,7 +154,7 @@ jobs:
         run: |
           node - <<'EOF'
           const fs = require('node:fs');
-          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_sample.json']) {
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_sample.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
             const isSample = f.includes('sample');
@@ -146,4 +168,9 @@ jobs:
             if (d.totals.traded > d.totals.gate_admitted) throw new Error(`${f}: traded more pairs than the gate admitted`);
             console.log(f, d.meta.mode, `gate ${d.totals.gate_admitted}/${d.totals.candidates} admitted, ${d.totals.traded} traded`);
           }
+          const flb = JSON.parse(fs.readFileSync('public/artifacts/flb_report_latest.json', 'utf8'));
+          if (flb.kind !== 'kalshi_flb_report' || flb.paper_only !== true) throw new Error('flb_report_latest.json: not a paper-only FLB report');
+          const snap = flb.verdict_table.find((r) => r.check === 'flb_identifiable_from_snapshot');
+          if (!snap || snap.verdict === 'PASS') throw new Error('FLB report claims FLB is identifiable from a snapshot');
+          console.log('flb_report_latest.json', flb.mode, flb.headline);
           EOF

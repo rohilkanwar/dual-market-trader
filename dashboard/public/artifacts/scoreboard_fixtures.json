@@ -40,6 +40,14 @@
       {
         "track": "polymarket_combinatorial_arb",
         "value": 4
+      },
+      {
+        "track": "kalshi_longshot_fade",
+        "value": 3
+      },
+      {
+        "track": "kalshi_maker_quote",
+        "value": 3
       }
     ],
     "fills_by_track": [
@@ -82,6 +90,14 @@
       {
         "track": "polymarket_combinatorial_arb",
         "value": 3
+      },
+      {
+        "track": "kalshi_longshot_fade",
+        "value": 0
+      },
+      {
+        "track": "kalshi_maker_quote",
+        "value": 0
       }
     ],
     "pnl_by_track": [
@@ -124,6 +140,14 @@
       {
         "track": "polymarket_combinatorial_arb",
         "value": -3.35688
+      },
+      {
+        "track": "kalshi_longshot_fade",
+        "value": 0.0
+      },
+      {
+        "track": "kalshi_maker_quote",
+        "value": 0.0
       }
     ],
     "venue_fills": [
@@ -208,17 +232,17 @@
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T21:34:24.081028+00:00",
+    "generated_at": "2026-09-14T21:45:56.173295+00:00",
     "kalshi_env": null,
     "label": "MEASURED / FIXTURES",
     "markets_per_venue": 25,
-    "measured_at": "2026-09-14T21:34:24.006439+00:00",
+    "measured_at": "2026-09-14T21:45:56.093773+00:00",
     "mode": "fixtures",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "single_venue_fair_value",
     "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T213424Z-85083a97",
+    "run_id": "20260914T214556Z-68961964",
     "source": "measured",
     "track_family": null,
     "venue_focus": "kalshi",
@@ -256,6 +280,34 @@
         "starting_cash": 1000.0,
         "total_pnl": -0.6,
         "unrealized_pnl": -0.32
+      },
+      "kalshi_longshot_fade": {
+        "cash": 1000.0,
+        "equity": 1000.0,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "max_drawdown": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 0.0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.0,
+        "unrealized_pnl": 0.0
+      },
+      "kalshi_maker_quote": {
+        "cash": 1000.0,
+        "equity": 1000.0,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "max_drawdown": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 0.0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.0,
+        "unrealized_pnl": 0.0
       },
       "news_underreaction": {
         "cash": 993.07,
@@ -370,7 +422,7 @@
         "unrealized_pnl": -0.98
       }
     },
-    "cash": 9925.0776,
+    "cash": 11925.0776,
     "concentration": [
       {
         "venue": "kalshi",
@@ -381,7 +433,7 @@
         "weight": 0.6217
       }
     ],
-    "equity": 9994.4776,
+    "equity": 11994.4776,
     "fees_paid": 5.1924,
     "gross_notional": 185.76,
     "max_drawdown": 3.35688,
@@ -400,7 +452,7 @@
           "weight": 0.52368
         }
       ],
-      "created_at": "2026-09-14T21:34:24.074159+00:00",
+      "created_at": "2026-09-14T21:45:56.166097+00:00",
       "equity": 999.21,
       "equity_points": 1,
       "fees_paid": 0.34,
@@ -467,7 +519,7 @@
       "total_pnl": -0.79,
       "unmarked_positions": 0,
       "unrealized_pnl": -0.45,
-      "updated_at": "2026-09-14T21:34:24.080466+00:00"
+      "updated_at": "2026-09-14T21:45:56.172569+00:00"
     },
     "primary_track": "single_venue_fair_value",
     "realized_pnl": -0.4924,
@@ -479,7 +531,7 @@
     ],
     "settlement_risk_pairs": 3,
     "source": "ledger_aggregate",
-    "starting_cash": 10000.0,
+    "starting_cash": 12000.0,
     "total_pnl": -5.5224,
     "unrealized_pnl": -5.03
   },
@@ -668,10 +720,10 @@
     {
       "edge_bps": 180,
       "fee": 0.0,
-      "filled_at": "2026-09-14T21:34:24.078986+00:00",
+      "filled_at": "2026-09-14T21:45:56.171040+00:00",
       "mark": 0.45,
       "market": "0xfixture-binary-merge-feefree",
-      "order_id": "paper-422a44ede952",
+      "order_id": "paper-5dcf00d6978d",
       "outcome": "no",
       "paper_pnl": 1.6,
       "price": 0.53,
@@ -687,10 +739,10 @@
     {
       "edge_bps": 180,
       "fee": 0.0,
-      "filled_at": "2026-09-14T21:34:24.079245+00:00",
+      "filled_at": "2026-09-14T21:45:56.171313+00:00",
       "mark": 0.52,
       "market": "0xfixture-binary-split",
-      "order_id": "paper-3cd6c32988a6",
+      "order_id": "paper-96d8956dbfaa",
       "outcome": "no",
       "paper_pnl": 1.2,
       "price": 0.5,
@@ -706,10 +758,10 @@
     {
       "edge_bps": 211,
       "fee": 0.53064,
-      "filled_at": "2026-09-14T21:34:24.080048+00:00",
+      "filled_at": "2026-09-14T21:45:56.172145+00:00",
       "mark": 0.32,
       "market": "0xfixture-ly-c",
-      "order_id": "paper-987759de0b9c",
+      "order_id": "paper-a6c4149d7a8c",
       "outcome": "yes",
       "paper_pnl": -1.1306,
       "price": 0.33,
@@ -725,10 +777,10 @@
     {
       "edge_bps": 211,
       "fee": 0.52224,
-      "filled_at": "2026-09-14T21:34:24.080018+00:00",
+      "filled_at": "2026-09-14T21:45:56.172113+00:00",
       "mark": 0.31,
       "market": "0xfixture-ly-b",
-      "order_id": "paper-adc9ba928f70",
+      "order_id": "paper-9cfef1d6b07d",
       "outcome": "yes",
       "paper_pnl": -1.1222,
       "price": 0.32,
@@ -744,10 +796,10 @@
     {
       "edge_bps": 211,
       "fee": 0.504,
-      "filled_at": "2026-09-14T21:34:24.079982+00:00",
+      "filled_at": "2026-09-14T21:45:56.172079+00:00",
       "mark": 0.29,
       "market": "0xfixture-ly-a",
-      "order_id": "paper-2e51d5ebd9f8",
+      "order_id": "paper-552a0ef98d8e",
       "outcome": "yes",
       "paper_pnl": -1.104,
       "price": 0.3,
@@ -763,10 +815,10 @@
     {
       "edge_bps": 688,
       "fee": 0.44,
-      "filled_at": "2026-09-14T21:34:24.075176+00:00",
+      "filled_at": "2026-09-14T21:45:56.167169+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-77b4d1cc906d",
+      "order_id": "paper-a9171dece351",
       "outcome": "no",
       "paper_pnl": -0.69,
       "price": 0.48,
@@ -782,10 +834,10 @@
     {
       "edge_bps": 500,
       "fee": 0.43,
-      "filled_at": "2026-09-14T21:34:24.077149+00:00",
+      "filled_at": "2026-09-14T21:45:56.169154+00:00",
       "mark": 0.59,
       "market": "KX-NBA-NY-BOS-NY",
-      "order_id": "paper-f7a07196b71a",
+      "order_id": "paper-a028f98a1ce2",
       "outcome": "no",
       "paper_pnl": -0.68,
       "price": 0.42,
@@ -801,10 +853,10 @@
     {
       "edge_bps": 500,
       "fee": 0.35,
-      "filled_at": "2026-09-14T21:34:24.076513+00:00",
+      "filled_at": "2026-09-14T21:45:56.168463+00:00",
       "mark": 0.325,
       "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-56ac74b96167",
+      "order_id": "paper-117e8a244056",
       "outcome": "yes",
       "paper_pnl": -0.68,
       "price": 0.34,
@@ -820,10 +872,10 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T21:34:24.075799+00:00",
+      "filled_at": "2026-09-14T21:45:56.167811+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-ea1421affa89",
+      "order_id": "paper-09b8d9540076",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
@@ -839,10 +891,10 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T21:34:24.076275+00:00",
+      "filled_at": "2026-09-14T21:45:56.168251+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-fcdaf6f1322d",
+      "order_id": "paper-5b215a75b26e",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
@@ -859,14 +911,14 @@
   "totals": {
     "admitted": 17,
     "avg_edge_bps": 703,
-    "candidates": 48,
+    "candidates": 54,
     "fees_paid": 5.1924,
     "fill_rate": 1.0667,
     "paper_fills": 32,
     "paper_pnl": -5.5224,
     "proposed_orders": 30,
     "realized_pnl": -0.4924,
-    "rejects": 31,
+    "rejects": 37,
     "settlement_risk_pairs": 3,
     "unrealized_pnl": -5.03
   },
@@ -890,7 +942,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074099+00:00",
+        "created_at": "2026-09-14T21:45:56.166033+00:00",
         "equity": 998.97,
         "equity_points": 1,
         "fees_paid": 0.44,
@@ -935,7 +987,7 @@
         "total_pnl": -1.03,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.59,
-        "updated_at": "2026-09-14T21:34:24.080199+00:00"
+        "updated_at": "2026-09-14T21:45:56.172301+00:00"
       },
       "metrics": {
         "admitted_pairs": {
@@ -1112,7 +1164,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074132+00:00",
+        "created_at": "2026-09-14T21:45:56.166072+00:00",
         "equity": 999.4,
         "equity_points": 1,
         "fees_paid": 0.28,
@@ -1157,7 +1209,7 @@
         "total_pnl": -0.6,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.32,
-        "updated_at": "2026-09-14T21:34:24.080296+00:00"
+        "updated_at": "2026-09-14T21:45:56.172399+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1289,7 +1341,7 @@
             "weight": 0.5
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074146+00:00",
+        "created_at": "2026-09-14T21:45:56.166087+00:00",
         "equity": 998.39,
         "equity_points": 1,
         "fees_paid": 0.63,
@@ -1356,7 +1408,7 @@
         "total_pnl": -1.61,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.98,
-        "updated_at": "2026-09-14T21:34:24.080377+00:00"
+        "updated_at": "2026-09-14T21:45:56.172480+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1475,7 +1527,7 @@
             "weight": 0.52368
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074159+00:00",
+        "created_at": "2026-09-14T21:45:56.166097+00:00",
         "equity": 999.21,
         "equity_points": 1,
         "fees_paid": 0.34,
@@ -1542,7 +1594,7 @@
         "total_pnl": -0.79,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.45,
-        "updated_at": "2026-09-14T21:34:24.080466+00:00"
+        "updated_at": "2026-09-14T21:45:56.172569+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1670,7 +1722,7 @@
             "weight": 0.46847
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074167+00:00",
+        "created_at": "2026-09-14T21:45:56.166108+00:00",
         "equity": 999.07,
         "equity_points": 1,
         "fees_paid": 0.43,
@@ -1715,7 +1767,7 @@
         "total_pnl": -0.93,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.5,
-        "updated_at": "2026-09-14T21:34:24.080549+00:00"
+        "updated_at": "2026-09-14T21:45:56.172653+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1829,7 +1881,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074175+00:00",
+        "created_at": "2026-09-14T21:45:56.166116+00:00",
         "equity": 999.92,
         "equity_points": 1,
         "fees_paid": 0.04,
@@ -1874,7 +1926,7 @@
         "total_pnl": -0.08,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.04,
-        "updated_at": "2026-09-14T21:34:24.080609+00:00"
+        "updated_at": "2026-09-14T21:45:56.172744+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2006,7 +2058,7 @@
             "weight": 0.32941
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074191+00:00",
+        "created_at": "2026-09-14T21:45:56.166123+00:00",
         "equity": 999.32,
         "equity_points": 1,
         "fees_paid": 0.33,
@@ -2062,7 +2114,7 @@
         "total_pnl": -0.68,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.35,
-        "updated_at": "2026-09-14T21:34:24.080669+00:00"
+        "updated_at": "2026-09-14T21:45:56.172812+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2331,9 +2383,9 @@
           "scored_fills": 3
         },
         "signal_source": {
-          "as_of": "2026-09-14T21:34:24.077658+00:00",
+          "as_of": "2026-09-14T21:45:56.169624+00:00",
           "errors": [],
-          "fetched_at": "2026-09-14T21:34:24.077680+00:00",
+          "fetched_at": "2026-09-14T21:45:56.169644+00:00",
           "name": "fixture",
           "note": "signals loaded from /workspace/research/fixtures/news_signals.json",
           "signals": 8
@@ -2402,7 +2454,7 @@
       "ledger": {
         "cash": 1002.8,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:24.074269+00:00",
+        "created_at": "2026-09-14T21:45:56.166209+00:00",
         "equity": 1002.8,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2424,7 +2476,7 @@
         "total_pnl": 2.8,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:24.080730+00:00"
+        "updated_at": "2026-09-14T21:45:56.172875+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2690,7 +2742,7 @@
       "ledger": {
         "cash": 1000.75444,
         "concentration": [],
-        "created_at": "2026-09-14T21:34:24.074278+00:00",
+        "created_at": "2026-09-14T21:45:56.166218+00:00",
         "equity": 1000.75444,
         "equity_points": 1,
         "fees_paid": 1.14556,
@@ -2712,7 +2764,7 @@
         "total_pnl": 0.75444,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:34:24.080768+00:00"
+        "updated_at": "2026-09-14T21:45:56.172917+00:00"
       },
       "metrics": {
         "augmented_groups": 2,
@@ -2901,7 +2953,7 @@
             "weight": 1.0
           }
         ],
-        "created_at": "2026-09-14T21:34:24.074285+00:00",
+        "created_at": "2026-09-14T21:45:56.166228+00:00",
         "equity": 996.64312,
         "equity_points": 1,
         "fees_paid": 1.55688,
@@ -2957,7 +3009,7 @@
         "total_pnl": -3.35688,
         "unmarked_positions": 0,
         "unrealized_pnl": -1.8,
-        "updated_at": "2026-09-14T21:34:24.080821+00:00"
+        "updated_at": "2026-09-14T21:45:56.172969+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -3130,6 +3182,231 @@
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "polymarket_combinatorial_arb"
+    },
+    {
+      "admitted": 0,
+      "candidates": 3,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": null,
+      "label": "Kalshi longshot fade (taker)",
+      "ledger": {
+        "cash": 1000.0,
+        "concentration": [],
+        "created_at": "2026-09-14T21:45:56.166243+00:00",
+        "equity": 1000.0,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "ledger_id": "kalshi_longshot_fade",
+        "mark_method": "mid",
+        "max_drawdown": 0.0,
+        "net_exposure": 0.0,
+        "open_positions": 0,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 0.0,
+        "positions": [],
+        "realized_pnl": 0.0,
+        "return_pct": 0.0,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.0,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.0,
+        "updated_at": "2026-09-14T21:45:56.173030+00:00"
+      },
+      "metrics": {
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 0.0,
+          "resting_orders_reserved": 0.0
+        },
+        "equity_point": {
+          "drawdown": 0.0,
+          "equity": 1000.0,
+          "total_pnl": 0.0
+        },
+        "events": {
+          "fill": 0,
+          "order_acknowledged": 0,
+          "order_rejected": 0,
+          "order_submitted": 0
+        },
+        "fee_model": {
+          "formula": "round_up(M * rate * C * P * (1-P)); M = series fee_multiplier",
+          "maker_rate": 0.0175,
+          "quantum": 0.0001,
+          "taker_rate": 0.07
+        },
+        "longshot_bands": {},
+        "longshot_candidates": 0,
+        "mark_method": "mid",
+        "paper_pnl_by_longshot_band": {},
+        "paper_pnl_by_price_paid_band": {},
+        "parameters": {
+          "adverse_selection_haircut": 0.25,
+          "improve_fill_probability": 0.5,
+          "join_fill_probability": 0.25,
+          "longshot_threshold": 0.2,
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_total_cash_at_risk": 1000.0,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "tick": 0.01
+        },
+        "shadow_longshot_buyer": {
+          "fees_paid": 0.0,
+          "fills": 0,
+          "gross_notional": 0.0,
+          "mark_method": "mid",
+          "note": "Mirror of every fade: takes the longshot at its ask with the same $25/$75 caps. Hypothetical benchmark only; never proposed to the risk-gated engine.",
+          "paper_pnl_by_longshot_band": {},
+          "realized_pnl": 0.0,
+          "total_pnl": 0.0,
+          "unrealized_pnl": 0.0
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {}
+      },
+      "notes": "Taker fade of every Kalshi longshot (<=20c side) in the shared snapshot: buys the favourite at the touch, pays the taker fee, marked at mid. shadow_longshot_buyer is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
+      "paper_fills": 0,
+      "proposed_orders": 0,
+      "refused_by_reason": {
+        "not_longshot": 3
+      },
+      "reject_reasons": {
+        "not_longshot": 3
+      },
+      "rejects": 3,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_longshot_fade"
+    },
+    {
+      "admitted": 0,
+      "candidates": 3,
+      "edge_bps": null,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": null,
+      "label": "Kalshi maker quote (resting fade)",
+      "ledger": {
+        "cash": 1000.0,
+        "concentration": [],
+        "created_at": "2026-09-14T21:45:56.166260+00:00",
+        "equity": 1000.0,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 0,
+        "gross_notional": 0.0,
+        "ledger_id": "kalshi_maker_quote",
+        "mark_method": "conservative",
+        "max_drawdown": 0.0,
+        "net_exposure": 0.0,
+        "open_positions": 0,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 0.0,
+        "positions": [],
+        "realized_pnl": 0.0,
+        "return_pct": 0.0,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.0,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.0,
+        "updated_at": "2026-09-14T21:45:56.173090+00:00"
+      },
+      "metrics": {
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 0.0,
+          "resting_orders_reserved": 0.0
+        },
+        "equity_point": {
+          "drawdown": 0.0,
+          "equity": 1000.0,
+          "total_pnl": 0.0
+        },
+        "events": {
+          "fill": 0,
+          "order_acknowledged": 0,
+          "order_rejected": 0,
+          "order_submitted": 0
+        },
+        "fee_model": {
+          "formula": "round_up(M * rate * C * P * (1-P)); M = series fee_multiplier",
+          "maker_rate": 0.0175,
+          "quantum": 0.0001,
+          "taker_rate": 0.07
+        },
+        "longshot_bands": {},
+        "longshot_candidates": 0,
+        "mark_method": "conservative",
+        "paper_pnl_by_longshot_band": {},
+        "paper_pnl_by_price_paid_band": {},
+        "parameters": {
+          "adverse_selection_haircut": 0.25,
+          "improve_fill_probability": 0.5,
+          "join_fill_probability": 0.25,
+          "longshot_threshold": 0.2,
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_total_cash_at_risk": 1000.0,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "tick": 0.01
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {}
+      },
+      "notes": "Resting fade one tick inside the spread (or joining the touch). Expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks. Not a measurement of fill rates.",
+      "paper_fills": 0,
+      "proposed_orders": 0,
+      "refused_by_reason": {
+        "not_longshot": 3
+      },
+      "reject_reasons": {
+        "not_longshot": 3
+      },
+      "rejects": 3,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_maker_quote"
     }
   ]
 }

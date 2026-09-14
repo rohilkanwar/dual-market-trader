@@ -1,4 +1,4 @@
-"""Ten isolated paper tracks measured against shared market snapshots.
+"""Twelve isolated paper tracks measured against shared market snapshots.
 
 Every track owns its own risk manager, execution engine, paper portfolio and
 :class:`core.ledger.PaperLedger`, so numbers never leak between tracks. Market
@@ -16,13 +16,14 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
 from core.execution import ExecutionEngine
-from core.ledger import PaperLedger
+from core.ledger import MarkMethod, PaperLedger
 from core.observability import InMemoryEventSink
 from core.risk import RiskLimits, RiskManager, RiskViolation
 from core.types import ONE, ZERO, ExecutionReport, Fill, Market, MarketGroup, Order, OrderBook, Outcome, Venue
@@ -72,7 +73,8 @@ POLYMARKET_ARB_TRACKS: tuple[str, ...] = (
     "polymarket_negrisk_arb",
     "polymarket_combinatorial_arb",
 )
-TRACKS: tuple[str, ...] = CROSS_VENUE_AND_FAIR_VALUE_TRACKS + POLYMARKET_ARB_TRACKS
+FLB_TRACKS: tuple[str, ...] = ("kalshi_longshot_fade", "kalshi_maker_quote")
+TRACKS: tuple[str, ...] = CROSS_VENUE_AND_FAIR_VALUE_TRACKS + POLYMARKET_ARB_TRACKS + FLB_TRACKS
 TRACK_LABELS = {
     GATED_TRACK: "Gated cross-venue (clause-matched)",
     "gated_cross_venue_macro": "Gated cross-venue macro",
@@ -84,6 +86,8 @@ TRACK_LABELS = {
     "polymarket_rebalancing_arb": "Polymarket YES+NO rebalancing",
     "polymarket_negrisk_arb": "Polymarket NegRisk convert",
     "polymarket_combinatorial_arb": "Polymarket sum-to-one (hold)",
+    "kalshi_longshot_fade": "Kalshi longshot fade (taker)",
+    "kalshi_maker_quote": "Kalshi maker quote (resting fade)",
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {
@@ -308,8 +312,10 @@ class TrackRuntime:
         risk_limits: RiskLimits,
         starting_cash: Decimal,
         model_fees: bool,
+        client_factory: Callable[[VenueSnapshot, FeeSchedule], SnapshotClient] | None = None,
+        mark_method: MarkMethod = "mid",
     ) -> TrackRuntime:
-        ledger = ledger or PaperLedger(starting_cash=starting_cash, ledger_id=name)
+        ledger = ledger or PaperLedger(starting_cash=starting_cash, ledger_id=name, mark_method=mark_method)
         risk = RiskManager(risk_limits)
         risk.record_realized_pnl(ledger.realized_pnl)  # persisted losses still count
         events = InMemoryEventSink()
@@ -318,10 +324,8 @@ class TrackRuntime:
             Venue.KALSHI: kalshi_fee if model_fees else zero_fee,
             Venue.POLYMARKET: zero_fee,
         }
-        clients = {
-            venue: SnapshotClient(snap, fee_for[venue], model_fees=model_fees)
-            for venue, snap in snapshots.items()
-        }
+        factory = client_factory or (lambda snap, fee: SnapshotClient(snap, fee, model_fees=model_fees))
+        clients = {venue: factory(snap, fee_for[venue]) for venue, snap in snapshots.items()}
         return cls(name, ledger, risk, events, execution, clients, snapshots, TrackSummary(name))
 
     def market_for(self, venue: Venue, market_id: str) -> Market | None:
@@ -911,6 +915,54 @@ async def measure_all(**kwargs: Any) -> list[TrackSummary]:
     return summaries
 
 
+async def run_flb_tracks(
+    snapshots: dict[Venue, VenueSnapshot],
+    *,
+    ledgers: dict[str, PaperLedger] | None = None,
+    starting_cash: Decimal = DEFAULT_STARTING_CASH,
+    model_fees: bool = True,
+    flb_parameters: Any | None = None,
+    flb_risk_limits: RiskLimits | None = None,
+    cycle_label: str = "",
+) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
+    """Run only the two Kalshi FLB tracks against ``snapshots`` (used by ``measure_flb``)."""
+    from research import flb  # local import: research.flb builds on this module
+
+    ledgers = ledgers or {}
+    runtimes = [
+        flb.create_flb_runtime(
+            name, snapshots, ledger=ledgers.get(name), starting_cash=starting_cash,
+            model_fees=model_fees, risk_limits=flb_risk_limits,
+        )
+        for name in FLB_TRACKS
+    ]
+    fade_rt, maker_rt = runtimes
+    await asyncio.gather(
+        flb.run_longshot_fade_track(fade_rt, params=flb_parameters),
+        flb.run_maker_quote_track(maker_rt, params=flb_parameters),
+    )
+    label = cycle_label or f"flb:{_now().isoformat()}"
+    for rt in runtimes:
+        rt.finalize(label=label)
+        flb.finalize_flb_metrics(rt)
+        rt.summary.metrics["venue_pnl"] = _venue_pnl(rt.ledger)
+        rt.summary.metrics["snapshot"] = {
+            venue.value: {"source": snap.source, "markets": len(snap.markets), "errors": snap.errors}
+            for venue, snap in snapshots.items()
+        }
+    fade_rt.summary.notes = (
+        "Taker fade of every Kalshi longshot (<=20c side): buys the favourite at the touch, pays the "
+        "taker fee, marked at mid. The shadow_longshot_buyer metric is the mirror trade. "
+        "Paper caps $25/order, $75/market, $75 daily."
+    )
+    maker_rt.summary.notes = (
+        "Resting fade one tick inside the spread (or joining the touch). Fills are expected-value "
+        "fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the "
+        "series charges makers, conservative marks (exit price). Not a measurement of fill rates."
+    )
+    return [rt.summary for rt in runtimes], {rt.name: rt.ledger for rt in runtimes}
+
+
 async def measure_all_with_ledgers(
     *,
     use_fixtures: bool = True,
@@ -929,6 +981,8 @@ async def measure_all_with_ledgers(
     arb_parameters: Any = None,
     event_limit: int | None = None,
     curated_pairs: tuple[CuratedPair, ...] | None = None,
+    flb_parameters: Any | None = None,
+    flb_risk_limits: RiskLimits | None = None,
 ) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
     """Run every track against one shared snapshot.
 
@@ -943,7 +997,10 @@ async def measure_all_with_ledgers(
     ``news_signals`` feeds the optional ``news_underreaction`` lane. When
     omitted, fixture runs use the committed synthetic fixture signals and
     network runs use no source at all (the lane stays empty by design).
+    The two Kalshi FLB tracks use their own paper risk defaults ($25/$75/$75)
+    unless ``flb_risk_limits`` is given.
     """
+    from research import flb  # local import: research.flb builds on this module
     from research.polymarket_arb_tracks import run_polymarket_arb_tracks
 
     if snapshots is None or group_snapshot is None:
@@ -965,6 +1022,11 @@ async def measure_all_with_ledgers(
         return MarketMatcher(curated_pairs) if curated_pairs is not None else MarketMatcher()
 
     def runtime(name: str, with_snapshots: dict[Venue, VenueSnapshot]) -> TrackRuntime:
+        if name in FLB_TRACKS:
+            return flb.create_flb_runtime(
+                name, with_snapshots, ledger=ledgers.get(name), starting_cash=starting_cash,
+                model_fees=model_fees, risk_limits=flb_risk_limits,
+            )
         return TrackRuntime.create(
             name,
             with_snapshots,
@@ -980,6 +1042,7 @@ async def measure_all_with_ledgers(
     arb_runtimes = {
         name: runtime(name, {Venue.POLYMARKET: group_snapshot}) for name in POLYMARKET_ARB_TRACKS
     }
+    fade_rt, maker_rt = (runtime(name, snapshots) for name in FLB_TRACKS)
     default_params = CrossVenueParameters()
     summaries = await asyncio.gather(
         run_gated_cross_venue_track(strict_rt, policy=STRICT_POLICY, matcher=matcher()),
@@ -1003,13 +1066,17 @@ async def measure_all_with_ledgers(
         ),
         run_news_underreaction_track(news_rt, source=news_signals, parameters=news_parameters),
         run_polymarket_arb_tracks(arb_runtimes, parameters=_arb_params(arb_parameters, model_fees)),
+        flb.run_longshot_fade_track(fade_rt, params=flb_parameters),
+        flb.run_maker_quote_track(maker_rt, params=flb_parameters),
     )
-    arb_summaries = summaries[-1]
-    summaries = list(summaries[:-1]) + list(arb_summaries)
-    runtimes = (strict_rt, gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values())
+    arb_summaries = summaries[-3]
+    summaries = list(summaries[:-3]) + list(arb_summaries) + list(summaries[-2:])
+    runtimes = (strict_rt, gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values(), fade_rt, maker_rt)
     label = cycle_label or f"{'fixtures' if use_fixtures else 'network'}:{_now().isoformat()}"
     for rt in runtimes:
         rt.finalize(label=label)
+        if rt.name in FLB_TRACKS:
+            flb.finalize_flb_metrics(rt)
         rt.summary.metrics["venue_pnl"] = _venue_pnl(rt.ledger)
         rt.summary.metrics["snapshot"] = {
             venue.value: {
@@ -1055,6 +1122,16 @@ async def measure_all_with_ledgers(
         "network runs stay empty unless an operator supplies signals; RSS headlines are matched "
         "but never mapped, so they never trade. Literature anchor arXiv:2606.07811 (0.64 "
         "pass-through) is reported for comparison, not validated."
+    )
+    fade_rt.summary.notes = (
+        "Taker fade of every Kalshi longshot (<=20c side) in the shared snapshot: buys the favourite "
+        "at the touch, pays the taker fee, marked at mid. shadow_longshot_buyer is the mirror trade. "
+        "Paper caps $25/order, $75/market, $75 daily."
+    )
+    maker_rt.summary.notes = (
+        "Resting fade one tick inside the spread (or joining the touch). Expected-value fills from "
+        "documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges "
+        "makers, conservative marks. Not a measurement of fill rates."
     )
     fair_rt.summary.metrics["kalshi_canary"] = {
         "venue_breakdown": fair_rt.summary.metrics["venue_breakdown"].get(Venue.KALSHI.value, {}),
