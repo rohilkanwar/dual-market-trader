@@ -42,7 +42,7 @@ from strategies.cross_venue import (
     DepthAwareParameters,
 )
 from strategies.edge import CalibratedFairValueStrategy, FairValueEvaluation
-from strategies.matching import MarketMatcher, MatchedMarketPair
+from strategies.matching import CuratedPair, MarketMatcher, MatchedMarketPair
 from strategies.news_underreaction import (
     LITERATURE_REFERENCE,
     NewsUnderreactionStrategy,
@@ -928,6 +928,7 @@ async def measure_all_with_ledgers(
     news_parameters: UnderreactionParameters | None = None,
     arb_parameters: Any = None,
     event_limit: int | None = None,
+    curated_pairs: tuple[CuratedPair, ...] | None = None,
 ) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
     """Run every track against one shared snapshot.
 
@@ -936,7 +937,8 @@ async def measure_all_with_ledgers(
     (events with a YES and a NO book per leg). Returns the summaries plus the
     per-track ledgers so callers can persist them. ``ledgers`` lets a caller
     (the paper loop) carry a track's ledger across cycles; any track not
-    present gets a fresh ledger.
+    present gets a fresh ledger. ``curated_pairs``
+    replaces the module default pair list (each track gets its own matcher).
 
     ``news_signals`` feeds the optional ``news_underreaction`` lane. When
     omitted, fixture runs use the committed synthetic fixture signals and
@@ -959,6 +961,9 @@ async def measure_all_with_ledgers(
     if news_signals is None:
         news_signals = FixtureSignalSource() if use_fixtures else NullSignalSource()
 
+    def matcher() -> MarketMatcher:
+        return MarketMatcher(curated_pairs) if curated_pairs is not None else MarketMatcher()
+
     def runtime(name: str, with_snapshots: dict[Venue, VenueSnapshot]) -> TrackRuntime:
         return TrackRuntime.create(
             name,
@@ -977,24 +982,24 @@ async def measure_all_with_ledgers(
     }
     default_params = CrossVenueParameters()
     summaries = await asyncio.gather(
-        run_gated_cross_venue_track(strict_rt, policy=STRICT_POLICY),
+        run_gated_cross_venue_track(strict_rt, policy=STRICT_POLICY, matcher=matcher()),
         run_cross_venue_track(
             gated_rt, pair_filter=_is_macro, gate=True, parameters=default_params,
-            flag_when_gate_would_refuse=True,
+            flag_when_gate_would_refuse=True, matcher=matcher(),
         ),
         run_cross_venue_track(
             ungated_rt, pair_filter=_is_macro, gate=False, parameters=default_params,
-            flag_when_gate_would_refuse=True,
+            flag_when_gate_would_refuse=True, matcher=matcher(),
         ),
         run_fair_value_track(fair_rt, priors=priors),
         run_cross_venue_track(
             sports_rt, pair_filter=_is_sports, gate=False, parameters=default_params,
-            flag_when_gate_would_refuse=False,
+            flag_when_gate_would_refuse=False, matcher=matcher(),
         ),
         run_cross_venue_track(
             small_rt, pair_filter=_is_macro, gate=True,
             parameters=CrossVenueParameters(maximum_order_size=Decimal("2")),
-            flag_when_gate_would_refuse=True,
+            flag_when_gate_would_refuse=True, matcher=matcher(),
         ),
         run_news_underreaction_track(news_rt, source=news_signals, parameters=news_parameters),
         run_polymarket_arb_tracks(arb_runtimes, parameters=_arb_params(arb_parameters, model_fees)),

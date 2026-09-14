@@ -80,6 +80,23 @@ def test_edge_detection_fires_and_sizes_to_minimum_touch_depth() -> None:
     assert evaluation.orders[1].outcome is Outcome.NO
 
 
+def test_inverse_polarity_orders_price_the_outcome_actually_traded() -> None:
+    # Polymarket asks the negated question: its NO is Kalshi's YES.
+    # Kalshi YES 0.52/0.54; Polymarket YES(not) 0.55/0.57 => Kalshi-polarity 0.43/0.45.
+    evaluation = strategy().evaluate(
+        pair(same_polarity=False),
+        book("K", "0.52", "10", "0.54", "10"),
+        book("P", "0.55", "10", "0.57", "10"),
+    )
+
+    assert evaluation.reason == "trade"
+    cheap, hedge = evaluation.orders
+    # Cheap leg buys Polymarket NO; the NO ask is 1 - 0.55 = 0.45, not 0.55.
+    assert (cheap.venue, cheap.outcome, cheap.price) == (Venue.POLYMARKET, Outcome.NO, Decimal("0.45"))
+    assert (hedge.venue, hedge.outcome, hedge.price) == (Venue.KALSHI, Outcome.NO, Decimal("0.48"))
+    assert cheap.yes_equivalent_price == Decimal("0.55")
+
+
 def test_edge_equal_to_threshold_does_not_fire() -> None:
     evaluation = strategy().evaluate(
         pair(),

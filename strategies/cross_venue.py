@@ -161,12 +161,9 @@ class CrossVenueMispricingStrategy:
         if not (ZERO < cheap.ask < ONE and ZERO < hedge_price < ONE):
             return CrossVenueEvaluation(pair.pair_id, "touch_at_bound", **common)
 
-        # Outcomes in normalised (Kalshi-polarity) terms, mapped back per venue.
-        def actual_outcome(venue: Venue, normalised: Outcome) -> Outcome:
-            if venue is Venue.POLYMARKET and not pair.same_polarity:
-                return Outcome.NO if normalised is Outcome.YES else Outcome.YES
-            return normalised
-
+        # Touch prices come from the normalised (Kalshi-polarity) view, which is
+        # the view of the outcome actually traded on each venue; only the
+        # outcome label is mapped back per venue.
         metadata = {
             "strategy": self.name,
             "pair_id": pair.pair_id,
@@ -183,16 +180,16 @@ class CrossVenueMispricingStrategy:
             market_id=cheap_market.market_id,
             side=Side.BUY,
             quantity=max(quantity, _QUANTUM),
-            outcome=actual_outcome(cheap_venue, Outcome.YES),
-            price=cheap.ask if actual_outcome(cheap_venue, Outcome.YES) is Outcome.YES else ONE - cheap.ask,
+            outcome=actual_outcome(pair, cheap_venue, Outcome.YES),
+            price=cheap.ask,
         )
         dear_probe = Order(
             venue=dear_venue,
             market_id=dear_market.market_id,
             side=Side.BUY,
             quantity=max(quantity, _QUANTUM),
-            outcome=actual_outcome(dear_venue, Outcome.NO),
-            price=hedge_price if actual_outcome(dear_venue, Outcome.NO) is Outcome.NO else dear.bid,
+            outcome=actual_outcome(pair, dear_venue, Outcome.NO),
+            price=hedge_price,
         )
         for probe in (cheap_probe, dear_probe):
             position = self.portfolio.get(probe.venue, probe.market_id)
@@ -346,18 +343,18 @@ class DepthAwareCrossVenueStrategy:
         def probe(venue: Venue, market_id: str, outcome: Outcome, price: Decimal, quantity: Decimal) -> Order:
             return Order(venue=venue, market_id=market_id, side=Side.BUY, quantity=quantity, outcome=outcome, price=price)
 
+        # The normalised view already *is* the traded outcome's view (a NO view
+        # was built by complementing the book), so its prices are the prices of
+        # the contract actually bought; only the outcome label maps back.
         yes_price = edge.yes_leg.limit_price or ZERO
         no_price = edge.no_leg.limit_price or ZERO
         if not (ZERO < yes_price < ONE and ZERO < no_price < ONE):
             return CrossVenueEvaluation(pair.pair_id, "touch_at_bound", **common)
-        # Prices are in the traded outcome's terms; flipping the outcome flips the price.
-        yes_actual_price = yes_price if yes_outcome is Outcome.YES else ONE - yes_price
-        no_actual_price = no_price if no_outcome is Outcome.NO else ONE - no_price
 
         quantity = edge.quantity
         for venue, market, outcome, price in (
-            (cheap_venue, cheap_market, yes_outcome, yes_actual_price),
-            (dear_venue, dear_market, no_outcome, no_actual_price),
+            (cheap_venue, cheap_market, yes_outcome, yes_price),
+            (dear_venue, dear_market, no_outcome, no_price),
         ):
             order = probe(venue, market.market_id, outcome, price, max(quantity, _QUANTUM))
             position = self.portfolio.get(venue, market.market_id)
@@ -382,8 +379,6 @@ class DepthAwareCrossVenueStrategy:
                 return CrossVenueEvaluation(pair.pair_id, edge.reason, **common)
             yes_price = edge.yes_leg.limit_price or yes_price
             no_price = edge.no_leg.limit_price or no_price
-            yes_actual_price = yes_price if yes_outcome is Outcome.YES else ONE - yes_price
-            no_actual_price = no_price if no_outcome is Outcome.NO else ONE - no_price
             quantity = edge.quantity
 
         metadata = {
@@ -406,7 +401,7 @@ class DepthAwareCrossVenueStrategy:
                 side=Side.BUY,
                 quantity=quantity,
                 outcome=yes_outcome,
-                price=yes_actual_price,
+                price=yes_price,
                 metadata={**metadata, "leg": "cheap_yes"},
             ),
             Order(
@@ -415,7 +410,7 @@ class DepthAwareCrossVenueStrategy:
                 side=Side.BUY,
                 quantity=quantity,
                 outcome=no_outcome,
-                price=no_actual_price,
+                price=no_price,
                 metadata={**metadata, "leg": "dear_no_hedge"},
             ),
         )
