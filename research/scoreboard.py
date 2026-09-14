@@ -1,9 +1,13 @@
-"""Five isolated paper tracks measured against one shared market snapshot.
+"""Six isolated paper tracks measured against one shared market snapshot.
 
 Every track owns its own risk manager, execution engine, paper portfolio and
 :class:`core.ledger.PaperLedger`, so numbers never leak between tracks. Market
 data is captured once per venue (fixture or public network read) and served to
 every track from memory, which keeps paper fills deterministic for a run.
+
+The sixth track, ``news_underreaction``, is an optional lane: it only has
+candidates when a signal source is configured (fixtures by default on fixture
+runs, nothing on network runs) and is otherwise an honest empty row.
 """
 
 from __future__ import annotations
@@ -21,6 +25,12 @@ from core.observability import InMemoryEventSink
 from core.risk import RiskLimits, RiskManager, RiskViolation
 from core.types import ONE, ZERO, ExecutionReport, Fill, Market, Order, OrderBook, Outcome, Venue
 from core.venue import VenueClient
+from research.news_signals import (
+    FixtureSignalSource,
+    NullSignalSource,
+    SignalBatch,
+    SignalSource,
+)
 from settlement.clauses import ClauseVerdict, detect_clauses, pair_clause_verdict
 from settlement.fingerprint import Relation, compare, from_mapping
 from settlement.hosts import HostTier, classify
@@ -31,6 +41,12 @@ from strategies.cross_venue import (
 )
 from strategies.edge import CalibratedFairValueStrategy, FairValueEvaluation
 from strategies.matching import MarketMatcher, MatchedMarketPair
+from strategies.news_underreaction import (
+    LITERATURE_REFERENCE,
+    NewsUnderreactionStrategy,
+    UnderreactionEvaluation,
+    UnderreactionParameters,
+)
 from venues.kalshi import KalshiClient
 from venues.paper import FeeSchedule, PaperExecutionMixin, kalshi_fee, zero_fee
 from venues.polymarket import PolymarketClient
@@ -43,6 +59,7 @@ TRACKS: tuple[str, ...] = (
     "single_venue_fair_value",
     "sports_cross_venue",
     "small_deliberate_bet",
+    "news_underreaction",
 )
 TRACK_LABELS = {
     "gated_cross_venue_macro": "Gated cross-venue macro",
@@ -50,7 +67,9 @@ TRACK_LABELS = {
     "single_venue_fair_value": "Single-venue fair value",
     "sports_cross_venue": "Sports cross-venue",
     "small_deliberate_bet": "Small deliberate bet",
+    "news_underreaction": "News underreaction",
 }
+NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {
     "gated_cross_venue_macro",
     "ungated_cross_venue_macro",
@@ -557,6 +576,152 @@ async def run_fair_value_track(
     return summary
 
 
+def _news_edge_row(track: str, market: Market | None, evaluation: UnderreactionEvaluation, *, filled: bool) -> dict[str, Any]:
+    m = evaluation.measurement
+    return {
+        "track": track,
+        "venue": m.venue.value,
+        "market": m.market_id,
+        "title": market.title if market else "",
+        "signal_id": m.signal_id,
+        "edge_bps": _bps(evaluation.cost_adjusted_edge if evaluation.cost_adjusted_edge is not None else m.residual_to_fair),
+        "residual_bps": _bps(m.residual_to_fair),
+        "literature_residual_bps": _bps(m.literature_residual),
+        "reaction_ratio": m.reaction_ratio.quantize(Decimal("0.0001")) if m.reaction_ratio is not None else None,
+        "admitted": evaluation.traded,
+        "filled": filled,
+        "reason": evaluation.reason,
+        "fair_value": m.implied_probability,
+        "mid": m.current_mid,
+        "side": evaluation.fair_value.side.value if evaluation.fair_value and evaluation.fair_value.side else None,
+    }
+
+
+def news_track_status(batch: SignalBatch, mapping_counts: dict[str, int]) -> str:
+    """One word the artifact can show for *why* the lane looks the way it does."""
+    if batch.source == "none":
+        return "no_signal_source"
+    if batch.source == "fixture":
+        return "fixture_synthetic"
+    if not batch.signals and batch.errors:
+        return "signal_source_errors"
+    if batch.signals and mapping_counts.get("unmapped", 0) == len(batch.signals):
+        return "signals_unmapped"
+    if not batch.signals:
+        return "no_signals_matched"
+    return "operator_mapped_signals"
+
+
+async def run_news_underreaction_track(
+    runtime: TrackRuntime,
+    *,
+    source: SignalSource,
+    parameters: UnderreactionParameters | None = None,
+    as_of: datetime | None = None,
+) -> TrackSummary:
+    """Optional lane: public signal -> implied probability -> residual -> paper order.
+
+    The signal->probability mapping is never computed here; see
+    ``docs/NEWS_UNDERREACTION.md``. Without a configured source the track is
+    an honest empty row (``candidates == 0``, ``status == no_signal_source``).
+    """
+    summary = runtime.summary
+    params = parameters or UnderreactionParameters()
+    as_of = as_of or _now()
+    markets = {venue: list(snap.markets) for venue, snap in runtime.snapshots.items()}
+    try:
+        batch = await source.fetch(markets=markets, as_of=as_of)
+    except Exception as exc:  # a signal source must never take the scoreboard down
+        batch = SignalBatch(source=getattr(source, "name", type(source).__name__))
+        batch.errors.append(f"fetch: {type(exc).__name__}: {exc}")
+
+    strategy = NewsUnderreactionStrategy(
+        parameters=params, portfolio=runtime.ledger.portfolio, risk=runtime.risk
+    )
+    summary.candidates = len(batch.signals)
+    rows: list[dict[str, Any]] = []
+    ratios: list[Decimal] = []
+    mapping_counts: dict[str, int] = {}
+    hits = scored = 0
+    settlement_preview = ZERO
+    for signal in batch.signals:
+        mapping_counts[signal.mapping] = mapping_counts.get(signal.mapping, 0) + 1
+        market = runtime.market_for(signal.venue, signal.market_id)
+        snapshot = runtime.snapshots.get(signal.venue)
+        book = snapshot.book(market) if (snapshot is not None and market is not None) else OrderBook(market_id=signal.market_id)
+        evaluation = strategy.evaluate(signal, market, book, as_of=as_of)
+        m = evaluation.measurement
+        if m.reaction_ratio is not None:
+            ratios.append(m.reaction_ratio)
+        row = {**evaluation.as_dict(), "headline": signal.headline, "signal_source": signal.source}
+        if not evaluation.traded:
+            summary.refuse(evaluation.reason)
+            if m.residual_to_fair is not None:
+                summary.edges.append(_news_edge_row(runtime.name, market, evaluation, filled=False))
+            rows.append(row)
+            continue
+        summary.admitted += 1
+        summary.proposed_orders += len(evaluation.orders)
+        summary.admitted_edges.append(evaluation.cost_adjusted_edge or ZERO)
+        venue_params = strategy.parameters_for(signal.venue)
+        summary.estimated_fees_buffer += sum(
+            (order.quantity * venue_params.fee_buffer_per_contract for order in evaluation.orders), ZERO
+        )
+        fills_before = summary.paper_fills
+        for order in evaluation.orders:
+            report = await runtime.submit(order, edge=evaluation.cost_adjusted_edge)
+            outcome = _settlement_outcome(market) if market is not None else None
+            if report is not None and outcome is not None:
+                settle_price = ONE if outcome is Outcome.YES else ZERO
+                for fill in report.fills:
+                    scored += 1
+                    hits += int(fill.signed_quantity * (settle_price - fill.yes_equivalent_price) > ZERO)
+                    settlement_preview += fill.signed_quantity * (settle_price - fill.yes_equivalent_price) - fill.fee
+        row["paper_fills"] = summary.paper_fills - fills_before
+        rows.append(row)
+        summary.edges.append(_news_edge_row(runtime.name, market, evaluation, filled=summary.paper_fills > fills_before))
+
+    summary.metrics["status"] = news_track_status(batch, mapping_counts)
+    summary.metrics["signal_source"] = {
+        "name": batch.source,
+        "signals": len(batch.signals),
+        "errors": batch.errors,
+        "note": batch.note,
+        "fetched_at": batch.fetched_at,
+        "as_of": as_of.isoformat(),
+    }
+    summary.metrics["mapping"] = {
+        "counts": dict(sorted(mapping_counts.items())),
+        "status": "UNKNOWN: no component in this repository maps a signal to a probability",
+    }
+    summary.metrics["parameters"] = params.as_dict()
+    summary.metrics["literature"] = {
+        "reference": LITERATURE_REFERENCE,
+        "contemporaneous_pass_through": params.literature_beta,
+        "drift_horizon": "several minutes",
+        "validated_here": False,
+    }
+    summary.metrics["reaction_ratio"] = {
+        "observed_mean": (sum(ratios, ZERO) / len(ratios)).quantize(Decimal("0.0001")) if ratios else None,
+        "n": len(ratios),
+        "literature": params.literature_beta,
+        "note": (
+            "Synthetic fixture values; not evidence for or against the paper."
+            if batch.source == "fixture"
+            else "Requires operator-supplied pre_signal_mid and implied_probability."
+        ),
+    }
+    summary.metrics["measurements"] = rows
+    summary.metrics["hit_rate"] = (Decimal(hits) / Decimal(scored)).quantize(Decimal("0.0001")) if scored else None
+    summary.metrics["settlement_preview"] = {
+        "scored_fills": scored,
+        "hypothetical_pnl_at_fixture_settlement": settlement_preview.quantize(Decimal("0.0001")),
+        "note": "Only fixture markets carry paper_settlement_outcome; network fills are not scored.",
+    }
+    summary.settlement_risk_flag = False
+    return summary
+
+
 def _venue_pnl(ledger: PaperLedger) -> dict[str, Any]:
     out: dict[str, dict[str, Decimal]] = {}
     for position in ledger.portfolio.positions(include_flat=True):
@@ -596,7 +761,7 @@ async def capture_snapshots(
 
 
 async def measure_all(**kwargs: Any) -> list[TrackSummary]:
-    """Run all five tracks once and return their summaries (ledgers discarded)."""
+    """Run all six tracks once and return their summaries (ledgers discarded)."""
     summaries, _ = await measure_all_with_ledgers(**kwargs)
     return summaries
 
@@ -613,18 +778,26 @@ async def measure_all_with_ledgers(
     kalshi_env: str | None = None,
     snapshots: dict[Venue, VenueSnapshot] | None = None,
     cycle_label: str = "",
+    news_signals: SignalSource | None = None,
+    news_parameters: UnderreactionParameters | None = None,
 ) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
-    """Run all five tracks against one shared snapshot.
+    """Run all six tracks against one shared snapshot.
 
     Returns the summaries plus the per-track ledgers so callers can persist
     them. ``ledgers`` lets a caller (the paper loop) carry a track's ledger
     across cycles; any track not present gets a fresh ledger.
+
+    ``news_signals`` feeds the optional ``news_underreaction`` lane. When
+    omitted, fixture runs use the committed synthetic fixture signals and
+    network runs use no source at all (the lane stays empty by design).
     """
     snapshots = snapshots or await capture_snapshots(
         use_fixtures=use_fixtures, limit=limit, kalshi_env=kalshi_env
     )
     limits = risk_limits or DEFAULT_RISK_LIMITS
     ledgers = ledgers or {}
+    if news_signals is None:
+        news_signals = FixtureSignalSource() if use_fixtures else NullSignalSource()
 
     def runtime(name: str) -> TrackRuntime:
         return TrackRuntime.create(
@@ -636,7 +809,7 @@ async def measure_all_with_ledgers(
             model_fees=model_fees,
         )
 
-    gated_rt, ungated_rt, fair_rt, sports_rt, small_rt = (runtime(name) for name in TRACKS)
+    gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt = (runtime(name) for name in TRACKS)
     default_params = CrossVenueParameters()
     summaries = await asyncio.gather(
         run_cross_venue_track(
@@ -657,8 +830,9 @@ async def measure_all_with_ledgers(
             parameters=CrossVenueParameters(maximum_order_size=Decimal("2")),
             flag_when_gate_would_refuse=True,
         ),
+        run_news_underreaction_track(news_rt, source=news_signals, parameters=news_parameters),
     )
-    runtimes = (gated_rt, ungated_rt, fair_rt, sports_rt, small_rt)
+    runtimes = (gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt)
     label = cycle_label or f"{'fixtures' if use_fixtures else 'network'}:{_now().isoformat()}"
     for rt in runtimes:
         rt.finalize(label=label)
@@ -685,6 +859,14 @@ async def measure_all_with_ledgers(
     )
     small_rt.summary.notes = (
         "Gated macro pairs at a 2-contract cap: a process probe, not an edge source."
+    )
+    news_rt.summary.notes = (
+        "Optional lane. Public signal -> implied probability -> underreaction residual -> "
+        "paper order via the same fair-value engine as the primary track. The signal-to-"
+        "probability mapping is UNKNOWN and never computed here: fixture signals are synthetic, "
+        "network runs stay empty unless an operator supplies signals; RSS headlines are matched "
+        "but never mapped, so they never trade. Literature anchor arXiv:2606.07811 (0.64 "
+        "pass-through) is reported for comparison, not validated."
     )
     fair_rt.summary.metrics["kalshi_canary"] = {
         "venue_breakdown": fair_rt.summary.metrics["venue_breakdown"].get(Venue.KALSHI.value, {}),

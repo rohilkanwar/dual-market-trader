@@ -10,6 +10,7 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
         "single_venue_fair_value",
         "sports_cross_venue",
         "small_deliberate_bet",
+        "news_underreaction",
     }
 
     gated = summaries["gated_cross_venue_macro"]
@@ -42,3 +43,12 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
     assert small_bet.admitted == 1
     assert small_bet.paper_fills == 2
     assert small_bet.estimated_fees_buffer < gated.estimated_fees_buffer
+
+    news = summaries["news_underreaction"]
+    assert news.candidates == 8 and news.admitted == 3 and news.paper_fills == 3
+    assert news.metrics["status"] == "fixture_synthetic"
+    assert not news.settlement_risk_flag
+    # The news lane trades the same fixture markets as the fair-value track but
+    # on its own ledger: fills never leak between tracks.
+    assert news.ledger["ledger_id"] == "news_underreaction"
+    assert fair_value.ledger["fills"] == 4 and news.ledger["fills"] == 3

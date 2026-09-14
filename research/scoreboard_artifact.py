@@ -11,7 +11,7 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
-from research.scoreboard import CROSS_VENUE_TRACKS, PRIMARY_TRACK, TrackSummary
+from research.scoreboard import CROSS_VENUE_TRACKS, NEWS_TRACK, PRIMARY_TRACK, TrackSummary
 
 SCHEMA_VERSION = "1.2.0"
 ALLOWED_SOURCES = ("measured", "synced")
@@ -89,6 +89,9 @@ def build_scoreboard_artifact(
         risk_flags.append("settlement_risk_flagged_on_ungated_track")
     if any(s.metrics.get("snapshot", {}).get(v, {}).get("errors") for s in summaries[:1] for v in ("kalshi", "polymarket")):
         risk_flags.append("snapshot_errors_present")
+    news = by_track.get(NEWS_TRACK)
+    if news is not None and news.paper_fills > 0:
+        risk_flags.append("news_signal_mapping_unvalidated")
     risk_flags.append("pnl_from_ledger_not_placeholder")
 
     fills = [dict(row) for s in summaries for row in s.fills]
@@ -111,6 +114,25 @@ def build_scoreboard_artifact(
         ),
         "divergence_findings_status": "not_measured_in_this_run",
     }
+    if news is not None:
+        mapping = news.metrics.get("mapping", {}).get("counts", {})
+        ratio = news.metrics.get("reaction_ratio", {})
+        findings_out["news_underreaction"] = {
+            "status": news.metrics.get("status", "not_run"),
+            "signal_source": news.metrics.get("signal_source", {}).get("name"),
+            "signals": news.candidates,
+            "mapped": sum(v for k, v in mapping.items() if k != "unmapped"),
+            "unmapped": mapping.get("unmapped", 0),
+            "paper_fills": news.paper_fills,
+            "reaction_ratio_observed_mean": ratio.get("observed_mean"),
+            "reaction_ratio_literature": ratio.get("literature"),
+            "literature_reference": news.metrics.get("literature", {}).get("reference"),
+            "mapping_validated": False,
+            "note": (
+                "Signal-to-probability mapping is not validated; fixture signals are synthetic. "
+                "See docs/NEWS_UNDERREACTION.md."
+            ),
+        }
     if findings:
         findings_out.update(findings)
 

@@ -28,6 +28,7 @@ from core.config import require_paper_only
 from core.ledger import PaperLedger
 from research.harvest_scoreboard import findings_from_harvest
 from research.harvests import HarvestBundle
+from research.news_signals import build_signal_source
 from research.scoreboard import TRACKS, TrackSummary, measure_all_with_ledgers
 from research.scoreboard_artifact import build_scoreboard_artifact
 from strategies.edge import load_priors
@@ -166,6 +167,8 @@ async def run(
     kalshi_env: str | None,
     model_fees: bool,
     harvest_dir: Path | None = None,
+    news_signals_path: Path | None = None,
+    news_rss: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     require_paper_only("measure_all")
     mode = "network" if use_network else "fixtures"
@@ -179,6 +182,9 @@ async def run(
         ledgers=ledgers,
         kalshi_env=kalshi_env,
         model_fees=model_fees,
+        news_signals=build_signal_source(
+            use_fixtures=not use_network, signals_path=news_signals_path, rss_urls=news_rss
+        ),
     )
     artifact = persist_run(
         summaries,
@@ -211,6 +217,8 @@ def main() -> None:
     parser.add_argument("--reset-ledgers", action="store_true", help="start every track from a fresh ledger")
     parser.add_argument("--kalshi-env", choices=("demo", "prod"), default=None, help="Kalshi public API host (default: KALSHI_ENV or demo)")
     parser.add_argument("--no-fees", action="store_true", help="disable the Kalshi fee model on paper fills")
+    parser.add_argument("--news-signals", type=Path, default=None, help="JSON signals file for the news_underreaction lane (operator owns the implied probabilities)")
+    parser.add_argument("--news-rss", action="append", default=[], metavar="URL", help="public RSS/Atom feed to match headlines against snapshot markets (never mapped to a probability; repeatable)")
     args = parser.parse_args()
     require_paper_only("measure_all")
     asyncio.run(
@@ -224,6 +232,8 @@ def main() -> None:
             kalshi_env=args.kalshi_env,
             model_fees=not args.no_fees,
             harvest_dir=args.harvest_dir,
+            news_signals_path=args.news_signals,
+            news_rss=tuple(args.news_rss),
         )
     )
 

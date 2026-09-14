@@ -29,6 +29,7 @@ include = ["apps*", "core*", "research*", "settlement*", "strategies*", "venues*
 
 [tool.setuptools.package-data]
 venues = ["**/*.json"]
+research = ["fixtures/*.json"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
