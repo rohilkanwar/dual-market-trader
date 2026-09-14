@@ -21,6 +21,8 @@ from apps.measure_all import (
 from core.config import require_paper_only
 from research.news_signals import build_signal_source
 from research.scoreboard import PRIMARY_TRACK, TRACKS, TrackSummary, measure_all_with_ledgers
+from research.specialist_scoreboard import load_specialist_state
+from research.specialist_sources import build_trader_source
 from strategies.edge import load_priors
 
 
@@ -60,11 +62,13 @@ async def run_cycle(
     kalshi_env: str | None = None,
     news_signals_path: Path | None = None,
     news_rss: tuple[str, ...] = (),
+    specialist_traders: int | None = None,
 ) -> dict[str, Any]:
     """Run all isolated paper tracks once and persist one cycle snapshot.
 
-    Ledgers are loaded from ``artifact_dir/paper/`` before the cycle and saved
-    after it, so realized/unrealized PnL, cash and drawdown carry across cycles.
+    Ledgers (and the specialist follow log) are loaded from ``artifact_dir/paper/``
+    before the cycle and saved after it, so realized/unrealized PnL, cash and
+    drawdown carry across cycles.
     """
     require_paper_only("Paper loop")
     started_at = _now()
@@ -81,6 +85,8 @@ async def run_cycle(
         news_signals=build_signal_source(
             use_fixtures=not use_network, signals_path=news_signals_path, rss_urls=news_rss
         ),
+        specialist_source=build_trader_source(use_fixtures=not use_network, traders=specialist_traders),
+        specialist_state=load_specialist_state(artifact_dir) if persist_ledgers else None,
     )
     completed_at = _now()
     mode = "network" if use_network else "fixtures"
@@ -164,6 +170,7 @@ async def run_loop(
     kalshi_env: str | None = None,
     news_signals_path: Path | None = None,
     news_rss: tuple[str, ...] = (),
+    specialist_traders: int | None = None,
 ) -> dict[str, Any] | None:
     """Run cycles forever, or exactly once for tests and scheduled invocations."""
     require_paper_only("Paper loop")
@@ -184,6 +191,7 @@ async def run_loop(
                 kalshi_env=kalshi_env,
                 news_signals_path=news_signals_path,
                 news_rss=news_rss,
+                specialist_traders=specialist_traders,
             )
         except asyncio.CancelledError:
             raise
@@ -226,6 +234,7 @@ def main() -> None:
     parser.add_argument("--kalshi-env", choices=("demo", "prod"), default=None)
     parser.add_argument("--news-signals", type=Path, default=None, help="JSON signals file for the news_underreaction lane")
     parser.add_argument("--news-rss", action="append", default=[], metavar="URL", help="public RSS/Atom feed for the news lane (headlines only, never mapped; repeatable)")
+    parser.add_argument("--specialist-traders", type=int, default=10, help="network cycles: wallets read from the public Polymarket volume leaderboard for the category_specialist lane (0 disables)")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     # Third-party INFO logs (httpx request lines) would break the one-JSON-line
@@ -246,6 +255,7 @@ def main() -> None:
                 kalshi_env=args.kalshi_env,
                 news_signals_path=args.news_signals,
                 news_rss=tuple(args.news_rss),
+                specialist_traders=args.specialist_traders,
             )
         )
     except KeyboardInterrupt:

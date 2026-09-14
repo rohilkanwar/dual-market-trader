@@ -1,4 +1,4 @@
-"""Twelve isolated paper tracks measured against shared market snapshots.
+"""Thirteen isolated paper tracks measured against shared market snapshots.
 
 Every track owns its own risk manager, execution engine, paper portfolio and
 :class:`core.ledger.PaperLedger`, so numbers never leak between tracks. Market
@@ -9,7 +9,10 @@ every track from memory, which keeps paper fills deterministic for a run.
 signal source is configured (fixtures by default on fixture runs, nothing on
 network runs) and is otherwise an honest empty row. The three
 ``polymarket_*_arb`` tracks read a separate event snapshot (YES and NO book per
-leg); see ``research/polymarket_arb_tracks.py``.
+leg); see ``research/polymarket_arb_tracks.py``. ``category_specialist`` reads
+public per-trader histories (synthetic fixtures, or the Polymarket Data API
+when a source is supplied) and paper-follows in-category specialists; see
+``research/specialist_scoreboard.py``.
 """
 
 from __future__ import annotations
@@ -34,6 +37,14 @@ from research.news_signals import (
     SignalBatch,
     SignalSource,
 )
+from research.specialist_scoreboard import (
+    SPECIALIST_TRACK,
+    SpecialistState,
+    default_oracle_and_books,
+    run_category_specialist_track,
+)
+from research.specialist_sources import FixtureTraderSource, NullTraderSource, TraderHistorySource
+from strategies.specialist import SpecialistParameters
 from settlement.gate import STAGE_ORDER, STRICT_POLICY, GatePolicy, GateResult, settlement_gate
 from strategies.cross_venue import (
     CrossVenueEvaluation,
@@ -74,7 +85,7 @@ POLYMARKET_ARB_TRACKS: tuple[str, ...] = (
     "polymarket_combinatorial_arb",
 )
 FLB_TRACKS: tuple[str, ...] = ("kalshi_longshot_fade", "kalshi_maker_quote")
-TRACKS: tuple[str, ...] = CROSS_VENUE_AND_FAIR_VALUE_TRACKS + POLYMARKET_ARB_TRACKS + FLB_TRACKS
+TRACKS: tuple[str, ...] = CROSS_VENUE_AND_FAIR_VALUE_TRACKS + POLYMARKET_ARB_TRACKS + FLB_TRACKS + (SPECIALIST_TRACK,)
 TRACK_LABELS = {
     GATED_TRACK: "Gated cross-venue (clause-matched)",
     "gated_cross_venue_macro": "Gated cross-venue macro",
@@ -94,6 +105,7 @@ TRACK_LABELS = {
     "tennis_whale_copy_10m": "Tennis whale copy (10 min lag)",
     # Separate family with its own CLI (apps.measure_tennis_basis); not part of TRACKS.
     "tennis_basis": "Tennis cross-platform basis (free odds)",
+    SPECIALIST_TRACK: "Category specialist follow",
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {
@@ -989,6 +1001,9 @@ async def measure_all_with_ledgers(
     curated_pairs: tuple[CuratedPair, ...] | None = None,
     flb_parameters: Any | None = None,
     flb_risk_limits: RiskLimits | None = None,
+    specialist_source: TraderHistorySource | None = None,
+    specialist_parameters: SpecialistParameters | None = None,
+    specialist_state: SpecialistState | None = None,
 ) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
     """Run every track against one shared snapshot.
 
@@ -1005,6 +1020,11 @@ async def measure_all_with_ledgers(
     network runs use no source at all (the lane stays empty by design).
     The two Kalshi FLB tracks use their own paper risk defaults ($25/$75/$75)
     unless ``flb_risk_limits`` is given.
+
+    ``specialist_source`` feeds ``category_specialist`` the same way (fixture
+    traders on fixture runs, nothing on network runs unless the caller passes
+    a ``PolymarketDataApiSource``); ``specialist_state`` carries its follow log
+    across runs and is returned inside ``summary.metrics["follow_state"]``.
     """
     from research import flb  # local import: research.flb builds on this module
     from research.polymarket_arb_tracks import run_polymarket_arb_tracks
@@ -1023,6 +1043,12 @@ async def measure_all_with_ledgers(
     ledgers = ledgers or {}
     if news_signals is None:
         news_signals = FixtureSignalSource() if use_fixtures else NullSignalSource()
+    if specialist_source is None:
+        specialist_source = FixtureTraderSource() if use_fixtures else NullTraderSource()
+    poly_snapshot = snapshots[Venue.POLYMARKET]
+    specialist_oracle, specialist_books = default_oracle_and_books(
+        use_fixtures=use_fixtures, fixture_markets=list(poly_snapshot.markets), fixture_books=dict(poly_snapshot.books)
+    )
 
     def matcher() -> MarketMatcher:
         return MarketMatcher(curated_pairs) if curated_pairs is not None else MarketMatcher()
@@ -1049,6 +1075,13 @@ async def measure_all_with_ledgers(
         name: runtime(name, {Venue.POLYMARKET: group_snapshot}) for name in POLYMARKET_ARB_TRACKS
     }
     fade_rt, maker_rt = (runtime(name, snapshots) for name in FLB_TRACKS)
+    # The specialist lane fills on the markets its traders are in, which are not
+    # in the shared snapshot; it gets its own (initially empty) snapshot object so
+    # nothing it adds is visible to the other tracks.
+    specialist_rt = runtime(
+        SPECIALIST_TRACK,
+        {Venue.POLYMARKET: VenueSnapshot(venue=Venue.POLYMARKET, source=poly_snapshot.source)},
+    )
     default_params = CrossVenueParameters()
     summaries = await asyncio.gather(
         run_gated_cross_venue_track(strict_rt, policy=STRICT_POLICY, matcher=matcher()),
@@ -1074,10 +1107,22 @@ async def measure_all_with_ledgers(
         run_polymarket_arb_tracks(arb_runtimes, parameters=_arb_params(arb_parameters, model_fees)),
         flb.run_longshot_fade_track(fade_rt, params=flb_parameters),
         flb.run_maker_quote_track(maker_rt, params=flb_parameters),
+        run_category_specialist_track(
+            specialist_rt,
+            source=specialist_source,
+            parameters=specialist_parameters,
+            state=specialist_state,
+            oracle=specialist_oracle,
+            book_fetcher=specialist_books,
+            mode="fixtures" if use_fixtures else "network",
+        ),
     )
-    arb_summaries = summaries[-3]
-    summaries = list(summaries[:-3]) + list(arb_summaries) + list(summaries[-2:])
-    runtimes = (strict_rt, gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values(), fade_rt, maker_rt)
+    arb_summaries = summaries[-4]
+    summaries = list(summaries[:-4]) + list(arb_summaries) + list(summaries[-3:])
+    runtimes = (
+        strict_rt, gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values(),
+        fade_rt, maker_rt, specialist_rt,
+    )
     label = cycle_label or f"{'fixtures' if use_fixtures else 'network'}:{_now().isoformat()}"
     for rt in runtimes:
         rt.finalize(label=label)
@@ -1138,6 +1183,15 @@ async def measure_all_with_ledgers(
         "Resting fade one tick inside the spread (or joining the touch). Expected-value fills from "
         "documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges "
         "makers, conservative marks. Not a measurement of fill rates."
+    )
+    specialist_rt.summary.notes = (
+        "Category specialist scoreboard. Large traders are scored per category on a rolling "
+        "in-category window (ROI and directional Brier skill); the top decile with both positive is "
+        "promoted and its currently open in-category bets are paper-followed at the touch, with the "
+        "mid at follow time as the benchmark. Pre-registered test: N=30 resolved follows pooled, "
+        "one-sided sign test at alpha 0.05 plus mean excess vs mid > 0; fewer resolved follows is "
+        "reported as underpowered, never as pass/fail. Polymarket only (Kalshi has no per-trader data); "
+        "fixture traders are synthetic. Full board: specialist_scoreboard_<mode>.json."
     )
     fair_rt.summary.metrics["kalshi_canary"] = {
         "venue_breakdown": fair_rt.summary.metrics["venue_breakdown"].get(Venue.KALSHI.value, {}),

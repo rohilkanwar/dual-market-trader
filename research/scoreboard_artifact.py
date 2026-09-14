@@ -11,7 +11,16 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
-from research.scoreboard import CONTROL_TRACK, CROSS_VENUE_TRACKS, GATED_TRACK, NEWS_TRACK, PRIMARY_TRACK, TrackSummary
+from research.scoreboard import (
+    CONTROL_TRACK,
+    CROSS_VENUE_TRACKS,
+    GATED_TRACK,
+    NEWS_TRACK,
+    PRIMARY_TRACK,
+    SPECIALIST_TRACK,
+    TrackSummary,
+)
+from research.specialist_scoreboard import specialist_finding
 
 SCHEMA_VERSION = "1.3.0"
 GATE_REPORT_SCHEMA_VERSION = "1.0.0"
@@ -57,6 +66,17 @@ def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
         slim["records"] = {"count": len(slim["records"]), "detail": "tennis_basis_latest.json"}
         if isinstance(slim.get("measurements"), list):
             slim["measurements"] = {"count": len(slim["measurements"]), "detail": "tennis_basis_latest.json"}
+    if "follow_state" in slim:
+        # The specialist lane's full scoreboard, follow log and per-attempt rows
+        # live in specialist_scoreboard_<mode>.json; the board keeps counts.
+        slim["follow_state"] = {"followed": len(slim["follow_state"].get("followed", [])), "detail": "specialist_scoreboard_<mode>.json"}
+        slim["scoreboard"] = {"rows": len(slim.get("scoreboard", [])), "detail": "specialist_scoreboard_<mode>.json"}
+        attempts = slim.get("follow_attempts", [])
+        by_reason = {}
+        for attempt in attempts:
+            by_reason[attempt.get("reason")] = by_reason.get(attempt.get("reason"), 0) + 1
+        slim["follow_attempts"] = {"count": len(attempts), "by_reason": dict(sorted(by_reason.items()))}
+        slim.pop("traders", None)
     return slim
 
 
@@ -141,6 +161,12 @@ def build_scoreboard_artifact(
         risk_flags.append("news_signal_mapping_unvalidated")
     if any(_dec(l.get("total_pnl", 0)) != ZERO for t, l in ledgers.items() if t == "polymarket_combinatorial_arb"):
         risk_flags.append("combinatorial_positions_marked_at_mid_not_resolution")
+    specialist = by_track.get(SPECIALIST_TRACK)
+    if specialist is not None:
+        pooled_status = specialist.metrics.get("evaluation", {}).get("pooled", {}).get("status")
+        if int(specialist.metrics.get("follow_log", {}).get("total", 0)) > 0 and pooled_status != "pass":
+            # Follow PnL exists but the pre-registered test has not passed (usually: underpowered).
+            risk_flags.append("specialist_hypothesis_not_validated")
     risk_flags.append("pnl_from_ledger_not_placeholder")
 
     fills = [dict(row) for s in summaries for row in s.fills]
@@ -188,6 +214,8 @@ def build_scoreboard_artifact(
         }
     if gated is not None:
         findings_out["gated_cross_venue"] = gate_summary(gated)
+    if specialist is not None:
+        findings_out["category_specialist"] = specialist_finding(specialist)
     if findings:
         findings_out.update(findings)
 

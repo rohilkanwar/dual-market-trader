@@ -6,6 +6,10 @@ Outputs (relative to ``--artifact-dir``, default ``artifacts/``):
 * ``scoreboard_latest.json``       same document; what the dashboard sync prefers
 * ``gate_report_<mode>.json``      per-pair admissibility verdicts for gated_cross_venue
 * ``gate_report_latest.json``      same document; emitted even with zero candidates
+* ``specialist_scoreboard_<mode>.json``, ``specialist_scoreboard_latest.json``
+                                   category_specialist board: per-trader-category scores,
+                                   promotions, follow log, pre-registered evaluation
+* ``paper/specialist_follow_state.json``  the specialist follow log carried across runs
 * ``paper/ledger_<track>.json``    full ledger per track (fills, marks, equity curve)
 * ``paper/equity_curve_<track>.jsonl``  one appended equity point per run
 * ``paper/runs/<run_id>.json``     raw track summaries for this run
@@ -31,10 +35,21 @@ from core.ledger import PaperLedger
 from research.harvest_scoreboard import findings_from_harvest
 from research.harvests import HarvestBundle
 from research.news_signals import build_signal_source
-from research.scoreboard import GATED_TRACK, TRACKS, TrackSummary, measure_all_with_ledgers
+from research.scoreboard import GATED_TRACK, SPECIALIST_TRACK, TRACKS, TrackSummary, measure_all_with_ledgers
 from research.scoreboard_artifact import build_gate_report, build_scoreboard_artifact
+from research.specialist_scoreboard import SpecialistState, build_specialist_report, load_specialist_state, state_path
+from research.specialist_sources import build_trader_source
 from strategies.edge import load_priors
 from strategies.polymarket_arb import ArbParameters
+
+
+def add_specialist_arguments(parser: argparse.ArgumentParser) -> None:
+    group = parser.add_argument_group("category specialist track")
+    group.add_argument(
+        "--specialist-traders", type=int, default=10,
+        help="network runs: wallets read from the public Polymarket volume leaderboard (0 disables the lane)",
+    )
+    group.add_argument("--specialist-window", default="month", help="leaderboard window: day, week, month, all")
 
 
 def add_arb_arguments(parser: argparse.ArgumentParser) -> None:
@@ -160,6 +175,15 @@ def persist_run(
         write_json(artifact_dir / f"gate_report_{mode}.json", gate_report)
         write_json(artifact_dir / "gate_report_latest.json", gate_report)
         artifact["gate_report"] = {"file": f"gate_report_{mode}.json", "totals": gate_report["totals"]}
+    specialist = next((s for s in summaries if s.track == SPECIALIST_TRACK), None)
+    if specialist is not None:
+        report = build_specialist_report(specialist, mode=mode, measured_at=measured_at, run_id=run_id)
+        write_json(artifact_dir / f"specialist_scoreboard_{mode}.json", report)
+        write_json(artifact_dir / "specialist_scoreboard_latest.json", report)
+        artifact["specialist_scoreboard"] = {"file": f"specialist_scoreboard_{mode}.json", "totals": report["totals"]}
+        if SPECIALIST_TRACK in ledgers_by_track and specialist.metrics.get("follow_state"):
+            # The follow log persists alongside the ledgers, never without them.
+            SpecialistState.from_dict(specialist.metrics["follow_state"]).save(state_path(artifact_dir))
     write_json(artifact_dir / (scoreboard_name or f"scoreboard_{mode}.json"), artifact)
     if write_latest:
         write_json(artifact_dir / "scoreboard_latest.json", artifact)
@@ -217,11 +241,15 @@ async def run(
     news_rss: tuple[str, ...] = (),
     event_limit: int | None = None,
     arb_parameters: ArbParameters | None = None,
+    specialist_traders: int | None = None,
+    specialist_window: str = "month",
 ) -> dict[str, Any]:
     require_paper_only("measure_all")
     mode = "network" if use_network else "fixtures"
     priors = load_priors(priors_path) if priors_path else None
-    ledgers = {} if reset_ledgers or not persist_ledgers else load_ledgers(artifact_dir, TRACKS)
+    carry = persist_ledgers and not reset_ledgers
+    ledgers = load_ledgers(artifact_dir, TRACKS) if carry else {}
+    specialist_state = load_specialist_state(artifact_dir) if carry else None
     measured_at = datetime.now(UTC).isoformat()
     summaries, ledgers_by_track = await measure_all_with_ledgers(
         use_fixtures=not use_network,
@@ -235,6 +263,10 @@ async def run(
         ),
         event_limit=event_limit,
         arb_parameters=arb_parameters,
+        specialist_source=build_trader_source(
+            use_fixtures=not use_network, traders=specialist_traders, window=specialist_window
+        ),
+        specialist_state=specialist_state,
     )
     artifact = persist_run(
         summaries,
@@ -257,6 +289,14 @@ async def run(
         if gate["all_stage_reject_reasons"]:
             reasons = ", ".join(f"{k}={v}" for k, v in gate["all_stage_reject_reasons"].items())
             print(f"  stage rejects: {reasons}")
+    spec = artifact.get("specialist_scoreboard", {}).get("totals")
+    if spec:
+        print(
+            f"\ncategory_specialist: traders={spec['traders']} resolved_bets={spec['resolved_bets']} "
+            f"specialists={spec['specialists']} follows_this_run={spec['follows_this_run']} "
+            f"follow_log={spec['follow_log_resolved']} resolved/{spec['follow_log_pending']} pending "
+            f"evaluation={spec['evaluation_status']}"
+        )
     print(
         f"\nledger totals: realized={artifact['totals']['realized_pnl']} "
         f"unrealized={artifact['totals']['unrealized_pnl']} fees={artifact['totals']['fees_paid']} "
@@ -284,6 +324,7 @@ def main() -> None:
     parser.add_argument("--news-rss", action="append", default=[], metavar="URL", help="public RSS/Atom feed to match headlines against snapshot markets (never mapped to a probability; repeatable)")
     parser.add_argument("--event-limit", type=int, default=None, help="Polymarket events for the arb tracks (default: --limit)")
     add_arb_arguments(parser)
+    add_specialist_arguments(parser)
     args = parser.parse_args()
     require_paper_only("measure_all")
     asyncio.run(
@@ -301,6 +342,8 @@ def main() -> None:
             news_rss=tuple(args.news_rss),
             event_limit=args.event_limit,
             arb_parameters=arb_parameters_from_args(args),
+            specialist_traders=args.specialist_traders,
+            specialist_window=args.specialist_window,
         )
     )
 
