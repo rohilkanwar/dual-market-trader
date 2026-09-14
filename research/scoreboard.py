@@ -1,13 +1,15 @@
-"""Six isolated paper tracks measured against one shared market snapshot.
+"""Nine isolated paper tracks measured against shared market snapshots.
 
 Every track owns its own risk manager, execution engine, paper portfolio and
 :class:`core.ledger.PaperLedger`, so numbers never leak between tracks. Market
 data is captured once per venue (fixture or public network read) and served to
 every track from memory, which keeps paper fills deterministic for a run.
 
-The sixth track, ``news_underreaction``, is an optional lane: it only has
-candidates when a signal source is configured (fixtures by default on fixture
-runs, nothing on network runs) and is otherwise an honest empty row.
+``news_underreaction`` is an optional lane: it only has candidates when a
+signal source is configured (fixtures by default on fixture runs, nothing on
+network runs) and is otherwise an honest empty row. The three
+``polymarket_*_arb`` tracks read a separate event snapshot (YES and NO book per
+leg); see ``research/polymarket_arb_tracks.py``.
 """
 
 from __future__ import annotations
@@ -23,7 +25,7 @@ from core.execution import ExecutionEngine
 from core.ledger import PaperLedger
 from core.observability import InMemoryEventSink
 from core.risk import RiskLimits, RiskManager, RiskViolation
-from core.types import ONE, ZERO, ExecutionReport, Fill, Market, Order, OrderBook, Outcome, Venue
+from core.types import ONE, ZERO, ExecutionReport, Fill, Market, MarketGroup, Order, OrderBook, Outcome, Venue
 from core.venue import VenueClient
 from research.news_signals import (
     FixtureSignalSource,
@@ -50,10 +52,11 @@ from strategies.news_underreaction import (
 from venues.kalshi import KalshiClient
 from venues.paper import FeeSchedule, PaperExecutionMixin, kalshi_fee, zero_fee
 from venues.polymarket import PolymarketClient
+from venues.polymarket.fees import polymarket_fee_schedule
 
 LOGGER = logging.getLogger("scoreboard")
 
-TRACKS: tuple[str, ...] = (
+CROSS_VENUE_AND_FAIR_VALUE_TRACKS: tuple[str, ...] = (
     "gated_cross_venue_macro",
     "ungated_cross_venue_macro",
     "single_venue_fair_value",
@@ -61,6 +64,12 @@ TRACKS: tuple[str, ...] = (
     "small_deliberate_bet",
     "news_underreaction",
 )
+POLYMARKET_ARB_TRACKS: tuple[str, ...] = (
+    "polymarket_rebalancing_arb",
+    "polymarket_negrisk_arb",
+    "polymarket_combinatorial_arb",
+)
+TRACKS: tuple[str, ...] = CROSS_VENUE_AND_FAIR_VALUE_TRACKS + POLYMARKET_ARB_TRACKS
 TRACK_LABELS = {
     "gated_cross_venue_macro": "Gated cross-venue macro",
     "ungated_cross_venue_macro": "Ungated cross-venue macro",
@@ -68,6 +77,9 @@ TRACK_LABELS = {
     "sports_cross_venue": "Sports cross-venue",
     "small_deliberate_bet": "Small deliberate bet",
     "news_underreaction": "News underreaction",
+    "polymarket_rebalancing_arb": "Polymarket YES+NO rebalancing",
+    "polymarket_negrisk_arb": "Polymarket NegRisk convert",
+    "polymarket_combinatorial_arb": "Polymarket sum-to-one (hold)",
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {
@@ -105,9 +117,31 @@ class VenueSnapshot:
     books: dict[str, OrderBook] = field(default_factory=dict)
     fetched_at: str = field(default_factory=lambda: _now().isoformat())
     errors: list[str] = field(default_factory=list)
+    # Multi-outcome groups and separately fetched NO books (Polymarket events).
+    # ``books`` stays the YES book; ``no_books`` is only present when the venue
+    # served a distinct NO ladder, so mirror consistency can be verified.
+    groups: list[MarketGroup] = field(default_factory=list)
+    no_books: dict[str, OrderBook] = field(default_factory=dict)
 
     def book(self, market: Market) -> OrderBook:
         return self.books.get(market.market_id, OrderBook(market_id=market.market_id))
+
+    def no_book(self, market: Market) -> OrderBook | None:
+        return self.no_books.get(market.market_id)
+
+
+async def capture_group_snapshot(client: PolymarketClient, *, limit: int, source: str) -> VenueSnapshot:
+    """Polymarket events with a YES and a NO book per leg (for the arb tracks)."""
+    events = await client.capture_events(limit=limit)
+    return VenueSnapshot(
+        venue=client.venue,
+        source=source,
+        markets=list(events.markets),
+        books=dict(events.yes_books),
+        no_books=dict(events.no_books),
+        groups=list(events.groups),
+        errors=list(events.errors),
+    )
 
 
 async def capture_snapshot(client: VenueClient, *, limit: int, source: str) -> VenueSnapshot:
@@ -129,10 +163,11 @@ async def capture_snapshot(client: VenueClient, *, limit: int, source: str) -> V
 class SnapshotClient(PaperExecutionMixin, VenueClient):
     """Paper venue client that serves one frozen snapshot. Always ``paper=True``."""
 
-    def __init__(self, snapshot: VenueSnapshot, fee_schedule: FeeSchedule) -> None:
+    def __init__(self, snapshot: VenueSnapshot, fee_schedule: FeeSchedule, *, model_fees: bool = True) -> None:
         self.venue = snapshot.venue
         self.paper = True
         self.snapshot = snapshot
+        self.model_fees = model_fees
         self._init_paper(fee_schedule)
         self._market_cache.update({m.market_id: m for m in snapshot.markets})
 
@@ -141,6 +176,30 @@ class SnapshotClient(PaperExecutionMixin, VenueClient):
 
     async def get_order_book(self, market: Market) -> OrderBook:
         return self.snapshot.book(market)
+
+    def _fee_schedule_for(self, market: Market) -> FeeSchedule:
+        """Polymarket markets carry their published taker rate in metadata."""
+        if self.model_fees and market.venue is Venue.POLYMARKET:
+            raw = market.metadata.get("taker_fee_rate")
+            if raw not in (None, ""):
+                rate = Decimal(str(raw))
+                if rate > ZERO:
+                    return polymarket_fee_schedule(rate)
+        return self.fee_schedule
+
+    async def place_order(self, order: Order) -> ExecutionReport:
+        """NO orders walk the venue's real NO ladder when the snapshot has one."""
+        if not self.paper:
+            raise PermissionError("SnapshotClient is paper-only")
+        market = self._market_cache.get(order.market_id)
+        if market is None or not market.active:
+            raise ValueError(f"market {order.market_id} is unavailable")
+        no_book = self.snapshot.no_book(market)
+        if order.outcome is Outcome.NO and no_book is not None:
+            # ``for_outcome`` is an involution, so handing the simulator the NO
+            # ladder expressed as a YES book makes it walk the real NO levels.
+            return await self.place_order_with_book(order, market, no_book.for_outcome(Outcome.NO))
+        return await self.place_order_with_book(order, market, self.snapshot.book(market))
 
     async def close(self) -> None:
         return None
@@ -307,7 +366,10 @@ class TrackRuntime:
             Venue.KALSHI: kalshi_fee if model_fees else zero_fee,
             Venue.POLYMARKET: zero_fee,
         }
-        clients = {venue: SnapshotClient(snap, fee_for[venue]) for venue, snap in snapshots.items()}
+        clients = {
+            venue: SnapshotClient(snap, fee_for[venue], model_fees=model_fees)
+            for venue, snap in snapshots.items()
+        }
         return cls(name, ledger, risk, events, execution, clients, snapshots, TrackSummary(name))
 
     def market_for(self, venue: Venue, market_id: str) -> Market | None:
@@ -760,8 +822,18 @@ async def capture_snapshots(
     return {Venue.KALSHI: k_snap, Venue.POLYMARKET: p_snap}
 
 
+async def capture_polymarket_groups(*, use_fixtures: bool, limit: int) -> VenueSnapshot:
+    """Polymarket events (both books per leg) for the intra-venue arb tracks."""
+    source = "fixture" if use_fixtures else "network"
+    polymarket = PolymarketClient(paper=True, use_fixtures=use_fixtures)
+    try:
+        return await capture_group_snapshot(polymarket, limit=limit, source=source)
+    finally:
+        await polymarket.close()
+
+
 async def measure_all(**kwargs: Any) -> list[TrackSummary]:
-    """Run all six tracks once and return their summaries (ledgers discarded)."""
+    """Run every track once and return the summaries (ledgers discarded)."""
     summaries, _ = await measure_all_with_ledgers(**kwargs)
     return summaries
 
@@ -777,39 +849,59 @@ async def measure_all_with_ledgers(
     model_fees: bool = True,
     kalshi_env: str | None = None,
     snapshots: dict[Venue, VenueSnapshot] | None = None,
+    group_snapshot: VenueSnapshot | None = None,
     cycle_label: str = "",
     news_signals: SignalSource | None = None,
     news_parameters: UnderreactionParameters | None = None,
+    arb_parameters: Any = None,
+    event_limit: int | None = None,
 ) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
-    """Run all six tracks against one shared snapshot.
+    """Run every track against one shared snapshot.
 
-    Returns the summaries plus the per-track ledgers so callers can persist
-    them. ``ledgers`` lets a caller (the paper loop) carry a track's ledger
-    across cycles; any track not present gets a fresh ledger.
+    The cross-venue / fair-value / news tracks share ``snapshots`` (one per
+    venue); the three Polymarket arbitrage tracks share ``group_snapshot``
+    (events with a YES and a NO book per leg). Returns the summaries plus the
+    per-track ledgers so callers can persist them. ``ledgers`` lets a caller
+    (the paper loop) carry a track's ledger across cycles; any track not
+    present gets a fresh ledger.
 
     ``news_signals`` feeds the optional ``news_underreaction`` lane. When
     omitted, fixture runs use the committed synthetic fixture signals and
     network runs use no source at all (the lane stays empty by design).
     """
-    snapshots = snapshots or await capture_snapshots(
-        use_fixtures=use_fixtures, limit=limit, kalshi_env=kalshi_env
-    )
+    from research.polymarket_arb_tracks import run_polymarket_arb_tracks
+
+    if snapshots is None or group_snapshot is None:
+        captured_snapshots, captured_groups = await asyncio.gather(
+            capture_snapshots(use_fixtures=use_fixtures, limit=limit, kalshi_env=kalshi_env)
+            if snapshots is None
+            else _ready(snapshots),
+            capture_polymarket_groups(use_fixtures=use_fixtures, limit=event_limit or limit)
+            if group_snapshot is None
+            else _ready(group_snapshot),
+        )
+        snapshots, group_snapshot = captured_snapshots, captured_groups
     limits = risk_limits or DEFAULT_RISK_LIMITS
     ledgers = ledgers or {}
     if news_signals is None:
         news_signals = FixtureSignalSource() if use_fixtures else NullSignalSource()
 
-    def runtime(name: str) -> TrackRuntime:
+    def runtime(name: str, with_snapshots: dict[Venue, VenueSnapshot]) -> TrackRuntime:
         return TrackRuntime.create(
             name,
-            snapshots,
+            with_snapshots,
             ledger=ledgers.get(name),
             risk_limits=limits,
             starting_cash=starting_cash,
             model_fees=model_fees,
         )
 
-    gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt = (runtime(name) for name in TRACKS)
+    gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt = (
+        runtime(name, snapshots) for name in CROSS_VENUE_AND_FAIR_VALUE_TRACKS
+    )
+    arb_runtimes = {
+        name: runtime(name, {Venue.POLYMARKET: group_snapshot}) for name in POLYMARKET_ARB_TRACKS
+    }
     default_params = CrossVenueParameters()
     summaries = await asyncio.gather(
         run_cross_venue_track(
@@ -831,15 +923,23 @@ async def measure_all_with_ledgers(
             flag_when_gate_would_refuse=True,
         ),
         run_news_underreaction_track(news_rt, source=news_signals, parameters=news_parameters),
+        run_polymarket_arb_tracks(arb_runtimes, parameters=_arb_params(arb_parameters, model_fees)),
     )
-    runtimes = (gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt)
+    arb_summaries = summaries[-1]
+    summaries = list(summaries[:-1]) + list(arb_summaries)
+    runtimes = (gated_rt, ungated_rt, fair_rt, sports_rt, small_rt, news_rt, *arb_runtimes.values())
     label = cycle_label or f"{'fixtures' if use_fixtures else 'network'}:{_now().isoformat()}"
     for rt in runtimes:
         rt.finalize(label=label)
         rt.summary.metrics["venue_pnl"] = _venue_pnl(rt.ledger)
         rt.summary.metrics["snapshot"] = {
-            venue.value: {"source": snap.source, "markets": len(snap.markets), "errors": snap.errors}
-            for venue, snap in snapshots.items()
+            venue.value: {
+                "source": snap.source,
+                "markets": len(snap.markets),
+                "groups": len(snap.groups),
+                "errors": snap.errors,
+            }
+            for venue, snap in rt.snapshots.items()
         }
 
     gated_rt.summary.notes = (
@@ -872,4 +972,17 @@ async def measure_all_with_ledgers(
         "venue_breakdown": fair_rt.summary.metrics["venue_breakdown"].get(Venue.KALSHI.value, {}),
         "pnl": fair_rt.summary.metrics["venue_pnl"].get(Venue.KALSHI.value, {}),
     }
-    return list(summaries), {rt.name: rt.ledger for rt in runtimes}
+    return summaries, {rt.name: rt.ledger for rt in runtimes}
+
+
+async def _ready(value: Any) -> Any:
+    return value
+
+
+def _arb_params(parameters: Any, model_fees: bool) -> Any:
+    from dataclasses import replace
+
+    from strategies.polymarket_arb import ArbParameters
+
+    params = parameters or ArbParameters()
+    return params if model_fees else replace(params, model_fees=False)

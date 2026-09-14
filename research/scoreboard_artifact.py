@@ -44,6 +44,10 @@ def build_scoreboard_artifact(
     findings: dict[str, Any] | None = None,
     cycle: int | None = None,
     top_n: int = 10,
+    venues: tuple[str, ...] = ("kalshi", "polymarket"),
+    venue_focus: str = "kalshi",
+    label_suffix: str | None = None,
+    track_family: str | None = None,
 ) -> dict[str, Any]:
     if source not in ALLOWED_SOURCES:
         raise SampleSourceRefused(
@@ -83,17 +87,25 @@ def build_scoreboard_artifact(
         risk_flags.append("zero_paper_fills_this_run")
     if any(int(l.get("unmarked_positions", 0)) for l in ledgers.values()):
         risk_flags.append("unmarked_positions_valued_at_cost")
-    if all(by_track[t].candidates == 0 for t in CROSS_VENUE_TRACKS if t in by_track):
+    if any(t in by_track for t in CROSS_VENUE_TRACKS) and all(
+        by_track[t].candidates == 0 for t in CROSS_VENUE_TRACKS if t in by_track
+    ):
         risk_flags.append("cross_venue_tracks_empty")
     if any(s.settlement_risk_flag for s in summaries):
         risk_flags.append("settlement_risk_flagged_on_ungated_track")
-    if any(s.metrics.get("snapshot", {}).get(v, {}).get("errors") for s in summaries[:1] for v in ("kalshi", "polymarket")):
+    if any(
+        s.metrics.get("snapshot", {}).get(v, {}).get("errors")
+        for s in summaries
+        for v in ("kalshi", "polymarket")
+    ):
         risk_flags.append("snapshot_errors_present")
     news = by_track.get(NEWS_TRACK)
     if news is not None and (news.paper_fills > 0 or int(news.ledger.get("fills", 0)) > 0):
         # Any paper PnL on this lane rests on an unvalidated signal->probability mapping,
         # including positions carried from earlier cycles.
         risk_flags.append("news_signal_mapping_unvalidated")
+    if any(_dec(l.get("total_pnl", 0)) != ZERO for t, l in ledgers.items() if t == "polymarket_combinatorial_arb"):
+        risk_flags.append("combinatorial_positions_marked_at_mid_not_resolution")
     risk_flags.append("pnl_from_ledger_not_placeholder")
 
     fills = [dict(row) for s in summaries for row in s.fills]
@@ -103,7 +115,8 @@ def build_scoreboard_artifact(
 
     def _label() -> str:
         base = "MEASURED / NETWORK" if mode == "network" else "MEASURED / FIXTURES"
-        return f"{base}{f' / CYCLE {cycle}' if cycle is not None else ''}"
+        suffix = f" / {label_suffix}" if label_suffix else ""
+        return f"{base}{suffix}{f' / CYCLE {cycle}' if cycle is not None else ''}"
 
     findings_out: dict[str, Any] = {
         "live_network_cross_venue_candidates": sum(
@@ -147,14 +160,19 @@ def build_scoreboard_artifact(
             "mode": mode,
             "measured_at": measured_at,
             "generated_at": generated_at or datetime.now(UTC).isoformat(),
-            "venues": ["kalshi", "polymarket"],
+            "venues": list(venues),
             "markets_per_venue": limit,
             "primary_track": primary_track,
-            "venue_focus": "kalshi",
+            "venue_focus": venue_focus,
             "kalshi_env": kalshi_env,
             "cycle": cycle,
             "pnl_source": "core.ledger.PaperLedger",
-            "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
+            "track_family": track_family,
+            "refresh": (
+                "python -m apps.measure_polymarket_arb [--network] && cd dashboard && npm run sync-artifacts"
+                if track_family == "polymarket_arb"
+                else "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts"
+            ),
         },
         "findings": findings_out,
         "totals": {
@@ -216,7 +234,7 @@ def build_scoreboard_artifact(
             "fills_by_track": [{"track": s.track, "value": s.paper_fills} for s in summaries],
             "venue_fills": [
                 {"venue": venue, "value": sum(1 for f in fills if f["venue"] == venue)}
-                for venue in ("kalshi", "polymarket")
+                for venue in venues
             ],
             "pnl_by_track": [{"track": t, "value": l.get("total_pnl", ZERO)} for t, l in ledgers.items()],
         },

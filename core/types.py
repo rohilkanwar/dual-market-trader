@@ -69,6 +69,31 @@ class Market:
 
 
 @dataclass(frozen=True, slots=True)
+class MarketGroup:
+    """Several binary markets that together describe one multi-outcome event.
+
+    ``exclusive`` means exactly one member resolves YES (Polymarket NegRisk
+    events guarantee this through the adapter; other groups must declare it).
+    ``convertible`` means a NO->YES converter exists (Polymarket's
+    NegRiskAdapter). ``augmented`` means hidden placeholder outcomes exist, so
+    the *visible* YES tokens are not exhaustive.
+    """
+
+    venue: Venue
+    group_id: str
+    title: str
+    markets: tuple[Market, ...] = ()
+    exclusive: bool = False
+    convertible: bool = False
+    augmented: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def size(self) -> int:
+        return len(self.markets)
+
+
+@dataclass(frozen=True, slots=True)
 class PriceLevel:
     price: Decimal
     size: Decimal

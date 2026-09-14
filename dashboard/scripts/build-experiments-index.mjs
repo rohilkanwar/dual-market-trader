@@ -90,6 +90,7 @@ function entryFromScoreboard(file, doc) {
     venue_focus: meta.venue_focus ?? null,
     kalshi_env: meta.kalshi_env ?? null,
     primary_track: meta.primary_track ?? null,
+    track_family: meta.track_family ?? null,
     pnl_source: measuredPnl ? meta.pnl_source : null,
     note: meta.note ?? null,
     totals: {
@@ -139,6 +140,7 @@ function entryFromRunRecord(file, doc) {
     venue_focus: doc.venue_focus ?? null,
     kalshi_env: doc.kalshi_env ?? null,
     primary_track: doc.primary_track ?? null,
+    track_family: doc.track_family ?? null,
     pnl_source: measuredPnl ? doc.pnl_source : null,
     note: null,
     totals: {
@@ -169,6 +171,7 @@ function merge(existing, incoming) {
     venue_focus: richer.venue_focus ?? other.venue_focus,
     kalshi_env: richer.kalshi_env ?? other.kalshi_env,
     primary_track: richer.primary_track ?? other.primary_track,
+    track_family: richer.track_family ?? other.track_family,
     artifacts: [...new Set([...existing.artifacts, ...incoming.artifacts])],
   }
 }

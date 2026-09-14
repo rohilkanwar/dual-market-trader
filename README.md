@@ -8,7 +8,11 @@ dashboard is read from the ledger.
 
 Venue focus is **Kalshi single-venue fair value** (the primary track). The
 cross-venue tracks exist to *measure* how often settlement rules diverge, not
-to trade them; see `docs/ASSUMPTIONS.md` for what has been validated.
+to trade them. Three **Polymarket intra-venue arbitrage** tracks (YES+NO
+rebalancing, NegRisk buy-all-NO + convert, buy-all-YES sum-to-one) measure the
+structures described in arXiv:2508.03474 and arXiv:2608.00666 against live
+public books; see `docs/POLYMARKET_ARB.md`. `docs/ASSUMPTIONS.md` records what
+has been validated.
 
 ## Quick start
 
@@ -22,6 +26,9 @@ uv run python -m apps.paper_loop --once --artifact-dir artifacts
 
 # One read-only network canary against public Kalshi macro series + Polymarket
 uv run python -m apps.measure_all --network --limit 15 --kalshi-env prod --artifact-dir artifacts
+
+# Only the Polymarket arbitrage tracks (top 40 events by liquidity, public Gamma/CLOB reads)
+uv run python -m apps.measure_polymarket_arb --network --limit 40 --artifact-dir artifacts
 ```
 
 `TRADING_MODE=paper` and `ENABLE_LIVE_TRADING=false` are the defaults. Every
@@ -33,7 +40,9 @@ entry point refuses to start if either variable requests live operation.
 | --- | --- |
 | `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.2.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
 | `artifacts/scoreboard_<fixtures\|network>.json` | Same document, kept per mode |
-| `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`): cash, fills (with fees), marks, positions, equity curve, max drawdown |
+| `artifacts/scoreboard_polymarket_arb.json` | Arb-only board from `apps.measure_polymarket_arb` (`meta.track_family=polymarket_arb`); does not replace `scoreboard_latest.json` |
+| `artifacts/polymarket_arb_latest.json` | Full arb opportunity report: per-group sums, fee/slippage per set, mirror statistics, conversions, holdings |
+| `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
 | `artifacts/paper_loop_latest.json`, `paper_loop_history.jsonl` | Paper-loop cycle payloads (append-only history) |
@@ -53,8 +62,12 @@ entry point refuses to start if either variable requests live operation.
   rail sees them); unrealized is `qty * (mark - average_price)`
 * invariant checked by tests: `equity == starting_cash + realized + unrealized`
 * Kalshi fills carry the published fee formula `ceil(0.07 * C * P * (1-P))`
-  (`--no-fees` disables it); Polymarket fills are modeled fee-free
-* `settle(venue, market, outcome)` closes a position at 1/0
+  (`--no-fees` disables it); Polymarket fills carry `C * rate * P * (1-P)` with
+  the rate taken from the market's Gamma `feeType` (fee-free when the venue
+  charges none; fixture markets without a rate stay fee-free)
+* `settle(venue, market, outcome)` closes a position at 1/0;
+  `close_position(..., order_id="negrisk_convert")` books the NegRisk
+  NO-set → collateral conversion explicitly
 
 The paper loop reloads `artifacts/paper/ledger_<track>.json` before each cycle,
 so cash, positions and drawdown carry across cycles. Strategies stop adding to a
@@ -100,7 +113,8 @@ price provenance, the drift window, the 0.64 constant on these venues).
 ### Other entry points
 
 ```bash
-uv run python -m apps.measure_all --help            # one-shot measurement, all flags
+uv run python -m apps.measure_all --help            # one-shot measurement, all 9 tracks, all flags
+uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only (see docs/POLYMARKET_ARB.md)
 uv run python -m apps.paper_runner --strategy both  # strategy runner with logging event sink
 uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges
@@ -250,12 +264,12 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, market matching, news underreaction
+strategies/    single-venue fair value (primary), cross-venue mispricing, market matching, news underreaction, Polymarket arb detectors
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching
-research/      scoreboard (6 isolated tracks over one shared snapshot), artifact writer, harvest analysis, news signal stubs
-apps/          measure_all, paper_loop, paper_runner, dashboard_api
+research/      scoreboard (9 isolated tracks over shared snapshots), Polymarket arb tracks, artifact writer, harvest analysis, news signal stubs
+apps/          measure_all, measure_polymarket_arb, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings
 ```
 
 ### Tracks
@@ -268,6 +282,11 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit
 | `sports_cross_venue` | none, host conflicts counted | settlement-source disagreement on sports |
 | `small_deliberate_bet` | gated, 2-contract cap | process probe |
 | `news_underreaction` (optional) | signal freshness/confidence, residual threshold, fair-value engine rails | public signal → implied probability → residual → paper order; empty without a signal source; mapping UNKNOWN |
+| `polymarket_rebalancing_arb` | depth-aware, fee + slippage, mirror check | binary YES+NO merge / split; quiet on the live CLOB (books are mirrors) |
+| `polymarket_negrisk_arb` | NegRisk only, fee + slippage, capital cap | buy-all-NO + `NegRiskAdapter` conversion (executable, no lockup) |
+| `polymarket_combinatorial_arb` | exclusive + non-augmented only | buy-all-YES held to resolution; locked capital reported |
 
-Each track has its own risk manager, execution engine, portfolio and ledger;
-all tracks see the same frozen market snapshot for a run.
+Each track has its own risk manager, execution engine, portfolio and ledger.
+The cross-venue, fair-value and news tracks share one frozen per-venue
+snapshot; the three Polymarket arb tracks share one frozen event snapshot (YES
+and NO book per leg) captured in the same run.

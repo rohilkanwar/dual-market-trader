@@ -42,6 +42,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 | `venue_focus` | string | `kalshi` |
 | `kalshi_env` | `"demo"` \| `"prod"` \| null | Public API host used for network reads |
 | `run_id`, `cycle` | string, number \| null | Run identity; `cycle` set by the paper loop |
+| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; absent/null on the full board |
 | `note` | string | Sample files only: explains that the numbers are placeholders |
 
 ## `findings`
@@ -73,7 +74,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source). Grouping: see [Track ids and families](#track-ids-and-families) |
+| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`. Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
 | `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
@@ -87,7 +88,7 @@ Captures research headlines that explain empty cross-venue panels:
 | `estimated_fees_buffer` | number | |
 | `notes` | string | Operator-facing explanation |
 | `reject_reasons` | Record<string, number> | Histogram |
-| `metrics` | object | Track-specific extras (venue breakdown, host conflicts, …) |
+| `metrics` | object | Track-specific extras (venue breakdown, host conflicts, …). Polymarket arb tracks add `mirror_consistent` / `mirror_inconsistent`, `top_of_book_ask_sum`, `groups[]` (per-event sums, gross / fee / slippage per set, reason), `conversions[]`, `holdings[]`, `locked_capital`, `parameters` |
 
 ## Track ids and families
 
@@ -98,7 +99,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 
 | Family id | Lane label | Pinned lane | Tracks emitted today | Matches new ids containing |
 | --- | --- | --- | --- | --- |
-| `negrisk` | NegRisk | yes | — (sister branch) | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
+| `negrisk` | NegRisk | yes | `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb` | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
 | `kalshi_flb` | Kalshi FLB | yes | — (sister branch) | `flb`, `maker` |
 | `xv_gated` | XV gated | yes | `gated_cross_venue_macro`, `small_deliberate_bet` | `gated` + (`cross_venue` \| `xv`) |
 | `xv_ungated` | XV ungated | no | `ungated_cross_venue_macro`, `sports_cross_venue` | `ungated` + (`cross_venue` \| `xv`) |
@@ -115,7 +116,7 @@ until either the id is added to `KNOWN_TRACKS` or the artifact declares its fami
 Conventions for the parallel tracks (ids are the sister branches' choice; these are the
 patterns the matcher already recognises, not a claim that any of them has run):
 
-- Polymarket NegRisk / combinatorial: `polymarket_negrisk`, `polymarket_negrisk_combinatorial`, …
+- Polymarket NegRisk / combinatorial / rebalancing: the three `polymarket_*_arb` ids above (registered in `KNOWN_TRACKS`)
 - Kalshi maker / FLB: `kalshi_maker_flb`, `kalshi_flb`, …
 - Gated cross-venue variants: `gated_cross_venue_<scope>`
 
@@ -134,6 +135,8 @@ Edges: `rank`, `track`, `venue`, `market`, `edge_bps`, `admitted`, `filled`, `fa
 
 `open_positions`, `gross_notional`, `net_exposure`, `realized_pnl`, `unrealized_pnl`, `max_drawdown`, `settlement_risk_pairs`, `concentration[]`, `risk_flags[]`.
 
+`risk_flags` may include `combinatorial_positions_marked_at_mid_not_resolution` when the buy-all-YES track holds positions (their payoff arrives at resolution, the board shows the mid-mark).
+
 Ledger-backed (1.2.0) additions: `source: "ledger_aggregate"`, `starting_cash`, `cash`, `equity`, `total_pnl`, `fees_paid`, `primary_track`, `primary` (the primary track's full `PaperLedger.summary()` including `positions[]`), and `by_track` (per-track cash/equity/PnL/drawdown). `max_drawdown` is the maximum across track ledgers because tracks are independent books. `risk_flags` always includes `pnl_from_ledger_not_placeholder` on generated artifacts. `news_signal_mapping_unvalidated` is added whenever the `news_underreaction` lane booked a paper fill, because its signal→probability mapping is not validated.
 
 ## `findings`
@@ -150,7 +153,13 @@ Inputs, in this directory:
 
 - `scoreboard_*.json` — one run each, deduped by `meta.run_id` (`scoreboard_latest.json`
   and `scoreboard_network.json` usually describe the same run; the entry keeps both
-  filenames and points `detail` at the mode-specific file).
+  filenames and points `detail` at the mode-specific file). `scoreboard_polymarket_arb.json`
+  is the arb-only board (`meta.track_family = "polymarket_arb"`, primary track
+  `polymarket_negrisk_arb`) and is its own run.
+- `polymarket_arb_latest.json` — opportunity report for the last arb run (not indexed as a run;
+  linked from `manifest.json`). Fields: `snapshot`, `parameters`, `rebalancing` (mirror
+  statistics, `opportunities[]`, `executions[]`), `negrisk` (`groups[]`, `conversions[]`),
+  `combinatorial` (`groups[]`, `holdings[]`, `locked_capital`, `lockup_until`), `ledgers`.
 - `runs/<run_id>.json` — compact run records written by the sync script (below).
 - `paper_ledger_*.json` — ledger snapshots, listed under `ledgers[]` (they carry no run id).
 
@@ -166,7 +175,7 @@ Inputs, in this directory:
 | `ledgers[]` | LedgerSnapshotEntry[] | `ledger_id`, `track`, `family`, `updated_at`, `fills`, `equity`, `total_pnl`, … |
 
 `runs[]` entries: `run_id`, `kind` (`paper_run` \| `sample` \| `backtest`), `source`, `label`,
-`mode`, `cycle`, `measured_at`, `venues`, `venue_focus`, `kalshi_env`, `primary_track`,
+`mode`, `cycle`, `measured_at`, `venues`, `venue_focus`, `kalshi_env`, `primary_track`, `track_family`,
 `pnl_source`, `totals` (`candidates`, `admitted`, `rejects`, `paper_fills`, `paper_pnl`,
 `realized_pnl`, `unrealized_pnl`, `fees_paid`), `tracks[]` (`track`, `label`, `family`,
 `candidates`, `admitted`, `paper_fills`, `edge_bps`, `settlement_risk`, `paper_pnl`),
@@ -185,7 +194,7 @@ family**, reduced to that family's tracks. `status` is:
   has `pnl_source` and every family track carries a ledger PnL.
 - `sample_only` — only sample files carry the family; every number is `null`.
 - `missing` — no file in this directory has a track in the family; every number is `null`.
-  This is the state of NegRisk and Kalshi FLB until their branches merge and a run is synced.
+  This is the state of Kalshi FLB until its branch merges and a run is synced.
 
 Honesty rules baked into the builder:
 
@@ -223,9 +232,10 @@ from the paper loop. Per-fill and per-edge rows are dropped; per-track counts an
 `mode`, `measured_at`, `completed_at`, `cycle`, `duration_seconds`, `primary_track`,
 `pnl_source`, `totals`, `tracks[]` (with a `ledger` block: `equity`, `realized_pnl`,
 `unrealized_pnl`, `total_pnl`, `fees_paid`, `fills`, `open_positions`, `max_drawdown`, and
-`family` when the manifest row declared one), `derived_from[]`. `primary_track` is taken
-from the manifest, then the loop history row, then `single_venue_fair_value`. The newest
-200 manifests are kept (`MAX_RUN_RECORDS`).
+`family` when the manifest row declared one), `derived_from[]`, plus `label`, `venues`,
+`venue_focus`, `kalshi_env`, `track_family` copied from the run manifest. `primary_track` is
+taken from the manifest, then the loop history row, then `single_venue_fair_value`. The
+newest 200 manifests are kept (`MAX_RUN_RECORDS`).
 
 These records are what keeps a run visible in the history after the next run overwrites
 `scoreboard_latest.json` / `scoreboard_<mode>.json`.
@@ -237,13 +247,15 @@ Paper only. Do not enable live trading.
 ```bash
 # From repo root — network measurement writes runtime artifacts/
 uv run python -m apps.measure_all --network --kalshi-env prod --harvest-dir data/harvests
+uv run python -m apps.measure_polymarket_arb --network --limit 40   # arb-only board + report
 uv run python -m apps.paper_loop --once
 
 # Copy runtime JSON into the dashboard public tree
 cd dashboard
-npm run sync-artifacts   # copies every scoreboard_*.json, paper_loop_latest.json and every
-                         # paper/ledger_<track>.json, writes runs/<run_id>.json records and
-                         # rebuilds experiments_index.json (families + lanes included)
+npm run sync-artifacts   # copies every scoreboard_*.json, polymarket_arb_latest.json,
+                         # paper_loop_latest.json and every paper/ledger_<track>.json, writes
+                         # runs/<run_id>.json records and rebuilds experiments_index.json
+                         # (families + lanes included)
 
 # Commit snapshots for static Vercel (parent / operator)
 git add public/artifacts
