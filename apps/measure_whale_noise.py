@@ -168,6 +168,18 @@ def build_report(
     fee_model = KalshiFeeModel() if model_fees else KalshiFeeModel.zero()
     combined = by_track[COMBINED]
     quotes = {track: by_track[track].metrics.get("quotes", []) for track in (COMBINED, MAKER_LEG)}
+    max_rows = 200
+    evaluations = {
+        "note": f"first {max_rows} rows per leg; counts are complete",
+        "quote_evaluations": {
+            track: {"count": len(by_track[track].metrics.get("quote_evaluations", [])), "rows": by_track[track].metrics.get("quote_evaluations", [])[:max_rows]}
+            for track in (COMBINED, MAKER_LEG)
+        },
+        "fade_evaluations": {
+            track: {"count": len(by_track[track].metrics.get("fade_evaluations", [])), "rows": by_track[track].metrics.get("fade_evaluations", [])[:max_rows]}
+            for track in (COMBINED, TAKER_LEG)
+        },
+    }
     report = {
         "schema_version": REPORT_SCHEMA,
         "kind": "kalshi_whale_noise_report",
@@ -214,6 +226,7 @@ def build_report(
         "combined_vs_legs": combined.metrics["combined_vs_legs"],
         "legs": {s.track: _leg_section(s) for s in summaries},
         "quotes": quotes,
+        "evaluations": evaluations,
         "ex_post": ex_post,
         "assumptions": {
             "whale_definition": (
@@ -270,6 +283,11 @@ def persist_run(
         ledger.save(ledger_path(artifact_dir, track))
         if ledger.equity_curve:
             append_jsonl(equity_curve_path(artifact_dir, track), {"run_id": run_id, "track": track, "mode": mode, **asdict(ledger.equity_curve[-1])})
+    # Per-quote / per-print detail lives in the report; the scoreboard and run record keep counts.
+    for summary in summaries:
+        for key in ("quotes", "quote_evaluations", "fade_evaluations"):
+            if key in summary.metrics:
+                summary.metrics[key] = {"count": len(summary.metrics[key]), "detail": REPORT_NAME}
     findings = {
         "kalshi_whale_noise": {
             "headline": report["headline"],

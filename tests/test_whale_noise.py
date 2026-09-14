@@ -475,6 +475,11 @@ async def test_cli_fixture_run_writes_report_scoreboard_ledgers_and_run_record(t
     assert scoreboard["findings"]["kalshi_whale_noise"]["combined_vs_legs"]["interaction_pnl"] == pytest.approx(-0.26)
     assert scoreboard["portfolio"]["primary"]["mark_method"] == "conservative"
     assert scoreboard["totals"]["paper_fills"] == 8 + 7 + 3
+    # per-quote / per-print rows live in the report, the scoreboard keeps counts + a pointer
+    combined_row = next(t for t in scoreboard["tracks"] if t["track"] == COMBINED)
+    assert combined_row["metrics"]["quotes"] == {"count": 4, "detail": "whale_noise_report_latest.json"}
+    assert combined_row["metrics"]["fade_evaluations"]["count"] == 4
+    assert report["evaluations"]["quote_evaluations"][COMBINED]["count"] == 5 and len(report["evaluations"]["fade_evaluations"][TAKER_LEG]["rows"]) == 4
     record = json.loads((tmp_path / "paper" / "runs" / f"{report['run_id']}.json").read_text())
     assert record["kind"] == "kalshi_whale_noise" and record["primary_track"] == COMBINED and len(record["tracks"]) == 3
     for track in WHALE_NOISE_TRACKS:

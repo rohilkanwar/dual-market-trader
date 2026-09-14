@@ -95,6 +95,7 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/flb_report_latest.json`, `scoreboard_flb.json` | Kalshi favorite–longshot bias report + scoreboard from `apps.measure_flb` (see `docs/FLB_RUNBOOK.md`) |
 | `artifacts/weather_report_<fixtures\|network>.json`, `weather_report_latest.json`, `scoreboard_weather.json` | Reserved for the Polymarket weather tracks (`weather_bucket_edge`, `weather_dead_bucket`, `weather_calibrated_ensemble`); written only once a weather strategy branch provides `research.weather_scoreboard` (see `research/weather_tracks.py` and `dashboard/public/artifacts/schema.md` → "Weather tracks") |
 | `artifacts/tourist_fade_report_latest.json`, `scoreboard_tourist_fade.json`, `tourist_fade_rows_latest.json` | Fade-the-tourist report (verdicts, replay tables, adverse-selection markouts), live-track scoreboard and every replayed fade from `apps.measure_tourist_fade` (see `docs/FADE_THE_TOURIST.md`) |
+| `artifacts/whale_noise_report_latest.json`, `scoreboard_whale_noise.json` | Make-on-whale / take-on-noise report (fill rate, toxicity, combined-vs-legs verdict, ex-post whale-flow EV) + scoreboard from `apps.measure_whale_noise` (see `docs/WHALE_NOISE_RUNBOOK.md`) |
 
 `artifacts/` is git-ignored. The dashboard's committed copies live in
 `dashboard/public/artifacts/` and are refreshed with `npm run sync-artifacts`.
@@ -224,6 +225,33 @@ uv run python -m apps.measure_tourist_fade --network --kalshi-env prod --univers
 fees* **fails** (−0.08¢/contract); the ≥ 70¢ regime is +8.1¢/contract (t = 6.1) while fading
 in-play chasers loses 12¢/contract — the `late_chase` flag is adverse-selected. Details,
 tables and limits: `docs/FADE_THE_TOURIST.md`.
+### Make-on-whale, take-on-noise (Kalshi tennis)
+
+Three paper legs replay one event stream of polled L2 books and public trade
+prints from the Kalshi tennis match series: when a **whale-class** print lifts
+one side (≥1,000 contracts, ≥$500, ≥10× the market's recent median — the public
+tape is anonymous, so a whale is a size class, never a name), the maker leg rests
+a same-direction bid **one tick behind** the pre-impact touch, inventory-capped;
+when only retail longshot flow (<20¢, no whale in the last 120 s) is hitting, the
+taker leg fades the favourite at the touch. `kalshi_whale_noise_combined` runs
+both in one ledger; `kalshi_whale_maker_leg` / `kalshi_noise_taker_leg` are the
+single-leg controls. Maker fills use an explicit **conservative queue model**
+(behind every displayed contract, later books only lengthen the queue, fills only
+from later prints, trade-through capped at the printed size, no fills without a
+forward tape). Pre-registered pass: combined paper PnL > either leg alone; fill
+rate, markout toxicity and whale follow-through are logged on every run, and an
+ex-post check on settled tennis markets asks whether the whale size class is +EV.
+
+```bash
+uv run python -m apps.measure_whale_noise                                    # fixtures, no network
+uv run python -m apps.book_logger --series KXATPMATCH KXWTAMATCH --interval 15  # capture a forward tape ...
+uv run python -m apps.measure_whale_noise --archive artifacts/books          # ... and replay it (measures fills)
+uv run python -m apps.measure_whale_noise --network --kalshi-env prod --harvest-trades   # snapshot + ex-post
+```
+
+Same caps as the FLB tracks ($25/order, $75/market, $75 daily, $1,000 collateral),
+Kalshi fee schedule, conservative marks. Measured results, the fill model and its
+limits: `docs/WHALE_NOISE_RUNBOOK.md`.
 
 ### Self-logged order-book archive ($0 path)
 
@@ -392,6 +420,7 @@ uv run python -m apps.measure_tennis_basis --help   # tennis basis vs. free odds
 uv run python -m apps.measure_weather --help        # weather dead buckets vs. station METARs (see docs/WEATHER_DEAD_BUCKET.md)
 uv run python -m apps.measure_weather_buckets --help # Polymarket temperature buckets vs. free ensemble (see docs/WEATHER_BUCKETS.md)
 uv run python -m apps.measure_tourist_fade --help   # fade-the-tourist live track + settled-tape replay (see docs/FADE_THE_TOURIST.md)
+uv run python -m apps.measure_whale_noise --help    # whale-follow maker + noise fade legs, archive replay (see docs/WHALE_NOISE_RUNBOOK.md)
 uv run python -m apps.paper_runner --strategy both  # strategy runner with logging event sink
 uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges
@@ -559,15 +588,15 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict), specialist scoring/promotion/evaluation, weather dead-bucket / weather types + per-city calibration store / ensembles / A/B verdict, tourist-flow classifier + cluster fade
+strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict), specialist scoring/promotion/evaluation, weather dead-bucket / weather types + per-city calibration store / ensembles / A/B verdict, tourist-flow classifier + cluster fade, whale-follow maker + conservative queue fill model
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
 research/      scoreboard (13 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
                flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources,
                weather_tracks (reserved weather ids, findings.weather reducer, optional runner / report hooks), weather dead-bucket + bucket-edge + calibration tracks and free observation / Open-Meteo sources,
-               tourist_fade (tape replay with settlement, markouts, live track runner)
-apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather, measure_weather_buckets, measure_weather_calibration, measure_tourist_fade, paper_loop, paper_runner, dashboard_api
+               tourist_fade (tape replay with settlement, markouts, live track runner), whale_noise (tape replay, 3 legs, toxicity, ex-post whale EV)
+apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather, measure_weather_buckets, measure_weather_calibration, measure_tourist_fade, measure_whale_noise, book_logger, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md, WEATHER_BUCKETS.md, WEATHER_CALIBRATION.md, FADE_THE_TOURIST.md
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md, WEATHER_BUCKETS.md, WEATHER_CALIBRATION.md, FADE_THE_TOURIST.md, WHALE_NOISE_RUNBOOK.md, BOOK_LOGGER.md
 ```
 
 ### Tracks
@@ -592,6 +621,8 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 | `tennis_whale_copy_30s` / `_2m` / `_10m` (`apps.measure_tennis_whale`, tape replay) | walk-forward whale qualification, two-sided-flow refusal, first print at/after the lag + 1 tick, $10 stake capped by print size, $25/100/$75 rails | copy Polymarket tennis whales at three lags; settlement EV and CLV by market-clustered bootstrap; pre-registered pass/kill rule |
 | `weather_naive_ensemble` (control) / `weather_calibrated_ensemble` (`apps.measure_weather_calibration`) | known city, contiguous ladder, city-local tomorrow only, two-sided book, \|p − mid\| ≥ 5¢, fee-cleared touch; calibrated lane also ≥ 20 settled city-days for the city | Polymarket temperature buckets priced from seven free Open-Meteo models; per-city bias / variance / hit-rate calibration from settled city-days; settled net-EV A/B with a pre-registered N=50-per-lane floor; `scoreboard_weather_calibration.json` + `weather_calibration_latest.json` |
 | `fade_the_tourist` (own board, `apps.measure_tourist_fade`) | ≥ 2 of small ticket / longshot buy / late chase, ≥ 5 prints ≥ $50 on one side in 10 min, one position per event, $25/$75/$75 caps | taker fade of clustered recreational-looking flow on Kalshi tennis; settled-tape replay + markouts measure the adverse-selection risk |
+| `kalshi_whale_noise_combined` (standalone, `apps.measure_whale_noise`) | whale-class print (≥1,000 ct, ≥$500, ≥10× median) → bid one tick behind, conservative queue fills; retail longshot print with no whale in 120 s → taker fade; same caps | the make-on-whale / take-on-noise experiment; pass = beats both single legs |
+| `kalshi_whale_maker_leg`, `kalshi_noise_taker_leg` | one leg each, same event stream | controls for the combined track; fill rate + markout toxicity logged |
 
 Each track has its own risk manager, execution engine, portfolio and ledger.
 The cross-venue, fair-value, news and Kalshi FLB tracks share one frozen per-venue
