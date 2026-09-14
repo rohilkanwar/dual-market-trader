@@ -2,7 +2,8 @@
   "schema_version": "1.1.0",
   "meta": {
     "source": "sample",
-    "label": "SAMPLE / LAST RUN SNAPSHOT",
+    "label": "SAMPLE / SCHEMA PLACEHOLDER",
+    "note": "Hand-written schema example. Every number here, including paper_pnl 0.42, is a placeholder and was never measured. Ledger-backed artifacts carry meta.pnl_source.",
     "paper_only": true,
     "mode": "network",
     "measured_at": "2026-09-12T22:15:00Z",

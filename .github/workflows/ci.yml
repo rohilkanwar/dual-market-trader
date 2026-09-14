@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  # Paper-only. The test-suite and the fixture paper cycle must never see live flags.
+  TRADING_MODE: paper
+  ENABLE_LIVE_TRADING: "false"
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync dev dependencies from uv.lock
+        run: uv sync --extra dev --frozen
+      - name: Unit tests (ledger, risk rails, settlement gates, scoreboard)
+        run: uv run pytest -q
+      - name: One fixture paper cycle emits a ledger-backed scoreboard
+        run: |
+          uv run python -m apps.paper_loop --once --no-persist --artifact-dir artifacts
+          uv run python - <<'EOF'
+          import json
+          a = json.load(open("artifacts/scoreboard_latest.json"))
+          assert a["meta"]["source"] == "measured", a["meta"]
+          assert a["meta"]["pnl_source"] == "core.ledger.PaperLedger"
+          assert a["portfolio"]["source"] == "ledger_aggregate"
+          print("paper_pnl", a["totals"]["paper_pnl"], "fills", a["totals"]["paper_fills"])
+          EOF
+      - name: Fail-closed check - paper loop refuses live flags
+        run: |
+          if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.paper_loop --once --no-persist --artifact-dir /tmp/should-not-exist; then
+            echo "paper loop started with live flags" && exit 1
+          fi
+          test ! -e /tmp/should-not-exist/scoreboard_latest.json
+
+  dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Committed artifacts are valid and the sample is labelled
+        run: |
+          node - <<'EOF'
+          const fs = require('node:fs');
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_sample.json']) {
+            const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
+            if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
+            const isSample = f.includes('sample');
+            if ((d.meta.source === 'sample') !== isSample) throw new Error(`${f}: meta.source=${d.meta.source}`);
+            if (!isSample && d.meta.pnl_source !== 'core.ledger.PaperLedger') throw new Error(`${f}: PnL not ledger-backed`);
+            console.log(f, d.meta.source, d.meta.mode, 'paper_pnl', d.totals.paper_pnl);
+          }
+          EOF

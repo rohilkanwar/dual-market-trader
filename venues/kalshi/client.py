@@ -1,9 +1,22 @@
 """Kalshi adapter: fixture books, public read-only market data, paper fills.
 
-Only unauthenticated endpoints are called (``GET /markets`` and
-``GET /markets/{ticker}/orderbook``). No API key is required for those. The
-authenticated signer and live order routing are deliberately stubs that raise;
-see ``docs/ASSUMPTIONS.md``.
+Only unauthenticated endpoints are called:
+
+* ``GET /markets?series_ticker=...&status=open``
+* ``GET /markets/{ticker}/orderbook``
+* ``GET /events/{event_ticker}`` (category + settlement sources)
+
+No API key is required for those. The authenticated signer and live order
+routing are deliberately stubs that raise; see ``docs/ASSUMPTIONS.md``.
+
+Network payload notes (verified against the public API on 2026-09-14):
+
+* Prices arrive as dollar strings (``yes_bid_dollars``, ``orderbook_fp``);
+  legacy integer-cent fields are still parsed when present.
+* ``liquidity_dollars`` is unpopulated (``0.0000``) on the listing, so markets
+  are ranked by two-sided quote presence, then ``volume_fp`` / open interest.
+* The unfiltered ``/markets`` listing is dominated by zero-liquidity
+  multi-leg "MVE" combos; the canary therefore lists explicit macro series.
 """
 
 from __future__ import annotations
@@ -15,7 +28,7 @@ from typing import Any
 
 import httpx
 
-from core.types import ONE, Market, OrderBook, PriceLevel, Venue
+from core.types import ONE, ZERO, Market, OrderBook, PriceLevel, Venue
 from core.venue import VenueClient
 from venues.fixtures import decimal_or_zero, load_fixture
 from venues.paper import FeeSchedule, PaperExecutionMixin, kalshi_fee
@@ -26,6 +39,25 @@ HOSTS = {
     "prod": "https://api.elections.kalshi.com/trade-api/v2",
 }
 CENTS = Decimal("100")
+# Macro series used for the single-venue Kalshi canary. Verified to exist and
+# quote two-sided on the public API; adjust with ``series_tickers=``.
+DEFAULT_MACRO_SERIES: tuple[str, ...] = (
+    "KXFEDDECISION",
+    "KXFED",
+    "KXCPIYOY",
+    "KXCPI",
+    "KXCPICORE",
+    "KXPAYROLLS",
+    "KXGDP",
+    "KXU3",
+)
+_CATEGORY_MAP = {
+    "economics": "macro",
+    "financials": "macro",
+    "politics": "politics",
+    "sports": "sports",
+    "exotics": "exotics",
+}
 _MACRO_HINTS = ("fed", "cpi", "inflation", "rate", "gdp", "unemployment", "payroll", "econom")
 _SPORTS_HINTS = ("nba", "nfl", "mlb", "nhl", "wnba", "game", "beat", "win", "sport")
 
@@ -63,10 +95,12 @@ class KalshiWebSocketClient:
         raise NotImplementedError("Kalshi websocket streaming is not implemented")
 
 
-def infer_category(item: dict[str, Any]) -> str:
-    explicit = str(item.get("category") or "").strip().lower()
+def infer_category(item: dict[str, Any], event_category: str | None = None) -> str:
+    explicit = str(event_category or item.get("category") or "").strip().lower()
     if explicit:
-        if any(h in explicit for h in ("econom", "financ", "politic", "fed")):
+        if explicit in _CATEGORY_MAP:
+            return _CATEGORY_MAP[explicit]
+        if any(h in explicit for h in ("econom", "financ", "fed")):
             return "macro"
         if "sport" in explicit:
             return "sports"
@@ -81,14 +115,31 @@ def infer_category(item: dict[str, Any]) -> str:
     return ""
 
 
-def _cents_to_probability(value: Any) -> Decimal | None:
-    if value is None:
+def _price(item: dict[str, Any], dollars_key: str, cents_key: str) -> Decimal | None:
+    """Read a probability from the dollar-string field, else the legacy cents field."""
+    dollars = item.get(dollars_key)
+    if dollars not in (None, ""):
+        value = decimal_or_zero(dollars)
+        return value if ZERO <= value <= ONE else None
+    cents = item.get(cents_key)
+    if cents in (None, ""):
         return None
-    try:
-        price = Decimal(str(value)) / CENTS
-    except ArithmeticError:
-        return None
-    return price if Decimal("0") <= price <= ONE else None
+    value = decimal_or_zero(cents) / CENTS
+    return value if ZERO <= value <= ONE else None
+
+
+def _level_price(raw: Any, *, dollars: bool) -> Decimal | None:
+    value = decimal_or_zero(raw)
+    if not dollars:
+        value = value / CENTS
+    return value if ZERO <= value <= ONE else None
+
+
+def _rank_key(market: Market) -> tuple[int, Decimal, Decimal]:
+    bid = market.metadata.get("yes_bid")
+    ask = market.metadata.get("yes_ask")
+    two_sided = int(bid is not None and ask is not None and ZERO < bid < ask < ONE)
+    return (two_sided, market.volume, decimal_or_zero(market.metadata.get("open_interest")))
 
 
 class KalshiClient(PaperExecutionMixin, VenueClient):
@@ -103,6 +154,7 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
         http: httpx.AsyncClient | None = None,
         fee_schedule: FeeSchedule | None = None,
         signer: KalshiSigner | None = None,
+        series_tickers: tuple[str, ...] | None = DEFAULT_MACRO_SERIES,
         timeout: float = 15.0,
     ) -> None:
         self.paper = paper
@@ -112,9 +164,11 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
             raise ValueError(f"KALSHI_ENV must be one of {sorted(HOSTS)}")
         self.base_url = HOSTS[self.environment]
         self.signer = signer
+        self.series_tickers = series_tickers
         self._owns_http = http is None
         self._http = http or httpx.AsyncClient(timeout=timeout)
         self._fixture_books: dict[str, OrderBook] = {}
+        self._event_cache: dict[str, dict[str, Any]] = {}
         self._init_paper(fee_schedule or kalshi_fee)
 
     # ------------------------------------------------------------ market data
@@ -124,44 +178,92 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
             self._fixture_books = books
             markets = markets[:limit]
         else:
-            response = await self._http.get(
-                f"{self.base_url}/markets",
-                params={"limit": min(max(limit, 1), 1000), "status": "open"},
-            )
-            response.raise_for_status()
-            payload = response.json()
-            markets = [
-                self._market_from_api(item)
-                for item in payload.get("markets", [])
-                if isinstance(item, dict) and item.get("ticker")
-            ]
-            markets.sort(key=lambda m: (m.liquidity, m.volume), reverse=True)
+            raw_items = await self._fetch_market_items(limit)
+            markets = [await self._market_from_api(item) for item in raw_items]
+            markets.sort(key=_rank_key, reverse=True)
             markets = markets[:limit]
         self._market_cache.update({market.market_id: market for market in markets})
         return markets
 
-    def _market_from_api(self, item: dict[str, Any]) -> Market:
+    async def _fetch_market_items(self, limit: int) -> list[dict[str, Any]]:
+        items: dict[str, dict[str, Any]] = {}
+        if self.series_tickers:
+            for series in self.series_tickers:
+                response = await self._http.get(
+                    f"{self.base_url}/markets",
+                    params={"series_ticker": series, "status": "open", "limit": 200},
+                )
+                response.raise_for_status()
+                for item in response.json().get("markets", []):
+                    if isinstance(item, dict) and item.get("ticker"):
+                        items[str(item["ticker"])] = {**item, "series_ticker": series}
+        else:
+            response = await self._http.get(
+                f"{self.base_url}/markets",
+                params={"limit": min(max(limit * 10, 100), 1000), "status": "open"},
+            )
+            response.raise_for_status()
+            for item in response.json().get("markets", []):
+                if isinstance(item, dict) and item.get("ticker"):
+                    items[str(item["ticker"])] = item
+        return list(items.values())
+
+    async def _event(self, event_ticker: str | None) -> dict[str, Any]:
+        if not event_ticker:
+            return {}
+        if event_ticker not in self._event_cache:
+            try:
+                response = await self._http.get(f"{self.base_url}/events/{event_ticker}")
+                response.raise_for_status()
+                self._event_cache[event_ticker] = response.json().get("event") or {}
+            except httpx.HTTPError as exc:
+                self._event_cache[event_ticker] = {"error": f"{type(exc).__name__}: {exc}"}
+        return self._event_cache[event_ticker]
+
+    async def _market_from_api(self, item: dict[str, Any]) -> Market:
+        event = await self._event(item.get("event_ticker"))
+        sources = [s for s in (event.get("settlement_sources") or []) if isinstance(s, dict)]
+        source_url = next((str(s.get("url")) for s in sources if s.get("url")), None)
+        rules = " ".join(
+            str(item.get(field, "")) for field in ("rules_primary", "rules_secondary") if item.get(field)
+        )
+        if sources:
+            rules = f"{rules} Settlement source: " + ", ".join(
+                f"{s.get('name', '')} {s.get('url', '')}".strip() for s in sources
+            )
+        yes_bid = _price(item, "yes_bid_dollars", "yes_bid")
+        yes_ask = _price(item, "yes_ask_dollars", "yes_ask")
         return Market(
             venue=Venue.KALSHI,
             market_id=str(item["ticker"]),
             title=str(item.get("title") or item.get("ticker")),
-            active=str(item.get("status", "open")).lower() in {"open", "active"},
-            liquidity=decimal_or_zero(item.get("liquidity")) / CENTS,
-            volume=decimal_or_zero(item.get("volume")),
+            active=str(item.get("status", "active")).lower() in {"open", "active"},
+            liquidity=(
+                decimal_or_zero(item.get("liquidity_dollars"))
+                if item.get("liquidity_dollars") not in (None, "")
+                else decimal_or_zero(item.get("liquidity")) / CENTS
+            ),
+            volume=(
+                decimal_or_zero(item.get("volume_fp"))
+                if item.get("volume_fp") not in (None, "")
+                else decimal_or_zero(item.get("volume"))
+            ),
             metadata={
                 "source": "network",
                 "environment": self.environment,
-                "category": infer_category(item),
+                "category": infer_category(item, event.get("category")),
+                "event_category": event.get("category"),
                 "event_ticker": item.get("event_ticker"),
-                "event_title": item.get("event_title"),
-                "subtitle": item.get("subtitle"),
-                "resolution_text": " ".join(
-                    str(item.get(field, ""))
-                    for field in ("rules_primary", "rules_secondary")
-                    if item.get(field)
-                ),
-                "yes_bid": item.get("yes_bid"),
-                "yes_ask": item.get("yes_ask"),
+                "event_title": event.get("title") or item.get("event_title"),
+                "series_ticker": item.get("series_ticker") or event.get("series_ticker"),
+                "subtitle": item.get("yes_sub_title") or item.get("subtitle"),
+                "resolution_text": rules.strip(),
+                "source_url": source_url,
+                "settlement_sources": sources,
+                "yes_bid": yes_bid,
+                "yes_ask": yes_ask,
+                "open_interest": item.get("open_interest_fp") or item.get("open_interest"),
+                "close_time": item.get("close_time"),
                 "raw": item,
             },
         )
@@ -176,17 +278,22 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
             params={"depth": 10},
         )
         response.raise_for_status()
-        book = response.json().get("orderbook") or {}
-        # Kalshi returns two *bid* ladders in cents: YES bids and NO bids.
-        # A NO bid at c cents is a YES ask at (100 - c) cents.
+        payload = response.json()
+        # Kalshi returns two *bid* ladders: YES bids and NO bids. A NO bid at
+        # price p is a YES ask at 1 - p. ``orderbook_fp`` carries dollar
+        # strings; the legacy ``orderbook`` carries integer cents.
+        if isinstance(payload.get("orderbook_fp"), dict):
+            book, yes_key, no_key, dollars = payload["orderbook_fp"], "yes_dollars", "no_dollars", True
+        else:
+            book, yes_key, no_key, dollars = payload.get("orderbook") or {}, "yes", "no", False
         bids: list[PriceLevel] = []
         asks: list[PriceLevel] = []
-        for price_cents, size in book.get("yes") or []:
-            price = _cents_to_probability(price_cents)
+        for raw_price, size in book.get(yes_key) or []:
+            price = _level_price(raw_price, dollars=dollars)
             if price is not None:
                 bids.append(PriceLevel(price, decimal_or_zero(size)))
-        for price_cents, size in book.get("no") or []:
-            price = _cents_to_probability(price_cents)
+        for raw_price, size in book.get(no_key) or []:
+            price = _level_price(raw_price, dollars=dollars)
             if price is not None:
                 asks.append(PriceLevel(ONE - price, decimal_or_zero(size)))
         return OrderBook(market_id=market.market_id, bids=tuple(bids), asks=tuple(asks))

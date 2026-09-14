@@ -1,0 +1,1659 @@
+{
+  "charts": {
+    "candidates_by_track": [
+      {
+        "track": "gated_cross_venue_macro",
+        "value": 2
+      },
+      {
+        "track": "ungated_cross_venue_macro",
+        "value": 2
+      },
+      {
+        "track": "single_venue_fair_value",
+        "value": 6
+      },
+      {
+        "track": "sports_cross_venue",
+        "value": 1
+      },
+      {
+        "track": "small_deliberate_bet",
+        "value": 2
+      }
+    ],
+    "fills_by_track": [
+      {
+        "track": "gated_cross_venue_macro",
+        "value": 2
+      },
+      {
+        "track": "ungated_cross_venue_macro",
+        "value": 4
+      },
+      {
+        "track": "single_venue_fair_value",
+        "value": 4
+      },
+      {
+        "track": "sports_cross_venue",
+        "value": 2
+      },
+      {
+        "track": "small_deliberate_bet",
+        "value": 2
+      }
+    ],
+    "pnl_by_track": [
+      {
+        "track": "gated_cross_venue_macro",
+        "value": -0.6
+      },
+      {
+        "track": "ungated_cross_venue_macro",
+        "value": -1.61
+      },
+      {
+        "track": "single_venue_fair_value",
+        "value": -0.79
+      },
+      {
+        "track": "sports_cross_venue",
+        "value": -0.93
+      },
+      {
+        "track": "small_deliberate_bet",
+        "value": -0.08
+      }
+    ],
+    "venue_fills": [
+      {
+        "value": 7,
+        "venue": "kalshi"
+      },
+      {
+        "value": 7,
+        "venue": "polymarket"
+      }
+    ]
+  },
+  "findings": {
+    "arbai_summary": "Cross-venue macro settlement rules frequently diverge (clause, fingerprint or host mismatch). The gated track refuses those pairs; single-venue fair value is the primary paper track and carries no cross-venue settlement exposure.",
+    "divergence_findings_status": "not_measured_in_this_run",
+    "live_network_cross_venue_candidates": 3
+  },
+  "meta": {
+    "cycle": null,
+    "generated_at": "2026-09-14T18:59:00.098704+00:00",
+    "kalshi_env": null,
+    "label": "MEASURED / FIXTURES",
+    "markets_per_venue": 25,
+    "measured_at": "2026-09-14T18:59:00.038369+00:00",
+    "mode": "fixtures",
+    "paper_only": true,
+    "pnl_source": "core.ledger.PaperLedger",
+    "primary_track": "single_venue_fair_value",
+    "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
+    "run_id": "20260914T185900Z-a45de95a",
+    "source": "measured",
+    "venue_focus": "kalshi",
+    "venues": [
+      "kalshi",
+      "polymarket"
+    ]
+  },
+  "portfolio": {
+    "by_track": {
+      "gated_cross_venue_macro": {
+        "cash": 1001.16,
+        "equity": 999.4,
+        "equity_points": 1,
+        "fees_paid": 0.28,
+        "fills": 2,
+        "gross_notional": 15.2,
+        "max_drawdown": 0.6,
+        "open_positions": 2,
+        "realized_pnl": -0.28,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.6,
+        "unrealized_pnl": -0.32
+      },
+      "single_venue_fair_value": {
+        "cash": 981.26,
+        "equity": 999.21,
+        "equity_points": 1,
+        "fees_paid": 0.34,
+        "fills": 4,
+        "gross_notional": 17.95,
+        "max_drawdown": 0.79,
+        "open_positions": 4,
+        "realized_pnl": -0.34,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.79,
+        "unrealized_pnl": -0.45
+      },
+      "small_deliberate_bet": {
+        "cash": 1000.14,
+        "equity": 999.92,
+        "equity_points": 1,
+        "fees_paid": 0.04,
+        "fills": 2,
+        "gross_notional": 1.9,
+        "max_drawdown": 0.08,
+        "open_positions": 2,
+        "realized_pnl": -0.04,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.08,
+        "unrealized_pnl": -0.04
+      },
+      "sports_cross_venue": {
+        "cash": 1000.82,
+        "equity": 999.07,
+        "equity_points": 1,
+        "fees_paid": 0.43,
+        "fills": 2,
+        "gross_notional": 27.75,
+        "max_drawdown": 0.93,
+        "open_positions": 2,
+        "realized_pnl": -0.43,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.93,
+        "unrealized_pnl": -0.5
+      },
+      "ungated_cross_venue_macro": {
+        "cash": 1001.91,
+        "equity": 998.39,
+        "equity_points": 1,
+        "fees_paid": 0.63,
+        "fills": 4,
+        "gross_notional": 31.26,
+        "max_drawdown": 1.61,
+        "open_positions": 4,
+        "realized_pnl": -0.63,
+        "starting_cash": 1000.0,
+        "total_pnl": -1.61,
+        "unrealized_pnl": -0.98
+      }
+    },
+    "cash": 4985.29,
+    "concentration": [
+      {
+        "venue": "kalshi",
+        "weight": 0.5153
+      },
+      {
+        "venue": "polymarket",
+        "weight": 0.4847
+      }
+    ],
+    "equity": 4995.99,
+    "fees_paid": 1.72,
+    "gross_notional": 94.06,
+    "max_drawdown": 1.61,
+    "net_exposure": 10.7,
+    "open_positions": 14,
+    "paper_only": true,
+    "primary": {
+      "cash": 981.26,
+      "concentration": [
+        {
+          "venue": "kalshi",
+          "weight": 0.4763
+        },
+        {
+          "venue": "polymarket",
+          "weight": 0.5237
+        }
+      ],
+      "created_at": "2026-09-14T18:59:00.094006+00:00",
+      "equity": 999.21,
+      "equity_points": 1,
+      "fees_paid": 0.34,
+      "fills": 4,
+      "gross_notional": 17.95,
+      "ledger_id": "single_venue_fair_value",
+      "mark_method": "mid",
+      "max_drawdown": 0.79,
+      "net_exposure": 17.95,
+      "open_positions": 4,
+      "paper_only": true,
+      "peak_equity": 1000.0,
+      "position_value": 17.95,
+      "positions": [
+        {
+          "average_price": 0.54,
+          "fees_paid": 0.18,
+          "mark": 0.53,
+          "market_id": "KX-FED-SEP-CUT",
+          "quantity": 10.0,
+          "realized_pnl": -0.18,
+          "unrealized_pnl": -0.1,
+          "value": 5.3,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.34,
+          "fees_paid": 0.16,
+          "mark": 0.325,
+          "market_id": "KX-CPI-AUG-OVER3",
+          "quantity": 10.0,
+          "realized_pnl": -0.16,
+          "unrealized_pnl": -0.15,
+          "value": 3.25,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.43,
+          "fees_paid": 0.0,
+          "mark": 0.42,
+          "market_id": "0xfixture-fed-september",
+          "quantity": 10.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": -0.1,
+          "value": 4.2,
+          "venue": "polymarket"
+        },
+        {
+          "average_price": 0.53,
+          "fees_paid": 0.0,
+          "mark": 0.52,
+          "market_id": "0xfixture-nba-ny-boston",
+          "quantity": 10.0,
+          "realized_pnl": 0.0,
+          "unrealized_pnl": -0.1,
+          "value": 5.2,
+          "venue": "polymarket"
+        }
+      ],
+      "realized_pnl": -0.34,
+      "return_pct": -0.079,
+      "settlement_fills": 0,
+      "starting_cash": 1000.0,
+      "total_pnl": -0.79,
+      "unmarked_positions": 0,
+      "unrealized_pnl": -0.45,
+      "updated_at": "2026-09-14T18:59:00.096437+00:00"
+    },
+    "primary_track": "single_venue_fair_value",
+    "realized_pnl": -1.72,
+    "risk_flags": [
+      "settlement_risk_flagged_on_ungated_track",
+      "pnl_from_ledger_not_placeholder"
+    ],
+    "settlement_risk_pairs": 3,
+    "source": "ledger_aggregate",
+    "starting_cash": 5000.0,
+    "total_pnl": -4.01,
+    "unrealized_pnl": -2.29
+  },
+  "schema_version": "1.2.0",
+  "top_edges": [
+    {
+      "admitted": true,
+      "edge_bps": 1600,
+      "fair_value": 0.6,
+      "filled": true,
+      "market": "0xfixture-fed-september",
+      "mid": 0.42,
+      "rank": 1,
+      "reason": "trade",
+      "side": "buy",
+      "title": "Will the Fed cut rates in September?",
+      "track": "single_venue_fair_value",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 900,
+      "fair_value": 0.42,
+      "filled": true,
+      "kalshi_mid": 0.53,
+      "market": "fed-rate-cut-september",
+      "mid": 0.53,
+      "polymarket_mid": 0.42,
+      "rank": 2,
+      "raw_edge_bps": 1100,
+      "reason": "trade",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "gated_cross_venue_macro",
+      "venue": "cross"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 900,
+      "fair_value": 0.42,
+      "filled": true,
+      "kalshi_mid": 0.53,
+      "market": "fed-rate-cut-september",
+      "mid": 0.53,
+      "polymarket_mid": 0.42,
+      "rank": 3,
+      "raw_edge_bps": 1100,
+      "reason": "trade",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "cross"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 900,
+      "fair_value": 0.42,
+      "filled": true,
+      "kalshi_mid": 0.53,
+      "market": "fed-rate-cut-september",
+      "mid": 0.53,
+      "polymarket_mid": 0.42,
+      "rank": 4,
+      "raw_edge_bps": 1100,
+      "reason": "trade",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "small_deliberate_bet",
+      "venue": "cross"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 500,
+      "fair_value": 0.405,
+      "filled": true,
+      "kalshi_mid": 0.325,
+      "market": "august-cpi-over-3",
+      "mid": 0.325,
+      "polymarket_mid": 0.405,
+      "rank": 5,
+      "raw_edge_bps": 800,
+      "reason": "trade",
+      "title": "Will August CPI be above 3.0%?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "cross"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 500,
+      "fair_value": 0.52,
+      "filled": true,
+      "kalshi_mid": 0.59,
+      "market": "nba-new-york-boston",
+      "mid": 0.59,
+      "polymarket_mid": 0.52,
+      "rank": 6,
+      "raw_edge_bps": 700,
+      "reason": "trade",
+      "title": "Will New York beat Boston?",
+      "track": "sports_cross_venue",
+      "venue": "cross"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 400,
+      "fair_value": 0.6,
+      "filled": true,
+      "market": "KX-FED-SEP-CUT",
+      "mid": 0.53,
+      "rank": 7,
+      "reason": "trade",
+      "side": "buy",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "single_venue_fair_value",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 400,
+      "fair_value": 0.4,
+      "filled": true,
+      "market": "KX-CPI-AUG-OVER3",
+      "mid": 0.325,
+      "rank": 8,
+      "reason": "trade",
+      "side": "buy",
+      "title": "Will August CPI be above 3.0%?",
+      "track": "single_venue_fair_value",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 300,
+      "fair_value": 0.57,
+      "filled": true,
+      "market": "0xfixture-nba-ny-boston",
+      "mid": 0.52,
+      "rank": 9,
+      "reason": "trade",
+      "side": "buy",
+      "title": "Will New York beat Boston?",
+      "track": "single_venue_fair_value",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": false,
+      "edge_bps": -100,
+      "fair_value": 0.57,
+      "filled": false,
+      "market": "KX-NBA-NY-BOS-NY",
+      "mid": 0.59,
+      "rank": 10,
+      "reason": "below_edge_threshold",
+      "side": "sell",
+      "title": "Will New York beat Boston?",
+      "track": "single_venue_fair_value",
+      "venue": "kalshi"
+    }
+  ],
+  "top_fills": [
+    {
+      "edge_bps": 500,
+      "fee": 0.43,
+      "filled_at": "2026-09-14T18:59:00.095881+00:00",
+      "mark": 0.59,
+      "market": "KX-NBA-NY-BOS-NY",
+      "order_id": "paper-a33a38cc4b20",
+      "outcome": "no",
+      "paper_pnl": -0.68,
+      "price": 0.42,
+      "qty": 25.0,
+      "rank": 1,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will New York beat Boston?",
+      "track": "sports_cross_venue",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.58
+    },
+    {
+      "edge_bps": 500,
+      "fee": 0.35,
+      "filled_at": "2026-09-14T18:59:00.095315+00:00",
+      "mark": 0.325,
+      "market": "KX-CPI-AUG-OVER3",
+      "order_id": "paper-83cc1e04c6b6",
+      "outcome": "yes",
+      "paper_pnl": -0.68,
+      "price": 0.34,
+      "qty": 22.0,
+      "rank": 2,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will August CPI be above 3.0%?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.34
+    },
+    {
+      "edge_bps": 900,
+      "fee": 0.28,
+      "filled_at": "2026-09-14T18:59:00.094808+00:00",
+      "mark": 0.53,
+      "market": "KX-FED-SEP-CUT",
+      "order_id": "paper-67e63c0ae4d4",
+      "outcome": "no",
+      "paper_pnl": -0.44,
+      "price": 0.48,
+      "qty": 16.0,
+      "rank": 3,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "gated_cross_venue_macro",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.52
+    },
+    {
+      "edge_bps": 900,
+      "fee": 0.28,
+      "filled_at": "2026-09-14T18:59:00.095158+00:00",
+      "mark": 0.53,
+      "market": "KX-FED-SEP-CUT",
+      "order_id": "paper-a0f01019902c",
+      "outcome": "no",
+      "paper_pnl": -0.44,
+      "price": 0.48,
+      "qty": 16.0,
+      "rank": 4,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.52
+    },
+    {
+      "edge_bps": 500,
+      "fee": 0.0,
+      "filled_at": "2026-09-14T18:59:00.095354+00:00",
+      "mark": 0.405,
+      "market": "0xfixture-cpi-august",
+      "order_id": "paper-bf118aef4321",
+      "outcome": "no",
+      "paper_pnl": -0.33,
+      "price": 0.61,
+      "qty": 22.0,
+      "rank": 5,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will August CPI come in above 3.0%?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.39
+    },
+    {
+      "edge_bps": 400,
+      "fee": 0.16,
+      "filled_at": "2026-09-14T18:59:00.095513+00:00",
+      "mark": 0.325,
+      "market": "KX-CPI-AUG-OVER3",
+      "order_id": "paper-abb2f19b9740",
+      "outcome": "yes",
+      "paper_pnl": -0.31,
+      "price": 0.34,
+      "qty": 10.0,
+      "rank": 6,
+      "side": "buy",
+      "strategy": "calibrated_fair_value",
+      "title": "Will August CPI be above 3.0%?",
+      "track": "single_venue_fair_value",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.34
+    },
+    {
+      "edge_bps": 400,
+      "fee": 0.18,
+      "filled_at": "2026-09-14T18:59:00.095442+00:00",
+      "mark": 0.53,
+      "market": "KX-FED-SEP-CUT",
+      "order_id": "paper-dc8629fda140",
+      "outcome": "yes",
+      "paper_pnl": -0.28,
+      "price": 0.54,
+      "qty": 10.0,
+      "rank": 7,
+      "side": "buy",
+      "strategy": "calibrated_fair_value",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "single_venue_fair_value",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.54
+    },
+    {
+      "edge_bps": 500,
+      "fee": 0.0,
+      "filled_at": "2026-09-14T18:59:00.095841+00:00",
+      "mark": 0.52,
+      "market": "0xfixture-nba-ny-boston",
+      "order_id": "paper-c2615503a993",
+      "outcome": "yes",
+      "paper_pnl": -0.25,
+      "price": 0.53,
+      "qty": 25.0,
+      "rank": 8,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will New York beat Boston?",
+      "track": "sports_cross_venue",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.53
+    },
+    {
+      "edge_bps": 900,
+      "fee": 0.0,
+      "filled_at": "2026-09-14T18:59:00.094650+00:00",
+      "mark": 0.42,
+      "market": "0xfixture-fed-september",
+      "order_id": "paper-fbfb7b3d40fd",
+      "outcome": "yes",
+      "paper_pnl": -0.16,
+      "price": 0.43,
+      "qty": 16.0,
+      "rank": 9,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will the Fed cut rates in September?",
+      "track": "gated_cross_venue_macro",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.43
+    },
+    {
+      "edge_bps": 900,
+      "fee": 0.0,
+      "filled_at": "2026-09-14T18:59:00.095111+00:00",
+      "mark": 0.42,
+      "market": "0xfixture-fed-september",
+      "order_id": "paper-eee1955ff6a5",
+      "outcome": "yes",
+      "paper_pnl": -0.16,
+      "price": 0.43,
+      "qty": 16.0,
+      "rank": 10,
+      "side": "buy",
+      "strategy": "cross_venue_mispricing",
+      "title": "Will the Fed cut rates in September?",
+      "track": "ungated_cross_venue_macro",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.43
+    }
+  ],
+  "totals": {
+    "admitted": 9,
+    "avg_edge_bps": 735,
+    "candidates": 13,
+    "fees_paid": 1.72,
+    "fill_rate": 1.0,
+    "paper_fills": 14,
+    "paper_pnl": -4.01,
+    "proposed_orders": 14,
+    "realized_pnl": -1.72,
+    "rejects": 4,
+    "settlement_risk_pairs": 3,
+    "unrealized_pnl": -2.29
+  },
+  "tracks": [
+    {
+      "admitted": 1,
+      "candidates": 2,
+      "edge_bps": 900,
+      "estimated_fees_buffer": 0.32,
+      "fill_rate": 1.0,
+      "label": "Gated cross-venue macro",
+      "ledger": {
+        "cash": 1001.16,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.5579
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.4421
+          }
+        ],
+        "created_at": "2026-09-14T18:59:00.093953+00:00",
+        "equity": 999.4,
+        "equity_points": 1,
+        "fees_paid": 0.28,
+        "fills": 2,
+        "gross_notional": 15.2,
+        "ledger_id": "gated_cross_venue_macro",
+        "mark_method": "mid",
+        "max_drawdown": 0.6,
+        "net_exposure": -1.76,
+        "open_positions": 2,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -1.76,
+        "positions": [
+          {
+            "average_price": 0.43,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 16.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.16,
+            "value": 6.72,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.52,
+            "fees_paid": 0.28,
+            "mark": 0.53,
+            "market_id": "KX-FED-SEP-CUT",
+            "quantity": -16.0,
+            "realized_pnl": -0.28,
+            "unrealized_pnl": -0.16,
+            "value": -8.48,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.28,
+        "return_pct": -0.06,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.6,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.32,
+        "updated_at": "2026-09-14T18:59:00.096228+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 0.6,
+          "equity": 999.4,
+          "total_pnl": -0.6
+        },
+        "events": {
+          "fill": 2,
+          "order_acknowledged": 2,
+          "order_rejected": 0,
+          "order_submitted": 2
+        },
+        "gate_enabled": true,
+        "gate_results": {
+          "august-cpi-over-3": {
+            "admitted": false,
+            "clause_verdict": "refuse_mismatch",
+            "fingerprint_reason": "fallback_to_prior_period present on one side only",
+            "fingerprint_relation": "indeterminate",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": true,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "clause_refuse_mismatch"
+          },
+          "fed-rate-cut-september": {
+            "admitted": true,
+            "clause_verdict": "admit",
+            "fingerprint_reason": "resolution fingerprints match",
+            "fingerprint_relation": "equivalent",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "admitted"
+          }
+        },
+        "gate_would_have_refused_traded_pairs": 0,
+        "host_conflicts": 0,
+        "matched_pairs_all_categories": 3,
+        "parameters": {
+          "fee_buffer_per_contract": 0.01,
+          "maximum_order_size": 25.0,
+          "minimum_mid_edge": 0.04
+        },
+        "refused_pairs": {
+          "august-cpi-over-3": {
+            "clause_verdict": "refuse_mismatch",
+            "fingerprint_reason": "fallback_to_prior_period present on one side only",
+            "fingerprint_relation": "indeterminate",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": true,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "clause_refuse_mismatch"
+          }
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.28,
+            "open_positions": 1.0,
+            "realized_pnl": -0.28,
+            "total_pnl": -0.44,
+            "unrealized_pnl": -0.16
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 1.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.16,
+            "unrealized_pnl": -0.16
+          }
+        }
+      },
+      "notes": "Macro pairs must pass clause, fingerprint and host gates before any paper order. Refusals are the expected state when venues' settlement rules diverge.",
+      "paper_fills": 2,
+      "proposed_orders": 2,
+      "refused_by_reason": {
+        "clause_refuse_mismatch": 1
+      },
+      "reject_reasons": {
+        "clause_refuse_mismatch": 1
+      },
+      "rejects": 1,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "gated_cross_venue_macro"
+    },
+    {
+      "admitted": 2,
+      "candidates": 2,
+      "edge_bps": 700,
+      "estimated_fees_buffer": 0.76,
+      "fill_rate": 1.0,
+      "label": "Ungated cross-venue macro",
+      "ledger": {
+        "cash": 1001.91,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.5
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.5
+          }
+        ],
+        "created_at": "2026-09-14T18:59:00.093992+00:00",
+        "equity": 998.39,
+        "equity_points": 1,
+        "fees_paid": 0.63,
+        "fills": 4,
+        "gross_notional": 31.26,
+        "ledger_id": "ungated_cross_venue_macro",
+        "mark_method": "mid",
+        "max_drawdown": 1.61,
+        "net_exposure": -3.52,
+        "open_positions": 4,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -3.52,
+        "positions": [
+          {
+            "average_price": 0.43,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 16.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.16,
+            "value": 6.72,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.52,
+            "fees_paid": 0.28,
+            "mark": 0.53,
+            "market_id": "KX-FED-SEP-CUT",
+            "quantity": -16.0,
+            "realized_pnl": -0.28,
+            "unrealized_pnl": -0.16,
+            "value": -8.48,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.34,
+            "fees_paid": 0.35,
+            "mark": 0.325,
+            "market_id": "KX-CPI-AUG-OVER3",
+            "quantity": 22.0,
+            "realized_pnl": -0.35,
+            "unrealized_pnl": -0.33,
+            "value": 7.15,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.39,
+            "fees_paid": 0.0,
+            "mark": 0.405,
+            "market_id": "0xfixture-cpi-august",
+            "quantity": -22.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.33,
+            "value": -8.91,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": -0.63,
+        "return_pct": -0.161,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -1.61,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.98,
+        "updated_at": "2026-09-14T18:59:00.096336+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 1.61,
+          "equity": 998.39,
+          "total_pnl": -1.61
+        },
+        "events": {
+          "fill": 4,
+          "order_acknowledged": 4,
+          "order_rejected": 0,
+          "order_submitted": 4
+        },
+        "gate_enabled": false,
+        "gate_results": {
+          "august-cpi-over-3": {
+            "admitted": false,
+            "clause_verdict": "refuse_mismatch",
+            "fingerprint_reason": "fallback_to_prior_period present on one side only",
+            "fingerprint_relation": "indeterminate",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": true,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "clause_refuse_mismatch"
+          },
+          "fed-rate-cut-september": {
+            "admitted": true,
+            "clause_verdict": "admit",
+            "fingerprint_reason": "resolution fingerprints match",
+            "fingerprint_relation": "equivalent",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "admitted"
+          }
+        },
+        "gate_would_have_refused_traded_pairs": 1,
+        "host_conflicts": 0,
+        "matched_pairs_all_categories": 3,
+        "parameters": {
+          "fee_buffer_per_contract": 0.01,
+          "maximum_order_size": 25.0,
+          "minimum_mid_edge": 0.04
+        },
+        "refused_pairs": {},
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.63,
+            "open_positions": 2.0,
+            "realized_pnl": -0.63,
+            "total_pnl": -1.12,
+            "unrealized_pnl": -0.49
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 2.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.49,
+            "unrealized_pnl": -0.49
+          }
+        }
+      },
+      "notes": "Same macro pairs traded without the settlement gate. Exists only to measure what the gate refuses; flagged settlement-risk whenever a traded pair would have been refused.",
+      "paper_fills": 4,
+      "proposed_orders": 4,
+      "refused_by_reason": {},
+      "reject_reasons": {},
+      "rejects": 0,
+      "settlement_risk": true,
+      "settlement_risk_flag": true,
+      "track": "ungated_cross_venue_macro"
+    },
+    {
+      "admitted": 4,
+      "candidates": 6,
+      "edge_bps": 675,
+      "estimated_fees_buffer": 0.6,
+      "fill_rate": 1.0,
+      "label": "Single-venue fair value",
+      "ledger": {
+        "cash": 981.26,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.4763
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.5237
+          }
+        ],
+        "created_at": "2026-09-14T18:59:00.094006+00:00",
+        "equity": 999.21,
+        "equity_points": 1,
+        "fees_paid": 0.34,
+        "fills": 4,
+        "gross_notional": 17.95,
+        "ledger_id": "single_venue_fair_value",
+        "mark_method": "mid",
+        "max_drawdown": 0.79,
+        "net_exposure": 17.95,
+        "open_positions": 4,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 17.95,
+        "positions": [
+          {
+            "average_price": 0.54,
+            "fees_paid": 0.18,
+            "mark": 0.53,
+            "market_id": "KX-FED-SEP-CUT",
+            "quantity": 10.0,
+            "realized_pnl": -0.18,
+            "unrealized_pnl": -0.1,
+            "value": 5.3,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.34,
+            "fees_paid": 0.16,
+            "mark": 0.325,
+            "market_id": "KX-CPI-AUG-OVER3",
+            "quantity": 10.0,
+            "realized_pnl": -0.16,
+            "unrealized_pnl": -0.15,
+            "value": 3.25,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.43,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 10.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.1,
+            "value": 4.2,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.53,
+            "fees_paid": 0.0,
+            "mark": 0.52,
+            "market_id": "0xfixture-nba-ny-boston",
+            "quantity": 10.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.1,
+            "value": 5.2,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": -0.34,
+        "return_pct": -0.079,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.79,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.45,
+        "updated_at": "2026-09-14T18:59:00.096437+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 0.79,
+          "equity": 999.21,
+          "total_pnl": -0.79
+        },
+        "events": {
+          "fill": 4,
+          "order_acknowledged": 4,
+          "order_rejected": 0,
+          "order_submitted": 4
+        },
+        "hit_rate": 0.75,
+        "kalshi_canary": {
+          "pnl": {
+            "fees_paid": 0.34,
+            "open_positions": 2.0,
+            "realized_pnl": -0.34,
+            "total_pnl": -0.59,
+            "unrealized_pnl": -0.25
+          },
+          "venue_breakdown": {
+            "admitted": 2,
+            "candidates": 3,
+            "fills": 2,
+            "markets": 3,
+            "reasons": {
+              "below_edge_threshold": 1
+            },
+            "snapshot_errors": 0
+          }
+        },
+        "priors_supplied": 6,
+        "settlement_preview": {
+          "hypothetical_pnl_at_fixture_settlement": 11.26,
+          "note": "Only fixture markets carry paper_settlement_outcome; network fills are not scored.",
+          "scored_fills": 4
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_breakdown": {
+          "kalshi": {
+            "admitted": 2,
+            "candidates": 3,
+            "fills": 2,
+            "markets": 3,
+            "reasons": {
+              "below_edge_threshold": 1
+            },
+            "snapshot_errors": 0
+          },
+          "polymarket": {
+            "admitted": 2,
+            "candidates": 3,
+            "fills": 2,
+            "markets": 3,
+            "reasons": {
+              "no_edge": 1
+            },
+            "snapshot_errors": 0
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.34,
+            "open_positions": 2.0,
+            "realized_pnl": -0.34,
+            "total_pnl": -0.59,
+            "unrealized_pnl": -0.25
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 2.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.2,
+            "unrealized_pnl": -0.2
+          }
+        }
+      },
+      "notes": "Primary track. Single-venue fair value from explicit priors; no cross-venue settlement exposure by construction. Markets without a prior are never traded.",
+      "paper_fills": 4,
+      "proposed_orders": 4,
+      "refused_by_reason": {
+        "below_edge_threshold": 1,
+        "no_edge": 1
+      },
+      "reject_reasons": {
+        "below_edge_threshold": 1,
+        "no_edge": 1
+      },
+      "rejects": 2,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "single_venue_fair_value"
+    },
+    {
+      "admitted": 1,
+      "candidates": 1,
+      "edge_bps": 500,
+      "estimated_fees_buffer": 0.5,
+      "fill_rate": 1.0,
+      "label": "Sports cross-venue",
+      "ledger": {
+        "cash": 1000.82,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.5315
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.4685
+          }
+        ],
+        "created_at": "2026-09-14T18:59:00.094015+00:00",
+        "equity": 999.07,
+        "equity_points": 1,
+        "fees_paid": 0.43,
+        "fills": 2,
+        "gross_notional": 27.75,
+        "ledger_id": "sports_cross_venue",
+        "mark_method": "mid",
+        "max_drawdown": 0.93,
+        "net_exposure": -1.75,
+        "open_positions": 2,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -1.75,
+        "positions": [
+          {
+            "average_price": 0.53,
+            "fees_paid": 0.0,
+            "mark": 0.52,
+            "market_id": "0xfixture-nba-ny-boston",
+            "quantity": 25.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.25,
+            "value": 13.0,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.58,
+            "fees_paid": 0.43,
+            "mark": 0.59,
+            "market_id": "KX-NBA-NY-BOS-NY",
+            "quantity": -25.0,
+            "realized_pnl": -0.43,
+            "unrealized_pnl": -0.25,
+            "value": -14.75,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.43,
+        "return_pct": -0.093,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.93,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.5,
+        "updated_at": "2026-09-14T18:59:00.096519+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 0.93,
+          "equity": 999.07,
+          "total_pnl": -0.93
+        },
+        "events": {
+          "fill": 2,
+          "order_acknowledged": 2,
+          "order_rejected": 0,
+          "order_submitted": 2
+        },
+        "gate_enabled": false,
+        "gate_results": {
+          "nba-new-york-boston": {
+            "admitted": false,
+            "clause_verdict": "admit",
+            "fingerprint_reason": "fingerprint missing on at least one side",
+            "fingerprint_relation": "indeterminate",
+            "host_conflict": true,
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.espn.com/nba/"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "kalshi_host_tier": "media",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.nba.com/game/"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "fingerprint_indeterminate"
+          }
+        },
+        "gate_would_have_refused_traded_pairs": 1,
+        "host_conflicts": 1,
+        "matched_pairs_all_categories": 3,
+        "parameters": {
+          "fee_buffer_per_contract": 0.01,
+          "maximum_order_size": 25.0,
+          "minimum_mid_edge": 0.04
+        },
+        "refused_pairs": {},
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.43,
+            "open_positions": 1.0,
+            "realized_pnl": -0.43,
+            "total_pnl": -0.68,
+            "unrealized_pnl": -0.25
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 1.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.25,
+            "unrealized_pnl": -0.25
+          }
+        }
+      },
+      "notes": "Sports pairs trade ungated but every host-tier conflict is counted and flags the track.",
+      "paper_fills": 2,
+      "proposed_orders": 2,
+      "refused_by_reason": {},
+      "reject_reasons": {},
+      "rejects": 0,
+      "settlement_risk": true,
+      "settlement_risk_flag": true,
+      "track": "sports_cross_venue"
+    },
+    {
+      "admitted": 1,
+      "candidates": 2,
+      "edge_bps": 900,
+      "estimated_fees_buffer": 0.04,
+      "fill_rate": 1.0,
+      "label": "Small deliberate bet",
+      "ledger": {
+        "cash": 1000.14,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.5579
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.4421
+          }
+        ],
+        "created_at": "2026-09-14T18:59:00.094022+00:00",
+        "equity": 999.92,
+        "equity_points": 1,
+        "fees_paid": 0.04,
+        "fills": 2,
+        "gross_notional": 1.9,
+        "ledger_id": "small_deliberate_bet",
+        "mark_method": "mid",
+        "max_drawdown": 0.08,
+        "net_exposure": -0.22,
+        "open_positions": 2,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -0.22,
+        "positions": [
+          {
+            "average_price": 0.43,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 2.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.02,
+            "value": 0.84,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.52,
+            "fees_paid": 0.04,
+            "mark": 0.53,
+            "market_id": "KX-FED-SEP-CUT",
+            "quantity": -2.0,
+            "realized_pnl": -0.04,
+            "unrealized_pnl": -0.02,
+            "value": -1.06,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.04,
+        "return_pct": -0.008,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.08,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.04,
+        "updated_at": "2026-09-14T18:59:00.096582+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 0.08,
+          "equity": 999.92,
+          "total_pnl": -0.08
+        },
+        "events": {
+          "fill": 2,
+          "order_acknowledged": 2,
+          "order_rejected": 0,
+          "order_submitted": 2
+        },
+        "gate_enabled": true,
+        "gate_results": {
+          "august-cpi-over-3": {
+            "admitted": false,
+            "clause_verdict": "refuse_mismatch",
+            "fingerprint_reason": "fallback_to_prior_period present on one side only",
+            "fingerprint_relation": "indeterminate",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": true,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "clause_refuse_mismatch"
+          },
+          "fed-rate-cut-september": {
+            "admitted": true,
+            "clause_verdict": "admit",
+            "fingerprint_reason": "resolution fingerprints match",
+            "fingerprint_relation": "equivalent",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": false,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.federalreserve.gov/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "admitted"
+          }
+        },
+        "gate_would_have_refused_traded_pairs": 0,
+        "host_conflicts": 0,
+        "matched_pairs_all_categories": 3,
+        "parameters": {
+          "fee_buffer_per_contract": 0.01,
+          "maximum_order_size": 2.0,
+          "minimum_mid_edge": 0.04
+        },
+        "refused_pairs": {
+          "august-cpi-over-3": {
+            "clause_verdict": "refuse_mismatch",
+            "fingerprint_reason": "fallback_to_prior_period present on one side only",
+            "fingerprint_relation": "indeterminate",
+            "host_conflict": false,
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "kalshi_host_tier": "official",
+            "match_confidence": 1.0,
+            "match_method": "curated",
+            "polymarket_clauses": {
+              "fallback": true,
+              "revisions_excluded": true,
+              "source_urls": [
+                "https://www.bls.gov/cpi/"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            },
+            "polymarket_host_tier": "official",
+            "reason": "clause_refuse_mismatch"
+          }
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.04,
+            "open_positions": 1.0,
+            "realized_pnl": -0.04,
+            "total_pnl": -0.06,
+            "unrealized_pnl": -0.02
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 1.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.02,
+            "unrealized_pnl": -0.02
+          }
+        }
+      },
+      "notes": "Gated macro pairs at a 2-contract cap: a process probe, not an edge source.",
+      "paper_fills": 2,
+      "proposed_orders": 2,
+      "refused_by_reason": {
+        "clause_refuse_mismatch": 1
+      },
+      "reject_reasons": {
+        "clause_refuse_mismatch": 1
+      },
+      "rejects": 1,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "small_deliberate_bet"
+    }
+  ]
+}

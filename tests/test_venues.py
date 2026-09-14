@@ -49,38 +49,93 @@ async def test_non_paper_client_place_order_is_fail_closed() -> None:
         await client.close()
 
 
-async def test_kalshi_network_book_derives_yes_asks_from_no_bids() -> None:
+async def test_kalshi_network_current_payload_format() -> None:
+    """Dollar-string prices, orderbook_fp ladders and event enrichment (2026 API)."""
+    calls: list[str] = []
+
     def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(request.url.path)
         if request.url.path.endswith("/orderbook"):
-            return httpx.Response(200, json={"orderbook": {"yes": [[52, 120], [51, 200]], "no": [[46, 110]]}})
+            # Both ladders are bids, ascending; NO bid 0.46 => YES ask 0.54.
+            return httpx.Response(
+                200,
+                json={"orderbook_fp": {"yes_dollars": [["0.5100", "200.00"], ["0.5200", "120.00"]], "no_dollars": [["0.4600", "110.00"]]}},
+            )
+        if "/events/" in request.url.path:
+            return httpx.Response(
+                200,
+                json={"event": {"category": "Economics", "title": "Fed decision in Sep 2026?", "settlement_sources": [{"name": "Federal Reserve", "url": "https://www.federalreserve.gov"}]}},
+            )
+        assert request.url.params["series_ticker"] == "KXFEDDECISION"
         return httpx.Response(
             200,
             json={
                 "markets": [
                     {
-                        "ticker": "KXFED-26SEP",
-                        "title": "Fed cut in September?",
-                        "status": "open",
-                        "liquidity": 4200000,
-                        "volume": 185000,
-                        "rules_primary": "Resolves per https://www.federalreserve.gov/",
-                        "category": "Economics",
-                    }
+                        "ticker": "KXFEDDECISION-26SEP-C25",
+                        "event_ticker": "KXFEDDECISION-26SEP",
+                        "title": "Fed cuts 25bps in September?",
+                        "status": "active",
+                        "liquidity_dollars": "0.0000",
+                        "volume_fp": "185000.00",
+                        "yes_bid_dollars": "0.5200",
+                        "yes_ask_dollars": "0.5400",
+                        "rules_primary": "If the Federal Reserve cuts by 25bps, resolves Yes.",
+                    },
+                    {
+                        "ticker": "KXFEDDECISION-26SEP-DEAD",
+                        "event_ticker": "KXFEDDECISION-26SEP",
+                        "title": "one-sided quote ranks below",
+                        "status": "active",
+                        "volume_fp": "999999.00",
+                        "yes_bid_dollars": "0.0000",
+                        "yes_ask_dollars": "0.0100",
+                    },
                 ]
             },
         )
 
     http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
-    client = KalshiClient(paper=True, use_fixtures=False, environment="demo", http=http)
+    client = KalshiClient(paper=True, use_fixtures=False, environment="prod", http=http, series_tickers=("KXFEDDECISION",))
     try:
         markets = await client.list_markets(limit=5)
-        assert markets[0].market_id == "KXFED-26SEP"
-        assert markets[0].metadata["category"] == "macro"
-        assert markets[0].liquidity == Decimal("42000")
-        book = await client.get_order_book(markets[0])
+        assert [m.market_id for m in markets] == ["KXFEDDECISION-26SEP-C25", "KXFEDDECISION-26SEP-DEAD"]
+        top = markets[0]
+        assert top.metadata["category"] == "macro"
+        assert top.metadata["source_url"] == "https://www.federalreserve.gov"
+        assert "Settlement source: Federal Reserve" in top.metadata["resolution_text"]
+        assert top.volume == Decimal("185000.00")
+        assert calls.count("/trade-api/v2/events/KXFEDDECISION-26SEP") == 1  # cached per event
+        book = await client.get_order_book(top)
         assert book.best_bid is not None and book.best_bid.price == Decimal("0.52")
         assert book.best_ask is not None and book.best_ask.price == Decimal("0.54")
         assert book.best_ask.size == Decimal("110")
+    finally:
+        await client.close()
+        await http.aclose()
+
+
+async def test_kalshi_network_legacy_cents_format_still_parses() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path.endswith("/orderbook"):
+            return httpx.Response(200, json={"orderbook": {"yes": [[52, 120], [51, 200]], "no": [[46, 110]]}})
+        if "/events/" in request.url.path:
+            return httpx.Response(404, json={})
+        return httpx.Response(
+            200,
+            json={"markets": [{"ticker": "KXFED-26SEP", "title": "Fed cut in September?", "status": "open", "liquidity": 4200000, "volume": 185000, "yes_bid": 52, "yes_ask": 54, "category": "Economics"}]},
+        )
+
+    http = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    client = KalshiClient(paper=True, use_fixtures=False, environment="demo", http=http, series_tickers=None)
+    try:
+        markets = await client.list_markets(limit=5)
+        assert markets[0].metadata["category"] == "macro"
+        assert markets[0].liquidity == Decimal("42000")
+        assert markets[0].metadata["yes_bid"] == Decimal("0.52")
+        book = await client.get_order_book(markets[0])
+        assert book.best_bid is not None and book.best_bid.price == Decimal("0.52")
+        assert book.best_ask is not None and book.best_ask.price == Decimal("0.54")
     finally:
         await client.close()
         await http.aclose()
