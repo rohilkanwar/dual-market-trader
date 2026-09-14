@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Iterable
@@ -31,6 +32,44 @@ class FedMatch:
     @property
     def matched(self) -> bool:
         return self.match_type is not FedMatchType.NO_MATCH
+
+
+_FED_CONTEXT = re.compile(r"\b(?:fed|fomc|federal reserve|fed's|interest rates?)\b", re.IGNORECASE)
+_TICKER_BUCKET = re.compile(r"\b(?:KX)?FED(?:DECISION)?-\w+-(H0|H25|H26|C25|C26)\b", re.IGNORECASE)
+_HOLD = re.compile(
+    r"\bno change\b|\bmaintains?\b|\bunchanged\b|\bhold(?:s)?\b|\b(?:hike|cut|raise|lower)\w*\s+(?:rates?\s+)?by\s+0\s*bps?\b",
+    re.IGNORECASE,
+)
+_CUT = re.compile(r"\b(?:cut|decrease|lower|reduce)\w*\b", re.IGNORECASE)
+_HIKE = re.compile(r"\b(?:hike|increase|raise)\w*\b", re.IGNORECASE)
+_MORE_THAN_25 = re.compile(r">\s*25\s*bps?|\b(?:50|75|100)\s*\+?\s*bps?\b|\bmore than 25\s*bps?\b", re.IGNORECASE)
+_EXACT_25 = re.compile(r"(?<![>\d])\b25\s*bps?\b", re.IGNORECASE)
+
+
+def parse_fed_bucket(*texts: str | None) -> FedBucket | None:
+    """Best-effort FOMC outcome bucket from a ticker, title or subtitle.
+
+    Returns ``None`` unless the text is unmistakably about a Fed decision and
+    names one bucket; ambiguity is ``None`` so the gate treats it as unknown.
+    """
+    joined = " ".join(text for text in texts if text)
+    if not joined:
+        return None
+    ticker = _TICKER_BUCKET.search(joined)
+    if ticker:
+        return FedBucket(ticker.group(1).upper())
+    if not _FED_CONTEXT.search(joined):
+        return None
+    if _HOLD.search(joined):
+        return FedBucket.H0
+    cut, hike = bool(_CUT.search(joined)), bool(_HIKE.search(joined))
+    if cut == hike:
+        return None
+    if _MORE_THAN_25.search(joined):
+        return FedBucket.C26 if cut else FedBucket.H26
+    if _EXACT_25.search(joined):
+        return FedBucket.C25 if cut else FedBucket.H25
+    return None
 
 
 def _domain(bucket: FedBucket) -> str:

@@ -17,9 +17,11 @@ Stage order (and the reason prefixes each one emits):
                     (``fingerprint_indeterminate``, ``fingerprint_not_equivalent``).
 4. ``polarity``     the fingerprint relation must agree with the matcher's
                     polarity (``fingerprint_polarity_conflict``).
-5. ``fed_bucket``   when either side names an FOMC outcome bucket both must,
-                    and they must match ``EXACT`` (domain / union labels are
-                    not interchangeable) (``fed_bucket_*``).
+5. ``fed_bucket``   when either side names an FOMC outcome bucket (explicit
+                    ``fed_bucket`` metadata, else derived from the ticker or
+                    title by ``settlement.fed_match.parse_fed_bucket``) both
+                    must, and they must match ``EXACT`` (domain / union labels
+                    are not interchangeable) (``fed_bucket_*``).
 6. ``interval``     when either side states a numeric bucket, the other side's
                     bucket (explicit or derived from its fingerprint) must be
                     identical, or an exact complement for inverse polarity
@@ -44,7 +46,7 @@ from typing import TYPE_CHECKING, Any, Mapping
 
 from settlement.bucket_match import Interval
 from settlement.clauses import ClauseSet, ClauseVerdict, detect_clauses, pair_clause_verdict
-from settlement.fed_match import FedBucket, FedMatchType, match_fed_buckets
+from settlement.fed_match import FedBucket, FedMatchType, match_fed_buckets, parse_fed_bucket
 from settlement.fingerprint import (
     Comparator,
     Relation,
@@ -231,10 +233,27 @@ def _fed_buckets(raw: Any) -> tuple[frozenset[FedBucket] | None, str | None]:
         return None, str(exc)
 
 
-def _check_fed_bucket(k_raw: Any, p_raw: Any) -> GateCheck:
-    k_set, k_err = _fed_buckets(k_raw)
-    p_set, p_err = _fed_buckets(p_raw)
-    details: dict[str, Any] = {"kalshi_fed_bucket": k_raw, "polymarket_fed_bucket": p_raw}
+def _fed_side(market: Any) -> tuple[frozenset[FedBucket] | None, str | None, Any, str]:
+    """(buckets, error, raw value, source) with explicit metadata taking precedence."""
+    raw = market.metadata.get("fed_bucket")
+    buckets, err = _fed_buckets(raw)
+    if buckets is not None or err:
+        return buckets, err, raw, "explicit"
+    derived = parse_fed_bucket(market.market_id, market.title, str(market.metadata.get("subtitle") or ""))
+    if derived is None:
+        return None, None, None, "none"
+    return frozenset({derived}), None, derived.value, "derived"
+
+
+def _check_fed_bucket(pair: MatchedMarketPair) -> GateCheck:
+    k_set, k_err, k_raw, k_source = _fed_side(pair.kalshi)
+    p_set, p_err, p_raw, p_source = _fed_side(pair.polymarket)
+    details: dict[str, Any] = {
+        "kalshi_fed_bucket": k_raw,
+        "polymarket_fed_bucket": p_raw,
+        "kalshi_fed_bucket_source": k_source,
+        "polymarket_fed_bucket_source": p_source,
+    }
     if k_err or p_err:
         details["error"] = k_err or p_err
         return GateCheck(GateStage.FED_BUCKET, False, "fed_bucket_unparseable", details)
@@ -409,7 +428,7 @@ def settlement_gate(pair: MatchedMarketPair, *, policy: GatePolicy = STRICT_POLI
         _check_clauses(k_clauses, p_clauses),
         fingerprint_check,
         _check_polarity(pair, relation),
-        _check_fed_bucket(k_meta.get("fed_bucket"), p_meta.get("fed_bucket")),
+        _check_fed_bucket(pair),
         _check_interval(pair, k_meta.get("interval"), p_meta.get("interval"), k_fp, p_fp),
         _check_hosts(_source_url(k_meta, k_clauses), _source_url(p_meta, p_clauses), policy),
         _check_expiry(k_meta.get("close_time"), p_meta.get("close_time"), policy),

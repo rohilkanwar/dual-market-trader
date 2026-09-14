@@ -13,7 +13,7 @@ from typing import Any, Callable
 
 import pytest
 
-from core.types import Venue
+from core.types import Market, Venue
 from research.scoreboard import settlement_gate as scoreboard_gate
 from settlement.gate import (
     STAGE_ORDER,
@@ -22,7 +22,7 @@ from settlement.gate import (
     GateStage,
     settlement_gate,
 )
-from strategies.matching import MarketMatcher
+from strategies.matching import MarketMatcher, MatchedMarketPair
 from tests.synthetic_pairs import FED_TEXT, base_metadata, make_pair
 from venues.fixtures import load_fixture
 from venues.kalshi.client import FIXTURE_PATH as KALSHI_FIXTURE
@@ -251,6 +251,39 @@ def test_inverse_polarity_explicit_intervals_must_be_complementary_half_lines() 
 
     assert not result.admitted
     assert result.reasons == ("interval_not_complementary",)
+
+
+def test_fed_bucket_is_derived_from_ticker_and_question_when_metadata_is_absent() -> None:
+    kalshi_meta, poly_meta = base_metadata(), base_metadata()
+    kalshi_meta.pop("fed_bucket")
+    poly_meta.pop("fed_bucket")
+    kalshi = Market(Venue.KALSHI, "KXFEDDECISION-26SEP-H25", "Will the Federal Reserve Hike rates by 25bps at their September 2026 meeting?", metadata=kalshi_meta)
+    cut = Market(Venue.POLYMARKET, "0xcut", "Will the Fed decrease interest rates by 25 bps after the September 2026 meeting?", metadata=poly_meta)
+    hike = Market(Venue.POLYMARKET, "0xhike", "Will the Fed increase interest rates by 25 bps after the September 2026 meeting?", metadata=poly_meta)
+
+    def gate(poly: Market):
+        return settlement_gate(MatchedMarketPair("live", kalshi, poly, True, 1.0, "curated"))
+
+    mismatch = gate(cut)
+    assert not mismatch.admitted
+    assert mismatch.reasons == ("fed_bucket_no_match",)
+    assert mismatch.check(GateStage.FED_BUCKET).details["kalshi_fed_bucket_source"] == "derived"
+    assert mismatch.check(GateStage.FED_BUCKET).details["polymarket_fed_bucket"] == "C25"
+
+    match = gate(hike)
+    assert match.check(GateStage.FED_BUCKET).passed
+    assert match.check(GateStage.FED_BUCKET).details["fed_match_type"] == "exact"
+
+
+def test_explicit_fed_bucket_metadata_overrides_the_derived_one() -> None:
+    poly_meta = base_metadata()
+    poly_meta["fed_bucket"] = "H25"  # operator says H25 even though the title reads like a cut
+    kalshi = Market(Venue.KALSHI, "KXFEDDECISION-26SEP-H25", "Hike 25bps", metadata=base_metadata() | {"fed_bucket": "H25"})
+    poly = Market(Venue.POLYMARKET, "0x", "Will the Fed decrease interest rates by 25 bps after the September 2026 meeting?", metadata=poly_meta)
+    result = settlement_gate(MatchedMarketPair("live", kalshi, poly, True, 1.0, "curated"))
+
+    check = result.check(GateStage.FED_BUCKET)
+    assert check.passed and check.details["polymarket_fed_bucket_source"] == "explicit"
 
 
 def test_host_missing_on_one_side() -> None:
