@@ -90,7 +90,9 @@ def build_scoreboard_artifact(
     if any(s.metrics.get("snapshot", {}).get(v, {}).get("errors") for s in summaries[:1] for v in ("kalshi", "polymarket")):
         risk_flags.append("snapshot_errors_present")
     news = by_track.get(NEWS_TRACK)
-    if news is not None and news.paper_fills > 0:
+    if news is not None and (news.paper_fills > 0 or int(news.ledger.get("fills", 0)) > 0):
+        # Any paper PnL on this lane rests on an unvalidated signal->probability mapping,
+        # including positions carried from earlier cycles.
         risk_flags.append("news_signal_mapping_unvalidated")
     risk_flags.append("pnl_from_ledger_not_placeholder")
 

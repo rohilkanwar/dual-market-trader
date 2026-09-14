@@ -370,6 +370,9 @@ async def test_carried_ledger_does_not_re_enter() -> None:
     assert news.refused_by_reason["target_position_reached"] == 3
     assert ledgers2[NEWS_TRACK].equity == ledgers[NEWS_TRACK].equity
     assert len(ledgers2[NEWS_TRACK].equity_curve) == 2
+    # Carried positions still rest on the unvalidated mapping: the flag stays on.
+    artifact = build_scoreboard_artifact(summaries2, mode="fixtures", measured_at="t", limit=3)
+    assert "news_signal_mapping_unvalidated" in artifact["portfolio"]["risk_flags"]
 
 
 async def test_artifact_carries_news_findings_and_honesty_flag(tmp_path: Path) -> None:
