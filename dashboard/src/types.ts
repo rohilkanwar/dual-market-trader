@@ -28,6 +28,8 @@ export type TrackFamilyId =
   | 'xv_ungated'
   | 'cross_venue'
   | 'single_venue'
+  | 'news'
+  | 'tennis_copy'
   | 'other'
   | string
 

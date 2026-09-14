@@ -107,6 +107,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | --- | --- | --- | --- | --- |
 | `negrisk` | NegRisk | yes | `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb` | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
 | `kalshi_flb` | Kalshi FLB | yes | `kalshi_longshot_fade`, `kalshi_maker_quote` | `flb`, `maker`, `longshot` |
+| `tennis_copy` | Tennis copy | no | `tennis_whale_copy_30s`, `tennis_whale_copy_2m`, `tennis_whale_copy_10m` | `tennis`, `whale` + `copy` |
 | `xv_gated` | XV gated | yes | `gated_cross_venue_macro`, `small_deliberate_bet` | `gated` + (`cross_venue` \| `xv`) |
 | `xv_ungated` | XV ungated | no | `ungated_cross_venue_macro`, `sports_cross_venue` | `ungated` + (`cross_venue` \| `xv`) |
 | `cross_venue` | Cross-venue | no | — | `cross_venue` \| `xv` without gated/ungated |
@@ -200,6 +201,34 @@ design: prices without outcomes cannot establish favorite–longshot bias. The s
 `paper_ledger_kalshi_longshot_fade.json` / `paper_ledger_kalshi_maker_quote.json` are the
 two FLB ledgers. Run records from `measure_flb` carry `run_kind: "kalshi_flb"`,
 `primary_track: "kalshi_maker_quote"` and the `flb` verdict map. See `docs/FLB_RUNBOOK.md`.
+
+## `scoreboard_tennis_whale.json` and `tennis_whale_report_latest.json` — tennis whale copy run
+
+`apps.measure_tennis_whale` writes a scoreboard artifact for the three lag tracks only
+(`meta.kind = "tennis_whale_copy"`, `meta.track_family = "tennis_copy"`, `meta.venues =
+["polymarket"]`, `meta.primary_track = "tennis_whale_copy_30s"`, label ends in `/ TENNIS
+WHALE COPY`) whose `findings.tennis_whale_copy` carries `status`, `headline`,
+`overall_verdict`, the verdict map, `kill_rule`, whale and copy counts, plus the report:
+
+| Field | Notes |
+| --- | --- |
+| `kind` | `tennis_whale_copy_report`; `paper_only: true`; `pnl_source: core.ledger.PaperLedger` |
+| `status` | `measured_from_public_tape` \| `fixture_synthetic` \| `no_tennis_markets` \| `no_tennis_prints` \| `no_tennis_whales_found` \| `whales_found_no_signals` |
+| `headline`, `overall_verdict`, `verdict_table[]` | `{scope: lag \| overall \| kalshi, check, verdict: PASS \| FAIL \| INSUFFICIENT_DATA \| NOT_IDENTIFIABLE \| TRIGGERED \| CONTINUE \| NOT_EVALUABLE, detail}` |
+| `pre_registration` | `hypothesis`, `pass_rule`, `kill_rule`, `sufficiency`, `inference` (statistic, cluster, resamples, `alpha_per_lag_bonferroni`, seed), `parameters`, `risk_limits` |
+| `universe` | source, endpoints, requests, errors, market / print / wallet counts, `market_types`, truncation, print time span |
+| `whales` | `qualified`, `refused_two_sided`, `signals`, `signal_reasons`, `top[]` (wallet stats, `two_sided_share`, `signals`, `copies_all_lags`, `own_settlement_roi_mean`) |
+| `whale_own_benchmark` | the whales' own fills scored at lag 0 (bootstrap blocks for settlement and CLV ROI, `sufficient`) |
+| `lags` | per lag: `copies`, `settlement_roi` and `clv_roi` bootstrap blocks (`n`, `n_clusters`, `effective_n_clusters`, `mean`, `ci_low`, `ci_high`, `share_positive`, `total_pnl`, `verdict`), `by_market_type`, `verdict`, `reason` |
+| `kill_rule` | `triggered`, `status`, `reason`, `components` |
+| `kalshi` | series listing check; always `whale_identifiable: false`, verdict `NOT_IDENTIFIABLE` |
+| `tracks`, `copies_by_market[]`, `copies_total`, `copies_file` | per-track counts and ledger totals; per-market copy summary; the per-copy rows live in `tennis_whale_copies_latest.json` (not synced) |
+| `fail_risks[]`, `assumptions` | documented, not solved |
+
+`sync-artifacts` refuses a report whose `status` is `fixture_synthetic`; CI rejects a
+committed report whose `mode` is not `network`. Run records carry `run_kind:
+"tennis_whale_copy"`, `track_family: "tennis_copy"` and the `tennis_whale_copy` findings
+block. See `docs/TENNIS_WHALE_COPY.md`.
 
 ## `experiments_index.json` — run history
 
@@ -311,6 +340,7 @@ uv run python -m apps.measure_all --network --kalshi-env prod --harvest-dir data
 uv run python -m apps.measure_polymarket_arb --network --limit 40   # arb-only board + report
 uv run python -m apps.paper_loop --once
 uv run python -m apps.measure_flb --network --kalshi-env prod --harvest-trades   # Kalshi FLB report
+uv run python -m apps.measure_tennis_whale --network --harvest                 # tennis whale copy report
 
 # Copy runtime JSON into the dashboard public tree
 cd dashboard

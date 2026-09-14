@@ -88,6 +88,10 @@ TRACK_LABELS = {
     "polymarket_combinatorial_arb": "Polymarket sum-to-one (hold)",
     "kalshi_longshot_fade": "Kalshi longshot fade (taker)",
     "kalshi_maker_quote": "Kalshi maker quote (resting fade)",
+    # Tennis whale copy lane (apps.measure_tennis_whale): tape replay, not part of TRACKS.
+    "tennis_whale_copy_30s": "Tennis whale copy (30 s lag)",
+    "tennis_whale_copy_2m": "Tennis whale copy (2 min lag)",
+    "tennis_whale_copy_10m": "Tennis whale copy (10 min lag)",
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {

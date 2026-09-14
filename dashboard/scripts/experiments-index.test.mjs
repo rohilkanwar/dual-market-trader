@@ -88,6 +88,11 @@ test('familyOf: known ids, keyword heuristics, declared family, fallback', () =>
   assert.equal(familyOf('cross_venue_experimental'), 'cross_venue')
   assert.equal(familyOf('xv_gated_crypto'), 'xv_gated')
   assert.equal(familyOf('kalshi_fair_value_canary'), 'single_venue')
+  assert.equal(familyOf('tennis_whale_copy_30s'), 'tennis_copy')
+  assert.equal(familyOf('tennis_whale_copy_2m'), 'tennis_copy')
+  assert.equal(familyOf('polymarket_tennis_copy'), 'tennis_copy')
+  assert.equal(familyOf('whale_copy_nba'), 'tennis_copy')
+  assert.equal(familyOf({ track: 'mystery', metrics: { family: 'tennis_copy' } }), 'tennis_copy')
   assert.equal(familyOf('something_entirely_new'), 'other')
 
   assert.equal(familyOf({ track: 'mystery', family: 'negrisk' }), 'negrisk')

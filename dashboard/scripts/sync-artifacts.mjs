@@ -34,8 +34,9 @@ const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 // for a new mode, or paper/ledger_<track>.json for a new track, is picked up with
 // no change here. Validation below still decides what is publishable.
 async function listCandidates() {
-  // flb_report_latest.json is the Kalshi FLB report written by apps.measure_flb.
-  const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json', 'flb_report_latest.json'])
+  // flb_report_latest.json is the Kalshi FLB report written by apps.measure_flb;
+  // tennis_whale_report_latest.json the tennis whale copy report from apps.measure_tennis_whale.
+  const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json', 'flb_report_latest.json', 'tennis_whale_report_latest.json'])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
     if (/^gate_report_.*\.json$/.test(file)) names.add(file)
@@ -107,14 +108,27 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: not a paper-only kalshi_flb_report`)
     continue
   }
+  // tennis_whale_report_latest.json is written by apps.measure_tennis_whale; a
+  // fixture replay is labelled status=fixture_synthetic and is never published.
+  const isTennisReport = relative === 'tennis_whale_report_latest.json'
+  if (isTennisReport && (doc.kind !== 'tennis_whale_copy_report' || doc.paper_only !== true)) {
+    console.warn(`skip ${relative}: not a paper-only tennis_whale_copy_report`)
+    continue
+  }
+  if (isTennisReport && doc.status === 'fixture_synthetic') {
+    console.warn(`skip ${relative}: refusing to publish a synthetic-fixture tennis report as a runtime artifact`)
+    continue
+  }
+  const isHeadlineReport = isFlbReport || isTennisReport
   const target = join(publicRoot, relative.replace('paper/', 'paper_'))
   await copyFile(source, target)
   copied[relative] = {
     target: target.replace(`${dashboardRoot}/`, ''),
-    source: doc.meta?.source ?? (isFlbReport ? 'measured' : doc.paper_only ? 'ledger' : 'unknown'),
+    source: doc.meta?.source ?? (isHeadlineReport ? 'measured' : doc.paper_only ? 'ledger' : 'unknown'),
     measured_at: doc.meta?.measured_at ?? doc.measured_at ?? doc.completed_at ?? doc.updated_at ?? null,
     paper_pnl: doc.totals?.paper_pnl ?? null,
-    ...(isFlbReport ? { headline: doc.headline ?? null } : {}),
+    ...(isHeadlineReport ? { headline: doc.headline ?? null } : {}),
+    ...(isTennisReport ? { status: doc.status ?? null, overall_verdict: doc.overall_verdict ?? null } : {}),
   }
 }
 
@@ -271,6 +285,7 @@ function compactRunRecord(file, manifest, cycle) {
     ...(manifest.venue_focus ? { venue_focus: manifest.venue_focus } : {}),
     ...(manifest.kalshi_env ? { kalshi_env: manifest.kalshi_env } : {}),
     ...(manifest.flb ? { flb: manifest.flb } : {}),
+    ...(manifest.tennis_whale_copy ? { tennis_whale_copy: manifest.tennis_whale_copy } : {}),
     pnl_source: ledgerBacked ? LEDGER_PNL_SOURCE : null,
     totals: {
       candidates: sum(tracks, (t) => t.candidates),

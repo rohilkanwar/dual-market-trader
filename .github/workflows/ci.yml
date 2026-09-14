@@ -104,6 +104,44 @@ jobs:
             echo "measure_flb started with live flags" && exit 1
           fi
           test ! -e /tmp/flb-should-not-exist/scoreboard_flb.json
+      - name: Tennis whale copy fixture replay emits report, scoreboard, per-lag ledgers and run record
+        run: |
+          uv run python -m apps.measure_tennis_whale --artifact-dir artifacts/tennis-ci --min-copies 10 --min-markets 5 --resamples 300
+          uv run python - <<'EOF'
+          import json, glob
+          r = json.load(open("artifacts/tennis-ci/tennis_whale_report_latest.json"))
+          assert r["paper_only"] is True and r["kind"] == "tennis_whale_copy_report"
+          assert r["status"] == "fixture_synthetic" and r["headline"].startswith("Synthetic fixture (not evidence)")
+          assert r["pre_registration"]["pass_rule"] and r["pre_registration"]["kill_rule"]
+          v = {row["check"]: row["verdict"] for row in r["verdict_table"]}
+          assert v["kalshi_whales_identifiable"] == "NOT_IDENTIFIABLE", v
+          assert r["whales"]["qualified"] == 2 and r["whales"]["refused_two_sided"] == 1, r["whales"]
+          s = json.load(open("artifacts/tennis-ci/scoreboard_tennis_whale.json"))
+          assert s["meta"]["source"] == "measured" and s["meta"]["track_family"] == "tennis_copy"
+          assert [t["track"] for t in s["tracks"]] == ["tennis_whale_copy_30s", "tennis_whale_copy_2m", "tennis_whale_copy_10m"]
+          assert s["totals"]["paper_fills"] == r["copies_total"] > 0
+          assert glob.glob("artifacts/tennis-ci/paper/runs/*-tennis-*.json")
+          for lag in ("30s", "2m", "10m"):
+              assert glob.glob(f"artifacts/tennis-ci/paper/ledger_tennis_whale_copy_{lag}.json")
+          print(r["headline"])
+          EOF
+      - name: Tennis whale copy on network without a harvest is an honest empty
+        run: |
+          uv run python -m apps.measure_tennis_whale --network --harvest-dir /tmp/no-such-harvest --artifact-dir artifacts/tennis-empty --no-persist
+          uv run python - <<'EOF'
+          import json
+          r = json.load(open("artifacts/tennis-empty/tennis_whale_report_latest.json"))
+          assert r["status"] == "no_tennis_markets" and r["overall_verdict"] == "INSUFFICIENT_DATA", (r["status"], r["overall_verdict"])
+          s = json.load(open("artifacts/tennis-empty/scoreboard_tennis_whale.json"))
+          assert s["totals"]["paper_fills"] == 0 and float(s["totals"]["paper_pnl"]) == 0.0, s["totals"]
+          print("honest empty ok:", r["headline"])
+          EOF
+      - name: Fail-closed check - tennis whale measurement refuses live flags
+        run: |
+          if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.measure_tennis_whale --no-persist --artifact-dir /tmp/tennis-should-not-exist; then
+            echo "measure_tennis_whale started with live flags" && exit 1
+          fi
+          test ! -e /tmp/tennis-should-not-exist/scoreboard_tennis_whale.json
 
   dashboard:
     runs-on: ubuntu-latest
@@ -154,7 +192,7 @@ jobs:
         run: |
           node - <<'EOF'
           const fs = require('node:fs');
-          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_sample.json']) {
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_sample.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
             const isSample = f.includes('sample');
@@ -173,4 +211,11 @@ jobs:
           const snap = flb.verdict_table.find((r) => r.check === 'flb_identifiable_from_snapshot');
           if (!snap || snap.verdict === 'PASS') throw new Error('FLB report claims FLB is identifiable from a snapshot');
           console.log('flb_report_latest.json', flb.mode, flb.headline);
+          const tennis = JSON.parse(fs.readFileSync('public/artifacts/tennis_whale_report_latest.json', 'utf8'));
+          if (tennis.kind !== 'tennis_whale_copy_report' || tennis.paper_only !== true) throw new Error('tennis_whale_report_latest.json: not a paper-only tennis whale report');
+          if (tennis.status === 'fixture_synthetic' || tennis.mode !== 'network') throw new Error('tennis_whale_report_latest.json: committed report must come from the public tape, not the fixture');
+          if (!tennis.pre_registration?.pass_rule || !tennis.pre_registration?.kill_rule) throw new Error('tennis report lacks the pre-registered pass/kill rule');
+          const kalshi = tennis.verdict_table.find((r) => r.check === 'kalshi_whales_identifiable');
+          if (!kalshi || kalshi.verdict !== 'NOT_IDENTIFIABLE') throw new Error('tennis report claims Kalshi whales are identifiable');
+          console.log('tennis_whale_report_latest.json', tennis.mode, tennis.status, tennis.overall_verdict, 'kill:', tennis.kill_rule.status);
           EOF

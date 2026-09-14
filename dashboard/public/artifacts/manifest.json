@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T21:46:54.309Z",
+  "generated_at": "2026-09-14T23:05:33.192Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -94,6 +94,24 @@
       "measured_at": "2026-09-14T21:46:01.954600+00:00",
       "paper_pnl": null
     },
+    "paper/ledger_tennis_whale_copy_10m.json": {
+      "target": "public/artifacts/paper_ledger_tennis_whale_copy_10m.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T23:04:26.592445+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_tennis_whale_copy_2m.json": {
+      "target": "public/artifacts/paper_ledger_tennis_whale_copy_2m.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T23:04:26.591169+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_tennis_whale_copy_30s.json": {
+      "target": "public/artifacts/paper_ledger_tennis_whale_copy_30s.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T23:04:26.589840+00:00",
+      "paper_pnl": null
+    },
     "paper/ledger_ungated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_ungated_cross_venue_macro.json",
       "source": "ledger",
@@ -123,6 +141,21 @@
       "source": "measured",
       "measured_at": "2026-09-14T21:45:56.330050+00:00",
       "paper_pnl": -3.1764
+    },
+    "scoreboard_tennis_whale.json": {
+      "target": "public/artifacts/scoreboard_tennis_whale.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T23:03:48.174731+00:00",
+      "paper_pnl": -338.0628
+    },
+    "tennis_whale_report_latest.json": {
+      "target": "public/artifacts/tennis_whale_report_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T23:03:48.174731+00:00",
+      "paper_pnl": null,
+      "headline": "105 whales, 947 paper copies. Overall FAIL; kill rule continue. 30s: FAIL (n=333, settlement ROI -0.102162 [-0.258601, 0.088682], CLV ROI -0.101346 [-0.266168, 0.075869]); 2m: FAIL (n=327, settlement ROI -0.11135 [-0.259805, 0.053165], CLV ROI -0.110395 [-0.258032, 0.057046]); 10m: FAIL (n=287, settlement ROI -0.071732 [-0.252248, 0.112734], CLV ROI -0.070763 [-0.253102, 0.109937])",
+      "status": "measured_from_public_tape",
+      "overall_verdict": "FAIL"
     }
   }
 }
