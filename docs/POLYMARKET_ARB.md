@@ -117,7 +117,9 @@ Network dry-run (public endpoints, no keys, 2026-09-14 21:05 UTC), committed as
 `dashboard/public/artifacts/polymarket_arb_latest.json` and
 `dashboard/public/artifacts/runs/20260914T210549Z-519e2135.json`
 (run id `20260914T210549Z-519e2135`; the full 8-track board from the same
-minute is `runs/20260914T210541Z-cd15a2c5.json`):
+minute is `runs/20260914T210541Z-cd15a2c5.json`; the current committed `scoreboard_latest.json`
+is the 9-track board `runs/20260914T212414Z-70a904d9.json`, which includes the `news_underreaction`
+lane and reports the same arb outcome: 0 admitted on all three tracks):
 
 * 40 events, 1319 legs, 2 legs with a missing book (refused `empty_book`).
 * **Rebalancing:** 1010 binary markets checked, **0 admitted**. Top-of-book
@@ -143,7 +145,7 @@ minute is `runs/20260914T210541Z-cd15a2c5.json`):
   augmented events where the hidden "other" placeholder carries the missing mass.
 
 Ledger PnL for all three network tracks is `0.0000` because nothing was
-admitted; the fixture run in the same history entry (`20260914T210532Z-de84053d`)
+admitted; the fixture runs in the history (`20260914T210532Z-de84053d`, `20260914T212403Z-a763b42e`)
 shows the fills, conversion and lockup accounting on the documented scenarios.
 
 ## Known limits

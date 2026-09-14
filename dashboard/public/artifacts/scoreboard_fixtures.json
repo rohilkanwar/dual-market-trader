@@ -24,6 +24,18 @@
       {
         "track": "news_underreaction",
         "value": 8
+      },
+      {
+        "track": "polymarket_rebalancing_arb",
+        "value": 16
+      },
+      {
+        "track": "polymarket_negrisk_arb",
+        "value": 4
+      },
+      {
+        "track": "polymarket_combinatorial_arb",
+        "value": 4
       }
     ],
     "fills_by_track": [
@@ -49,6 +61,18 @@
       },
       {
         "track": "news_underreaction",
+        "value": 3
+      },
+      {
+        "track": "polymarket_rebalancing_arb",
+        "value": 4
+      },
+      {
+        "track": "polymarket_negrisk_arb",
+        "value": 5
+      },
+      {
+        "track": "polymarket_combinatorial_arb",
         "value": 3
       }
     ],
@@ -76,6 +100,18 @@
       {
         "track": "news_underreaction",
         "value": -0.68
+      },
+      {
+        "track": "polymarket_rebalancing_arb",
+        "value": 2.8
+      },
+      {
+        "track": "polymarket_negrisk_arb",
+        "value": 0.75444
+      },
+      {
+        "track": "polymarket_combinatorial_arb",
+        "value": -3.35688
       }
     ],
     "venue_fills": [
@@ -84,7 +120,7 @@
         "venue": "kalshi"
       },
       {
-        "value": 8,
+        "value": 20,
         "venue": "polymarket"
       }
     ]
@@ -109,18 +145,19 @@
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T20:51:59.121398+00:00",
+    "generated_at": "2026-09-14T21:24:03.239067+00:00",
     "kalshi_env": null,
     "label": "MEASURED / FIXTURES",
     "markets_per_venue": 25,
-    "measured_at": "2026-09-14T20:51:59.060916+00:00",
+    "measured_at": "2026-09-14T21:24:03.159442+00:00",
     "mode": "fixtures",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "single_venue_fair_value",
     "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T205159Z-e67169b1",
+    "run_id": "20260914T212403Z-a763b42e",
     "source": "measured",
+    "track_family": null,
     "venue_focus": "kalshi",
     "venues": [
       "kalshi",
@@ -156,6 +193,48 @@
         "starting_cash": 1000.0,
         "total_pnl": -0.68,
         "unrealized_pnl": -0.35
+      },
+      "polymarket_combinatorial_arb": {
+        "cash": 941.44312,
+        "equity": 996.64312,
+        "equity_points": 1,
+        "fees_paid": 1.55688,
+        "fills": 3,
+        "gross_notional": 55.2,
+        "max_drawdown": 3.35688,
+        "open_positions": 3,
+        "realized_pnl": -1.55688,
+        "starting_cash": 1000.0,
+        "total_pnl": -3.35688,
+        "unrealized_pnl": -1.8
+      },
+      "polymarket_negrisk_arb": {
+        "cash": 1000.75444,
+        "equity": 1000.75444,
+        "equity_points": 1,
+        "fees_paid": 1.14556,
+        "fills": 9,
+        "gross_notional": 0.0,
+        "max_drawdown": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 0.75444,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.75444,
+        "unrealized_pnl": 0.0
+      },
+      "polymarket_rebalancing_arb": {
+        "cash": 1002.8,
+        "equity": 1002.8,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 4,
+        "gross_notional": 0.0,
+        "max_drawdown": 0.0,
+        "open_positions": 0,
+        "realized_pnl": 2.8,
+        "starting_cash": 1000.0,
+        "total_pnl": 2.8,
+        "unrealized_pnl": 0.0
       },
       "single_venue_fair_value": {
         "cash": 981.26,
@@ -214,37 +293,37 @@
         "unrealized_pnl": -0.98
       }
     },
-    "cash": 5978.36,
+    "cash": 8923.3576,
     "concentration": [
       {
         "venue": "kalshi",
-        "weight": 0.5338
+        "weight": 0.352
       },
       {
         "venue": "polymarket",
-        "weight": 0.4662
+        "weight": 0.648
       }
     ],
-    "equity": 5995.31,
-    "fees_paid": 2.05,
-    "gross_notional": 106.81,
-    "max_drawdown": 1.61,
-    "net_exposure": 16.95,
-    "open_positions": 17,
+    "equity": 8995.5076,
+    "fees_paid": 4.7524,
+    "gross_notional": 162.01,
+    "max_drawdown": 3.35688,
+    "net_exposure": 72.15,
+    "open_positions": 20,
     "paper_only": true,
     "primary": {
       "cash": 981.26,
       "concentration": [
         {
           "venue": "kalshi",
-          "weight": 0.4763
+          "weight": 0.47632
         },
         {
           "venue": "polymarket",
-          "weight": 0.5237
+          "weight": 0.52368
         }
       ],
-      "created_at": "2026-09-14T20:51:59.117863+00:00",
+      "created_at": "2026-09-14T21:24:03.230382+00:00",
       "equity": 999.21,
       "equity_points": 1,
       "fees_paid": 0.34,
@@ -311,20 +390,21 @@
       "total_pnl": -0.79,
       "unmarked_positions": 0,
       "unrealized_pnl": -0.45,
-      "updated_at": "2026-09-14T20:51:59.121024+00:00"
+      "updated_at": "2026-09-14T21:24:03.235436+00:00"
     },
     "primary_track": "single_venue_fair_value",
-    "realized_pnl": -2.05,
+    "realized_pnl": -0.0524,
     "risk_flags": [
       "settlement_risk_flagged_on_ungated_track",
       "news_signal_mapping_unvalidated",
+      "combinatorial_positions_marked_at_mid_not_resolution",
       "pnl_from_ledger_not_placeholder"
     ],
     "settlement_risk_pairs": 3,
     "source": "ledger_aggregate",
-    "starting_cash": 6000.0,
-    "total_pnl": -4.69,
-    "unrealized_pnl": -2.64
+    "starting_cash": 9000.0,
+    "total_pnl": -4.4924,
+    "unrealized_pnl": -4.44
   },
   "schema_version": "1.2.0",
   "top_edges": [
@@ -463,6 +543,30 @@
       "venue": "cross"
     },
     {
+      "admitted": false,
+      "capital_required": 0.0,
+      "edge_bps": 600,
+      "executable_now": false,
+      "fair_value": 1.0,
+      "filled": false,
+      "gross_edge_bps": 600,
+      "hidden_outcome_risk": true,
+      "kind": "long_all_yes",
+      "lockup": "until_resolution",
+      "lockup_until": "2027-06-01T00:00:00Z",
+      "market": "fixture-negrisk-augmented-long-yes",
+      "mid": 0.94,
+      "net_profit": 0.0,
+      "payoff_per_set": 1.0,
+      "rank": 9,
+      "reason": "hidden_outcome_risk",
+      "sets": 0.0,
+      "title": "Fixture: augmented NegRisk event whose visible YES asks sum below 1",
+      "top_of_book_sum": 0.94,
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket"
+    },
+    {
       "admitted": true,
       "edge_bps": 500,
       "fair_value": 0.405,
@@ -471,43 +575,122 @@
       "market": "august-cpi-over-3",
       "mid": 0.325,
       "polymarket_mid": 0.405,
-      "rank": 9,
+      "rank": 10,
       "raw_edge_bps": 800,
       "reason": "trade",
       "title": "Will August CPI be above 3.0%?",
       "track": "ungated_cross_venue_macro",
       "venue": "cross"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 500,
-      "fair_value": 0.52,
-      "filled": true,
-      "kalshi_mid": 0.59,
-      "market": "nba-new-york-boston",
-      "mid": 0.59,
-      "polymarket_mid": 0.52,
-      "rank": 10,
-      "raw_edge_bps": 700,
-      "reason": "trade",
-      "title": "Will New York beat Boston?",
-      "track": "sports_cross_venue",
-      "venue": "cross"
     }
   ],
   "top_fills": [
     {
+      "edge_bps": 180,
+      "fee": 0.0,
+      "filled_at": "2026-09-14T21:24:03.233972+00:00",
+      "mark": 0.45,
+      "market": "0xfixture-binary-merge-feefree",
+      "order_id": "paper-ee54e6d04bb4",
+      "outcome": "no",
+      "paper_pnl": 1.6,
+      "price": 0.53,
+      "qty": 80.0,
+      "rank": 1,
+      "side": "buy",
+      "strategy": "polymarket_arb",
+      "title": "Fixture merge fee-free",
+      "track": "polymarket_rebalancing_arb",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.47
+    },
+    {
+      "edge_bps": 180,
+      "fee": 0.0,
+      "filled_at": "2026-09-14T21:24:03.234258+00:00",
+      "mark": 0.52,
+      "market": "0xfixture-binary-split",
+      "order_id": "paper-d58fa254bb40",
+      "outcome": "no",
+      "paper_pnl": 1.2,
+      "price": 0.5,
+      "qty": 60.0,
+      "rank": 2,
+      "side": "sell",
+      "strategy": "polymarket_arb",
+      "title": "Fixture split fee-free",
+      "track": "polymarket_rebalancing_arb",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.5
+    },
+    {
+      "edge_bps": 211,
+      "fee": 0.53064,
+      "filled_at": "2026-09-14T21:24:03.235065+00:00",
+      "mark": 0.32,
+      "market": "0xfixture-ly-c",
+      "order_id": "paper-570ad5a5468b",
+      "outcome": "yes",
+      "paper_pnl": -1.1306,
+      "price": 0.33,
+      "qty": 60.0,
+      "rank": 3,
+      "side": "buy",
+      "strategy": "polymarket_arb",
+      "title": "Fixture long-yes C",
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.33
+    },
+    {
+      "edge_bps": 211,
+      "fee": 0.52224,
+      "filled_at": "2026-09-14T21:24:03.235035+00:00",
+      "mark": 0.31,
+      "market": "0xfixture-ly-b",
+      "order_id": "paper-87e57740c971",
+      "outcome": "yes",
+      "paper_pnl": -1.1222,
+      "price": 0.32,
+      "qty": 60.0,
+      "rank": 4,
+      "side": "buy",
+      "strategy": "polymarket_arb",
+      "title": "Fixture long-yes B",
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.32
+    },
+    {
+      "edge_bps": 211,
+      "fee": 0.504,
+      "filled_at": "2026-09-14T21:24:03.234999+00:00",
+      "mark": 0.29,
+      "market": "0xfixture-ly-a",
+      "order_id": "paper-ef1e431d9f0c",
+      "outcome": "yes",
+      "paper_pnl": -1.104,
+      "price": 0.3,
+      "qty": 60.0,
+      "rank": 5,
+      "side": "buy",
+      "strategy": "polymarket_arb",
+      "title": "Fixture long-yes A",
+      "track": "polymarket_combinatorial_arb",
+      "venue": "polymarket",
+      "yes_equivalent_price": 0.3
+    },
+    {
       "edge_bps": 500,
       "fee": 0.43,
-      "filled_at": "2026-09-14T20:51:59.119886+00:00",
+      "filled_at": "2026-09-14T21:24:03.232261+00:00",
       "mark": 0.59,
       "market": "KX-NBA-NY-BOS-NY",
-      "order_id": "paper-bd33efaf57dc",
+      "order_id": "paper-f483a7ea4130",
       "outcome": "no",
       "paper_pnl": -0.68,
       "price": 0.42,
       "qty": 25.0,
-      "rank": 1,
+      "rank": 6,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will New York beat Boston?",
@@ -518,15 +701,15 @@
     {
       "edge_bps": 500,
       "fee": 0.35,
-      "filled_at": "2026-09-14T20:51:59.119303+00:00",
+      "filled_at": "2026-09-14T21:24:03.231702+00:00",
       "mark": 0.325,
       "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-cbde2df8ca84",
+      "order_id": "paper-163a67fd330e",
       "outcome": "yes",
       "paper_pnl": -0.68,
       "price": 0.34,
       "qty": 22.0,
-      "rank": 2,
+      "rank": 7,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will August CPI be above 3.0%?",
@@ -537,15 +720,15 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T20:51:59.118798+00:00",
+      "filled_at": "2026-09-14T21:24:03.231205+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-9816a2340054",
+      "order_id": "paper-8006aa2ba9f0",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
       "qty": 16.0,
-      "rank": 3,
+      "rank": 8,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -556,15 +739,15 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T20:51:59.119152+00:00",
+      "filled_at": "2026-09-14T21:24:03.231549+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-6212ffa5093c",
+      "order_id": "paper-bf0bca86a6f3",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
       "qty": 16.0,
-      "rank": 4,
+      "rank": 9,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -573,133 +756,38 @@
       "yes_equivalent_price": 0.52
     },
     {
-      "edge_bps": 500,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T20:51:59.119341+00:00",
-      "mark": 0.405,
-      "market": "0xfixture-cpi-august",
-      "order_id": "paper-1f02e5d73790",
+      "edge_bps": 149,
+      "fee": 0.384,
+      "filled_at": "2026-09-14T21:24:03.234520+00:00",
+      "mark": 0.4,
+      "market": "0xfixture-nom-a",
+      "order_id": "paper-3e0b49351cf7",
       "outcome": "no",
-      "paper_pnl": -0.33,
-      "price": 0.61,
-      "qty": 22.0,
-      "rank": 5,
-      "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Will August CPI come in above 3.0%?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.39
-    },
-    {
-      "edge_bps": 400,
-      "fee": 0.16,
-      "filled_at": "2026-09-14T20:51:59.119517+00:00",
-      "mark": 0.325,
-      "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-ec4a93276ac8",
-      "outcome": "yes",
-      "paper_pnl": -0.31,
-      "price": 0.34,
-      "qty": 10.0,
-      "rank": 6,
-      "side": "buy",
-      "strategy": "calibrated_fair_value",
-      "title": "Will August CPI be above 3.0%?",
-      "track": "single_venue_fair_value",
-      "venue": "kalshi",
-      "yes_equivalent_price": 0.34
-    },
-    {
-      "edge_bps": 2400,
-      "fee": 0.15,
-      "filled_at": "2026-09-14T20:51:59.120647+00:00",
-      "mark": 0.325,
-      "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-cf73409f4bc0",
-      "outcome": "yes",
-      "paper_pnl": -0.3,
-      "price": 0.31,
-      "qty": 10.0,
-      "rank": 7,
-      "side": "sell",
-      "strategy": "news_underreaction",
-      "title": "Will August CPI be above 3.0%?",
-      "track": "news_underreaction",
-      "venue": "kalshi",
-      "yes_equivalent_price": 0.31
-    },
-    {
-      "edge_bps": 400,
-      "fee": 0.18,
-      "filled_at": "2026-09-14T20:51:59.119437+00:00",
-      "mark": 0.53,
-      "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-b597eef544c0",
-      "outcome": "yes",
-      "paper_pnl": -0.28,
-      "price": 0.54,
-      "qty": 10.0,
-      "rank": 8,
-      "side": "buy",
-      "strategy": "calibrated_fair_value",
-      "title": "Will the Fed cut rates at the September meeting?",
-      "track": "single_venue_fair_value",
-      "venue": "kalshi",
-      "yes_equivalent_price": 0.54
-    },
-    {
-      "edge_bps": 1400,
-      "fee": 0.18,
-      "filled_at": "2026-09-14T20:51:59.120459+00:00",
-      "mark": 0.53,
-      "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-d7d46273f869",
-      "outcome": "yes",
-      "paper_pnl": -0.28,
-      "price": 0.54,
-      "qty": 10.0,
-      "rank": 9,
-      "side": "buy",
-      "strategy": "news_underreaction",
-      "title": "Will the Fed cut rates at the September meeting?",
-      "track": "news_underreaction",
-      "venue": "kalshi",
-      "yes_equivalent_price": 0.54
-    },
-    {
-      "edge_bps": 500,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T20:51:59.119846+00:00",
-      "mark": 0.52,
-      "market": "0xfixture-nba-ny-boston",
-      "order_id": "paper-6aebf1596929",
-      "outcome": "yes",
-      "paper_pnl": -0.25,
-      "price": 0.53,
-      "qty": 25.0,
+      "paper_pnl": -0.384,
+      "price": 0.6,
+      "qty": 40.0,
       "rank": 10,
       "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Will New York beat Boston?",
-      "track": "sports_cross_venue",
+      "strategy": "polymarket_arb",
+      "title": "Fixture nominee A",
+      "track": "polymarket_negrisk_arb",
       "venue": "polymarket",
-      "yes_equivalent_price": 0.53
+      "yes_equivalent_price": 0.4
     }
   ],
   "totals": {
-    "admitted": 12,
-    "avg_edge_bps": 968,
-    "candidates": 21,
-    "fees_paid": 2.05,
-    "fill_rate": 1.0,
-    "paper_fills": 17,
-    "paper_pnl": -4.69,
-    "proposed_orders": 17,
-    "realized_pnl": -2.05,
-    "rejects": 9,
+    "admitted": 16,
+    "avg_edge_bps": 705,
+    "candidates": 45,
+    "fees_paid": 4.7524,
+    "fill_rate": 1.0357,
+    "paper_fills": 29,
+    "paper_pnl": -4.4924,
+    "proposed_orders": 28,
+    "realized_pnl": -0.0524,
+    "rejects": 29,
     "settlement_risk_pairs": 3,
-    "unrealized_pnl": -2.64
+    "unrealized_pnl": -4.44
   },
   "tracks": [
     {
@@ -714,14 +802,14 @@
         "concentration": [
           {
             "venue": "kalshi",
-            "weight": 0.5579
+            "weight": 0.55789
           },
           {
             "venue": "polymarket",
-            "weight": 0.4421
+            "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T20:51:59.117800+00:00",
+        "created_at": "2026-09-14T21:24:03.230334+00:00",
         "equity": 999.4,
         "equity_points": 1,
         "fees_paid": 0.28,
@@ -766,7 +854,7 @@
         "total_pnl": -0.6,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.32,
-        "updated_at": "2026-09-14T20:51:59.120817+00:00"
+        "updated_at": "2026-09-14T21:24:03.235227+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -885,11 +973,13 @@
         "snapshot": {
           "kalshi": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           },
           "polymarket": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           }
@@ -944,7 +1034,7 @@
             "weight": 0.5
           }
         ],
-        "created_at": "2026-09-14T20:51:59.117849+00:00",
+        "created_at": "2026-09-14T21:24:03.230368+00:00",
         "equity": 998.39,
         "equity_points": 1,
         "fees_paid": 0.63,
@@ -1011,7 +1101,7 @@
         "total_pnl": -1.61,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.98,
-        "updated_at": "2026-09-14T20:51:59.120921+00:00"
+        "updated_at": "2026-09-14T21:24:03.235333+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1100,11 +1190,13 @@
         "snapshot": {
           "kalshi": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           },
           "polymarket": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           }
@@ -1148,14 +1240,14 @@
         "concentration": [
           {
             "venue": "kalshi",
-            "weight": 0.4763
+            "weight": 0.47632
           },
           {
             "venue": "polymarket",
-            "weight": 0.5237
+            "weight": 0.52368
           }
         ],
-        "created_at": "2026-09-14T20:51:59.117863+00:00",
+        "created_at": "2026-09-14T21:24:03.230382+00:00",
         "equity": 999.21,
         "equity_points": 1,
         "fees_paid": 0.34,
@@ -1222,7 +1314,7 @@
         "total_pnl": -0.79,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.45,
-        "updated_at": "2026-09-14T20:51:59.121024+00:00"
+        "updated_at": "2026-09-14T21:24:03.235436+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1265,11 +1357,13 @@
         "snapshot": {
           "kalshi": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           },
           "polymarket": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           }
@@ -1341,14 +1435,14 @@
         "concentration": [
           {
             "venue": "kalshi",
-            "weight": 0.5315
+            "weight": 0.53153
           },
           {
             "venue": "polymarket",
-            "weight": 0.4685
+            "weight": 0.46847
           }
         ],
-        "created_at": "2026-09-14T20:51:59.117873+00:00",
+        "created_at": "2026-09-14T21:24:03.230391+00:00",
         "equity": 999.07,
         "equity_points": 1,
         "fees_paid": 0.43,
@@ -1393,7 +1487,7 @@
         "total_pnl": -0.93,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.5,
-        "updated_at": "2026-09-14T20:51:59.121107+00:00"
+        "updated_at": "2026-09-14T21:24:03.235521+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1452,11 +1546,13 @@
         "snapshot": {
           "kalshi": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           },
           "polymarket": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           }
@@ -1500,14 +1596,14 @@
         "concentration": [
           {
             "venue": "kalshi",
-            "weight": 0.5579
+            "weight": 0.55789
           },
           {
             "venue": "polymarket",
-            "weight": 0.4421
+            "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T20:51:59.117881+00:00",
+        "created_at": "2026-09-14T21:24:03.230400+00:00",
         "equity": 999.92,
         "equity_points": 1,
         "fees_paid": 0.04,
@@ -1552,7 +1648,7 @@
         "total_pnl": -0.08,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.04,
-        "updated_at": "2026-09-14T20:51:59.121169+00:00"
+        "updated_at": "2026-09-14T21:24:03.235582+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1671,11 +1767,13 @@
         "snapshot": {
           "kalshi": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           },
           "polymarket": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           }
@@ -1723,14 +1821,14 @@
         "concentration": [
           {
             "venue": "kalshi",
-            "weight": 0.6706
+            "weight": 0.67059
           },
           {
             "venue": "polymarket",
-            "weight": 0.3294
+            "weight": 0.32941
           }
         ],
-        "created_at": "2026-09-14T20:51:59.117901+00:00",
+        "created_at": "2026-09-14T21:24:03.230411+00:00",
         "equity": 999.32,
         "equity_points": 1,
         "fees_paid": 0.33,
@@ -1786,7 +1884,7 @@
         "total_pnl": -0.68,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.35,
-        "updated_at": "2026-09-14T20:51:59.121232+00:00"
+        "updated_at": "2026-09-14T21:24:03.235645+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2055,9 +2153,9 @@
           "scored_fills": 3
         },
         "signal_source": {
-          "as_of": "2026-09-14T20:51:59.120212+00:00",
+          "as_of": "2026-09-14T21:24:03.232593+00:00",
           "errors": [],
-          "fetched_at": "2026-09-14T20:51:59.120235+00:00",
+          "fetched_at": "2026-09-14T21:24:03.232616+00:00",
           "name": "fixture",
           "note": "signals loaded from /workspace/research/fixtures/news_signals.json",
           "signals": 8
@@ -2065,11 +2163,13 @@
         "snapshot": {
           "kalshi": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           },
           "polymarket": {
             "errors": [],
+            "groups": 0,
             "markets": 3,
             "source": "fixture"
           }
@@ -2113,6 +2213,745 @@
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "news_underreaction"
+    },
+    {
+      "admitted": 2,
+      "candidates": 16,
+      "edge_bps": 180,
+      "estimated_fees_buffer": 0.28,
+      "fill_rate": 1.0,
+      "label": "Polymarket YES+NO rebalancing",
+      "ledger": {
+        "cash": 1002.8,
+        "concentration": [],
+        "created_at": "2026-09-14T21:24:03.230419+00:00",
+        "equity": 1002.8,
+        "equity_points": 1,
+        "fees_paid": 0.0,
+        "fills": 4,
+        "gross_notional": 0.0,
+        "ledger_id": "polymarket_rebalancing_arb",
+        "mark_method": "mid",
+        "max_drawdown": 0.0,
+        "net_exposure": 0.0,
+        "open_positions": 0,
+        "paper_only": true,
+        "peak_equity": 1002.8,
+        "position_value": 0.0,
+        "positions": [],
+        "realized_pnl": 2.8,
+        "return_pct": 0.28,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": 2.8,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.0,
+        "updated_at": "2026-09-14T21:24:03.235709+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 0.0,
+          "equity": 1002.8,
+          "total_pnl": 2.8
+        },
+        "events": {
+          "fill": 4,
+          "order_acknowledged": 4,
+          "order_rejected": 0,
+          "order_submitted": 4
+        },
+        "executions": [
+          {
+            "kind": "merge",
+            "market": "0xfixture-binary-merge-feefree",
+            "mechanism": "CTF mergePositions",
+            "residual_contracts": 0.0,
+            "risk_capped_sets": null,
+            "sets_complete": 80.0,
+            "sets_planned": 80.0
+          },
+          {
+            "kind": "split",
+            "market": "0xfixture-binary-split",
+            "mechanism": "CTF splitPosition + sell both legs",
+            "residual_contracts": 0.0,
+            "risk_capped_sets": null,
+            "sets_complete": 60.0,
+            "sets_planned": 60.0
+          }
+        ],
+        "literature": "arXiv:2508.03474 (rebalancing); live CLOB YES/NO books are mirrors so ask_sum >= 1 + spread",
+        "markets_checked": 16,
+        "mirror_consistent": 13,
+        "mirror_inconsistent": 3,
+        "mirror_inconsistent_markets": [
+          {
+            "book_timestamp_skew_ms": 0,
+            "market": "0xfixture-binary-merge-feefree",
+            "no_levels": 3,
+            "title": "Fixture merge fee-free",
+            "yes_ask_plus_no_ask": 0.98,
+            "yes_bid_plus_no_bid": 0.94,
+            "yes_levels": 3
+          },
+          {
+            "book_timestamp_skew_ms": 0,
+            "market": "0xfixture-binary-merge-fees",
+            "no_levels": 2,
+            "title": "Fixture merge with fees",
+            "yes_ask_plus_no_ask": 0.98,
+            "yes_bid_plus_no_bid": 0.94,
+            "yes_levels": 2
+          },
+          {
+            "book_timestamp_skew_ms": 0,
+            "market": "0xfixture-binary-split",
+            "no_levels": 3,
+            "title": "Fixture split fee-free",
+            "yes_ask_plus_no_ask": 1.06,
+            "yes_bid_plus_no_bid": 1.02,
+            "yes_levels": 3
+          }
+        ],
+        "opportunities": [
+          {
+            "admitted": true,
+            "capital_required": 78.4,
+            "edge_bps": 180,
+            "executable_now": true,
+            "gross_edge_per_set": 0.02,
+            "group": "0xfixture-binary-merge-feefree",
+            "hidden_outcome_risk": false,
+            "kind": "merge",
+            "leg_count": 2,
+            "legs": [
+              {
+                "average_price": 0.45,
+                "fee_rate": 0.0,
+                "fees": 0.0,
+                "limit_price": 0.45,
+                "market": "0xfixture-binary-merge-feefree",
+                "outcome": "yes",
+                "quantity": 80.0,
+                "side": "buy",
+                "slippage": 0.08,
+                "title": "Fixture merge fee-free"
+              },
+              {
+                "average_price": 0.53,
+                "fee_rate": 0.0,
+                "fees": 0.0,
+                "limit_price": 0.53,
+                "market": "0xfixture-binary-merge-feefree",
+                "outcome": "no",
+                "quantity": 80.0,
+                "side": "buy",
+                "slippage": 0.08,
+                "title": "Fixture merge fee-free"
+              }
+            ],
+            "lockup": "none",
+            "lockup_until": null,
+            "mirror_consistent": false,
+            "net_edge_per_set": 0.018,
+            "net_profit": 1.44,
+            "payoff_per_set": 1.0,
+            "reason": "admitted",
+            "return_on_capital_bps": 184,
+            "sets": 80.0,
+            "title": "Fixture merge fee-free",
+            "top_fees_per_set": 0.0,
+            "top_of_book_sum": 0.98,
+            "top_slippage_per_set": 0.002,
+            "total_fees": 0.0,
+            "total_slippage": 0.16
+          },
+          {
+            "admitted": false,
+            "capital_required": 0.0,
+            "edge_bps": 200,
+            "executable_now": true,
+            "gross_edge_per_set": 0.02,
+            "group": "0xfixture-binary-merge-fees",
+            "hidden_outcome_risk": false,
+            "kind": "merge",
+            "leg_count": 2,
+            "legs": [],
+            "lockup": "none",
+            "lockup_until": null,
+            "mirror_consistent": false,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "payoff_per_set": 1.0,
+            "reason": "fees_exceed_edge",
+            "return_on_capital_bps": null,
+            "sets": 0.0,
+            "title": "Fixture merge with fees",
+            "top_fees_per_set": 0.02483,
+            "top_of_book_sum": 0.98,
+            "top_slippage_per_set": 0.002,
+            "total_fees": 0.0,
+            "total_slippage": 0.0
+          },
+          {
+            "admitted": true,
+            "capital_required": 60.0,
+            "edge_bps": 180,
+            "executable_now": true,
+            "gross_edge_per_set": 0.02,
+            "group": "0xfixture-binary-split",
+            "hidden_outcome_risk": false,
+            "kind": "split",
+            "leg_count": 2,
+            "legs": [
+              {
+                "average_price": 0.52,
+                "fee_rate": 0.0,
+                "fees": 0.0,
+                "limit_price": 0.52,
+                "market": "0xfixture-binary-split",
+                "outcome": "yes",
+                "quantity": 60.0,
+                "side": "sell",
+                "slippage": 0.06,
+                "title": "Fixture split fee-free"
+              },
+              {
+                "average_price": 0.5,
+                "fee_rate": 0.0,
+                "fees": 0.0,
+                "limit_price": 0.5,
+                "market": "0xfixture-binary-split",
+                "outcome": "no",
+                "quantity": 60.0,
+                "side": "sell",
+                "slippage": 0.06,
+                "title": "Fixture split fee-free"
+              }
+            ],
+            "lockup": "none",
+            "lockup_until": null,
+            "mirror_consistent": false,
+            "net_edge_per_set": 0.018,
+            "net_profit": 1.08,
+            "payoff_per_set": -1.0,
+            "reason": "admitted",
+            "return_on_capital_bps": 180,
+            "sets": 60.0,
+            "title": "Fixture split fee-free",
+            "top_fees_per_set": 0.0,
+            "top_of_book_sum": 1.02,
+            "top_slippage_per_set": 0.002,
+            "total_fees": 0.0,
+            "total_slippage": 0.12
+          }
+        ],
+        "parameters": {
+          "allow_hidden_outcome_long_yes": false,
+          "allow_unverified_exclusivity": false,
+          "converter_fee_bps": 0.0,
+          "maximum_capital": 250.0,
+          "maximum_sets": 100.0,
+          "minimum_net_edge_per_set": 0.001,
+          "model_fees": true,
+          "slippage_ticks": 1.0
+        },
+        "snapshot": {
+          "polymarket": {
+            "errors": [],
+            "groups": 8,
+            "markets": 16,
+            "source": "fixture"
+          }
+        },
+        "top_of_book_ask_sum": {
+          "count": 16,
+          "max": 1.06,
+          "median": 1.02,
+          "min": 0.98
+        },
+        "top_of_book_bid_sum": {
+          "count": 16,
+          "max": 1.02,
+          "median": 0.98,
+          "min": 0.94
+        },
+        "venue_pnl": {
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 0.0,
+            "realized_pnl": 2.8,
+            "total_pnl": 2.8,
+            "unrealized_pnl": 0.0
+          }
+        }
+      },
+      "notes": "Binary YES+NO rebalancing: buy both below 1 and merge, or split and sell both above 1. Depth-aware, fee- and slippage-adjusted. The live CLOB serves mirror books, so this is expected to be quiet; mirror_consistent counts how often that held.",
+      "paper_fills": 4,
+      "proposed_orders": 4,
+      "refused_by_reason": {
+        "fees_exceed_edge": 1,
+        "no_edge": 13
+      },
+      "reject_reasons": {
+        "fees_exceed_edge": 1,
+        "no_edge": 13
+      },
+      "rejects": 14,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "polymarket_rebalancing_arb"
+    },
+    {
+      "admitted": 1,
+      "candidates": 4,
+      "edge_bps": 149,
+      "estimated_fees_buffer": 0.16,
+      "fill_rate": 1.25,
+      "label": "Polymarket NegRisk convert",
+      "ledger": {
+        "cash": 1000.75444,
+        "concentration": [],
+        "created_at": "2026-09-14T21:24:03.230512+00:00",
+        "equity": 1000.75444,
+        "equity_points": 1,
+        "fees_paid": 1.14556,
+        "fills": 9,
+        "gross_notional": 0.0,
+        "ledger_id": "polymarket_negrisk_arb",
+        "mark_method": "mid",
+        "max_drawdown": 0.0,
+        "net_exposure": 0.0,
+        "open_positions": 0,
+        "paper_only": true,
+        "peak_equity": 1000.75444,
+        "position_value": 0.0,
+        "positions": [],
+        "realized_pnl": 0.75444,
+        "return_pct": 0.07544,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": 0.75444,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 0.0,
+        "updated_at": "2026-09-14T21:24:03.235748+00:00"
+      },
+      "metrics": {
+        "augmented_groups": 2,
+        "conversions": [
+          {
+            "augmented": true,
+            "collateral_out": 120.0,
+            "fees": 1.14556,
+            "group": "fixture-negrisk-convert",
+            "hidden_placeholder_yes_valued_at_zero": true,
+            "legs": 4,
+            "mechanism": "NegRiskAdapter.convertPositions(indexSet=all visible legs); one-way NO->collateral",
+            "no_cost": 118.1,
+            "risk_capped_sets": null,
+            "sets": 40.0,
+            "title": "Fixture: 4-way NegRisk event where the NO legs sum below 3"
+          }
+        ],
+        "converter_fee_bps": 0.0,
+        "convertible_groups": 3,
+        "equity_point": {
+          "drawdown": 0.0,
+          "equity": 1000.75444,
+          "total_pnl": 0.75444
+        },
+        "events": {
+          "fill": 5,
+          "order_acknowledged": 4,
+          "order_rejected": 0,
+          "order_submitted": 4
+        },
+        "groups": [
+          {
+            "augmented": true,
+            "capital_required": 118.1,
+            "end_date": "2028-08-01T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": 0.05,
+            "group": "fixture-negrisk-convert",
+            "kind": "negrisk_convert",
+            "legs": 4,
+            "listed_markets": 4,
+            "neg_risk": true,
+            "net_edge_per_set": 0.01486,
+            "net_profit": 0.59444,
+            "no_ask_sum": 2.95,
+            "reason": "admitted",
+            "sets": 40.0,
+            "slug": "fixture-negrisk-convert",
+            "title": "Fixture: 4-way NegRisk event where the NO legs sum below 3",
+            "top_fees_per_set": 0.0287,
+            "top_slippage_per_set": 0.004,
+            "yes_ask_sum": 1.13,
+            "yes_bid_sum": 1.05
+          },
+          {
+            "augmented": true,
+            "capital_required": 0.0,
+            "end_date": "2027-06-01T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": -0.1,
+            "group": "fixture-negrisk-augmented-long-yes",
+            "kind": "negrisk_convert",
+            "legs": 2,
+            "listed_markets": 2,
+            "neg_risk": true,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": 1.1,
+            "reason": "no_edge",
+            "sets": 0.0,
+            "slug": "fixture-negrisk-augmented-long-yes",
+            "title": "Fixture: augmented NegRisk event whose visible YES asks sum below 1",
+            "top_fees_per_set": 0.0198,
+            "top_slippage_per_set": 0.002,
+            "yes_ask_sum": 0.94,
+            "yes_bid_sum": 0.9
+          },
+          {
+            "augmented": false,
+            "capital_required": 0.0,
+            "end_date": "2027-01-15T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": -0.11,
+            "group": "fixture-negrisk-long-yes",
+            "kind": "negrisk_convert",
+            "legs": 3,
+            "listed_markets": 3,
+            "neg_risk": true,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": 2.11,
+            "reason": "no_edge",
+            "sets": 0.0,
+            "slug": "fixture-negrisk-long-yes",
+            "title": "Fixture: 3-way NegRisk event where the YES asks sum below 1",
+            "top_fees_per_set": 0.02502,
+            "top_slippage_per_set": 0.003,
+            "yes_ask_sum": 0.95,
+            "yes_bid_sum": 0.89
+          },
+          {
+            "augmented": false,
+            "capital_required": 0.0,
+            "end_date": "2026-12-31T00:00:00Z",
+            "exclusive": false,
+            "gross_edge_per_set": -0.1,
+            "group": "fixture-plain-multi",
+            "kind": "negrisk_convert",
+            "legs": 3,
+            "listed_markets": 3,
+            "neg_risk": false,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": 2.1,
+            "reason": "converter_unavailable",
+            "sets": 0.0,
+            "slug": "fixture-plain-multi",
+            "title": "Fixture: three related markets that are not a NegRisk event",
+            "top_fees_per_set": 0.0,
+            "top_slippage_per_set": 0.003,
+            "yes_ask_sum": 0.96,
+            "yes_bid_sum": 0.9
+          }
+        ],
+        "groups_checked": 4,
+        "legging_residual_contracts": 0.0,
+        "literature": "arXiv:2608.00666 (executable NegRisk arbitrage; NO->YES converter asymmetry)",
+        "parameters": {
+          "allow_hidden_outcome_long_yes": false,
+          "allow_unverified_exclusivity": false,
+          "converter_fee_bps": 0.0,
+          "maximum_capital": 250.0,
+          "maximum_sets": 100.0,
+          "minimum_net_edge_per_set": 0.001,
+          "model_fees": true,
+          "slippage_ticks": 1.0
+        },
+        "single_outcome_groups_skipped": 4,
+        "snapshot": {
+          "polymarket": {
+            "errors": [],
+            "groups": 8,
+            "markets": 16,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {
+          "polymarket": {
+            "fees_paid": 1.14556,
+            "open_positions": 0.0,
+            "realized_pnl": 0.75444,
+            "total_pnl": 0.75444,
+            "unrealized_pnl": 0.0
+          }
+        }
+      },
+      "notes": "Buy one NO on every visible leg of a NegRisk event when the NO asks sum below K-1, then convert the set to K-1 USDC through the NegRiskAdapter (one-way NO->collateral, no resolution wait). Hidden placeholder outcomes only help this side. Fees and a per-leg slippage buffer are deducted.",
+      "paper_fills": 5,
+      "proposed_orders": 4,
+      "refused_by_reason": {
+        "converter_unavailable": 1,
+        "no_edge": 2
+      },
+      "reject_reasons": {
+        "converter_unavailable": 1,
+        "no_edge": 2
+      },
+      "rejects": 3,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "polymarket_negrisk_arb"
+    },
+    {
+      "admitted": 1,
+      "candidates": 4,
+      "edge_bps": 211,
+      "estimated_fees_buffer": 0.18,
+      "fill_rate": 1.0,
+      "label": "Polymarket sum-to-one (hold)",
+      "ledger": {
+        "cash": 941.44312,
+        "concentration": [
+          {
+            "venue": "polymarket",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T21:24:03.230523+00:00",
+        "equity": 996.64312,
+        "equity_points": 1,
+        "fees_paid": 1.55688,
+        "fills": 3,
+        "gross_notional": 55.2,
+        "ledger_id": "polymarket_combinatorial_arb",
+        "mark_method": "mid",
+        "max_drawdown": 3.35688,
+        "net_exposure": 55.2,
+        "open_positions": 3,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 55.2,
+        "positions": [
+          {
+            "average_price": 0.3,
+            "fees_paid": 0.504,
+            "mark": 0.29,
+            "market_id": "0xfixture-ly-a",
+            "quantity": 60.0,
+            "realized_pnl": -0.504,
+            "unrealized_pnl": -0.6,
+            "value": 17.4,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.32,
+            "fees_paid": 0.52224,
+            "mark": 0.31,
+            "market_id": "0xfixture-ly-b",
+            "quantity": 60.0,
+            "realized_pnl": -0.52224,
+            "unrealized_pnl": -0.6,
+            "value": 18.6,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.33,
+            "fees_paid": 0.53064,
+            "mark": 0.32,
+            "market_id": "0xfixture-ly-c",
+            "quantity": 60.0,
+            "realized_pnl": -0.53064,
+            "unrealized_pnl": -0.6,
+            "value": 19.2,
+            "venue": "polymarket"
+          }
+        ],
+        "realized_pnl": -1.55688,
+        "return_pct": -0.33569,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -3.35688,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -1.8,
+        "updated_at": "2026-09-14T21:24:03.235798+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 3.35688,
+          "equity": 996.64312,
+          "total_pnl": -3.35688
+        },
+        "events": {
+          "fill": 3,
+          "order_acknowledged": 3,
+          "order_rejected": 0,
+          "order_submitted": 3
+        },
+        "groups": [
+          {
+            "augmented": true,
+            "capital_required": 0.0,
+            "end_date": "2027-06-01T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": 0.06,
+            "group": "fixture-negrisk-augmented-long-yes",
+            "kind": "long_all_yes",
+            "legs": 2,
+            "listed_markets": 2,
+            "neg_risk": true,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": 1.1,
+            "reason": "hidden_outcome_risk",
+            "sets": 0.0,
+            "slug": "fixture-negrisk-augmented-long-yes",
+            "title": "Fixture: augmented NegRisk event whose visible YES asks sum below 1",
+            "top_fees_per_set": 0.01993,
+            "top_slippage_per_set": 0.002,
+            "yes_ask_sum": 0.94,
+            "yes_bid_sum": 0.9
+          },
+          {
+            "augmented": false,
+            "capital_required": 57.0,
+            "end_date": "2027-01-15T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": 0.05,
+            "group": "fixture-negrisk-long-yes",
+            "kind": "long_all_yes",
+            "legs": 3,
+            "listed_markets": 3,
+            "neg_risk": true,
+            "net_edge_per_set": 0.02105,
+            "net_profit": 1.26312,
+            "no_ask_sum": 2.11,
+            "reason": "admitted",
+            "sets": 60.0,
+            "slug": "fixture-negrisk-long-yes",
+            "title": "Fixture: 3-way NegRisk event where the YES asks sum below 1",
+            "top_fees_per_set": 0.02595,
+            "top_slippage_per_set": 0.003,
+            "yes_ask_sum": 0.95,
+            "yes_bid_sum": 0.89
+          },
+          {
+            "augmented": true,
+            "capital_required": 0.0,
+            "end_date": "2028-08-01T00:00:00Z",
+            "exclusive": true,
+            "gross_edge_per_set": -0.13,
+            "group": "fixture-negrisk-convert",
+            "kind": "long_all_yes",
+            "legs": 4,
+            "listed_markets": 4,
+            "neg_risk": true,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": 2.95,
+            "reason": "hidden_outcome_risk",
+            "sets": 0.0,
+            "slug": "fixture-negrisk-convert",
+            "title": "Fixture: 4-way NegRisk event where the NO legs sum below 3",
+            "top_fees_per_set": 0.03016,
+            "top_slippage_per_set": 0.004,
+            "yes_ask_sum": 1.13,
+            "yes_bid_sum": 1.05
+          },
+          {
+            "augmented": false,
+            "capital_required": 0.0,
+            "end_date": "2026-12-31T00:00:00Z",
+            "exclusive": false,
+            "gross_edge_per_set": 0.04,
+            "group": "fixture-plain-multi",
+            "kind": "long_all_yes",
+            "legs": 3,
+            "listed_markets": 3,
+            "neg_risk": false,
+            "net_edge_per_set": null,
+            "net_profit": 0.0,
+            "no_ask_sum": 2.1,
+            "reason": "exclusivity_unverified",
+            "sets": 0.0,
+            "slug": "fixture-plain-multi",
+            "title": "Fixture: three related markets that are not a NegRisk event",
+            "top_fees_per_set": 0.0,
+            "top_slippage_per_set": 0.003,
+            "yes_ask_sum": 0.96,
+            "yes_bid_sum": 0.9
+          }
+        ],
+        "groups_checked": 4,
+        "holdings": [
+          {
+            "cost": 57.0,
+            "fees": 1.55688,
+            "group": "fixture-negrisk-long-yes",
+            "legs": 3,
+            "lockup_until": "2027-01-15T00:00:00Z",
+            "mechanism": "hold every YES to resolution; no YES->collateral converter exists",
+            "payoff_at_resolution": 60.0,
+            "profit_at_resolution": 1.44312,
+            "residual_contracts": 0.0,
+            "risk_capped_sets": null,
+            "sets_complete": 60.0,
+            "title": "Fixture: 3-way NegRisk event where the YES asks sum below 1"
+          }
+        ],
+        "literature": "arXiv:2508.03474 (combinatorial / sum-to-one); one-way converter means capital is locked",
+        "locked_capital": 57.0,
+        "lockup_until": "2027-01-15T00:00:00Z",
+        "parameters": {
+          "allow_hidden_outcome_long_yes": false,
+          "allow_unverified_exclusivity": false,
+          "converter_fee_bps": 0.0,
+          "maximum_capital": 250.0,
+          "maximum_sets": 100.0,
+          "minimum_net_edge_per_set": 0.001,
+          "model_fees": true,
+          "slippage_ticks": 1.0
+        },
+        "payoff_at_resolution": 60.0,
+        "single_outcome_groups_skipped": 4,
+        "snapshot": {
+          "polymarket": {
+            "errors": [],
+            "groups": 8,
+            "markets": 16,
+            "source": "fixture"
+          }
+        },
+        "venue_pnl": {
+          "polymarket": {
+            "fees_paid": 1.55688,
+            "open_positions": 3.0,
+            "realized_pnl": -1.55688,
+            "total_pnl": -3.35688,
+            "unrealized_pnl": -1.8
+          }
+        }
+      },
+      "notes": "Buy one YES on every leg of an exclusive event when the asks sum below 1. No converter exists for YES->collateral, so positions are held to resolution: the ledger marks them at mid and locked_capital / payoff_at_resolution report the lockup. Augmented events (hidden placeholders) and groups without an exclusivity guarantee are refused.",
+      "paper_fills": 3,
+      "proposed_orders": 3,
+      "refused_by_reason": {
+        "exclusivity_unverified": 1,
+        "hidden_outcome_risk": 2
+      },
+      "reject_reasons": {
+        "exclusivity_unverified": 1,
+        "hidden_outcome_risk": 2
+      },
+      "rejects": 3,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "polymarket_combinatorial_arb"
     }
   ]
 }

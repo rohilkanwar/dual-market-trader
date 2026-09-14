@@ -88,7 +88,7 @@ Evidence columns cite files and tests in this repository. Runs were executed on
 
 ## 8. Polymarket intra-venue arbitrage tracks (`docs/POLYMARKET_ARB.md`)
 
-Runs executed 2026-09-14 21:05 UTC against public Gamma/CLOB endpoints; artifacts committed under `dashboard/public/artifacts/` (run ids `20260914T210549Z-519e2135` arb-only, `20260914T210541Z-cd15a2c5` full board, `20260914T210532Z-de84053d` fixtures).
+Runs executed 2026-09-14 21:05 UTC against public Gamma/CLOB endpoints; artifacts committed under `dashboard/public/artifacts/` (run ids `20260914T210549Z-519e2135` arb-only; `20260914T210541Z-cd15a2c5` / `20260914T210532Z-de84053d` are the 8-track full board and fixture runs from the same minute, superseded after the rebase onto the news lane by the 9-track `20260914T212414Z-70a904d9` / `20260914T212403Z-a763b42e`, all kept in the history).
 
 | # | Assumption | Status | Evidence |
 | --- | --- | --- | --- |

@@ -19,7 +19,7 @@ export const FAMILIES = [
     id: 'negrisk',
     label: 'NegRisk',
     lane: true,
-    description: 'Polymarket NegRisk / combinatorial',
+    description: 'Polymarket NegRisk / combinatorial / YES+NO rebalancing',
   },
   {
     id: 'kalshi_flb',
@@ -75,6 +75,9 @@ export const KNOWN_TRACKS = {
   sports_cross_venue: 'xv_ungated',
   single_venue_fair_value: 'single_venue',
   news_underreaction: 'news',
+  polymarket_rebalancing_arb: 'negrisk',
+  polymarket_negrisk_arb: 'negrisk',
+  polymarket_combinatorial_arb: 'negrisk',
 }
 
 const tokensOf = (id) =>
