@@ -341,6 +341,12 @@ def _weighted_stats(clusters: list[_Cluster]) -> dict[str, Any]:
     }
 
 
+# Public names for other ex-post measurements (research.whale_noise) that
+# reuse the market-clustered accounting without re-implementing it.
+Cluster = _Cluster
+weighted_cluster_stats = _weighted_stats
+
+
 def _accumulate(markets: list[SettledMarket], fee_model: KalshiFeeModel, *, exclude_final_minutes: int | None) -> dict[str, dict[str, _Cluster]]:
     by_band: dict[str, dict[str, _Cluster]] = {}
     for market in markets:

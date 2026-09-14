@@ -1,0 +1,956 @@
+{
+  "_comment": "Synthetic fixture for the make-on-whale / take-on-noise track: six Kalshi tennis markets with a time-aligned sequence of L2 books and public prints. Prices and sizes are illustrative, not observations. A/B: whale lifts followed by fills at our level (partial, then trade-through); C: retail longshot flow (taker fades, cooldown, caps) then a NO whale inside the lookback; D: whale that reverts (toxic fill); E: quote expires unfilled after a later book lengthens the queue; F: block trade and small prints only.",
+  "source": "fixture",
+  "t0": "2026-09-15T12:00:00Z",
+  "markets": [
+    {
+      "market_id": "KXWTAMATCH-26SEP15AAABBB-AAA",
+      "title": "Anisimova beats Badosa? (synthetic)",
+      "volume": "12000",
+      "metadata": {
+        "series_ticker": "KXWTAMATCH",
+        "category": "sports",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "mutually_exclusive": true,
+        "event_ticker": "KXWTAMATCH-26SEP15AAABBB",
+        "paper_settlement_outcome": "yes"
+      }
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15CCCDDD-CCC",
+      "title": "Cirstea beats Danilovic? (synthetic)",
+      "volume": "9000",
+      "metadata": {
+        "series_ticker": "KXWTAMATCH",
+        "category": "sports",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "mutually_exclusive": true,
+        "event_ticker": "KXWTAMATCH-26SEP15CCCDDD",
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15EEEFFF-EEE",
+      "title": "Etcheverry beats Fils? (synthetic)",
+      "volume": "4000",
+      "metadata": {
+        "series_ticker": "KXATPCHALLENGERMATCH",
+        "category": "sports",
+        "fee_type": "quadratic",
+        "fee_multiplier": 1,
+        "mutually_exclusive": true,
+        "event_ticker": "KXATPCHALLENGERMATCH-26SEP15EEEFFF",
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15GGGHHH-GGG",
+      "title": "Gauff beats Haddad Maia? (synthetic)",
+      "volume": "20000",
+      "metadata": {
+        "series_ticker": "KXWTAMATCH",
+        "category": "sports",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "mutually_exclusive": true,
+        "event_ticker": "KXWTAMATCH-26SEP15GGGHHH",
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP15IIIJJJ-III",
+      "title": "Iga beats Jabeur? (synthetic)",
+      "volume": "30000",
+      "metadata": {
+        "series_ticker": "KXWTAMATCH",
+        "category": "sports",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "mutually_exclusive": true,
+        "event_ticker": "KXWTAMATCH-26SEP15IIIJJJ",
+        "paper_settlement_outcome": "yes"
+      }
+    },
+    {
+      "market_id": "KXITFMATCH-26SEP15KKKLLL-KKK",
+      "title": "Kecmanovic beats Lehecka? (synthetic)",
+      "volume": "500",
+      "metadata": {
+        "series_ticker": "KXITFMATCH",
+        "category": "sports",
+        "fee_type": "quadratic",
+        "fee_multiplier": 1,
+        "mutually_exclusive": true,
+        "event_ticker": "KXITFMATCH-26SEP15KKKLLL"
+      }
+    }
+  ],
+  "timeline": {
+    "KXWTAMATCH-26SEP15AAABBB-AAA": {
+      "books": [
+        {
+          "ts": "2026-09-15T12:00:00Z",
+          "bids": [
+            [
+              "0.60",
+              "300"
+            ],
+            [
+              "0.59",
+              "150"
+            ],
+            [
+              "0.58",
+              "400"
+            ]
+          ],
+          "asks": [
+            [
+              "0.62",
+              "500"
+            ],
+            [
+              "0.63",
+              "600"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:01:10Z",
+          "bids": [
+            [
+              "0.61",
+              "200"
+            ],
+            [
+              "0.60",
+              "250"
+            ],
+            [
+              "0.59",
+              "150"
+            ]
+          ],
+          "asks": [
+            [
+              "0.63",
+              "400"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:03:30Z",
+          "bids": [
+            [
+              "0.58",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.60",
+              "200"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:05:00Z",
+          "bids": [
+            [
+              "0.61",
+              "300"
+            ],
+            [
+              "0.60",
+              "200"
+            ]
+          ],
+          "asks": [
+            [
+              "0.63",
+              "500"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:08:00Z",
+          "bids": [
+            [
+              "0.62",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.64",
+              "500"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:13:20Z",
+          "bids": [
+            [
+              "0.62",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.64",
+              "500"
+            ]
+          ]
+        }
+      ],
+      "trades": [
+        {
+          "ts": "2026-09-15T12:00:10Z",
+          "taker_side": "yes",
+          "yes_price": "0.62",
+          "size": "20",
+          "trade_id": "A-r1"
+        },
+        {
+          "ts": "2026-09-15T12:00:20Z",
+          "taker_side": "yes",
+          "yes_price": "0.62",
+          "size": "30",
+          "trade_id": "A-r2"
+        },
+        {
+          "ts": "2026-09-15T12:00:30Z",
+          "taker_side": "yes",
+          "yes_price": "0.62",
+          "size": "25",
+          "trade_id": "A-r3"
+        },
+        {
+          "ts": "2026-09-15T12:00:40Z",
+          "taker_side": "yes",
+          "yes_price": "0.62",
+          "size": "40",
+          "trade_id": "A-r4"
+        },
+        {
+          "ts": "2026-09-15T12:00:50Z",
+          "taker_side": "yes",
+          "yes_price": "0.62",
+          "size": "35",
+          "trade_id": "A-r5"
+        },
+        {
+          "ts": "2026-09-15T12:01:00Z",
+          "taker_side": "yes",
+          "yes_price": "0.62",
+          "size": "1200",
+          "trade_id": "A-whale"
+        },
+        {
+          "ts": "2026-09-15T12:01:01Z",
+          "taker_side": "no",
+          "yes_price": "0.59",
+          "size": "50",
+          "trade_id": "A-latency"
+        },
+        {
+          "ts": "2026-09-15T12:01:30Z",
+          "taker_side": "no",
+          "yes_price": "0.60",
+          "size": "100",
+          "trade_id": "A-above"
+        },
+        {
+          "ts": "2026-09-15T12:02:00Z",
+          "taker_side": "no",
+          "yes_price": "0.59",
+          "size": "100",
+          "trade_id": "A-queue1"
+        },
+        {
+          "ts": "2026-09-15T12:02:30Z",
+          "taker_side": "no",
+          "yes_price": "0.59",
+          "size": "80",
+          "trade_id": "A-partial"
+        },
+        {
+          "ts": "2026-09-15T12:03:20Z",
+          "taker_side": "no",
+          "yes_price": "0.58",
+          "size": "50",
+          "trade_id": "A-through"
+        }
+      ]
+    },
+    "KXWTAMATCH-26SEP15CCCDDD-CCC": {
+      "books": [
+        {
+          "ts": "2026-09-15T12:00:00Z",
+          "bids": [
+            [
+              "0.33",
+              "200"
+            ],
+            [
+              "0.32",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.35",
+              "250"
+            ],
+            [
+              "0.36",
+              "100"
+            ],
+            [
+              "0.37",
+              "400"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:01:20Z",
+          "bids": [
+            [
+              "0.31",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.33",
+              "250"
+            ],
+            [
+              "0.36",
+              "100"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:03:20Z",
+          "bids": [
+            [
+              "0.30",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.32",
+              "400"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:08:00Z",
+          "bids": [
+            [
+              "0.29",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.31",
+              "400"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:13:20Z",
+          "bids": [
+            [
+              "0.29",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.31",
+              "400"
+            ]
+          ]
+        }
+      ],
+      "trades": [
+        {
+          "ts": "2026-09-15T12:00:10Z",
+          "taker_side": "no",
+          "yes_price": "0.33",
+          "size": "10",
+          "trade_id": "B-r1"
+        },
+        {
+          "ts": "2026-09-15T12:00:20Z",
+          "taker_side": "no",
+          "yes_price": "0.33",
+          "size": "15",
+          "trade_id": "B-r2"
+        },
+        {
+          "ts": "2026-09-15T12:00:30Z",
+          "taker_side": "no",
+          "yes_price": "0.33",
+          "size": "20",
+          "trade_id": "B-r3"
+        },
+        {
+          "ts": "2026-09-15T12:00:40Z",
+          "taker_side": "no",
+          "yes_price": "0.33",
+          "size": "12",
+          "trade_id": "B-r4"
+        },
+        {
+          "ts": "2026-09-15T12:00:50Z",
+          "taker_side": "no",
+          "yes_price": "0.33",
+          "size": "18",
+          "trade_id": "B-r5"
+        },
+        {
+          "ts": "2026-09-15T12:01:00Z",
+          "taker_side": "no",
+          "yes_price": "0.33",
+          "size": "1000",
+          "trade_id": "B-whale"
+        },
+        {
+          "ts": "2026-09-15T12:01:40Z",
+          "taker_side": "yes",
+          "yes_price": "0.35",
+          "size": "60",
+          "trade_id": "B-below"
+        },
+        {
+          "ts": "2026-09-15T12:02:10Z",
+          "taker_side": "yes",
+          "yes_price": "0.36",
+          "size": "130",
+          "trade_id": "B-queue"
+        },
+        {
+          "ts": "2026-09-15T12:02:50Z",
+          "taker_side": "yes",
+          "yes_price": "0.37",
+          "size": "20",
+          "trade_id": "B-through"
+        }
+      ]
+    },
+    "KXATPCHALLENGERMATCH-26SEP15EEEFFF-EEE": {
+      "books": [
+        {
+          "ts": "2026-09-15T12:00:00Z",
+          "bids": [
+            [
+              "0.06",
+              "800"
+            ],
+            [
+              "0.05",
+              "1000"
+            ]
+          ],
+          "asks": [
+            [
+              "0.08",
+              "600"
+            ],
+            [
+              "0.09",
+              "900"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:01:20Z",
+          "bids": [
+            [
+              "0.05",
+              "800"
+            ]
+          ],
+          "asks": [
+            [
+              "0.07",
+              "600"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:05:00Z",
+          "bids": [
+            [
+              "0.02",
+              "900"
+            ]
+          ],
+          "asks": [
+            [
+              "0.04",
+              "700"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:08:00Z",
+          "bids": [
+            [
+              "0.02",
+              "900"
+            ]
+          ],
+          "asks": [
+            [
+              "0.04",
+              "700"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:13:20Z",
+          "bids": [
+            [
+              "0.02",
+              "900"
+            ]
+          ],
+          "asks": [
+            [
+              "0.04",
+              "700"
+            ]
+          ]
+        }
+      ],
+      "trades": [
+        {
+          "ts": "2026-09-15T12:00:20Z",
+          "taker_side": "yes",
+          "yes_price": "0.08",
+          "size": "10",
+          "trade_id": "C-l1"
+        },
+        {
+          "ts": "2026-09-15T12:00:40Z",
+          "taker_side": "yes",
+          "yes_price": "0.08",
+          "size": "15",
+          "trade_id": "C-l2"
+        },
+        {
+          "ts": "2026-09-15T12:01:40Z",
+          "taker_side": "yes",
+          "yes_price": "0.07",
+          "size": "8",
+          "trade_id": "C-l3"
+        },
+        {
+          "ts": "2026-09-15T12:02:50Z",
+          "taker_side": "yes",
+          "yes_price": "0.07",
+          "size": "12",
+          "trade_id": "C-l4"
+        },
+        {
+          "ts": "2026-09-15T12:04:00Z",
+          "taker_side": "yes",
+          "yes_price": "0.07",
+          "size": "9",
+          "trade_id": "C-l5"
+        },
+        {
+          "ts": "2026-09-15T12:06:40Z",
+          "taker_side": "no",
+          "yes_price": "0.05",
+          "size": "1000",
+          "trade_id": "C-whale-no"
+        },
+        {
+          "ts": "2026-09-15T12:06:50Z",
+          "taker_side": "yes",
+          "yes_price": "0.07",
+          "size": "7",
+          "trade_id": "C-l6"
+        },
+        {
+          "ts": "2026-09-15T12:07:30Z",
+          "taker_side": "yes",
+          "yes_price": "0.06",
+          "size": "50",
+          "trade_id": "C-fill"
+        }
+      ]
+    },
+    "KXWTAMATCH-26SEP15GGGHHH-GGG": {
+      "books": [
+        {
+          "ts": "2026-09-15T12:00:00Z",
+          "bids": [
+            [
+              "0.55",
+              "400"
+            ],
+            [
+              "0.54",
+              "200"
+            ]
+          ],
+          "asks": [
+            [
+              "0.57",
+              "300"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:02:00Z",
+          "bids": [
+            [
+              "0.50",
+              "500"
+            ]
+          ],
+          "asks": [
+            [
+              "0.52",
+              "300"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:02:50Z",
+          "bids": [
+            [
+              "0.49",
+              "500"
+            ]
+          ],
+          "asks": [
+            [
+              "0.51",
+              "300"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:06:40Z",
+          "bids": [
+            [
+              "0.46",
+              "500"
+            ]
+          ],
+          "asks": [
+            [
+              "0.48",
+              "300"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:08:00Z",
+          "bids": [
+            [
+              "0.53",
+              "500"
+            ]
+          ],
+          "asks": [
+            [
+              "0.55",
+              "300"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:13:20Z",
+          "bids": [
+            [
+              "0.53",
+              "500"
+            ]
+          ],
+          "asks": [
+            [
+              "0.55",
+              "300"
+            ]
+          ]
+        }
+      ],
+      "trades": [
+        {
+          "ts": "2026-09-15T12:00:10Z",
+          "taker_side": "yes",
+          "yes_price": "0.57",
+          "size": "30",
+          "trade_id": "D-r1"
+        },
+        {
+          "ts": "2026-09-15T12:00:20Z",
+          "taker_side": "yes",
+          "yes_price": "0.57",
+          "size": "20",
+          "trade_id": "D-r2"
+        },
+        {
+          "ts": "2026-09-15T12:00:30Z",
+          "taker_side": "yes",
+          "yes_price": "0.57",
+          "size": "25",
+          "trade_id": "D-r3"
+        },
+        {
+          "ts": "2026-09-15T12:00:40Z",
+          "taker_side": "yes",
+          "yes_price": "0.57",
+          "size": "35",
+          "trade_id": "D-r4"
+        },
+        {
+          "ts": "2026-09-15T12:00:50Z",
+          "taker_side": "yes",
+          "yes_price": "0.57",
+          "size": "30",
+          "trade_id": "D-r5"
+        },
+        {
+          "ts": "2026-09-15T12:01:00Z",
+          "taker_side": "yes",
+          "yes_price": "0.57",
+          "size": "1500",
+          "trade_id": "D-whale"
+        },
+        {
+          "ts": "2026-09-15T12:01:40Z",
+          "taker_side": "no",
+          "yes_price": "0.53",
+          "size": "200",
+          "trade_id": "D-through"
+        }
+      ]
+    },
+    "KXWTAMATCH-26SEP15IIIJJJ-III": {
+      "books": [
+        {
+          "ts": "2026-09-15T12:00:00Z",
+          "bids": [
+            [
+              "0.70",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.72",
+              "200"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:01:30Z",
+          "bids": [
+            [
+              "0.74",
+              "300"
+            ],
+            [
+              "0.69",
+              "150"
+            ]
+          ],
+          "asks": [
+            [
+              "0.76",
+              "200"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:08:00Z",
+          "bids": [
+            [
+              "0.75",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.77",
+              "200"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:13:20Z",
+          "bids": [
+            [
+              "0.75",
+              "300"
+            ]
+          ],
+          "asks": [
+            [
+              "0.77",
+              "200"
+            ]
+          ]
+        }
+      ],
+      "trades": [
+        {
+          "ts": "2026-09-15T12:00:10Z",
+          "taker_side": "yes",
+          "yes_price": "0.72",
+          "size": "40",
+          "trade_id": "E-r1"
+        },
+        {
+          "ts": "2026-09-15T12:00:20Z",
+          "taker_side": "yes",
+          "yes_price": "0.72",
+          "size": "50",
+          "trade_id": "E-r2"
+        },
+        {
+          "ts": "2026-09-15T12:00:30Z",
+          "taker_side": "yes",
+          "yes_price": "0.72",
+          "size": "45",
+          "trade_id": "E-r3"
+        },
+        {
+          "ts": "2026-09-15T12:00:40Z",
+          "taker_side": "yes",
+          "yes_price": "0.72",
+          "size": "60",
+          "trade_id": "E-r4"
+        },
+        {
+          "ts": "2026-09-15T12:00:50Z",
+          "taker_side": "yes",
+          "yes_price": "0.72",
+          "size": "55",
+          "trade_id": "E-r5"
+        },
+        {
+          "ts": "2026-09-15T12:01:00Z",
+          "taker_side": "yes",
+          "yes_price": "0.72",
+          "size": "1200",
+          "trade_id": "E-whale"
+        },
+        {
+          "ts": "2026-09-15T12:03:20Z",
+          "taker_side": "no",
+          "yes_price": "0.74",
+          "size": "100",
+          "trade_id": "E-above"
+        },
+        {
+          "ts": "2026-09-15T12:05:00Z",
+          "taker_side": "no",
+          "yes_price": "0.69",
+          "size": "120",
+          "trade_id": "E-queue"
+        },
+        {
+          "ts": "2026-09-15T12:06:20Z",
+          "taker_side": "no",
+          "yes_price": "0.69",
+          "size": "200",
+          "trade_id": "E-late"
+        }
+      ]
+    },
+    "KXITFMATCH-26SEP15KKKLLL-KKK": {
+      "books": [
+        {
+          "ts": "2026-09-15T12:00:00Z",
+          "bids": [
+            [
+              "0.48",
+              "100"
+            ]
+          ],
+          "asks": [
+            [
+              "0.52",
+              "100"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:08:00Z",
+          "bids": [
+            [
+              "0.48",
+              "100"
+            ]
+          ],
+          "asks": [
+            [
+              "0.52",
+              "100"
+            ]
+          ]
+        },
+        {
+          "ts": "2026-09-15T12:13:20Z",
+          "bids": [
+            [
+              "0.48",
+              "100"
+            ]
+          ],
+          "asks": [
+            [
+              "0.52",
+              "100"
+            ]
+          ]
+        }
+      ],
+      "trades": [
+        {
+          "ts": "2026-09-15T12:00:10Z",
+          "taker_side": "yes",
+          "yes_price": "0.52",
+          "size": "5",
+          "trade_id": "F-r1"
+        },
+        {
+          "ts": "2026-09-15T12:00:30Z",
+          "taker_side": "no",
+          "yes_price": "0.48",
+          "size": "8",
+          "trade_id": "F-r2"
+        },
+        {
+          "ts": "2026-09-15T12:01:00Z",
+          "taker_side": "yes",
+          "yes_price": "0.50",
+          "size": "2500",
+          "trade_id": "F-block",
+          "is_block_trade": true
+        },
+        {
+          "ts": "2026-09-15T12:01:30Z",
+          "taker_side": "yes",
+          "yes_price": "0.52",
+          "size": "6",
+          "trade_id": "F-r3"
+        }
+      ]
+    }
+  }
+}
