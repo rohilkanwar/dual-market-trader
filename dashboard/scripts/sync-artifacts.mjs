@@ -34,7 +34,7 @@ const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 // for a new mode, or paper/ledger_<track>.json for a new track, is picked up with
 // no change here. Validation below still decides what is publishable.
 async function listCandidates() {
-  const names = new Set(['paper_loop_latest.json'])
+  const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json'])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
   }
@@ -83,6 +83,10 @@ for (const relative of await listCandidates()) {
   }
   if (relative.startsWith('paper/') && doc.paper_only !== true) {
     console.warn(`skip ${relative}: ledger is not marked paper_only`)
+    continue
+  }
+  if (relative === 'polymarket_arb_latest.json' && (doc.paper_only !== true || doc.source !== 'measured')) {
+    console.warn(`skip ${relative}: opportunity report must be paper_only and measured`)
     continue
   }
   const target = join(publicRoot, relative.replace('paper/', 'paper_'))
@@ -213,6 +217,11 @@ function compactRunRecord(file, manifest, cycle) {
     completed_at: cycle?.completed_at ?? null,
     cycle: cycle?.cycle ?? null,
     duration_seconds: num(cycle?.duration_seconds),
+    label: manifest.label ?? null,
+    venues: Array.isArray(manifest.venues) ? manifest.venues : [],
+    venue_focus: manifest.venue_focus ?? null,
+    kalshi_env: manifest.kalshi_env ?? null,
+    track_family: manifest.track_family ?? null,
     primary_track: manifest.primary_track ?? cycle?.primary_track ?? 'single_venue_fair_value',
     pnl_source: ledgerBacked ? LEDGER_PNL_SOURCE : null,
     totals: {

@@ -2,26 +2,6 @@
   "charts": {
     "candidates_by_track": [
       {
-        "track": "gated_cross_venue_macro",
-        "value": 0
-      },
-      {
-        "track": "ungated_cross_venue_macro",
-        "value": 0
-      },
-      {
-        "track": "single_venue_fair_value",
-        "value": 30
-      },
-      {
-        "track": "sports_cross_venue",
-        "value": 0
-      },
-      {
-        "track": "small_deliberate_bet",
-        "value": 0
-      },
-      {
         "track": "polymarket_rebalancing_arb",
         "value": 1010
       },
@@ -36,26 +16,6 @@
     ],
     "fills_by_track": [
       {
-        "track": "gated_cross_venue_macro",
-        "value": 0
-      },
-      {
-        "track": "ungated_cross_venue_macro",
-        "value": 0
-      },
-      {
-        "track": "single_venue_fair_value",
-        "value": 0
-      },
-      {
-        "track": "sports_cross_venue",
-        "value": 0
-      },
-      {
-        "track": "small_deliberate_bet",
-        "value": 0
-      },
-      {
         "track": "polymarket_rebalancing_arb",
         "value": 0
       },
@@ -69,26 +29,6 @@
       }
     ],
     "pnl_by_track": [
-      {
-        "track": "gated_cross_venue_macro",
-        "value": 0.0
-      },
-      {
-        "track": "ungated_cross_venue_macro",
-        "value": 0.0
-      },
-      {
-        "track": "single_venue_fair_value",
-        "value": 0.0
-      },
-      {
-        "track": "sports_cross_venue",
-        "value": 0.0
-      },
-      {
-        "track": "small_deliberate_bet",
-        "value": 0.0
-      },
       {
         "track": "polymarket_rebalancing_arb",
         "value": 0.0
@@ -105,10 +45,6 @@
     "venue_fills": [
       {
         "value": 0,
-        "venue": "kalshi"
-      },
-      {
-        "value": 0,
         "venue": "polymarket"
       }
     ]
@@ -120,41 +56,26 @@
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T21:05:41.511407+00:00",
-    "kalshi_env": "prod",
-    "label": "MEASURED / NETWORK",
-    "markets_per_venue": 15,
-    "measured_at": "2026-09-14T21:05:33.113023+00:00",
+    "generated_at": "2026-09-14T21:05:49.756208+00:00",
+    "kalshi_env": null,
+    "label": "MEASURED / NETWORK / POLYMARKET ARB",
+    "markets_per_venue": 40,
+    "measured_at": "2026-09-14T21:05:41.657630+00:00",
     "mode": "network",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
-    "primary_track": "single_venue_fair_value",
-    "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T210541Z-cd15a2c5",
+    "primary_track": "polymarket_negrisk_arb",
+    "refresh": "python -m apps.measure_polymarket_arb [--network] && cd dashboard && npm run sync-artifacts",
+    "run_id": "20260914T210549Z-519e2135",
     "source": "measured",
-    "track_family": null,
-    "venue_focus": "kalshi",
+    "track_family": "polymarket_arb",
+    "venue_focus": "polymarket",
     "venues": [
-      "kalshi",
       "polymarket"
     ]
   },
   "portfolio": {
     "by_track": {
-      "gated_cross_venue_macro": {
-        "cash": 1000.0,
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "max_drawdown": 0.0,
-        "open_positions": 0,
-        "realized_pnl": 0.0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unrealized_pnl": 0.0
-      },
       "polymarket_combinatorial_arb": {
         "cash": 1000.0,
         "equity": 1000.0,
@@ -196,67 +117,11 @@
         "starting_cash": 1000.0,
         "total_pnl": 0.0,
         "unrealized_pnl": 0.0
-      },
-      "single_venue_fair_value": {
-        "cash": 1000.0,
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "max_drawdown": 0.0,
-        "open_positions": 0,
-        "realized_pnl": 0.0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unrealized_pnl": 0.0
-      },
-      "small_deliberate_bet": {
-        "cash": 1000.0,
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "max_drawdown": 0.0,
-        "open_positions": 0,
-        "realized_pnl": 0.0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unrealized_pnl": 0.0
-      },
-      "sports_cross_venue": {
-        "cash": 1000.0,
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "max_drawdown": 0.0,
-        "open_positions": 0,
-        "realized_pnl": 0.0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unrealized_pnl": 0.0
-      },
-      "ungated_cross_venue_macro": {
-        "cash": 1000.0,
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "max_drawdown": 0.0,
-        "open_positions": 0,
-        "realized_pnl": 0.0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unrealized_pnl": 0.0
       }
     },
-    "cash": 8000.0,
+    "cash": 3000.0,
     "concentration": [],
-    "equity": 8000.0,
+    "equity": 3000.0,
     "fees_paid": 0.0,
     "gross_notional": 0.0,
     "max_drawdown": 0.0,
@@ -266,13 +131,13 @@
     "primary": {
       "cash": 1000.0,
       "concentration": [],
-      "created_at": "2026-09-14T21:05:41.321940+00:00",
+      "created_at": "2026-09-14T21:05:49.496434+00:00",
       "equity": 1000.0,
       "equity_points": 1,
       "fees_paid": 0.0,
       "fills": 0,
       "gross_notional": 0.0,
-      "ledger_id": "single_venue_fair_value",
+      "ledger_id": "polymarket_negrisk_arb",
       "mark_method": "mid",
       "max_drawdown": 0.0,
       "net_exposure": 0.0,
@@ -288,19 +153,18 @@
       "total_pnl": 0.0,
       "unmarked_positions": 0,
       "unrealized_pnl": 0.0,
-      "updated_at": "2026-09-14T21:05:41.499917+00:00"
+      "updated_at": "2026-09-14T21:05:49.754393+00:00"
     },
-    "primary_track": "single_venue_fair_value",
+    "primary_track": "polymarket_negrisk_arb",
     "realized_pnl": 0.0,
     "risk_flags": [
       "zero_paper_fills_this_run",
-      "cross_venue_tracks_empty",
       "snapshot_errors_present",
       "pnl_from_ledger_not_placeholder"
     ],
     "settlement_risk_pairs": 0,
     "source": "ledger_aggregate",
-    "starting_cash": 8000.0,
+    "starting_cash": 3000.0,
     "total_pnl": 0.0,
     "unrealized_pnl": 0.0
   },
@@ -551,468 +415,18 @@
   "totals": {
     "admitted": 0,
     "avg_edge_bps": null,
-    "candidates": 1118,
+    "candidates": 1088,
     "fees_paid": 0.0,
     "fill_rate": null,
     "paper_fills": 0,
     "paper_pnl": 0.0,
     "proposed_orders": 0,
     "realized_pnl": 0.0,
-    "rejects": 1118,
+    "rejects": 1088,
     "settlement_risk_pairs": 0,
     "unrealized_pnl": 0.0
   },
   "tracks": [
-    {
-      "admitted": 0,
-      "candidates": 0,
-      "edge_bps": null,
-      "estimated_fees_buffer": 0.0,
-      "fill_rate": null,
-      "label": "Gated cross-venue macro",
-      "ledger": {
-        "cash": 1000.0,
-        "concentration": [],
-        "created_at": "2026-09-14T21:05:41.321862+00:00",
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "ledger_id": "gated_cross_venue_macro",
-        "mark_method": "mid",
-        "max_drawdown": 0.0,
-        "net_exposure": 0.0,
-        "open_positions": 0,
-        "paper_only": true,
-        "peak_equity": 1000.0,
-        "position_value": 0.0,
-        "positions": [],
-        "realized_pnl": 0.0,
-        "return_pct": 0.0,
-        "settlement_fills": 0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unmarked_positions": 0,
-        "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.499815+00:00"
-      },
-      "metrics": {
-        "equity_point": {
-          "drawdown": 0.0,
-          "equity": 1000.0,
-          "total_pnl": 0.0
-        },
-        "events": {
-          "fill": 0,
-          "order_acknowledged": 0,
-          "order_rejected": 0,
-          "order_submitted": 0
-        },
-        "gate_enabled": true,
-        "gate_results": {},
-        "gate_would_have_refused_traded_pairs": 0,
-        "host_conflicts": 0,
-        "matched_pairs_all_categories": 0,
-        "parameters": {
-          "fee_buffer_per_contract": 0.01,
-          "maximum_order_size": 25.0,
-          "minimum_mid_edge": 0.04
-        },
-        "refused_pairs": {},
-        "snapshot": {
-          "kalshi": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          },
-          "polymarket": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          }
-        },
-        "venue_pnl": {}
-      },
-      "notes": "Macro pairs must pass clause, fingerprint and host gates before any paper order. Refusals are the expected state when venues' settlement rules diverge.",
-      "paper_fills": 0,
-      "proposed_orders": 0,
-      "refused_by_reason": {},
-      "reject_reasons": {},
-      "rejects": 0,
-      "settlement_risk": false,
-      "settlement_risk_flag": false,
-      "track": "gated_cross_venue_macro"
-    },
-    {
-      "admitted": 0,
-      "candidates": 0,
-      "edge_bps": null,
-      "estimated_fees_buffer": 0.0,
-      "fill_rate": null,
-      "label": "Ungated cross-venue macro",
-      "ledger": {
-        "cash": 1000.0,
-        "concentration": [],
-        "created_at": "2026-09-14T21:05:41.321923+00:00",
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "ledger_id": "ungated_cross_venue_macro",
-        "mark_method": "mid",
-        "max_drawdown": 0.0,
-        "net_exposure": 0.0,
-        "open_positions": 0,
-        "paper_only": true,
-        "peak_equity": 1000.0,
-        "position_value": 0.0,
-        "positions": [],
-        "realized_pnl": 0.0,
-        "return_pct": 0.0,
-        "settlement_fills": 0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unmarked_positions": 0,
-        "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.499883+00:00"
-      },
-      "metrics": {
-        "equity_point": {
-          "drawdown": 0.0,
-          "equity": 1000.0,
-          "total_pnl": 0.0
-        },
-        "events": {
-          "fill": 0,
-          "order_acknowledged": 0,
-          "order_rejected": 0,
-          "order_submitted": 0
-        },
-        "gate_enabled": false,
-        "gate_results": {},
-        "gate_would_have_refused_traded_pairs": 0,
-        "host_conflicts": 0,
-        "matched_pairs_all_categories": 0,
-        "parameters": {
-          "fee_buffer_per_contract": 0.01,
-          "maximum_order_size": 25.0,
-          "minimum_mid_edge": 0.04
-        },
-        "refused_pairs": {},
-        "snapshot": {
-          "kalshi": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          },
-          "polymarket": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          }
-        },
-        "venue_pnl": {}
-      },
-      "notes": "Same macro pairs traded without the settlement gate. Exists only to measure what the gate refuses; flagged settlement-risk whenever a traded pair would have been refused.",
-      "paper_fills": 0,
-      "proposed_orders": 0,
-      "refused_by_reason": {},
-      "reject_reasons": {},
-      "rejects": 0,
-      "settlement_risk": false,
-      "settlement_risk_flag": false,
-      "track": "ungated_cross_venue_macro"
-    },
-    {
-      "admitted": 0,
-      "candidates": 30,
-      "edge_bps": null,
-      "estimated_fees_buffer": 0.0,
-      "fill_rate": null,
-      "label": "Single-venue fair value",
-      "ledger": {
-        "cash": 1000.0,
-        "concentration": [],
-        "created_at": "2026-09-14T21:05:41.321940+00:00",
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "ledger_id": "single_venue_fair_value",
-        "mark_method": "mid",
-        "max_drawdown": 0.0,
-        "net_exposure": 0.0,
-        "open_positions": 0,
-        "paper_only": true,
-        "peak_equity": 1000.0,
-        "position_value": 0.0,
-        "positions": [],
-        "realized_pnl": 0.0,
-        "return_pct": 0.0,
-        "settlement_fills": 0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unmarked_positions": 0,
-        "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.499917+00:00"
-      },
-      "metrics": {
-        "equity_point": {
-          "drawdown": 0.0,
-          "equity": 1000.0,
-          "total_pnl": 0.0
-        },
-        "events": {
-          "fill": 0,
-          "order_acknowledged": 0,
-          "order_rejected": 0,
-          "order_submitted": 0
-        },
-        "hit_rate": null,
-        "kalshi_canary": {
-          "pnl": {},
-          "venue_breakdown": {
-            "admitted": 0,
-            "candidates": 15,
-            "fills": 0,
-            "markets": 15,
-            "reasons": {
-              "no_fair_value": 15
-            },
-            "snapshot_errors": 0
-          }
-        },
-        "priors_supplied": 6,
-        "settlement_preview": {
-          "hypothetical_pnl_at_fixture_settlement": 0.0,
-          "note": "Only fixture markets carry paper_settlement_outcome; network fills are not scored.",
-          "scored_fills": 0
-        },
-        "snapshot": {
-          "kalshi": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          },
-          "polymarket": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          }
-        },
-        "venue_breakdown": {
-          "kalshi": {
-            "admitted": 0,
-            "candidates": 15,
-            "fills": 0,
-            "markets": 15,
-            "reasons": {
-              "no_fair_value": 15
-            },
-            "snapshot_errors": 0
-          },
-          "polymarket": {
-            "admitted": 0,
-            "candidates": 15,
-            "fills": 0,
-            "markets": 15,
-            "reasons": {
-              "no_fair_value": 15
-            },
-            "snapshot_errors": 0
-          }
-        },
-        "venue_pnl": {}
-      },
-      "notes": "Primary track. Single-venue fair value from explicit priors; no cross-venue settlement exposure by construction. Markets without a prior are never traded.",
-      "paper_fills": 0,
-      "proposed_orders": 0,
-      "refused_by_reason": {
-        "no_fair_value": 30
-      },
-      "reject_reasons": {
-        "no_fair_value": 30
-      },
-      "rejects": 30,
-      "settlement_risk": false,
-      "settlement_risk_flag": false,
-      "track": "single_venue_fair_value"
-    },
-    {
-      "admitted": 0,
-      "candidates": 0,
-      "edge_bps": null,
-      "estimated_fees_buffer": 0.0,
-      "fill_rate": null,
-      "label": "Sports cross-venue",
-      "ledger": {
-        "cash": 1000.0,
-        "concentration": [],
-        "created_at": "2026-09-14T21:05:41.321952+00:00",
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "ledger_id": "sports_cross_venue",
-        "mark_method": "mid",
-        "max_drawdown": 0.0,
-        "net_exposure": 0.0,
-        "open_positions": 0,
-        "paper_only": true,
-        "peak_equity": 1000.0,
-        "position_value": 0.0,
-        "positions": [],
-        "realized_pnl": 0.0,
-        "return_pct": 0.0,
-        "settlement_fills": 0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unmarked_positions": 0,
-        "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.499944+00:00"
-      },
-      "metrics": {
-        "equity_point": {
-          "drawdown": 0.0,
-          "equity": 1000.0,
-          "total_pnl": 0.0
-        },
-        "events": {
-          "fill": 0,
-          "order_acknowledged": 0,
-          "order_rejected": 0,
-          "order_submitted": 0
-        },
-        "gate_enabled": false,
-        "gate_results": {},
-        "gate_would_have_refused_traded_pairs": 0,
-        "host_conflicts": 0,
-        "matched_pairs_all_categories": 0,
-        "parameters": {
-          "fee_buffer_per_contract": 0.01,
-          "maximum_order_size": 25.0,
-          "minimum_mid_edge": 0.04
-        },
-        "refused_pairs": {},
-        "snapshot": {
-          "kalshi": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          },
-          "polymarket": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          }
-        },
-        "venue_pnl": {}
-      },
-      "notes": "Sports pairs trade ungated but every host-tier conflict is counted and flags the track.",
-      "paper_fills": 0,
-      "proposed_orders": 0,
-      "refused_by_reason": {},
-      "reject_reasons": {},
-      "rejects": 0,
-      "settlement_risk": false,
-      "settlement_risk_flag": false,
-      "track": "sports_cross_venue"
-    },
-    {
-      "admitted": 0,
-      "candidates": 0,
-      "edge_bps": null,
-      "estimated_fees_buffer": 0.0,
-      "fill_rate": null,
-      "label": "Small deliberate bet",
-      "ledger": {
-        "cash": 1000.0,
-        "concentration": [],
-        "created_at": "2026-09-14T21:05:41.321962+00:00",
-        "equity": 1000.0,
-        "equity_points": 1,
-        "fees_paid": 0.0,
-        "fills": 0,
-        "gross_notional": 0.0,
-        "ledger_id": "small_deliberate_bet",
-        "mark_method": "mid",
-        "max_drawdown": 0.0,
-        "net_exposure": 0.0,
-        "open_positions": 0,
-        "paper_only": true,
-        "peak_equity": 1000.0,
-        "position_value": 0.0,
-        "positions": [],
-        "realized_pnl": 0.0,
-        "return_pct": 0.0,
-        "settlement_fills": 0,
-        "starting_cash": 1000.0,
-        "total_pnl": 0.0,
-        "unmarked_positions": 0,
-        "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.499970+00:00"
-      },
-      "metrics": {
-        "equity_point": {
-          "drawdown": 0.0,
-          "equity": 1000.0,
-          "total_pnl": 0.0
-        },
-        "events": {
-          "fill": 0,
-          "order_acknowledged": 0,
-          "order_rejected": 0,
-          "order_submitted": 0
-        },
-        "gate_enabled": true,
-        "gate_results": {},
-        "gate_would_have_refused_traded_pairs": 0,
-        "host_conflicts": 0,
-        "matched_pairs_all_categories": 0,
-        "parameters": {
-          "fee_buffer_per_contract": 0.01,
-          "maximum_order_size": 2.0,
-          "minimum_mid_edge": 0.04
-        },
-        "refused_pairs": {},
-        "snapshot": {
-          "kalshi": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          },
-          "polymarket": {
-            "errors": [],
-            "groups": 0,
-            "markets": 15,
-            "source": "network"
-          }
-        },
-        "venue_pnl": {}
-      },
-      "notes": "Gated macro pairs at a 2-contract cap: a process probe, not an edge source.",
-      "paper_fills": 0,
-      "proposed_orders": 0,
-      "refused_by_reason": {},
-      "reject_reasons": {},
-      "rejects": 0,
-      "settlement_risk": false,
-      "settlement_risk_flag": false,
-      "track": "small_deliberate_bet"
-    },
     {
       "admitted": 0,
       "candidates": 1010,
@@ -1023,7 +437,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:05:41.321973+00:00",
+        "created_at": "2026-09-14T21:05:49.496248+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -1045,7 +459,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.499994+00:00"
+        "updated_at": "2026-09-14T21:05:49.754312+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1062,8 +476,8 @@
         "executions": [],
         "literature": "arXiv:2508.03474 (rebalancing); live CLOB YES/NO books are mirrors so ask_sum >= 1 + spread",
         "markets_checked": 1010,
-        "mirror_consistent": 1002,
-        "mirror_inconsistent": 8,
+        "mirror_consistent": 1001,
+        "mirror_inconsistent": 9,
         "mirror_inconsistent_markets": [
           {
             "book_timestamp_skew_ms": 1,
@@ -1073,6 +487,15 @@
             "yes_ask_plus_no_ask": 1.001,
             "yes_bid_plus_no_bid": 0.999,
             "yes_levels": 86
+          },
+          {
+            "book_timestamp_skew_ms": 1,
+            "market": "0x8dbf6b51f302fd401065706245c144e93fe209abce183199433d4484b3ed8aff",
+            "no_levels": 84,
+            "title": "Will Dwayne 'The Rock' Johnson win the 2028 Democratic presidential nomination?",
+            "yes_ask_plus_no_ask": 1.002,
+            "yes_bid_plus_no_bid": 0.998,
+            "yes_levels": 84
           },
           {
             "book_timestamp_skew_ms": 1,
@@ -1102,31 +525,31 @@
             "yes_levels": 23
           },
           {
-            "book_timestamp_skew_ms": 1,
-            "market": "0x6189539ff1b08bc4052607d89921663ca0de0f0cd70b79c9993d7f9f3211ec3e",
-            "no_levels": 159,
-            "title": "Will Gabriel Attal win the 2027 French presidential election?",
+            "book_timestamp_skew_ms": 3,
+            "market": "0x19e435cf10e58b144e2fee3b6f259163660cce0c9299019ae8ee84c45082e193",
+            "no_levels": 47,
+            "title": "Will AEK Athens win the 2026-27 UEFA Champions League Championship?",
             "yes_ask_plus_no_ask": 1.001,
             "yes_bid_plus_no_bid": 0.999,
-            "yes_levels": 159
+            "yes_levels": 47
           },
           {
             "book_timestamp_skew_ms": 0,
-            "market": "0x855a3913a9c9e04a96ce311406b835ba059c2d1be72d8f2bdd6e5c47a37cc69e",
-            "no_levels": 57,
-            "title": "Will Switzerland win the UEFA EURO 2028?",
-            "yes_ask_plus_no_ask": 1.008,
-            "yes_bid_plus_no_bid": 0.992,
-            "yes_levels": 57
-          },
-          {
-            "book_timestamp_skew_ms": 1,
-            "market": "0x517e89108f7f6ffff098646b1350ff2d7fe0532ac1d146078fdb0c9df8db7adc",
-            "no_levels": 76,
-            "title": "Atlanta Braves vs. Chicago Cubs: O/U 9.5",
+            "market": "0x862081e0d2a682ccb92c39263613f7a287298e7c9d1823d1abdd2b515cff9a23",
+            "no_levels": 84,
+            "title": "Will Barcelona win the 2026-27 LALIGA Championship?",
             "yes_ask_plus_no_ask": 1.01,
             "yes_bid_plus_no_bid": 0.99,
-            "yes_levels": 76
+            "yes_levels": 84
+          },
+          {
+            "book_timestamp_skew_ms": 0,
+            "market": "0x1ea2b1c0091848e75be823c039081f7db66ebb48af0e5d286da156fce773722f",
+            "no_levels": 57,
+            "title": "Will Donald Trump be the #1 searched person on Google this year?",
+            "yes_ask_plus_no_ask": 1.01,
+            "yes_bid_plus_no_bid": 0.99,
+            "yes_levels": 58
           },
           {
             "book_timestamp_skew_ms": 0,
@@ -1200,7 +623,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:05:41.322060+00:00",
+        "created_at": "2026-09-14T21:05:49.496434+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -1222,7 +645,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.500020+00:00"
+        "updated_at": "2026-09-14T21:05:49.754393+00:00"
       },
       "metrics": {
         "augmented_groups": 26,
@@ -1422,7 +845,7 @@
             "title": "#1 Searched Person on Google 2026?",
             "top_fees_per_set": 0.03374,
             "top_slippage_per_set": 0.082,
-            "yes_ask_sum": 1.464,
+            "yes_ask_sum": 1.463,
             "yes_bid_sum": 0.752
           },
           {
@@ -1721,7 +1144,7 @@
             "title": "UEFA EURO 2028: Winner",
             "top_fees_per_set": null,
             "top_slippage_per_set": null,
-            "yes_ask_sum": 1.327,
+            "yes_ask_sum": 1.325,
             "yes_bid_sum": null
           },
           {
@@ -2196,7 +1619,7 @@
       "ledger": {
         "cash": 1000.0,
         "concentration": [],
-        "created_at": "2026-09-14T21:05:41.322121+00:00",
+        "created_at": "2026-09-14T21:05:49.496530+00:00",
         "equity": 1000.0,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2218,7 +1641,7 @@
         "total_pnl": 0.0,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:05:41.500044+00:00"
+        "updated_at": "2026-09-14T21:05:49.754439+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2836,7 +2259,7 @@
             "capital_required": 0.0,
             "end_date": null,
             "exclusive": true,
-            "gross_edge_per_set": -0.327,
+            "gross_edge_per_set": -0.325,
             "group": "726377",
             "kind": "long_all_yes",
             "legs": 55,
@@ -2849,9 +2272,9 @@
             "sets": 0.0,
             "slug": "uefa-euro-2028-winner-20260720162754434",
             "title": "UEFA EURO 2028: Winner",
-            "top_fees_per_set": 0.05834,
+            "top_fees_per_set": 0.05825,
             "top_slippage_per_set": 0.109,
-            "yes_ask_sum": 1.327,
+            "yes_ask_sum": 1.325,
             "yes_bid_sum": null
           },
           {
@@ -2859,7 +2282,7 @@
             "capital_required": 0.0,
             "end_date": "2026-12-31T23:59:00Z",
             "exclusive": true,
-            "gross_edge_per_set": -0.464,
+            "gross_edge_per_set": -0.463,
             "group": "715392",
             "kind": "long_all_yes",
             "legs": 46,
@@ -2872,9 +2295,9 @@
             "sets": 0.0,
             "slug": "1-searched-person-on-google-this-year-20260717214320563",
             "title": "#1 Searched Person on Google 2026?",
-            "top_fees_per_set": 0.06687,
+            "top_fees_per_set": 0.06682,
             "top_slippage_per_set": 0.082,
-            "yes_ask_sum": 1.464,
+            "yes_ask_sum": 1.463,
             "yes_bid_sum": 0.752
           },
           {

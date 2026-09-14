@@ -11,6 +11,9 @@ export type TrackId =
   | 'sports_cross_venue'
   | 'small_deliberate_bet'
   | 'news_underreaction'
+  | 'polymarket_rebalancing_arb'
+  | 'polymarket_negrisk_arb'
+  | 'polymarket_combinatorial_arb'
   | string
 
 /**
@@ -52,6 +55,8 @@ export interface ScoreboardMeta {
   cycle?: number | null
   run_id?: string
   note?: string
+  /** Set by family-specific CLIs (e.g. `polymarket_arb`); absent on the full board. */
+  track_family?: string | null
 }
 
 /** True only for artifacts whose PnL was produced by the paper ledger. */
@@ -266,6 +271,7 @@ export interface ExperimentEntry {
   venue_focus: string | null
   kalshi_env: string | null
   primary_track: TrackId | null
+  track_family?: string | null
   /** Null on sample files and anything not produced by the paper ledger. */
   pnl_source: string | null
   note: string | null
