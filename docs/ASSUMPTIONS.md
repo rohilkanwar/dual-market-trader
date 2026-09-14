@@ -1,0 +1,95 @@
+# Assumption audit
+
+Status legend: **PASS** = validated by code plus a test or a reproducible run in
+this repository; **FAIL** = falsified (fix noted); **UNKNOWN** = cannot be
+validated from code alone (what evidence would be needed).
+
+Evidence columns cite files and tests in this repository. Runs were executed on
+2026-09-14 from a sandbox with outbound internet and no venue credentials.
+
+## 0. State of the mirror (context for everything below)
+
+| # | Assumption | Status | Evidence / fix |
+| --- | --- | --- | --- |
+| 0.1 | The GitHub mirror contained a working copy of the Origin project | **FAIL** | Every commit in history (`8e62ba0`…`17f06d9`) held random middle slices of most Python modules (`core/config.py` began mid-function, `research/scoreboard.py` was 7 import lines, `venues/kalshi/client.py` was an 11-line dict tail, both fixture JSONs were truncated). No complete version existed anywhere in history. Reconstructed every module against the intact tests (`tests/test_execution.py`, `test_risk.py`, `test_cross_venue_strategy.py`, `test_scoreboard.py`, `test_paper_loop.py`, `test_settlement_*`) plus the fragments' own signatures. |
+| 0.2 | `README.md` / `pyproject.toml` described how to run it | **FAIL** | README started mid-sentence; `pyproject.toml` had no `[project]` table, so nothing was installable. Rewritten (`README.md`, `pyproject.toml`, `uv.lock`). |
+| 0.3 | Committed `dashboard/public/artifacts/scoreboard_network.json` was valid | **FAIL** | File ended mid-key (`"edge_bps":`). `loadScoreboard.ts` caught the parse error and fell through to the sample, so the deployed page silently showed placeholder numbers. Replaced with a measured Kalshi canary artifact; CI now parses every committed artifact. |
+
+## 1. Paper execution and risk rails
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 1.1 | Paper fills are deterministic for a given book and order | **PASS** | `venues/paper.py::PaperExecutionMixin.place_order_with_book` walks the frozen snapshot book level by level; `tests/test_venues.py::test_paper_fill_is_deterministic_and_walks_levels` places the same order twice and asserts identical (price, qty, fee) tuples, partial fill across two levels, an unfilled resting order below the touch, and NO orders executed against the complemented book. All five scoreboard tracks share one `VenueSnapshot` per run (`research/scoreboard.py::capture_snapshots`), so tracks cannot observe different books. Order ids and timestamps are per-run (UUID/now); values are not. |
+| 1.2 | Every order is risk-checked before it reaches a venue | **PASS** | `core/execution.py::ExecutionEngine.submit` calls `risk.validate_order` before `client.place_order`; `tests/test_execution.py::test_risk_rejection_never_reaches_venue` asserts `place_calls == 0` and an `order_rejected` event. Strategies additionally pre-size with `RiskManager.remaining_order_capacity` (`tests/test_cross_venue_strategy.py::test_sizing_respects_remaining_position_headroom`, `tests/test_fair_value_strategy.py::test_target_position_stops_re_entry_and_risk_caps_size`). |
+| 1.3 | Notional, per-market position, daily loss and kill switch are hard stops | **PASS** | `core/risk.py::RiskManager.validate_order`; `tests/test_risk.py` covers oversized notional, projected position (reducing trades allowed), daily-loss and kill-switch. |
+| 1.4 | The daily-loss rail sees fees and persisted losses | **PASS** (conservative) | `Portfolio.apply_fill` deducts `fill.fee` from realized PnL immediately (`tests/test_ledger.py::test_fees_reduce_cash_and_realized_pnl_immediately`). `TrackRuntime.create` seeds `RiskManager.daily_realized_pnl` with the *lifetime* realized PnL of a reloaded ledger, i.e. the "daily" limit is applied to cumulative paper losses across cycles. That is stricter than a true daily reset, deliberately; a calendar reset is not implemented. |
+| 1.5 | Paper-fill fee model matches the venue | **UNKNOWN** | Kalshi fills use `ceil(0.07 * C * P * (1-P))` per `venues/paper.py::kalshi_fee`, the published general formula; live fee schedules vary by series and include maker rebates. Polymarket fills are modeled fee-free, but the Gamma payload now carries `feesEnabled` / `makerBaseFee` on some markets. Validating requires comparing against a demo account statement. `--no-fees` disables the model. |
+
+## 2. Paper PnL ledger
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 2.1 | Scoreboard PnL fields come from a ledger, never constants | **PASS** | `research/scoreboard_artifact.py` reads `totals.paper_pnl`, `portfolio.realized_pnl/unrealized_pnl/cash/equity/max_drawdown` from `PaperLedger.summary()`; `tests/test_scoreboard_artifact.py::test_pnl_fields_come_from_ledgers_and_identity_holds` recomputes them from the ledgers and asserts `equity == starting_cash + realized + unrealized`. Every generated artifact carries `meta.pnl_source = "core.ledger.PaperLedger"` and `portfolio.risk_flags` includes `pnl_from_ledger_not_placeholder`. |
+| 2.2 | Ledger accounting is internally consistent | **PASS** | `tests/test_ledger.py` asserts the equity identity after every scenario: long open/close, partial close (realized only on the closed slice), adverse mark with drawdown that never shrinks retroactively, NO-buy as a short-YES liability, settlement of winning and losing positions, fees, multi-venue aggregation, zero-fill run (explicit `0.0000`), and JSON round trip. |
+| 2.3 | Marks reflect an exit price | **UNKNOWN / documented** | Default mark is the book mid, which flatters a position bought at the ask by half the spread relative to what it could be sold for. `mark_method="conservative"` marks longs at bid and shorts at ask (`tests/test_ledger.py::test_mark_from_book_mid_and_conservative`). Positions with no book are valued at cost and counted in `unmarked_positions` (`test_unmarked_positions_are_counted_not_hidden`) rather than silently carried. |
+| 2.4 | Run history / equity curve persists | **PASS** | `apps/measure_all.py::persist_run` writes `artifacts/paper/ledger_<track>.json`, appends `equity_curve_<track>.jsonl`, and writes `paper/runs/<run_id>.json`; `tests/test_scoreboard_artifact.py::test_persist_run_writes_ledgers_and_reloads_them` reloads the ledgers, runs a second cycle and asserts equity carries over, no re-entry (`target_position_reached == 4`) and two equity points. |
+| 2.5 | The `0.42` on the dashboard was earnings | **FAIL** | It was a hand-written value in `scoreboard_sample.json` (`meta.source: "sample"`). Fix: the file is now labelled `SAMPLE / SCHEMA PLACEHOLDER` with an explanatory `meta.note`; `KpiStrip`/`Panels` hide PnL unless `meta.pnl_source` is present; a measured artifact is committed as `scoreboard_latest.json` so the sample is no longer what the page renders. |
+
+## 3. Live-trading gates
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 3.1 | Live cannot arm without `ENABLE_LIVE_TRADING` | **PASS** | `core/config.py::Settings.from_env` raises when `TRADING_MODE=live` without `ENABLE_LIVE_TRADING=true` (`tests/test_config.py::test_live_mode_requires_independent_enable_flag`) and also when `ENABLE_LIVE_TRADING=true` with paper mode (`test_enable_flag_without_live_mode_is_refused`), so an ambiguous environment never starts. |
+| 3.2 | Live cannot arm without explicit caps | **PASS** | Live mode requires `MAX_NOTIONAL_PER_ORDER`, `MAX_POSITION_PER_MARKET`, `MAX_DAILY_LOSS` to be present in the environment (defaults are refused); `test_live_mode_requires_explicit_caps`. Non-positive or non-decimal caps raise. |
+| 3.3 | Paper-only processes refuse live environments | **PASS** | `require_paper_only` in `apps/measure_all.py`, `apps/paper_loop.py` (twice: `main` and `run_loop`/`run_cycle`), `apps/paper_runner.py` (`SystemExit` on `live_enabled`); `apps/dashboard_api.py` returns 409 (`tests/test_dashboard_api.py::test_run_is_refused_when_environment_requests_live`). Verified by running `TRADING_MODE=live ENABLE_LIVE_TRADING=true python -m apps.paper_loop --once`: exit code 1, no artifact written. CI repeats this check. |
+| 3.4 | Even an armed engine cannot reach a venue | **PASS** | `ExecutionEngine.submit` raises `LiveTradingDisabled` for non-paper clients when the engine is not armed (`tests/test_execution.py::test_live_client_requires_separate_execution_gate`). Independently, `PaperExecutionMixin.place_order` raises `PermissionError` for any client with `paper=False` (`tests/test_venues.py::test_non_paper_client_place_order_is_fail_closed`); `KalshiSigner.headers`, `PolymarketL2Signer.headers`, `SignedOrderBuilder.build` raise `NotImplementedError`. No code path constructs or transmits a venue order. |
+| 3.5 | No secrets are requested or committed | **PASS** | `.env.example` lists variable *names* only; `Settings` reads them but nothing consumes the key material. `git grep` for private-key/API-secret literals is empty. The dashboard's Vercel env only needs `VITE_API_BASE` (optional). |
+
+## 4. Settlement gates (cross-venue)
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 4.1 | Clause mismatch blocks admission | **PASS** | `research/scoreboard.py::settlement_gate` checks clauses first; `settlement/clauses.py::pair_clause_verdict` treats silence-vs-statement as a mismatch. Fixture CPI pair (Polymarket states fallback-to-prior-month, Kalshi is silent) is refused with `clause_refuse_mismatch` (`tests/test_scoreboard.py`, `tests/test_scoreboard_artifact.py::test_settlement_gate_blocks_clause_mismatch_and_admits_fed_pair`, `tests/test_settlement_clauses_hosts.py`). |
+| 4.2 | Fingerprint comparison is fail-closed | **PASS** | `settlement/fingerprint.py::compare` returns `INDETERMINATE` on any unknown enum or an optional field present on one side, `NOT_EQUIVALENT` on known mismatches, `COMPLEMENT` only for `>=`/`<` and `>`/`<=` (`tests/test_settlement_fingerprint.py`). The gate admits `EQUIVALENT` only with same polarity and `COMPLEMENT` only with inverse polarity; a missing fingerprint on either side is `INDETERMINATE`, which is what the CPI pair reports (`fingerprint_relation == "indeterminate"`). |
+| 4.3 | Host-tier conflicts are detected | **PASS** | `settlement/hosts.py::classify` with suffix-boundary matching (`espn.com.evil.example` is unclassified); the NBA fixture pair (ESPN media vs nba.com official) is a `host_conflict` and is refused by the gate; the sports track trades it ungated but flags settlement risk and counts `host_conflicts == 1`. |
+| 4.4 | The gate actually prevents paper orders | **PASS** | In the gated track a refused pair `continue`s before `strategy.evaluate`; `gated.proposed_orders == 2` (Fed pair only) versus `ungated.proposed_orders == 4` in `tests/test_scoreboard.py`. |
+| 4.5 | Network cross-venue pairs get gated the same way | **PASS (mechanism) / UNKNOWN (coverage)** | Network Kalshi markets now carry `resolution_text` from `rules_primary/secondary` plus `/events/{ticker}` `settlement_sources`, and `source_url`; Polymarket carries `description`. Fingerprints are absent on network markets, so every network pair is `fingerprint_indeterminate` and refused — correct fail-closed behaviour. However, in the 2026-09-14 canary the heuristic matcher produced **0** Kalshi/Polymarket pairs (Kalshi macro series vs a Polymarket top-liquidity list dominated by 2028-nomination longshots), so gate coverage on live data is untested beyond fixtures. |
+| 4.6 | "Fed EXACT 0/3" and "macro 0/20" divergence findings | **UNKNOWN** | Those numbers existed only in the sample file. `research/harvest_scoreboard.py` recomputes divergences from harvested resolved markets (`tests/test_harvests.py` shows 1/2 on synthetic data) and the artifact reports `divergence_findings_status: not_measured_in_this_run` unless `--harvest-dir` contains data. No harvest has been run against live data in this PR. |
+
+## 5. Scoreboard artifacts: SAMPLE vs measured
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 5.1 | Writers cannot emit a sample | **PASS** | `build_scoreboard_artifact(source="sample")` raises `SampleSourceRefused` (`tests/test_scoreboard_artifact.py::test_writer_refuses_sample_source`). `dashboard/scripts/sync-artifacts.mjs` refuses to copy any scoreboard whose `meta.source === "sample"` and any ledger not marked `paper_only`. |
+| 5.2 | The UI distinguishes sample from measured | **PASS** | `Header` shows the Sample badge on `meta.source === "sample"`; `KpiStrip` adds the Paper PnL tile and `Panels` shows realized/unrealized/fees/drawdown only when `hasLedgerPnl(meta)` (source ≠ sample **and** `pnl_source` present); sample artifacts render "sample — not measured". `npm run typecheck && npm run build` pass. |
+| 5.3 | Committed artifacts are consistent | **PASS** | CI parses all four committed scoreboards, asserts `meta.source` matches the file name and that non-sample files carry `pnl_source`. |
+
+## 6. Broken modules and dependency story
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 6.1 | The measure path had an `IndentationError`/import failure | **FAIL** | Nearly every module failed to import (see 0.1). `python -m compileall apps core research settlement strategies venues tests` now passes; 78 tests pass. |
+| 6.2 | `uv run python -m apps.measure_all` works in CI/agent environments | **PASS** | `pyproject.toml` declares `httpx` (runtime) and `fastapi`, `uvicorn`, `pytest`, `pytest-asyncio` (extras); `uv.lock` committed; `.github/workflows/ci.yml` runs `uv sync --extra dev --frozen`, `uv run pytest`, one fixture paper cycle, the fail-closed check and the dashboard build. Without `uv`: `python -m pip install -e ".[dev]" && python -m pytest`. `pytest` runs `async def` tests via `asyncio_mode = "auto"`. |
+| 6.3 | `paper_loop` emits exactly one structured JSON line on stderr | **PASS** | `tests/test_paper_loop.py` parses stderr as a single JSON object; `httpx`/`httpcore` INFO logging is lowered to WARNING in `main()` so network runs keep the contract (verified: network `--once` produced 1 stderr line). |
+
+## 7. Fixture vs network data
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 7.1 | Fixtures and network data are distinguishable end to end | **PASS** | Fixture markets carry `metadata.source = "fixture"`, network markets `"network"` (+ `environment`); `VenueSnapshot.source` and `metrics.snapshot[venue].source/errors` are recorded on every track; `meta.mode` is `fixtures`/`network`. |
+| 7.2 | Kalshi market data is readable without credentials | **PASS** | Verified live: `GET /markets?series_ticker=…&status=open`, `GET /markets/{ticker}/orderbook`, `GET /events/{event_ticker}` on both `demo-api.kalshi.co` and `api.elections.kalshi.com` return 200 with no auth. **Demo keys are not needed for the read-only canary.** They are needed only for authenticated demo endpoints (balance, positions, orders), all of which are stubs here. |
+| 7.3 | Kalshi payload field names/units in the fragments were current | **FAIL** | The current API returns dollar strings (`yes_bid_dollars`, `liquidity_dollars`, `orderbook_fp.yes_dollars/no_dollars`) and `volume_fp`; legacy integer-cent fields are `null`. `liquidity_dollars` is `0.0000` on every listed market, so ranking by liquidity is impossible. Fixed: `venues/kalshi/client.py` parses both formats (tests cover each) and ranks by two-sided quote presence, then volume/open interest. |
+| 7.4 | The unfiltered Kalshi `/markets` listing is a usable canary universe | **FAIL** | 1000/1000 returned markets were zero-liquidity multi-leg "MVE cross-category" combos. Fixed: the client lists explicit macro series (`DEFAULT_MACRO_SERIES`: KXFEDDECISION, KXFED, KXCPIYOY, KXCPI, KXCPICORE, KXPAYROLLS, KXGDP, KXU3 — all verified to exist and quote two-sided); `series_tickers=None` restores the raw listing. |
+| 7.5 | Kalshi orderbook `yes`/`no` are both bid ladders (YES ask = 1 − NO bid) | **PASS** | Verified live: `KXFEDDECISION-28JAN-H26` reported `yes_ask_dollars 0.10` and its best `no_dollars` bid was `0.9000`; `tests/test_venues.py` encodes this. |
+| 7.6 | Polymarket Gamma/CLOB read-only endpoints work without keys | **PASS** | Verified live; `conditionId`, `clobTokenIds` (JSON string), `liquidityNum`, `question`, `description` parsed (`tests/test_venues.py::test_polymarket_network_market_parses_token_ids_and_book`). |
+| 7.7 | Polymarket's top-liquidity list is a useful cross-venue universe | **UNKNOWN / weak** | On 2026-09-14 the top 15 by `liquidityNum` were mostly near-zero-probability longshots with one-sided books (bids empty, asks at 0.001–0.999). Category is `null` at both market and event level, so `infer_category` relies on text hints. A curated Polymarket slug list would be needed for meaningful cross-venue candidates; the single-venue Kalshi track does not depend on this. |
+| 7.8 | The fair-value track can trade on network without operator input | **PASS (by design it cannot)** | `CalibratedFairValueStrategy` trades only markets with an explicit prior; there is no implicit pricing model. The committed canary artifact therefore shows 30 candidates, 0 fills, `paper_pnl 0.00`, reason `no_fair_value` — the "clearly 0.00 with empty book" outcome. The fill/mark/fee path on live Kalshi books was exercised with throwaway priors in a temp directory (not committed): 2 fills at the ask, fee `ceil(0.07·10·0.14·0.86)=0.09`, mark at mid, equity identity held. |
+| 7.9 | Fixture settlement outcomes are only used for scoring | **PASS** | `paper_settlement_outcome` exists only in fixtures; the fair-value track uses it for `hit_rate` (0.75 on fixtures: the Kalshi CPI buy is a miss) and a `settlement_preview`, never to alter the ledger. Network fills are never scored. |
+
+## 8. Known gaps / not validated
+
+* No live or demo-authenticated path exists; everything past `Settings.live_enabled` is a stub by design.
+* `apps/dashboard_api.py` has no authentication (unchanged from the original design; README warns).
+* Cross-venue candidate generation on live data is effectively empty (4.5, 7.7); the arbAI finding that macro settlement diverges is *enforced* by the gate on fixtures but not *re-measured* on live data in this PR.
+* Ledger aggregation across tracks sums five independent `1000` starting-cash books (`portfolio.starting_cash = 5000`); per-track figures are under `portfolio.by_track` and the primary track under `portfolio.primary`.
+* Daily-loss reset semantics (1.4) are cumulative, not calendar-based.
