@@ -148,6 +148,20 @@ Full audit in `docs/NEWS_UNDERREACTION.md`; headline rows repeated here.
 | 9.5 | Signal → implied probability mapping | **UNKNOWN** | Never computed in this repository. Fixture values are synthetic (`research/fixtures/news_signals.json::_note`); artifacts carry `findings.news_underreaction.mapping_validated = false` and the `news_signal_mapping_unvalidated` risk flag whenever the lane has fills. |
 | 9.6 | `pre_signal_mid`, the 900 s drift window and the 0.64 pass-through transfer to Kalshi/Polymarket news markets | **UNKNOWN** | arXiv:2606.07811 is a comparison anchor only (`metrics.literature.validated_here = false`). No price history is captured, so `p0` and `reaction_ratio` exist only when supplied. |
 
+## 9b. Category specialist scoreboard (`category_specialist`)
+
+Full audit in `docs/SPECIALIST_SCOREBOARD.md`; headline rows repeated here.
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 9b.1 | Per-category ROI, directional Brier skill, rolling in-category window and top-decile promotion are implemented as documented | **PASS** | `strategies/specialist.py`; `tests/test_specialist.py` (arithmetic, window, reasons, promotion, tie-break, `other` never promoted). |
+| 9b.2 | Follows use the shared execution/risk path on their own ledger; settlement books 1/0; fixture and network follows never share an evaluation | **PASS** | `PaperLedger(ledger_id="category_specialist")`; `test_fixture_track_scores_promotes_and_follows`, `test_carried_state_settles_follows_and_stays_underpowered`, `test_fixture_follows_never_enter_the_network_evaluation`. |
+| 9b.3 | The pre-registered test (N = 30 resolved follows, one-sided sign test α = 0.05 plus mean excess vs mid > 0) is applied exactly and never declares pass/fail below N | **PASS** | `test_binomial_tail_and_wins_required`, `test_evaluation_statuses_follow_the_preregistration`; `preregistration` block emitted in every artifact. |
+| 9b.4 | Public Data API rows are parsed correctly and source failures never kill a run | **PASS (mechanism)** | `parse_closed_position` / `parse_open_position` / `parse_leaderboard` / `parse_resolution` tests; live 2026-09-14: 25 wallets, 76 unauthenticated GETs, 0 errors. |
+| 9b.5 | **The hypothesis itself** | **UNKNOWN — underpowered** | 0 resolved network follows against N = 30 on the committed snapshot; `findings.category_specialist.evaluation_status` says so and the `specialist_hypothesis_not_validated` risk flag is set whenever follows exist without a passed test. |
+| 9b.6 | Category taxonomy, entry-price Brier proxy, "next bet = currently open", cost basis, fee-free follows, volume-leaderboard selection | **UNKNOWN** | Heuristic / venue-defined / operator choices; each is listed in the artifact's `not_validated[]` and in the lane doc (S.10–S.15). |
+
+## 10. Known gaps / not validated
 ## 10. Kalshi favorite–longshot bias (FLB) track
 
 Runbook and measured results: `docs/FLB_RUNBOOK.md`. Runs were executed on 2026-09-14
@@ -220,10 +234,11 @@ and the pre-registration in `docs/TENNIS_BASIS.md`; headline rows here.
 * Cross-venue candidate generation on live data now finds Fed-decision pairs (4.5) but no CPI/GDP/unemployment pairs yet: Polymarket's macro events use point buckets and different phrasing from Kalshi's threshold ladders, and the Gamma search terms are a short hard-coded list (`venues/polymarket/client.py::DEFAULT_MACRO_SEARCH`).
 * No live pair can be admitted until an operator authors fingerprints for both markets (4b); the gate's positive path is validated on fixtures and synthetic pairs only.
 * `parse_fed_bucket` is regex-based and returns `None` on anything ambiguous; it decides a *reject* stage only, never admission on its own.
-* Ledger aggregation across tracks sums twelve independent `1000` starting-cash books (`portfolio.starting_cash = 12000` on the full board, `3000` on the arb-only board, `2000` on the FLB-only board); per-track figures are under `portfolio.by_track` and the primary track under `portfolio.primary`.
+* Ledger aggregation across tracks sums thirteen independent `1000` starting-cash books (`portfolio.starting_cash = 13000` on the full board, `3000` on the arb-only board, `2000` on the FLB-only board); per-track figures are under `portfolio.by_track` and the primary track under `portfolio.primary`.
 * Daily-loss reset semantics (1.4) are cumulative, not calendar-based.
 * The `news_underreaction` lane's signal→probability mapping, pre-signal price provenance and drift horizon are all UNKNOWN; see section 9 and `docs/NEWS_UNDERREACTION.md`.
 * `tennis_basis`: the live gap distribution against the free feed is UNKNOWN (no key in the build environment), the bookmaker-vs-venue settlement basis is documented but not modelled, and retirements are only detectable from an operator results file; see section 13 and `docs/TENNIS_BASIS.md`.
+* The `category_specialist` hypothesis is underpowered (0 of the pre-registered 30 resolved network follows); the lane is Polymarket-only, its category taxonomy is heuristic and its follow PnL is pre-fee; see section 9b and `docs/SPECIALIST_SCOREBOARD.md`.
 * Polymarket arb tracks: subset NegRisk conversions, implication-based combinatorial arbitrage across events, converter fee, maker/taker rebates and legging beyond the one-tick buffer are not modelled (see `docs/POLYMARKET_ARB.md`, "Known limits").
 * FLB maker fill probabilities, queue position and adverse selection (10.4) are assumptions; the ex-post trade tape cannot distinguish opening from closing trades, and the sample covers only the newest settled markets per series (see section 10 and `docs/FLB_RUNBOOK.md`).
 * The self-logged book archive (section 11) is polled REST L2: it cannot recover queue position or FIFO priority, misses everything between polls, and its Kalshi snapshots have no venue timestamp. `SidecarSource` (official RSS / free weather) is a protocol stub with no implementation.

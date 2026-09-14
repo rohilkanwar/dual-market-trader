@@ -45,6 +45,29 @@ jobs:
           assert r["not_validated"], "report must list what is not validated"
           print("news lane ok:", r["refused_by_reason"])
           EOF
+      - name: Category specialist lane - fixture scoreboard promotes in-category only and stays underpowered
+        run: |
+          rm -rf /tmp/specialist
+          uv run python -m research.specialist_scoreboard --artifact-dir /tmp/specialist
+          uv run python -m research.specialist_scoreboard --artifact-dir /tmp/specialist
+          uv run python - <<'EOF'
+          import json
+          r = json.load(open("/tmp/specialist/specialist_scoreboard_fixtures.json"))
+          assert r["kind"] == "specialist_scoreboard" and r["meta"]["source"] == "measured", r["meta"]
+          assert r["meta"]["status"] == "fixture_synthetic" and r["meta"]["pnl_source"] == "core.ledger.PaperLedger"
+          assert r["preregistration"]["n"] == 30 and r["preregistration"]["wins_required_at_n"] == 20
+          promoted = {(s["trader"], s["category"]) for s in r["specialists"]}
+          assert promoted == {("fx-macro-alpha", "macro"), ("fx-hoops-delta", "basketball"), ("fx-tennis-zeta", "tennis")}, promoted
+          for row in r["scoreboard"]:
+              assert row["promoted"] == (not row["reasons"]), row
+              assert row["category"] != "other" or not row["promoted"]
+          pooled = r["evaluation"]["pooled"]
+          assert pooled["status"] == "underpowered" and pooled["n_resolved"] == 3 and pooled["powered"] is False, pooled
+          assert r["totals"]["refused_by_reason"]["already_followed"] == 3, r["totals"]
+          assert abs(r["ledger"]["realized_pnl"] - 14.3) < 1e-9, r["ledger"]["realized_pnl"]
+          assert r["not_validated"], "report must list what is not validated"
+          print("specialist lane ok:", pooled["status"], pooled["note"])
+          EOF
       - name: Polymarket arb tracks run on fixtures and book the NegRisk conversion
         run: |
           uv run python -m apps.measure_polymarket_arb --no-persist --artifact-dir artifacts
@@ -240,4 +263,12 @@ jobs:
           const kalshi = tennis.verdict_table.find((r) => r.check === 'kalshi_whales_identifiable');
           if (!kalshi || kalshi.verdict !== 'NOT_IDENTIFIABLE') throw new Error('tennis report claims Kalshi whales are identifiable');
           console.log('tennis_whale_report_latest.json', tennis.mode, tennis.status, tennis.overall_verdict, 'kill:', tennis.kill_rule.status);
+          for (const f of ['specialist_scoreboard_latest.json','specialist_scoreboard_network.json','specialist_scoreboard_fixtures.json']) {
+            const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
+            if (d.kind !== 'specialist_scoreboard' || d.meta.source === 'sample' || !Array.isArray(d.scoreboard)) throw new Error(`${f}: bad specialist board`);
+            const pooled = d.evaluation?.pooled ?? {};
+            if (pooled.n_resolved < d.preregistration.n && ['pass', 'fail'].includes(pooled.status)) throw new Error(`${f}: declared ${pooled.status} below the pre-registered N`);
+            if (d.specialists.some((s) => s.category === 'other' || !s.promoted)) throw new Error(`${f}: promoted an unclassified or non-promoted row`);
+            console.log(f, d.meta.mode, `specialists ${d.specialists.length}, follows ${d.totals.follow_log_resolved} resolved / ${d.totals.follow_log_pending} pending, evaluation ${pooled.status}`);
+          }
           EOF

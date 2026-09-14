@@ -22,6 +22,12 @@ a **free** public consensus line (The Odds API free tier, Pinnacle-first), gap
 closure by match start, with a mandatory retirement/walkover settlement filter
 (`docs/TENNIS_BASIS.md`; the live gap distribution is UNKNOWN until an operator
 supplies a free API key).
+`category_specialist` scores large
+Polymarket traders per category from public per-wallet data, promotes the
+top decile with positive in-category ROI **and** Brier skill, paper-follows
+their next in-category bets and evaluates a pre-registered N=30 test that
+reports `underpowered` until the follows have resolved
+(`docs/SPECIALIST_SCOREBOARD.md`).
 
 ## Quick start
 
@@ -54,10 +60,12 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.3.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
 | `artifacts/scoreboard_<fixtures\|network>.json` | Same document, kept per mode |
 | `artifacts/gate_report_<fixtures\|network>.json`, `gate_report_latest.json` | Per-pair admissibility verdicts of `gated_cross_venue` (every stage, every reason, depth-aware edge for admitted pairs); emitted even with zero candidates |
+| `artifacts/specialist_scoreboard_<fixtures\|network>.json`, `specialist_scoreboard_latest.json` | `category_specialist` board: per-trader-category scores, promotions, follow log, pre-registration and the pooled evaluation (`no_follows` / `pending_resolutions` / `underpowered` / `pass` / `fail`) |
+| `artifacts/paper/specialist_follow_state.json` | The specialist follow log carried across runs (settled against the public resolution feed) |
 | `artifacts/scoreboard_polymarket_arb.json` | Arb-only board from `apps.measure_polymarket_arb` (`meta.track_family=polymarket_arb`); does not replace `scoreboard_latest.json` |
 | `artifacts/polymarket_arb_latest.json` | Full arb opportunity report: per-group sums, fee/slippage per set, mirror statistics, conversions, holdings |
 | `artifacts/scoreboard_tennis_basis.json`, `tennis_basis_latest.json`, `tennis_basis/register.json` | Tennis-basis board (`meta.track_family=tennis_basis`), full report (pre-registered rule, verdict, per-market reasons, gap records) and the persistent gap register from `apps.measure_tennis_basis` |
-| `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
+| `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`, `category_specialist` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
 | `artifacts/paper_loop_latest.json`, `paper_loop_history.jsonl` | Paper-loop cycle payloads (append-only history) |
@@ -213,10 +221,35 @@ observed, close at the start and are confirmed after settlement. Set
 what is validated (arithmetic, filters, ledger, live venue capture) and what is
 not (the live gap distribution, the bookmaker vs. venue settlement basis).
 
+### Category specialist scoreboard (thirteenth track)
+
+`category_specialist` reads the public Polymarket Data API ($0, no keys): the
+30-day volume leaderboard picks the large traders, `/closed-positions` and
+`/positions` give each wallet's resolved and open bets, a keyword/slug
+taxonomy assigns categories (tennis, soccer, esports, crypto, macro, ...).
+Every (trader, category) is scored on its last 20 in-category resolved bets;
+the top decile with positive ROI and positive directional Brier skill is
+promoted, and its currently open in-category bets are paper-followed at the
+touch with the mid at follow time as the benchmark.
+
+```bash
+python -m research.specialist_scoreboard                        # synthetic fixture traders, deterministic
+python -m research.specialist_scoreboard --network --traders 25 # live: leaderboard -> wallets -> CLOB books
+python -m apps.paper_loop --network --interval-seconds 900      # accumulate follows and settlements over time
+```
+
+Pre-registered pass rule: **30 resolved follows pooled, one-sided sign test at
+α = 0.05 and mean excess vs mid > 0**. Fewer resolved follows is reported as
+`underpowered`, never as pass or fail. The committed 2026-09-14 network
+snapshot has 0 resolved follows (two specialists promoted, no admissible open
+bets yet), so the hypothesis is **not validated**; `docs/SPECIALIST_SCOREBOARD.md`
+lists everything that is and is not. Kalshi has no per-trader data, so the lane
+is Polymarket-only.
+
 ### Other entry points
 
 ```bash
-uv run python -m apps.measure_all --help            # one-shot measurement, all 12 tracks, all flags
+uv run python -m apps.measure_all --help            # one-shot measurement, all 13 tracks, all flags
 uv run python -m apps.book_logger --help            # self-log public books/trades to artifacts/books (see docs/BOOK_LOGGER.md)
 uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only (see docs/POLYMARKET_ARB.md)
 uv run python -m apps.measure_flb --help            # Kalshi FLB tracks + ex-post band table (see docs/FLB_RUNBOOK.md)
@@ -226,6 +259,7 @@ uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges
 uv run python -m research.harvest_public            # harvest resolved macro markets (public data)
 uv run python -m research.news_underreaction       # news lane fixture measurement (--json for the report)
+uv run python -m research.specialist_scoreboard    # specialist lane on fixtures (--network --traders N for the Data API)
 uv run python -m apps.measure_all --harvest-dir data/harvests   # adds divergence findings when present
 uv run uvicorn apps.dashboard_api:app --port 8000   # read artifacts / start paper runs over HTTP
 ```
@@ -370,13 +404,13 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict)
+strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict), specialist scoring/promotion/evaluation
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
-research/      scoreboard (12 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
-               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources
+research/      scoreboard (13 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
+               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources
 apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit
 ```
 
 ### Tracks
@@ -405,6 +439,8 @@ snapshot; the three Polymarket arb tracks share one frozen event snapshot (YES
 and NO book per leg) captured in the same run. The two FLB tracks use their own
 risk defaults ($25/order, $75/market, $75 daily) rather than the $100/$500/$250
 defaults of the other tracks.
+The specialist track fetches books only for the markets its promoted traders
+are in, into its own snapshot.
 
 ### Cross-venue admissibility in one paragraph
 
