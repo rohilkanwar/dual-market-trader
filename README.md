@@ -33,7 +33,7 @@ entry point refuses to start if either variable requests live operation.
 | --- | --- |
 | `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.2.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
 | `artifacts/scoreboard_<fixtures\|network>.json` | Same document, kept per mode |
-| `artifacts/paper/ledger_<track>.json` | Full ledger per track: cash, fills (with fees), marks, positions, equity curve, max drawdown |
+| `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
 | `artifacts/paper_loop_latest.json`, `paper_loop_history.jsonl` | Paper-loop cycle payloads (append-only history) |
@@ -77,6 +77,26 @@ uv run python -m apps.measure_all --network --kalshi-env prod --priors data/prio
 Priors are operator inputs, not model output; the repository deliberately
 contains no implicit pricing model.
 
+### News / underreaction lane (optional sixth track)
+
+`news_underreaction` measures how far a market has moved toward a public
+signal's implied probability and books a hypothetical paper trade on the
+residual (literature anchor: arXiv:2606.07811, ~0.64 pass-through, drift over
+minutes). The signal→probability mapping is **not** computed here: fixture
+signals are synthetic, network runs stay empty unless an operator supplies
+signals, and the optional RSS headline hook matches but never maps, so it
+never trades.
+
+```bash
+python -m research.news_underreaction                 # runnable fixture measurement
+python -m apps.measure_all --network --kalshi-env prod --news-signals data/news/signals.json
+python -m apps.measure_all --network --kalshi-env prod --news-rss https://www.federalreserve.gov/feeds/press_all.xml
+```
+
+`docs/NEWS_UNDERREACTION.md` lists what is validated (arithmetic, rails,
+ledger isolation, graceful empty) and what is not (the mapping, pre-signal
+price provenance, the drift window, the 0.64 constant on these venues).
+
 ### Other entry points
 
 ```bash
@@ -85,6 +105,7 @@ uv run python -m apps.paper_runner --strategy both  # strategy runner with loggi
 uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges
 uv run python -m research.harvest_public            # harvest resolved macro markets (public data)
+uv run python -m research.news_underreaction       # news lane fixture measurement (--json for the report)
 uv run python -m apps.measure_all --harvest-dir data/harvests   # adds divergence findings when present
 uv run uvicorn apps.dashboard_api:app --port 8000   # read artifacts / start paper runs over HTTP
 ```
@@ -216,12 +237,12 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, market matching
+strategies/    single-venue fair value (primary), cross-venue mispricing, market matching, news underreaction
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching
-research/      scoreboard (5 isolated tracks over one shared snapshot), artifact writer, harvest analysis
+research/      scoreboard (6 isolated tracks over one shared snapshot), artifact writer, harvest analysis, news signal stubs
 apps/          measure_all, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit
 ```
 
 ### Tracks
@@ -233,6 +254,7 @@ docs/          ASSUMPTIONS.md audit
 | `ungated_cross_venue_macro` | none, flagged | what the gate refused; settlement-risk flagged when it would have refused |
 | `sports_cross_venue` | none, host conflicts counted | settlement-source disagreement on sports |
 | `small_deliberate_bet` | gated, 2-contract cap | process probe |
+| `news_underreaction` (optional) | signal freshness/confidence, residual threshold, fair-value engine rails | public signal → implied probability → residual → paper order; empty without a signal source; mapping UNKNOWN |
 
 Each track has its own risk manager, execution engine, portfolio and ledger;
 all tracks see the same frozen market snapshot for a run.

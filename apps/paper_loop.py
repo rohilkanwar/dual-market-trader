@@ -19,6 +19,7 @@ from apps.measure_all import (
     write_json,
 )
 from core.config import require_paper_only
+from research.news_signals import build_signal_source
 from research.scoreboard import PRIMARY_TRACK, TRACKS, TrackSummary, measure_all_with_ledgers
 from strategies.edge import load_priors
 
@@ -57,6 +58,8 @@ async def run_cycle(
     persist_ledgers: bool = True,
     priors_path: Path | None = None,
     kalshi_env: str | None = None,
+    news_signals_path: Path | None = None,
+    news_rss: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     """Run all isolated paper tracks once and persist one cycle snapshot.
 
@@ -75,6 +78,9 @@ async def run_cycle(
         priors=priors,
         kalshi_env=kalshi_env,
         cycle_label=f"cycle:{cycle}",
+        news_signals=build_signal_source(
+            use_fixtures=not use_network, signals_path=news_signals_path, rss_urls=news_rss
+        ),
     )
     completed_at = _now()
     mode = "network" if use_network else "fixtures"
@@ -156,6 +162,8 @@ async def run_loop(
     persist_ledgers: bool = True,
     priors_path: Path | None = None,
     kalshi_env: str | None = None,
+    news_signals_path: Path | None = None,
+    news_rss: tuple[str, ...] = (),
 ) -> dict[str, Any] | None:
     """Run cycles forever, or exactly once for tests and scheduled invocations."""
     require_paper_only("Paper loop")
@@ -174,6 +182,8 @@ async def run_loop(
                 persist_ledgers=persist_ledgers,
                 priors_path=priors_path,
                 kalshi_env=kalshi_env,
+                news_signals_path=news_signals_path,
+                news_rss=news_rss,
             )
         except asyncio.CancelledError:
             raise
@@ -214,6 +224,8 @@ def main() -> None:
     )
     parser.add_argument("--priors", type=Path, default=None, help="JSON {market_id: probability}")
     parser.add_argument("--kalshi-env", choices=("demo", "prod"), default=None)
+    parser.add_argument("--news-signals", type=Path, default=None, help="JSON signals file for the news_underreaction lane")
+    parser.add_argument("--news-rss", action="append", default=[], metavar="URL", help="public RSS/Atom feed for the news lane (headlines only, never mapped; repeatable)")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     # Third-party INFO logs (httpx request lines) would break the one-JSON-line
@@ -232,6 +244,8 @@ def main() -> None:
                 persist_ledgers=not args.no_persist,
                 priors_path=args.priors,
                 kalshi_env=args.kalshi_env,
+                news_signals_path=args.news_signals,
+                news_rss=tuple(args.news_rss),
             )
         )
     except KeyboardInterrupt:

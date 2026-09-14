@@ -1,0 +1,101 @@
+{
+  "_note": "SYNTHETIC. These signals exist to prove the underreaction measurement math against the committed venue fixture books (venues/*/fixtures/markets.json). Every implied_probability and pre_signal_mid was assigned by hand; none is a forecast or an observed market history. age_seconds is relative to the run's as_of so the staleness rail is exercised deterministically.",
+  "signals": [
+    {
+      "signal_id": "fx-fed-sep-cut-kalshi",
+      "venue": "kalshi",
+      "market_id": "KX-FED-SEP-CUT",
+      "headline": "Fed officials signal September rate cut is likely, people familiar say",
+      "age_seconds": 180,
+      "pre_signal_mid": "0.45",
+      "implied_probability": "0.70",
+      "confidence": "0.90",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "trade: buy YES at the 0.54 ask; residual 0.17 vs literature 0.09"}
+    },
+    {
+      "signal_id": "fx-fed-sep-cut-polymarket",
+      "venue": "polymarket",
+      "market_id": "0xfixture-fed-september",
+      "headline": "Fed officials signal September rate cut is likely, people familiar say",
+      "age_seconds": 180,
+      "pre_signal_mid": "0.36",
+      "implied_probability": "0.70",
+      "confidence": "0.90",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "trade: buy YES at the 0.43 ask (fee-free venue)"}
+    },
+    {
+      "signal_id": "fx-cpi-aug-cool-print",
+      "venue": "kalshi",
+      "market_id": "KX-CPI-AUG-OVER3",
+      "headline": "August CPI rises 2.7% year over year, below 3.0% consensus",
+      "age_seconds": 240,
+      "pre_signal_mid": "0.36",
+      "implied_probability": "0.05",
+      "confidence": "0.95",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "trade: sell YES at the 0.31 bid (negative residual)"}
+    },
+    {
+      "signal_id": "fx-cpi-aug-stale",
+      "venue": "polymarket",
+      "market_id": "0xfixture-cpi-august",
+      "headline": "August CPI rises 2.7% year over year, below 3.0% consensus",
+      "age_seconds": 3600,
+      "pre_signal_mid": "0.42",
+      "implied_probability": "0.05",
+      "confidence": "0.95",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "refused: signal_stale (older than the drift window)"}
+    },
+    {
+      "signal_id": "fx-nba-injury-unmapped",
+      "venue": "kalshi",
+      "market_id": "KX-NBA-NY-BOS-NY",
+      "headline": "Knicks star listed as questionable ahead of Boston game",
+      "age_seconds": 120,
+      "pre_signal_mid": "0.59",
+      "implied_probability": null,
+      "confidence": "0.80",
+      "mapping": "unmapped",
+      "metadata": {"expect": "refused: no_implied_probability (the headline->probability mapping is UNKNOWN)"}
+    },
+    {
+      "signal_id": "fx-nba-lineups-fully-priced",
+      "venue": "polymarket",
+      "market_id": "0xfixture-nba-ny-boston",
+      "headline": "Starting lineups confirmed for New York at Boston; no changes",
+      "age_seconds": 60,
+      "pre_signal_mid": "0.50",
+      "implied_probability": "0.55",
+      "confidence": "0.80",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "refused: below_edge_threshold (residual 0.03, cost-adjusted 0.01)"}
+    },
+    {
+      "signal_id": "fx-fed-rumor-low-confidence",
+      "venue": "kalshi",
+      "market_id": "KX-FED-SEP-CUT",
+      "headline": "Unverified social post claims emergency Fed meeting tonight",
+      "age_seconds": 30,
+      "pre_signal_mid": "0.53",
+      "implied_probability": "0.90",
+      "confidence": "0.20",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "refused: low_confidence"}
+    },
+    {
+      "signal_id": "fx-gdp-market-missing",
+      "venue": "kalshi",
+      "market_id": "KX-GDP-Q3-ABOVE2",
+      "headline": "Atlanta Fed GDPNow tracks Q3 growth at 2.4%",
+      "age_seconds": 100,
+      "pre_signal_mid": "0.50",
+      "implied_probability": "0.60",
+      "confidence": "0.85",
+      "mapping": "fixture_assigned",
+      "metadata": {"expect": "refused: market_not_in_snapshot"}
+    }
+  ]
+}

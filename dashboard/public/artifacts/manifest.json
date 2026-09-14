@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T18:59:05.313Z",
+  "generated_at": "2026-09-14T20:51:59.121398+00:00",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -18,8 +18,8 @@
     "scoreboard_fixtures.json": {
       "target": "public/artifacts/scoreboard_fixtures.json",
       "source": "measured",
-      "measured_at": "2026-09-14T18:59:00.038369+00:00",
-      "paper_pnl": -4.01
+      "measured_at": "2026-09-14T20:51:59.060916+00:00",
+      "paper_pnl": -4.69
     },
     "paper/ledger_single_venue_fair_value.json": {
       "target": "public/artifacts/paper_ledger_single_venue_fair_value.json",

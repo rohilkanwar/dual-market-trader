@@ -52,6 +52,7 @@ Captures research headlines that explain empty cross-venue panels:
 - `macro_admitted_bucket_divergences`: `{ observed, sample_size, label, note }` — e.g. macro 0/20
 - `live_network_cross_venue_candidates`: number (often `0`)
 - `arbai_summary`: short educational string for empty states
+- `news_underreaction`: `{ status, signal_source, signals, mapped, unmapped, paper_fills, reaction_ratio_observed_mean, reaction_ratio_literature, literature_reference, mapping_validated: false, note }`. `status` is one of `no_signal_source`, `fixture_synthetic`, `signal_source_errors`, `signals_unmapped`, `no_signals_matched`, `operator_mapped_signals`. Present on every generated artifact; see `docs/NEWS_UNDERREACTION.md`.
 
 ## `totals`
 
@@ -72,7 +73,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet` |
+| `track` | string | Stable id: `gated_cross_venue_macro`, `ungated_cross_venue_macro`, `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source) |
 | `label` | string | Display name |
 | `candidates` | number | |
 | `admitted` | number | |
@@ -97,7 +98,7 @@ Edges: `rank`, `track`, `venue`, `market`, `edge_bps`, `admitted`, `filled`, `fa
 
 `open_positions`, `gross_notional`, `net_exposure`, `realized_pnl`, `unrealized_pnl`, `max_drawdown`, `settlement_risk_pairs`, `concentration[]`, `risk_flags[]`.
 
-Ledger-backed (1.2.0) additions: `source: "ledger_aggregate"`, `starting_cash`, `cash`, `equity`, `total_pnl`, `fees_paid`, `primary_track`, `primary` (the primary track's full `PaperLedger.summary()` including `positions[]`), and `by_track` (per-track cash/equity/PnL/drawdown). `max_drawdown` is the maximum across track ledgers because tracks are independent books. `risk_flags` always includes `pnl_from_ledger_not_placeholder` on generated artifacts.
+Ledger-backed (1.2.0) additions: `source: "ledger_aggregate"`, `starting_cash`, `cash`, `equity`, `total_pnl`, `fees_paid`, `primary_track`, `primary` (the primary track's full `PaperLedger.summary()` including `positions[]`), and `by_track` (per-track cash/equity/PnL/drawdown). `max_drawdown` is the maximum across track ledgers because tracks are independent books. `risk_flags` always includes `pnl_from_ledger_not_placeholder` on generated artifacts. `news_signal_mapping_unvalidated` is added whenever the `news_underreaction` lane booked a paper fill, because its signal→probability mapping is not validated.
 
 ## `findings`
 

@@ -20,6 +20,10 @@
       {
         "track": "small_deliberate_bet",
         "value": 2
+      },
+      {
+        "track": "news_underreaction",
+        "value": 8
       }
     ],
     "fills_by_track": [
@@ -42,6 +46,10 @@
       {
         "track": "small_deliberate_bet",
         "value": 2
+      },
+      {
+        "track": "news_underreaction",
+        "value": 3
       }
     ],
     "pnl_by_track": [
@@ -64,15 +72,19 @@
       {
         "track": "small_deliberate_bet",
         "value": -0.08
+      },
+      {
+        "track": "news_underreaction",
+        "value": -0.68
       }
     ],
     "venue_fills": [
       {
-        "value": 7,
+        "value": 9,
         "venue": "kalshi"
       },
       {
-        "value": 7,
+        "value": 8,
         "venue": "polymarket"
       }
     ]
@@ -80,21 +92,34 @@
   "findings": {
     "arbai_summary": "Cross-venue macro settlement rules frequently diverge (clause, fingerprint or host mismatch). The gated track refuses those pairs; single-venue fair value is the primary paper track and carries no cross-venue settlement exposure.",
     "divergence_findings_status": "not_measured_in_this_run",
-    "live_network_cross_venue_candidates": 3
+    "live_network_cross_venue_candidates": 3,
+    "news_underreaction": {
+      "literature_reference": "arXiv:2606.07811",
+      "mapped": 7,
+      "mapping_validated": false,
+      "note": "Signal-to-probability mapping is not validated; fixture signals are synthetic. See docs/NEWS_UNDERREACTION.md.",
+      "paper_fills": 3,
+      "reaction_ratio_literature": 0.64,
+      "reaction_ratio_observed_mean": 0.175,
+      "signal_source": "fixture",
+      "signals": 8,
+      "status": "fixture_synthetic",
+      "unmapped": 1
+    }
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T18:59:00.098704+00:00",
+    "generated_at": "2026-09-14T20:51:59.121398+00:00",
     "kalshi_env": null,
     "label": "MEASURED / FIXTURES",
     "markets_per_venue": 25,
-    "measured_at": "2026-09-14T18:59:00.038369+00:00",
+    "measured_at": "2026-09-14T20:51:59.060916+00:00",
     "mode": "fixtures",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "single_venue_fair_value",
     "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T185900Z-a45de95a",
+    "run_id": "20260914T205159Z-e67169b1",
     "source": "measured",
     "venue_focus": "kalshi",
     "venues": [
@@ -117,6 +142,20 @@
         "starting_cash": 1000.0,
         "total_pnl": -0.6,
         "unrealized_pnl": -0.32
+      },
+      "news_underreaction": {
+        "cash": 993.07,
+        "equity": 999.32,
+        "equity_points": 1,
+        "fees_paid": 0.33,
+        "fills": 3,
+        "gross_notional": 12.75,
+        "max_drawdown": 0.68,
+        "open_positions": 3,
+        "realized_pnl": -0.33,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.68,
+        "unrealized_pnl": -0.35
       },
       "single_venue_fair_value": {
         "cash": 981.26,
@@ -175,23 +214,23 @@
         "unrealized_pnl": -0.98
       }
     },
-    "cash": 4985.29,
+    "cash": 5978.36,
     "concentration": [
       {
         "venue": "kalshi",
-        "weight": 0.5153
+        "weight": 0.5338
       },
       {
         "venue": "polymarket",
-        "weight": 0.4847
+        "weight": 0.4662
       }
     ],
-    "equity": 4995.99,
-    "fees_paid": 1.72,
-    "gross_notional": 94.06,
+    "equity": 5995.31,
+    "fees_paid": 2.05,
+    "gross_notional": 106.81,
     "max_drawdown": 1.61,
-    "net_exposure": 10.7,
-    "open_positions": 14,
+    "net_exposure": 16.95,
+    "open_positions": 17,
     "paper_only": true,
     "primary": {
       "cash": 981.26,
@@ -205,7 +244,7 @@
           "weight": 0.5237
         }
       ],
-      "created_at": "2026-09-14T18:59:00.094006+00:00",
+      "created_at": "2026-09-14T20:51:59.117863+00:00",
       "equity": 999.21,
       "equity_points": 1,
       "fees_paid": 0.34,
@@ -272,22 +311,77 @@
       "total_pnl": -0.79,
       "unmarked_positions": 0,
       "unrealized_pnl": -0.45,
-      "updated_at": "2026-09-14T18:59:00.096437+00:00"
+      "updated_at": "2026-09-14T20:51:59.121024+00:00"
     },
     "primary_track": "single_venue_fair_value",
-    "realized_pnl": -1.72,
+    "realized_pnl": -2.05,
     "risk_flags": [
       "settlement_risk_flagged_on_ungated_track",
+      "news_signal_mapping_unvalidated",
       "pnl_from_ledger_not_placeholder"
     ],
     "settlement_risk_pairs": 3,
     "source": "ledger_aggregate",
-    "starting_cash": 5000.0,
-    "total_pnl": -4.01,
-    "unrealized_pnl": -2.29
+    "starting_cash": 6000.0,
+    "total_pnl": -4.69,
+    "unrealized_pnl": -2.64
   },
   "schema_version": "1.2.0",
   "top_edges": [
+    {
+      "admitted": false,
+      "edge_bps": 3700,
+      "fair_value": 0.9,
+      "filled": false,
+      "literature_residual_bps": 1332,
+      "market": "KX-FED-SEP-CUT",
+      "mid": 0.53,
+      "rank": 1,
+      "reaction_ratio": 0.0,
+      "reason": "low_confidence",
+      "residual_bps": 3700,
+      "side": null,
+      "signal_id": "fx-fed-rumor-low-confidence",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "news_underreaction",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 2600,
+      "fair_value": 0.7,
+      "filled": true,
+      "literature_residual_bps": 1224,
+      "market": "0xfixture-fed-september",
+      "mid": 0.42,
+      "rank": 2,
+      "reaction_ratio": 0.1765,
+      "reason": "trade",
+      "residual_bps": 2800,
+      "side": "buy",
+      "signal_id": "fx-fed-sep-cut-polymarket",
+      "title": "Will the Fed cut rates in September?",
+      "track": "news_underreaction",
+      "venue": "polymarket"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 2400,
+      "fair_value": 0.05,
+      "filled": true,
+      "literature_residual_bps": -1116,
+      "market": "KX-CPI-AUG-OVER3",
+      "mid": 0.325,
+      "rank": 3,
+      "reaction_ratio": 0.1129,
+      "reason": "trade",
+      "residual_bps": -2750,
+      "side": "sell",
+      "signal_id": "fx-cpi-aug-cool-print",
+      "title": "Will August CPI be above 3.0%?",
+      "track": "news_underreaction",
+      "venue": "kalshi"
+    },
     {
       "admitted": true,
       "edge_bps": 1600,
@@ -295,12 +389,30 @@
       "filled": true,
       "market": "0xfixture-fed-september",
       "mid": 0.42,
-      "rank": 1,
+      "rank": 4,
       "reason": "trade",
       "side": "buy",
       "title": "Will the Fed cut rates in September?",
       "track": "single_venue_fair_value",
       "venue": "polymarket"
+    },
+    {
+      "admitted": true,
+      "edge_bps": 1400,
+      "fair_value": 0.7,
+      "filled": true,
+      "literature_residual_bps": 900,
+      "market": "KX-FED-SEP-CUT",
+      "mid": 0.53,
+      "rank": 5,
+      "reaction_ratio": 0.32,
+      "reason": "trade",
+      "residual_bps": 1700,
+      "side": "buy",
+      "signal_id": "fx-fed-sep-cut-kalshi",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "news_underreaction",
+      "venue": "kalshi"
     },
     {
       "admitted": true,
@@ -311,7 +423,7 @@
       "market": "fed-rate-cut-september",
       "mid": 0.53,
       "polymarket_mid": 0.42,
-      "rank": 2,
+      "rank": 6,
       "raw_edge_bps": 1100,
       "reason": "trade",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -327,7 +439,7 @@
       "market": "fed-rate-cut-september",
       "mid": 0.53,
       "polymarket_mid": 0.42,
-      "rank": 3,
+      "rank": 7,
       "raw_edge_bps": 1100,
       "reason": "trade",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -343,7 +455,7 @@
       "market": "fed-rate-cut-september",
       "mid": 0.53,
       "polymarket_mid": 0.42,
-      "rank": 4,
+      "rank": 8,
       "raw_edge_bps": 1100,
       "reason": "trade",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -359,7 +471,7 @@
       "market": "august-cpi-over-3",
       "mid": 0.325,
       "polymarket_mid": 0.405,
-      "rank": 5,
+      "rank": 9,
       "raw_edge_bps": 800,
       "reason": "trade",
       "title": "Will August CPI be above 3.0%?",
@@ -375,78 +487,22 @@
       "market": "nba-new-york-boston",
       "mid": 0.59,
       "polymarket_mid": 0.52,
-      "rank": 6,
+      "rank": 10,
       "raw_edge_bps": 700,
       "reason": "trade",
       "title": "Will New York beat Boston?",
       "track": "sports_cross_venue",
       "venue": "cross"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 400,
-      "fair_value": 0.6,
-      "filled": true,
-      "market": "KX-FED-SEP-CUT",
-      "mid": 0.53,
-      "rank": 7,
-      "reason": "trade",
-      "side": "buy",
-      "title": "Will the Fed cut rates at the September meeting?",
-      "track": "single_venue_fair_value",
-      "venue": "kalshi"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 400,
-      "fair_value": 0.4,
-      "filled": true,
-      "market": "KX-CPI-AUG-OVER3",
-      "mid": 0.325,
-      "rank": 8,
-      "reason": "trade",
-      "side": "buy",
-      "title": "Will August CPI be above 3.0%?",
-      "track": "single_venue_fair_value",
-      "venue": "kalshi"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 300,
-      "fair_value": 0.57,
-      "filled": true,
-      "market": "0xfixture-nba-ny-boston",
-      "mid": 0.52,
-      "rank": 9,
-      "reason": "trade",
-      "side": "buy",
-      "title": "Will New York beat Boston?",
-      "track": "single_venue_fair_value",
-      "venue": "polymarket"
-    },
-    {
-      "admitted": false,
-      "edge_bps": -100,
-      "fair_value": 0.57,
-      "filled": false,
-      "market": "KX-NBA-NY-BOS-NY",
-      "mid": 0.59,
-      "rank": 10,
-      "reason": "below_edge_threshold",
-      "side": "sell",
-      "title": "Will New York beat Boston?",
-      "track": "single_venue_fair_value",
-      "venue": "kalshi"
     }
   ],
   "top_fills": [
     {
       "edge_bps": 500,
       "fee": 0.43,
-      "filled_at": "2026-09-14T18:59:00.095881+00:00",
+      "filled_at": "2026-09-14T20:51:59.119886+00:00",
       "mark": 0.59,
       "market": "KX-NBA-NY-BOS-NY",
-      "order_id": "paper-a33a38cc4b20",
+      "order_id": "paper-bd33efaf57dc",
       "outcome": "no",
       "paper_pnl": -0.68,
       "price": 0.42,
@@ -462,10 +518,10 @@
     {
       "edge_bps": 500,
       "fee": 0.35,
-      "filled_at": "2026-09-14T18:59:00.095315+00:00",
+      "filled_at": "2026-09-14T20:51:59.119303+00:00",
       "mark": 0.325,
       "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-83cc1e04c6b6",
+      "order_id": "paper-cbde2df8ca84",
       "outcome": "yes",
       "paper_pnl": -0.68,
       "price": 0.34,
@@ -481,10 +537,10 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T18:59:00.094808+00:00",
+      "filled_at": "2026-09-14T20:51:59.118798+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-67e63c0ae4d4",
+      "order_id": "paper-9816a2340054",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
@@ -500,10 +556,10 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T18:59:00.095158+00:00",
+      "filled_at": "2026-09-14T20:51:59.119152+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-a0f01019902c",
+      "order_id": "paper-6212ffa5093c",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
@@ -519,10 +575,10 @@
     {
       "edge_bps": 500,
       "fee": 0.0,
-      "filled_at": "2026-09-14T18:59:00.095354+00:00",
+      "filled_at": "2026-09-14T20:51:59.119341+00:00",
       "mark": 0.405,
       "market": "0xfixture-cpi-august",
-      "order_id": "paper-bf118aef4321",
+      "order_id": "paper-1f02e5d73790",
       "outcome": "no",
       "paper_pnl": -0.33,
       "price": 0.61,
@@ -538,10 +594,10 @@
     {
       "edge_bps": 400,
       "fee": 0.16,
-      "filled_at": "2026-09-14T18:59:00.095513+00:00",
+      "filled_at": "2026-09-14T20:51:59.119517+00:00",
       "mark": 0.325,
       "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-abb2f19b9740",
+      "order_id": "paper-ec4a93276ac8",
       "outcome": "yes",
       "paper_pnl": -0.31,
       "price": 0.34,
@@ -555,17 +611,36 @@
       "yes_equivalent_price": 0.34
     },
     {
+      "edge_bps": 2400,
+      "fee": 0.15,
+      "filled_at": "2026-09-14T20:51:59.120647+00:00",
+      "mark": 0.325,
+      "market": "KX-CPI-AUG-OVER3",
+      "order_id": "paper-cf73409f4bc0",
+      "outcome": "yes",
+      "paper_pnl": -0.3,
+      "price": 0.31,
+      "qty": 10.0,
+      "rank": 7,
+      "side": "sell",
+      "strategy": "news_underreaction",
+      "title": "Will August CPI be above 3.0%?",
+      "track": "news_underreaction",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.31
+    },
+    {
       "edge_bps": 400,
       "fee": 0.18,
-      "filled_at": "2026-09-14T18:59:00.095442+00:00",
+      "filled_at": "2026-09-14T20:51:59.119437+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-dc8629fda140",
+      "order_id": "paper-b597eef544c0",
       "outcome": "yes",
       "paper_pnl": -0.28,
       "price": 0.54,
       "qty": 10.0,
-      "rank": 7,
+      "rank": 8,
       "side": "buy",
       "strategy": "calibrated_fair_value",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -574,76 +649,57 @@
       "yes_equivalent_price": 0.54
     },
     {
+      "edge_bps": 1400,
+      "fee": 0.18,
+      "filled_at": "2026-09-14T20:51:59.120459+00:00",
+      "mark": 0.53,
+      "market": "KX-FED-SEP-CUT",
+      "order_id": "paper-d7d46273f869",
+      "outcome": "yes",
+      "paper_pnl": -0.28,
+      "price": 0.54,
+      "qty": 10.0,
+      "rank": 9,
+      "side": "buy",
+      "strategy": "news_underreaction",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "news_underreaction",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.54
+    },
+    {
       "edge_bps": 500,
       "fee": 0.0,
-      "filled_at": "2026-09-14T18:59:00.095841+00:00",
+      "filled_at": "2026-09-14T20:51:59.119846+00:00",
       "mark": 0.52,
       "market": "0xfixture-nba-ny-boston",
-      "order_id": "paper-c2615503a993",
+      "order_id": "paper-6aebf1596929",
       "outcome": "yes",
       "paper_pnl": -0.25,
       "price": 0.53,
       "qty": 25.0,
-      "rank": 8,
+      "rank": 10,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will New York beat Boston?",
       "track": "sports_cross_venue",
       "venue": "polymarket",
       "yes_equivalent_price": 0.53
-    },
-    {
-      "edge_bps": 900,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T18:59:00.094650+00:00",
-      "mark": 0.42,
-      "market": "0xfixture-fed-september",
-      "order_id": "paper-fbfb7b3d40fd",
-      "outcome": "yes",
-      "paper_pnl": -0.16,
-      "price": 0.43,
-      "qty": 16.0,
-      "rank": 9,
-      "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Will the Fed cut rates in September?",
-      "track": "gated_cross_venue_macro",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.43
-    },
-    {
-      "edge_bps": 900,
-      "fee": 0.0,
-      "filled_at": "2026-09-14T18:59:00.095111+00:00",
-      "mark": 0.42,
-      "market": "0xfixture-fed-september",
-      "order_id": "paper-eee1955ff6a5",
-      "outcome": "yes",
-      "paper_pnl": -0.16,
-      "price": 0.43,
-      "qty": 16.0,
-      "rank": 10,
-      "side": "buy",
-      "strategy": "cross_venue_mispricing",
-      "title": "Will the Fed cut rates in September?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.43
     }
   ],
   "totals": {
-    "admitted": 9,
-    "avg_edge_bps": 735,
-    "candidates": 13,
-    "fees_paid": 1.72,
+    "admitted": 12,
+    "avg_edge_bps": 968,
+    "candidates": 21,
+    "fees_paid": 2.05,
     "fill_rate": 1.0,
-    "paper_fills": 14,
-    "paper_pnl": -4.01,
-    "proposed_orders": 14,
-    "realized_pnl": -1.72,
-    "rejects": 4,
+    "paper_fills": 17,
+    "paper_pnl": -4.69,
+    "proposed_orders": 17,
+    "realized_pnl": -2.05,
+    "rejects": 9,
     "settlement_risk_pairs": 3,
-    "unrealized_pnl": -2.29
+    "unrealized_pnl": -2.64
   },
   "tracks": [
     {
@@ -665,7 +721,7 @@
             "weight": 0.4421
           }
         ],
-        "created_at": "2026-09-14T18:59:00.093953+00:00",
+        "created_at": "2026-09-14T20:51:59.117800+00:00",
         "equity": 999.4,
         "equity_points": 1,
         "fees_paid": 0.28,
@@ -710,7 +766,7 @@
         "total_pnl": -0.6,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.32,
-        "updated_at": "2026-09-14T18:59:00.096228+00:00"
+        "updated_at": "2026-09-14T20:51:59.120817+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -888,7 +944,7 @@
             "weight": 0.5
           }
         ],
-        "created_at": "2026-09-14T18:59:00.093992+00:00",
+        "created_at": "2026-09-14T20:51:59.117849+00:00",
         "equity": 998.39,
         "equity_points": 1,
         "fees_paid": 0.63,
@@ -955,7 +1011,7 @@
         "total_pnl": -1.61,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.98,
-        "updated_at": "2026-09-14T18:59:00.096336+00:00"
+        "updated_at": "2026-09-14T20:51:59.120921+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1099,7 +1155,7 @@
             "weight": 0.5237
           }
         ],
-        "created_at": "2026-09-14T18:59:00.094006+00:00",
+        "created_at": "2026-09-14T20:51:59.117863+00:00",
         "equity": 999.21,
         "equity_points": 1,
         "fees_paid": 0.34,
@@ -1166,7 +1222,7 @@
         "total_pnl": -0.79,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.45,
-        "updated_at": "2026-09-14T18:59:00.096437+00:00"
+        "updated_at": "2026-09-14T20:51:59.121024+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1292,7 +1348,7 @@
             "weight": 0.4685
           }
         ],
-        "created_at": "2026-09-14T18:59:00.094015+00:00",
+        "created_at": "2026-09-14T20:51:59.117873+00:00",
         "equity": 999.07,
         "equity_points": 1,
         "fees_paid": 0.43,
@@ -1337,7 +1393,7 @@
         "total_pnl": -0.93,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.5,
-        "updated_at": "2026-09-14T18:59:00.096519+00:00"
+        "updated_at": "2026-09-14T20:51:59.121107+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1451,7 +1507,7 @@
             "weight": 0.4421
           }
         ],
-        "created_at": "2026-09-14T18:59:00.094022+00:00",
+        "created_at": "2026-09-14T20:51:59.117881+00:00",
         "equity": 999.92,
         "equity_points": 1,
         "fees_paid": 0.04,
@@ -1496,7 +1552,7 @@
         "total_pnl": -0.08,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.04,
-        "updated_at": "2026-09-14T18:59:00.096582+00:00"
+        "updated_at": "2026-09-14T20:51:59.121169+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1654,6 +1710,409 @@
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "small_deliberate_bet"
+    },
+    {
+      "admitted": 3,
+      "candidates": 8,
+      "edge_bps": 2133,
+      "estimated_fees_buffer": 0.5,
+      "fill_rate": 1.0,
+      "label": "News underreaction",
+      "ledger": {
+        "cash": 993.07,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.6706
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.3294
+          }
+        ],
+        "created_at": "2026-09-14T20:51:59.117901+00:00",
+        "equity": 999.32,
+        "equity_points": 1,
+        "fees_paid": 0.33,
+        "fills": 3,
+        "gross_notional": 12.75,
+        "ledger_id": "news_underreaction",
+        "mark_method": "mid",
+        "max_drawdown": 0.68,
+        "net_exposure": 6.25,
+        "open_positions": 3,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 6.25,
+        "positions": [
+          {
+            "average_price": 0.54,
+            "fees_paid": 0.18,
+            "mark": 0.53,
+            "market_id": "KX-FED-SEP-CUT",
+            "quantity": 10.0,
+            "realized_pnl": -0.18,
+            "unrealized_pnl": -0.1,
+            "value": 5.3,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.43,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 10.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.1,
+            "value": 4.2,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.31,
+            "fees_paid": 0.15,
+            "mark": 0.325,
+            "market_id": "KX-CPI-AUG-OVER3",
+            "quantity": -10.0,
+            "realized_pnl": -0.15,
+            "unrealized_pnl": -0.15,
+            "value": -3.25,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.33,
+        "return_pct": -0.068,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -0.68,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.35,
+        "updated_at": "2026-09-14T20:51:59.121232+00:00"
+      },
+      "metrics": {
+        "equity_point": {
+          "drawdown": 0.68,
+          "equity": 999.32,
+          "total_pnl": -0.68
+        },
+        "events": {
+          "fill": 3,
+          "order_acknowledged": 3,
+          "order_rejected": 0,
+          "order_submitted": 3
+        },
+        "hit_rate": 1.0,
+        "literature": {
+          "contemporaneous_pass_through": 0.64,
+          "drift_horizon": "several minutes",
+          "reference": "arXiv:2606.07811",
+          "validated_here": false
+        },
+        "mapping": {
+          "counts": {
+            "fixture_assigned": 7,
+            "unmapped": 1
+          },
+          "status": "UNKNOWN: no component in this repository maps a signal to a probability"
+        },
+        "measurements": [
+          {
+            "age_seconds": 180.0,
+            "confidence": 0.9,
+            "cost_adjusted_edge": 0.14,
+            "current_mid": 0.53,
+            "direction": "yes",
+            "full_move": 0.25,
+            "headline": "Fed officials signal September rate cut is likely, people familiar say",
+            "implied_probability": 0.7,
+            "literature_residual": 0.09,
+            "mapping": "fixture_assigned",
+            "market_id": "KX-FED-SEP-CUT",
+            "observed_move": 0.08,
+            "orders": 1,
+            "paper_fills": 1,
+            "pre_signal_mid": 0.45,
+            "quantity": 10.0,
+            "raw_edge": 0.16,
+            "reaction_ratio": 0.32,
+            "reason": "trade",
+            "residual_to_fair": 0.17,
+            "side": "buy",
+            "signal_id": "fx-fed-sep-cut-kalshi",
+            "signal_source": "fixture",
+            "target_price": 0.7,
+            "touch_price": 0.54,
+            "venue": "kalshi"
+          },
+          {
+            "age_seconds": 180.0,
+            "confidence": 0.9,
+            "cost_adjusted_edge": 0.26,
+            "current_mid": 0.42,
+            "direction": "yes",
+            "full_move": 0.34,
+            "headline": "Fed officials signal September rate cut is likely, people familiar say",
+            "implied_probability": 0.7,
+            "literature_residual": 0.1224,
+            "mapping": "fixture_assigned",
+            "market_id": "0xfixture-fed-september",
+            "observed_move": 0.06,
+            "orders": 1,
+            "paper_fills": 1,
+            "pre_signal_mid": 0.36,
+            "quantity": 10.0,
+            "raw_edge": 0.27,
+            "reaction_ratio": 0.1765,
+            "reason": "trade",
+            "residual_to_fair": 0.28,
+            "side": "buy",
+            "signal_id": "fx-fed-sep-cut-polymarket",
+            "signal_source": "fixture",
+            "target_price": 0.7,
+            "touch_price": 0.43,
+            "venue": "polymarket"
+          },
+          {
+            "age_seconds": 240.0,
+            "confidence": 0.95,
+            "cost_adjusted_edge": 0.24,
+            "current_mid": 0.325,
+            "direction": "no",
+            "full_move": -0.31,
+            "headline": "August CPI rises 2.7% year over year, below 3.0% consensus",
+            "implied_probability": 0.05,
+            "literature_residual": -0.1116,
+            "mapping": "fixture_assigned",
+            "market_id": "KX-CPI-AUG-OVER3",
+            "observed_move": -0.035,
+            "orders": 1,
+            "paper_fills": 1,
+            "pre_signal_mid": 0.36,
+            "quantity": 10.0,
+            "raw_edge": 0.26,
+            "reaction_ratio": 0.1129,
+            "reason": "trade",
+            "residual_to_fair": -0.275,
+            "side": "sell",
+            "signal_id": "fx-cpi-aug-cool-print",
+            "signal_source": "fixture",
+            "target_price": 0.05,
+            "touch_price": 0.31,
+            "venue": "kalshi"
+          },
+          {
+            "age_seconds": 3600.0,
+            "confidence": 0.95,
+            "cost_adjusted_edge": null,
+            "current_mid": 0.405,
+            "direction": "no",
+            "full_move": -0.37,
+            "headline": "August CPI rises 2.7% year over year, below 3.0% consensus",
+            "implied_probability": 0.05,
+            "literature_residual": -0.1332,
+            "mapping": "fixture_assigned",
+            "market_id": "0xfixture-cpi-august",
+            "observed_move": -0.015,
+            "orders": 0,
+            "pre_signal_mid": 0.42,
+            "quantity": 0.0,
+            "raw_edge": null,
+            "reaction_ratio": 0.0405,
+            "reason": "signal_stale",
+            "residual_to_fair": -0.355,
+            "side": null,
+            "signal_id": "fx-cpi-aug-stale",
+            "signal_source": "fixture",
+            "target_price": 0.05,
+            "touch_price": null,
+            "venue": "polymarket"
+          },
+          {
+            "age_seconds": 120.0,
+            "confidence": 0.8,
+            "cost_adjusted_edge": null,
+            "current_mid": 0.59,
+            "direction": null,
+            "full_move": null,
+            "headline": "Knicks star listed as questionable ahead of Boston game",
+            "implied_probability": null,
+            "literature_residual": null,
+            "mapping": "unmapped",
+            "market_id": "KX-NBA-NY-BOS-NY",
+            "observed_move": null,
+            "orders": 0,
+            "pre_signal_mid": 0.59,
+            "quantity": 0.0,
+            "raw_edge": null,
+            "reaction_ratio": null,
+            "reason": "no_implied_probability",
+            "residual_to_fair": null,
+            "side": null,
+            "signal_id": "fx-nba-injury-unmapped",
+            "signal_source": "fixture",
+            "target_price": null,
+            "touch_price": null,
+            "venue": "kalshi"
+          },
+          {
+            "age_seconds": 60.0,
+            "confidence": 0.8,
+            "cost_adjusted_edge": 0.01,
+            "current_mid": 0.52,
+            "direction": "yes",
+            "full_move": 0.05,
+            "headline": "Starting lineups confirmed for New York at Boston; no changes",
+            "implied_probability": 0.55,
+            "literature_residual": 0.018,
+            "mapping": "fixture_assigned",
+            "market_id": "0xfixture-nba-ny-boston",
+            "observed_move": 0.02,
+            "orders": 0,
+            "pre_signal_mid": 0.5,
+            "quantity": 0.0,
+            "raw_edge": 0.02,
+            "reaction_ratio": 0.4,
+            "reason": "below_edge_threshold",
+            "residual_to_fair": 0.03,
+            "side": "buy",
+            "signal_id": "fx-nba-lineups-fully-priced",
+            "signal_source": "fixture",
+            "target_price": 0.55,
+            "touch_price": 0.53,
+            "venue": "polymarket"
+          },
+          {
+            "age_seconds": 30.0,
+            "confidence": 0.2,
+            "cost_adjusted_edge": null,
+            "current_mid": 0.53,
+            "direction": "yes",
+            "full_move": 0.37,
+            "headline": "Unverified social post claims emergency Fed meeting tonight",
+            "implied_probability": 0.9,
+            "literature_residual": 0.1332,
+            "mapping": "fixture_assigned",
+            "market_id": "KX-FED-SEP-CUT",
+            "observed_move": 0.0,
+            "orders": 0,
+            "pre_signal_mid": 0.53,
+            "quantity": 0.0,
+            "raw_edge": null,
+            "reaction_ratio": 0.0,
+            "reason": "low_confidence",
+            "residual_to_fair": 0.37,
+            "side": null,
+            "signal_id": "fx-fed-rumor-low-confidence",
+            "signal_source": "fixture",
+            "target_price": 0.9,
+            "touch_price": null,
+            "venue": "kalshi"
+          },
+          {
+            "age_seconds": 100.0,
+            "confidence": 0.85,
+            "cost_adjusted_edge": null,
+            "current_mid": null,
+            "direction": null,
+            "full_move": null,
+            "headline": "Atlanta Fed GDPNow tracks Q3 growth at 2.4%",
+            "implied_probability": 0.6,
+            "literature_residual": null,
+            "mapping": "fixture_assigned",
+            "market_id": "KX-GDP-Q3-ABOVE2",
+            "observed_move": null,
+            "orders": 0,
+            "pre_signal_mid": 0.5,
+            "quantity": 0.0,
+            "raw_edge": null,
+            "reaction_ratio": null,
+            "reason": "market_not_in_snapshot",
+            "residual_to_fair": null,
+            "side": null,
+            "signal_id": "fx-gdp-market-missing",
+            "signal_source": "fixture",
+            "target_price": null,
+            "touch_price": null,
+            "venue": "kalshi"
+          }
+        ],
+        "parameters": {
+          "convergence_fraction": 1.0,
+          "literature_beta": 0.64,
+          "max_signal_age_seconds": 900.0,
+          "maximum_order_size": 10.0,
+          "minimum_confidence": 0.5,
+          "minimum_residual": 0.03
+        },
+        "reaction_ratio": {
+          "literature": 0.64,
+          "n": 6,
+          "note": "Synthetic fixture values; not evidence for or against the paper.",
+          "observed_mean": 0.175
+        },
+        "settlement_preview": {
+          "hypothetical_pnl_at_fixture_settlement": 13.07,
+          "note": "Only fixture markets carry paper_settlement_outcome; network fills are not scored.",
+          "scored_fills": 3
+        },
+        "signal_source": {
+          "as_of": "2026-09-14T20:51:59.120212+00:00",
+          "errors": [],
+          "fetched_at": "2026-09-14T20:51:59.120235+00:00",
+          "name": "fixture",
+          "note": "signals loaded from /workspace/research/fixtures/news_signals.json",
+          "signals": 8
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "status": "fixture_synthetic",
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.33,
+            "open_positions": 2.0,
+            "realized_pnl": -0.33,
+            "total_pnl": -0.58,
+            "unrealized_pnl": -0.25
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 1.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.1,
+            "unrealized_pnl": -0.1
+          }
+        }
+      },
+      "notes": "Optional lane. Public signal -> implied probability -> underreaction residual -> paper order via the same fair-value engine as the primary track. The signal-to-probability mapping is UNKNOWN and never computed here: fixture signals are synthetic, network runs stay empty unless an operator supplies signals; RSS headlines are matched but never mapped, so they never trade. Literature anchor arXiv:2606.07811 (0.64 pass-through) is reported for comparison, not validated.",
+      "paper_fills": 3,
+      "proposed_orders": 3,
+      "refused_by_reason": {
+        "below_edge_threshold": 1,
+        "low_confidence": 1,
+        "market_not_in_snapshot": 1,
+        "no_implied_probability": 1,
+        "signal_stale": 1
+      },
+      "reject_reasons": {
+        "below_edge_threshold": 1,
+        "low_confidence": 1,
+        "market_not_in_snapshot": 1,
+        "no_implied_probability": 1,
+        "signal_stale": 1
+      },
+      "rejects": 5,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "news_underreaction"
     }
   ]
 }
