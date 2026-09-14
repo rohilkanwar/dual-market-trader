@@ -56,7 +56,7 @@ NEGRISK = "polymarket_negrisk_arb"
 COMBINATORIAL = "polymarket_combinatorial_arb"
 CONVERT_ORDER_ID = "negrisk_convert"
 BPS = Decimal("10000")
-Q4 = Decimal("0.0001")
+Q5 = Decimal("0.00001")
 Q6 = Decimal("0.000001")
 
 
@@ -164,9 +164,9 @@ def _convert(runtime: TrackRuntime, group: MarketGroup, execution: Execution, pa
         "title": group.title,
         "legs": int(k),
         "sets": sets,
-        "collateral_out": collateral.quantize(Q4),
-        "no_cost": sum((leg.cost for leg in execution.legs), ZERO).quantize(Q4),
-        "fees": sum((leg.fees for leg in execution.legs), ZERO).quantize(Q4),
+        "collateral_out": collateral.quantize(Q5),
+        "no_cost": sum((leg.cost for leg in execution.legs), ZERO).quantize(Q5),
+        "fees": sum((leg.fees for leg in execution.legs), ZERO).quantize(Q5),
         "augmented": group.augmented,
         "hidden_placeholder_yes_valued_at_zero": group.augmented,
         "mechanism": "NegRiskAdapter.convertPositions(indexSet=all visible legs); one-way NO->collateral",
@@ -188,8 +188,8 @@ def _edge_row(track: str, evaluation: ArbEvaluation, *, filled: bool, market_id:
         "top_of_book_sum": evaluation.top_of_book_sum,
         "payoff_per_set": evaluation.payoff_per_set,
         "sets": evaluation.quantity,
-        "net_profit": evaluation.net_profit.quantize(Q4),
-        "capital_required": evaluation.capital_required.quantize(Q4),
+        "net_profit": evaluation.net_profit.quantize(Q5),
+        "capital_required": evaluation.capital_required.quantize(Q5),
         "executable_now": evaluation.executable_now,
         "lockup": evaluation.lockup,
         "lockup_until": evaluation.lockup_until,
@@ -316,10 +316,10 @@ def _group_row(group: MarketGroup, evaluation: ArbEvaluation, snap: VenueSnapsho
         "kind": evaluation.kind.value,
         "reason": evaluation.reason,
         "gross_edge_per_set": evaluation.gross_edge_per_set,
-        "net_edge_per_set": evaluation.net_edge_per_set.quantize(Q4) if evaluation.net_edge_per_set is not None else None,
+        "net_edge_per_set": evaluation.net_edge_per_set.quantize(Q5) if evaluation.net_edge_per_set is not None else None,
         "sets": evaluation.quantity,
-        "net_profit": evaluation.net_profit.quantize(Q4),
-        "capital_required": evaluation.capital_required.quantize(Q4),
+        "net_profit": evaluation.net_profit.quantize(Q5),
+        "capital_required": evaluation.capital_required.quantize(Q5),
         "end_date": group.metadata.get("end_date"),
     }
 
@@ -423,10 +423,10 @@ async def run_combinatorial_track(runtime: TrackRuntime, params: ArbParameters) 
                 "legs": group.size,
                 "sets_complete": sets,
                 "residual_contracts": execution.residual,
-                "cost": cost.quantize(Q4),
-                "fees": fees.quantize(Q4),
+                "cost": cost.quantize(Q5),
+                "fees": fees.quantize(Q5),
                 "payoff_at_resolution": sets,
-                "profit_at_resolution": (sets - cost - fees).quantize(Q4),
+                "profit_at_resolution": (sets - cost - fees).quantize(Q5),
                 "lockup_until": evaluation.lockup_until,
                 "risk_capped_sets": execution.risk_capped_sets,
                 "mechanism": "hold every YES to resolution; no YES->collateral converter exists",
@@ -440,7 +440,7 @@ async def run_combinatorial_track(runtime: TrackRuntime, params: ArbParameters) 
             "single_outcome_groups_skipped": single_outcome,
             "groups": rows,
             "holdings": holdings,
-            "locked_capital": locked_capital.quantize(Q4),
+            "locked_capital": locked_capital.quantize(Q5),
             "payoff_at_resolution": payoff_at_resolution,
             "lockup_until": max((h["lockup_until"] or "" for h in holdings), default=None) or None,
             "parameters": _params_dict(params),

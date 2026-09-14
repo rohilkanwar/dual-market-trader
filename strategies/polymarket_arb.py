@@ -39,7 +39,7 @@ from core.types import ONE, ZERO, Market, MarketGroup, Order, OrderBook, Outcome
 from venues.polymarket.fees import polymarket_taker_fee
 
 BPS = Decimal("10000")
-Q4 = Decimal("0.0001")
+Q5 = Decimal("0.00001")
 ADMITTED = "admitted"
 
 
@@ -142,9 +142,9 @@ class LegPlan:
             "side": self.leg.side.value,
             "quantity": self.quantity,
             "limit_price": self.limit_price,
-            "average_price": self.average_price.quantize(Q4),
-            "fees": self.fees.quantize(Q4),
-            "slippage": self.slippage.quantize(Q4),
+            "average_price": self.average_price.quantize(Q5),
+            "fees": self.fees.quantize(Q5),
+            "slippage": self.slippage.quantize(Q5),
             "fee_rate": self.leg.fee_rate,
         }
 
@@ -204,13 +204,13 @@ class ArbEvaluation:
             "payoff_per_set": self.payoff_per_set,
             "top_of_book_sum": self.top_of_book_sum,
             "gross_edge_per_set": self.gross_edge_per_set,
-            "net_edge_per_set": self.net_edge_per_set.quantize(Q4) if self.net_edge_per_set is not None else None,
+            "net_edge_per_set": self.net_edge_per_set.quantize(Q5) if self.net_edge_per_set is not None else None,
             "edge_bps": self.edge_bps,
             "return_on_capital_bps": self.return_on_capital_bps,
-            "net_profit": self.net_profit.quantize(Q4),
-            "total_fees": self.total_fees.quantize(Q4),
-            "total_slippage": self.total_slippage.quantize(Q4),
-            "capital_required": self.capital_required.quantize(Q4),
+            "net_profit": self.net_profit.quantize(Q5),
+            "total_fees": self.total_fees.quantize(Q5),
+            "total_slippage": self.total_slippage.quantize(Q5),
+            "capital_required": self.capital_required.quantize(Q5),
             "executable_now": self.executable_now,
             "lockup": self.lockup,
             "lockup_until": self.lockup_until,
