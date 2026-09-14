@@ -2,6 +2,10 @@
   "charts": {
     "candidates_by_track": [
       {
+        "track": "gated_cross_venue",
+        "value": 3
+      },
+      {
         "track": "gated_cross_venue_macro",
         "value": 2
       },
@@ -39,6 +43,10 @@
       }
     ],
     "fills_by_track": [
+      {
+        "track": "gated_cross_venue",
+        "value": 3
+      },
       {
         "track": "gated_cross_venue_macro",
         "value": 2
@@ -78,6 +86,10 @@
     ],
     "pnl_by_track": [
       {
+        "track": "gated_cross_venue",
+        "value": -1.03
+      },
+      {
         "track": "gated_cross_venue_macro",
         "value": -0.6
       },
@@ -116,11 +128,11 @@
     ],
     "venue_fills": [
       {
-        "value": 9,
+        "value": 10,
         "venue": "kalshi"
       },
       {
-        "value": 20,
+        "value": 22,
         "venue": "polymarket"
       }
     ]
@@ -128,6 +140,30 @@
   "findings": {
     "arbai_summary": "Cross-venue macro settlement rules frequently diverge (clause, fingerprint or host mismatch). The gated track refuses those pairs; single-venue fair value is the primary paper track and carries no cross-venue settlement exposure.",
     "divergence_findings_status": "not_measured_in_this_run",
+    "gated_cross_venue": {
+      "all_stage_reject_reasons": {
+        "clause_refuse_mismatch": 1,
+        "fingerprint_indeterminate": 2,
+        "host_tier_not_allowed": 1,
+        "polarity_unverified": 2
+      },
+      "candidates": 3,
+      "expected_locked_pnl_if_settlement_equivalent": 1.72,
+      "gate_admitted": 1,
+      "gate_refused": 2,
+      "ledger_total_pnl": -1.03,
+      "paper_fills": 3,
+      "policy": "strict",
+      "priced_but_no_edge": 0,
+      "primary_reject_reasons": {
+        "clause_refuse_mismatch": 1,
+        "fingerprint_indeterminate": 1
+      },
+      "status": "admits_present_verify_fingerprints",
+      "track": "gated_cross_venue",
+      "traded": 1,
+      "vetoed_candidates": 0
+    },
     "live_network_cross_venue_candidates": 3,
     "news_underreaction": {
       "literature_reference": "arXiv:2606.07811",
@@ -143,19 +179,46 @@
       "unmapped": 1
     }
   },
+  "gate_report": {
+    "file": "gate_report_fixtures.json",
+    "totals": {
+      "all_stage_reject_reasons": {
+        "clause_refuse_mismatch": 1,
+        "fingerprint_indeterminate": 2,
+        "host_tier_not_allowed": 1,
+        "polarity_unverified": 2
+      },
+      "candidates": 3,
+      "expected_locked_pnl_if_settlement_equivalent": 1.72,
+      "gate_admitted": 1,
+      "gate_refused": 2,
+      "ledger_total_pnl": -1.03,
+      "paper_fills": 3,
+      "policy": "strict",
+      "priced_but_no_edge": 0,
+      "primary_reject_reasons": {
+        "clause_refuse_mismatch": 1,
+        "fingerprint_indeterminate": 1
+      },
+      "status": "admits_present_verify_fingerprints",
+      "track": "gated_cross_venue",
+      "traded": 1,
+      "vetoed_candidates": 0
+    }
+  },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T21:24:03.239067+00:00",
+    "generated_at": "2026-09-14T21:34:24.081028+00:00",
     "kalshi_env": null,
     "label": "MEASURED / FIXTURES",
     "markets_per_venue": 25,
-    "measured_at": "2026-09-14T21:24:03.159442+00:00",
+    "measured_at": "2026-09-14T21:34:24.006439+00:00",
     "mode": "fixtures",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "single_venue_fair_value",
     "refresh": "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T212403Z-a763b42e",
+    "run_id": "20260914T213424Z-85083a97",
     "source": "measured",
     "track_family": null,
     "venue_focus": "kalshi",
@@ -166,6 +229,20 @@
   },
   "portfolio": {
     "by_track": {
+      "gated_cross_venue": {
+        "cash": 1001.72,
+        "equity": 998.97,
+        "equity_points": 1,
+        "fees_paid": 0.44,
+        "fills": 3,
+        "gross_notional": 23.75,
+        "max_drawdown": 1.03,
+        "open_positions": 2,
+        "realized_pnl": -0.44,
+        "starting_cash": 1000.0,
+        "total_pnl": -1.03,
+        "unrealized_pnl": -0.59
+      },
       "gated_cross_venue_macro": {
         "cash": 1001.16,
         "equity": 999.4,
@@ -293,23 +370,23 @@
         "unrealized_pnl": -0.98
       }
     },
-    "cash": 8923.3576,
+    "cash": 9925.0776,
     "concentration": [
       {
         "venue": "kalshi",
-        "weight": 0.352
+        "weight": 0.3783
       },
       {
         "venue": "polymarket",
-        "weight": 0.648
+        "weight": 0.6217
       }
     ],
-    "equity": 8995.5076,
-    "fees_paid": 4.7524,
-    "gross_notional": 162.01,
+    "equity": 9994.4776,
+    "fees_paid": 5.1924,
+    "gross_notional": 185.76,
     "max_drawdown": 3.35688,
-    "net_exposure": 72.15,
-    "open_positions": 20,
+    "net_exposure": 69.4,
+    "open_positions": 22,
     "paper_only": true,
     "primary": {
       "cash": 981.26,
@@ -323,7 +400,7 @@
           "weight": 0.52368
         }
       ],
-      "created_at": "2026-09-14T21:24:03.230382+00:00",
+      "created_at": "2026-09-14T21:34:24.074159+00:00",
       "equity": 999.21,
       "equity_points": 1,
       "fees_paid": 0.34,
@@ -390,10 +467,10 @@
       "total_pnl": -0.79,
       "unmarked_positions": 0,
       "unrealized_pnl": -0.45,
-      "updated_at": "2026-09-14T21:24:03.235436+00:00"
+      "updated_at": "2026-09-14T21:34:24.080466+00:00"
     },
     "primary_track": "single_venue_fair_value",
-    "realized_pnl": -0.0524,
+    "realized_pnl": -0.4924,
     "risk_flags": [
       "settlement_risk_flagged_on_ungated_track",
       "news_signal_mapping_unvalidated",
@@ -402,11 +479,11 @@
     ],
     "settlement_risk_pairs": 3,
     "source": "ledger_aggregate",
-    "starting_cash": 9000.0,
-    "total_pnl": -4.4924,
-    "unrealized_pnl": -4.44
+    "starting_cash": 10000.0,
+    "total_pnl": -5.5224,
+    "unrealized_pnl": -5.03
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "top_edges": [
     {
       "admitted": false,
@@ -543,6 +620,26 @@
       "venue": "cross"
     },
     {
+      "admitted": true,
+      "edge_bps": 688,
+      "fair_value": 0.42,
+      "fees_per_contract": 0.0176,
+      "filled": true,
+      "gross_edge_bps": 900,
+      "kalshi_mid": 0.53,
+      "market": "fed-rate-cut-september",
+      "mid": 0.53,
+      "net_edge_bps": 688,
+      "polymarket_mid": 0.42,
+      "quantity": 25.0,
+      "rank": 9,
+      "raw_edge_bps": 1100,
+      "reason": "trade",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "gated_cross_venue",
+      "venue": "cross"
+    },
+    {
       "admitted": false,
       "capital_required": 0.0,
       "edge_bps": 600,
@@ -558,39 +655,23 @@
       "mid": 0.94,
       "net_profit": 0.0,
       "payoff_per_set": 1.0,
-      "rank": 9,
+      "rank": 10,
       "reason": "hidden_outcome_risk",
       "sets": 0.0,
       "title": "Fixture: augmented NegRisk event whose visible YES asks sum below 1",
       "top_of_book_sum": 0.94,
       "track": "polymarket_combinatorial_arb",
       "venue": "polymarket"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 500,
-      "fair_value": 0.405,
-      "filled": true,
-      "kalshi_mid": 0.325,
-      "market": "august-cpi-over-3",
-      "mid": 0.325,
-      "polymarket_mid": 0.405,
-      "rank": 10,
-      "raw_edge_bps": 800,
-      "reason": "trade",
-      "title": "Will August CPI be above 3.0%?",
-      "track": "ungated_cross_venue_macro",
-      "venue": "cross"
     }
   ],
   "top_fills": [
     {
       "edge_bps": 180,
       "fee": 0.0,
-      "filled_at": "2026-09-14T21:24:03.233972+00:00",
+      "filled_at": "2026-09-14T21:34:24.078986+00:00",
       "mark": 0.45,
       "market": "0xfixture-binary-merge-feefree",
-      "order_id": "paper-ee54e6d04bb4",
+      "order_id": "paper-422a44ede952",
       "outcome": "no",
       "paper_pnl": 1.6,
       "price": 0.53,
@@ -606,10 +687,10 @@
     {
       "edge_bps": 180,
       "fee": 0.0,
-      "filled_at": "2026-09-14T21:24:03.234258+00:00",
+      "filled_at": "2026-09-14T21:34:24.079245+00:00",
       "mark": 0.52,
       "market": "0xfixture-binary-split",
-      "order_id": "paper-d58fa254bb40",
+      "order_id": "paper-3cd6c32988a6",
       "outcome": "no",
       "paper_pnl": 1.2,
       "price": 0.5,
@@ -625,10 +706,10 @@
     {
       "edge_bps": 211,
       "fee": 0.53064,
-      "filled_at": "2026-09-14T21:24:03.235065+00:00",
+      "filled_at": "2026-09-14T21:34:24.080048+00:00",
       "mark": 0.32,
       "market": "0xfixture-ly-c",
-      "order_id": "paper-570ad5a5468b",
+      "order_id": "paper-987759de0b9c",
       "outcome": "yes",
       "paper_pnl": -1.1306,
       "price": 0.33,
@@ -644,10 +725,10 @@
     {
       "edge_bps": 211,
       "fee": 0.52224,
-      "filled_at": "2026-09-14T21:24:03.235035+00:00",
+      "filled_at": "2026-09-14T21:34:24.080018+00:00",
       "mark": 0.31,
       "market": "0xfixture-ly-b",
-      "order_id": "paper-87e57740c971",
+      "order_id": "paper-adc9ba928f70",
       "outcome": "yes",
       "paper_pnl": -1.1222,
       "price": 0.32,
@@ -663,10 +744,10 @@
     {
       "edge_bps": 211,
       "fee": 0.504,
-      "filled_at": "2026-09-14T21:24:03.234999+00:00",
+      "filled_at": "2026-09-14T21:34:24.079982+00:00",
       "mark": 0.29,
       "market": "0xfixture-ly-a",
-      "order_id": "paper-ef1e431d9f0c",
+      "order_id": "paper-2e51d5ebd9f8",
       "outcome": "yes",
       "paper_pnl": -1.104,
       "price": 0.3,
@@ -680,17 +761,36 @@
       "yes_equivalent_price": 0.3
     },
     {
+      "edge_bps": 688,
+      "fee": 0.44,
+      "filled_at": "2026-09-14T21:34:24.075176+00:00",
+      "mark": 0.53,
+      "market": "KX-FED-SEP-CUT",
+      "order_id": "paper-77b4d1cc906d",
+      "outcome": "no",
+      "paper_pnl": -0.69,
+      "price": 0.48,
+      "qty": 25.0,
+      "rank": 6,
+      "side": "buy",
+      "strategy": "gated_cross_venue_depth_aware",
+      "title": "Will the Fed cut rates at the September meeting?",
+      "track": "gated_cross_venue",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.52
+    },
+    {
       "edge_bps": 500,
       "fee": 0.43,
-      "filled_at": "2026-09-14T21:24:03.232261+00:00",
+      "filled_at": "2026-09-14T21:34:24.077149+00:00",
       "mark": 0.59,
       "market": "KX-NBA-NY-BOS-NY",
-      "order_id": "paper-f483a7ea4130",
+      "order_id": "paper-f7a07196b71a",
       "outcome": "no",
       "paper_pnl": -0.68,
       "price": 0.42,
       "qty": 25.0,
-      "rank": 6,
+      "rank": 7,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will New York beat Boston?",
@@ -701,15 +801,15 @@
     {
       "edge_bps": 500,
       "fee": 0.35,
-      "filled_at": "2026-09-14T21:24:03.231702+00:00",
+      "filled_at": "2026-09-14T21:34:24.076513+00:00",
       "mark": 0.325,
       "market": "KX-CPI-AUG-OVER3",
-      "order_id": "paper-163a67fd330e",
+      "order_id": "paper-56ac74b96167",
       "outcome": "yes",
       "paper_pnl": -0.68,
       "price": 0.34,
       "qty": 22.0,
-      "rank": 7,
+      "rank": 8,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will August CPI be above 3.0%?",
@@ -720,15 +820,15 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T21:24:03.231205+00:00",
+      "filled_at": "2026-09-14T21:34:24.075799+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-8006aa2ba9f0",
+      "order_id": "paper-ea1421affa89",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
       "qty": 16.0,
-      "rank": 8,
+      "rank": 9,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will the Fed cut rates at the September meeting?",
@@ -739,57 +839,260 @@
     {
       "edge_bps": 900,
       "fee": 0.28,
-      "filled_at": "2026-09-14T21:24:03.231549+00:00",
+      "filled_at": "2026-09-14T21:34:24.076275+00:00",
       "mark": 0.53,
       "market": "KX-FED-SEP-CUT",
-      "order_id": "paper-bf0bca86a6f3",
+      "order_id": "paper-fcdaf6f1322d",
       "outcome": "no",
       "paper_pnl": -0.44,
       "price": 0.48,
       "qty": 16.0,
-      "rank": 9,
+      "rank": 10,
       "side": "buy",
       "strategy": "cross_venue_mispricing",
       "title": "Will the Fed cut rates at the September meeting?",
       "track": "ungated_cross_venue_macro",
       "venue": "kalshi",
       "yes_equivalent_price": 0.52
-    },
-    {
-      "edge_bps": 149,
-      "fee": 0.384,
-      "filled_at": "2026-09-14T21:24:03.234520+00:00",
-      "mark": 0.4,
-      "market": "0xfixture-nom-a",
-      "order_id": "paper-3e0b49351cf7",
-      "outcome": "no",
-      "paper_pnl": -0.384,
-      "price": 0.6,
-      "qty": 40.0,
-      "rank": 10,
-      "side": "buy",
-      "strategy": "polymarket_arb",
-      "title": "Fixture nominee A",
-      "track": "polymarket_negrisk_arb",
-      "venue": "polymarket",
-      "yes_equivalent_price": 0.4
     }
   ],
   "totals": {
-    "admitted": 16,
-    "avg_edge_bps": 705,
-    "candidates": 45,
-    "fees_paid": 4.7524,
-    "fill_rate": 1.0357,
-    "paper_fills": 29,
-    "paper_pnl": -4.4924,
-    "proposed_orders": 28,
-    "realized_pnl": -0.0524,
-    "rejects": 29,
+    "admitted": 17,
+    "avg_edge_bps": 703,
+    "candidates": 48,
+    "fees_paid": 5.1924,
+    "fill_rate": 1.0667,
+    "paper_fills": 32,
+    "paper_pnl": -5.5224,
+    "proposed_orders": 30,
+    "realized_pnl": -0.4924,
+    "rejects": 31,
     "settlement_risk_pairs": 3,
-    "unrealized_pnl": -4.44
+    "unrealized_pnl": -5.03
   },
   "tracks": [
+    {
+      "admitted": 1,
+      "candidates": 3,
+      "edge_bps": 688,
+      "estimated_fees_buffer": 0.44,
+      "fill_rate": 1.5,
+      "label": "Gated cross-venue (clause-matched)",
+      "ledger": {
+        "cash": 1001.72,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 0.55789
+          },
+          {
+            "venue": "polymarket",
+            "weight": 0.44211
+          }
+        ],
+        "created_at": "2026-09-14T21:34:24.074099+00:00",
+        "equity": 998.97,
+        "equity_points": 1,
+        "fees_paid": 0.44,
+        "fills": 3,
+        "gross_notional": 23.75,
+        "ledger_id": "gated_cross_venue",
+        "mark_method": "mid",
+        "max_drawdown": 1.03,
+        "net_exposure": -2.75,
+        "open_positions": 2,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": -2.75,
+        "positions": [
+          {
+            "average_price": 0.4336,
+            "fees_paid": 0.0,
+            "mark": 0.42,
+            "market_id": "0xfixture-fed-september",
+            "quantity": 25.0,
+            "realized_pnl": 0.0,
+            "unrealized_pnl": -0.34,
+            "value": 10.5,
+            "venue": "polymarket"
+          },
+          {
+            "average_price": 0.52,
+            "fees_paid": 0.44,
+            "mark": 0.53,
+            "market_id": "KX-FED-SEP-CUT",
+            "quantity": -25.0,
+            "realized_pnl": -0.44,
+            "unrealized_pnl": -0.25,
+            "value": -13.25,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -0.44,
+        "return_pct": -0.103,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -1.03,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -0.59,
+        "updated_at": "2026-09-14T21:34:24.080199+00:00"
+      },
+      "metrics": {
+        "admitted_pairs": {
+          "fed-rate-cut-september": {
+            "fees_per_contract": 0.0176,
+            "net_edge_per_contract": 0.0688,
+            "quantity": 25.0
+          }
+        },
+        "equity_point": {
+          "drawdown": 1.03,
+          "equity": 998.97,
+          "total_pnl": -1.03
+        },
+        "events": {
+          "fill": 3,
+          "order_acknowledged": 2,
+          "order_rejected": 0,
+          "order_submitted": 2
+        },
+        "expected_locked_pnl_if_settlement_equivalent": 1.72,
+        "fee_model": {
+          "kalshi": "kalshi_fee",
+          "polymarket": "zero_fee"
+        },
+        "gate_admitted": 1,
+        "gate_enabled": true,
+        "gate_policy": {
+          "allowed_host_tiers": [
+            "official"
+          ],
+          "expiry_tolerance_hours": 72.0,
+          "minimum_heuristic_confidence": 0.6,
+          "name": "strict",
+          "require_same_publisher": true
+        },
+        "gate_refused": 2,
+        "gate_reject_reasons_all": {
+          "clause_refuse_mismatch": 1,
+          "fingerprint_indeterminate": 2,
+          "host_tier_not_allowed": 1,
+          "polarity_unverified": 2
+        },
+        "gate_results": {
+          "august-cpi-over-3": {
+            "admitted": false,
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
+          },
+          "fed-rate-cut-september": {
+            "admitted": true,
+            "reason": "admitted",
+            "reasons": []
+          },
+          "nba-new-york-boston": {
+            "admitted": false,
+            "reason": "fingerprint_indeterminate",
+            "reasons": [
+              "fingerprint_indeterminate",
+              "polarity_unverified",
+              "host_tier_not_allowed"
+            ]
+          }
+        },
+        "gate_results_detail": "gate_report_<mode>.json",
+        "gate_would_have_refused_traded_pairs": 0,
+        "host_conflicts": 1,
+        "matched_pairs_all_categories": 3,
+        "parameters": {
+          "maximum_order_size": "25",
+          "minimum_net_edge": "0.01",
+          "minimum_quantity": "1"
+        },
+        "priced_but_no_edge": {},
+        "refused_pairs": {
+          "august-cpi-over-3": {
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
+          },
+          "nba-new-york-boston": {
+            "reason": "fingerprint_indeterminate",
+            "reasons": [
+              "fingerprint_indeterminate",
+              "polarity_unverified",
+              "host_tier_not_allowed"
+            ]
+          }
+        },
+        "snapshot": {
+          "kalshi": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          },
+          "polymarket": {
+            "errors": [],
+            "groups": 0,
+            "markets": 3,
+            "source": "fixture"
+          }
+        },
+        "stage_order": [
+          "match",
+          "clauses",
+          "fingerprint",
+          "polarity",
+          "fed_bucket",
+          "interval",
+          "hosts",
+          "expiry"
+        ],
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 0.44,
+            "open_positions": 1.0,
+            "realized_pnl": -0.44,
+            "total_pnl": -0.69,
+            "unrealized_pnl": -0.25
+          },
+          "polymarket": {
+            "fees_paid": 0.0,
+            "open_positions": 1.0,
+            "realized_pnl": 0.0,
+            "total_pnl": -0.34,
+            "unrealized_pnl": -0.34
+          }
+        },
+        "vetoed_candidates": {
+          "by_reason": {},
+          "count": 0
+        }
+      },
+      "notes": "Settlement-safe track. Every matched pair (any category) must pass all eight gate stages - match confidence, clauses, fingerprint, polarity, Fed bucket, interval, hosts, expiry - before it is priced; then both legs must clear venue fees through book depth. Zero admits is the expected state: the gate exists to prove that most cross-venue pairs are not settlement-equivalent. Control: ungated_cross_venue_macro.",
+      "paper_fills": 3,
+      "proposed_orders": 2,
+      "refused_by_reason": {
+        "clause_refuse_mismatch": 1,
+        "fingerprint_indeterminate": 1
+      },
+      "reject_reasons": {
+        "clause_refuse_mismatch": 1,
+        "fingerprint_indeterminate": 1
+      },
+      "rejects": 2,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "gated_cross_venue"
+    },
     {
       "admitted": 1,
       "candidates": 2,
@@ -809,7 +1112,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230334+00:00",
+        "created_at": "2026-09-14T21:34:24.074132+00:00",
         "equity": 999.4,
         "equity_points": 1,
         "fees_paid": 0.28,
@@ -854,7 +1157,7 @@
         "total_pnl": -0.6,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.32,
-        "updated_at": "2026-09-14T21:24:03.235227+00:00"
+        "updated_at": "2026-09-14T21:34:24.080296+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -869,68 +1172,37 @@
           "order_submitted": 2
         },
         "gate_enabled": true,
+        "gate_policy": {
+          "allowed_host_tiers": [
+            "official"
+          ],
+          "expiry_tolerance_hours": 72.0,
+          "minimum_heuristic_confidence": 0.6,
+          "name": "strict",
+          "require_same_publisher": true
+        },
+        "gate_reject_reasons_all": {
+          "clause_refuse_mismatch": 1,
+          "fingerprint_indeterminate": 1,
+          "polarity_unverified": 1
+        },
         "gate_results": {
           "august-cpi-over-3": {
             "admitted": false,
-            "clause_verdict": "refuse_mismatch",
-            "fingerprint_reason": "fallback_to_prior_period present on one side only",
-            "fingerprint_relation": "indeterminate",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": null,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": true,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "clause_refuse_mismatch"
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
           },
           "fed-rate-cut-september": {
             "admitted": true,
-            "clause_verdict": "admit",
-            "fingerprint_reason": "resolution fingerprints match",
-            "fingerprint_relation": "equivalent",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": false,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.federalreserve.gov/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": false,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.federalreserve.gov/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "admitted"
+            "reason": "admitted",
+            "reasons": []
           }
         },
+        "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
         "matched_pairs_all_categories": 3,
@@ -941,33 +1213,12 @@
         },
         "refused_pairs": {
           "august-cpi-over-3": {
-            "clause_verdict": "refuse_mismatch",
-            "fingerprint_reason": "fallback_to_prior_period present on one side only",
-            "fingerprint_relation": "indeterminate",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": null,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": true,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "clause_refuse_mismatch"
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
           }
         },
         "snapshot": {
@@ -999,9 +1250,13 @@
             "total_pnl": -0.16,
             "unrealized_pnl": -0.16
           }
+        },
+        "vetoed_candidates": {
+          "by_reason": {},
+          "count": 0
         }
       },
-      "notes": "Macro pairs must pass clause, fingerprint and host gates before any paper order. Refusals are the expected state when venues' settlement rules diverge.",
+      "notes": "Macro pairs must pass the same strict gate before any paper order, priced at the touch with a flat fee buffer. Refusals are the expected state when venues' settlement rules diverge.",
       "paper_fills": 2,
       "proposed_orders": 2,
       "refused_by_reason": {
@@ -1021,7 +1276,7 @@
       "edge_bps": 700,
       "estimated_fees_buffer": 0.76,
       "fill_rate": 1.0,
-      "label": "Ungated cross-venue macro",
+      "label": "Ungated cross-venue macro (control)",
       "ledger": {
         "cash": 1001.91,
         "concentration": [
@@ -1034,7 +1289,7 @@
             "weight": 0.5
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230368+00:00",
+        "created_at": "2026-09-14T21:34:24.074146+00:00",
         "equity": 998.39,
         "equity_points": 1,
         "fees_paid": 0.63,
@@ -1101,7 +1356,7 @@
         "total_pnl": -1.61,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.98,
-        "updated_at": "2026-09-14T21:24:03.235333+00:00"
+        "updated_at": "2026-09-14T21:34:24.080377+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1116,68 +1371,37 @@
           "order_submitted": 4
         },
         "gate_enabled": false,
+        "gate_policy": {
+          "allowed_host_tiers": [
+            "official"
+          ],
+          "expiry_tolerance_hours": 72.0,
+          "minimum_heuristic_confidence": 0.6,
+          "name": "strict",
+          "require_same_publisher": true
+        },
+        "gate_reject_reasons_all": {
+          "clause_refuse_mismatch": 1,
+          "fingerprint_indeterminate": 1,
+          "polarity_unverified": 1
+        },
         "gate_results": {
           "august-cpi-over-3": {
             "admitted": false,
-            "clause_verdict": "refuse_mismatch",
-            "fingerprint_reason": "fallback_to_prior_period present on one side only",
-            "fingerprint_relation": "indeterminate",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": null,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": true,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "clause_refuse_mismatch"
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
           },
           "fed-rate-cut-september": {
             "admitted": true,
-            "clause_verdict": "admit",
-            "fingerprint_reason": "resolution fingerprints match",
-            "fingerprint_relation": "equivalent",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": false,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.federalreserve.gov/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": false,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.federalreserve.gov/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "admitted"
+            "reason": "admitted",
+            "reasons": []
           }
         },
+        "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 1,
         "host_conflicts": 0,
         "matched_pairs_all_categories": 3,
@@ -1216,9 +1440,13 @@
             "total_pnl": -0.49,
             "unrealized_pnl": -0.49
           }
+        },
+        "vetoed_candidates": {
+          "by_reason": {},
+          "count": 0
         }
       },
-      "notes": "Same macro pairs traded without the settlement gate. Exists only to measure what the gate refuses; flagged settlement-risk whenever a traded pair would have been refused.",
+      "notes": "CONTROL. Same macro pairs traded without the settlement gate. Exists only to measure what the gate refuses; flagged settlement-risk whenever a traded pair would have been refused. Its PnL is not realisable: the legs may settle on different events.",
       "paper_fills": 4,
       "proposed_orders": 4,
       "refused_by_reason": {},
@@ -1247,7 +1475,7 @@
             "weight": 0.52368
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230382+00:00",
+        "created_at": "2026-09-14T21:34:24.074159+00:00",
         "equity": 999.21,
         "equity_points": 1,
         "fees_paid": 0.34,
@@ -1314,7 +1542,7 @@
         "total_pnl": -0.79,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.45,
-        "updated_at": "2026-09-14T21:24:03.235436+00:00"
+        "updated_at": "2026-09-14T21:34:24.080466+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1442,7 +1670,7 @@
             "weight": 0.46847
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230391+00:00",
+        "created_at": "2026-09-14T21:34:24.074167+00:00",
         "equity": 999.07,
         "equity_points": 1,
         "fees_paid": 0.43,
@@ -1487,7 +1715,7 @@
         "total_pnl": -0.93,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.5,
-        "updated_at": "2026-09-14T21:24:03.235521+00:00"
+        "updated_at": "2026-09-14T21:34:24.080549+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1502,38 +1730,32 @@
           "order_submitted": 2
         },
         "gate_enabled": false,
+        "gate_policy": {
+          "allowed_host_tiers": [
+            "official"
+          ],
+          "expiry_tolerance_hours": 72.0,
+          "minimum_heuristic_confidence": 0.6,
+          "name": "strict",
+          "require_same_publisher": true
+        },
+        "gate_reject_reasons_all": {
+          "fingerprint_indeterminate": 1,
+          "host_tier_not_allowed": 1,
+          "polarity_unverified": 1
+        },
         "gate_results": {
           "nba-new-york-boston": {
             "admitted": false,
-            "clause_verdict": "admit",
-            "fingerprint_reason": "fingerprint missing on at least one side",
-            "fingerprint_relation": "indeterminate",
-            "host_conflict": true,
-            "kalshi_clauses": {
-              "fallback": null,
-              "revisions_excluded": null,
-              "source_urls": [
-                "https://www.espn.com/nba/"
-              ],
-              "tie_break": null,
-              "usable": true
-            },
-            "kalshi_host_tier": "media",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": null,
-              "revisions_excluded": null,
-              "source_urls": [
-                "https://www.nba.com/game/"
-              ],
-              "tie_break": null,
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "fingerprint_indeterminate"
+            "reason": "fingerprint_indeterminate",
+            "reasons": [
+              "fingerprint_indeterminate",
+              "polarity_unverified",
+              "host_tier_not_allowed"
+            ]
           }
         },
+        "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 1,
         "host_conflicts": 1,
         "matched_pairs_all_categories": 3,
@@ -1572,6 +1794,10 @@
             "total_pnl": -0.25,
             "unrealized_pnl": -0.25
           }
+        },
+        "vetoed_candidates": {
+          "by_reason": {},
+          "count": 0
         }
       },
       "notes": "Sports pairs trade ungated but every host-tier conflict is counted and flags the track.",
@@ -1603,7 +1829,7 @@
             "weight": 0.44211
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230400+00:00",
+        "created_at": "2026-09-14T21:34:24.074175+00:00",
         "equity": 999.92,
         "equity_points": 1,
         "fees_paid": 0.04,
@@ -1648,7 +1874,7 @@
         "total_pnl": -0.08,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.04,
-        "updated_at": "2026-09-14T21:24:03.235582+00:00"
+        "updated_at": "2026-09-14T21:34:24.080609+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -1663,68 +1889,37 @@
           "order_submitted": 2
         },
         "gate_enabled": true,
+        "gate_policy": {
+          "allowed_host_tiers": [
+            "official"
+          ],
+          "expiry_tolerance_hours": 72.0,
+          "minimum_heuristic_confidence": 0.6,
+          "name": "strict",
+          "require_same_publisher": true
+        },
+        "gate_reject_reasons_all": {
+          "clause_refuse_mismatch": 1,
+          "fingerprint_indeterminate": 1,
+          "polarity_unverified": 1
+        },
         "gate_results": {
           "august-cpi-over-3": {
             "admitted": false,
-            "clause_verdict": "refuse_mismatch",
-            "fingerprint_reason": "fallback_to_prior_period present on one side only",
-            "fingerprint_relation": "indeterminate",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": null,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": true,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "clause_refuse_mismatch"
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
           },
           "fed-rate-cut-september": {
             "admitted": true,
-            "clause_verdict": "admit",
-            "fingerprint_reason": "resolution fingerprints match",
-            "fingerprint_relation": "equivalent",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": false,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.federalreserve.gov/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": false,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.federalreserve.gov/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "admitted"
+            "reason": "admitted",
+            "reasons": []
           }
         },
+        "gate_results_detail": "gate_report_<mode>.json",
         "gate_would_have_refused_traded_pairs": 0,
         "host_conflicts": 0,
         "matched_pairs_all_categories": 3,
@@ -1735,33 +1930,12 @@
         },
         "refused_pairs": {
           "august-cpi-over-3": {
-            "clause_verdict": "refuse_mismatch",
-            "fingerprint_reason": "fallback_to_prior_period present on one side only",
-            "fingerprint_relation": "indeterminate",
-            "host_conflict": false,
-            "kalshi_clauses": {
-              "fallback": null,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "kalshi_host_tier": "official",
-            "match_confidence": 1.0,
-            "match_method": "curated",
-            "polymarket_clauses": {
-              "fallback": true,
-              "revisions_excluded": true,
-              "source_urls": [
-                "https://www.bls.gov/cpi/"
-              ],
-              "tie_break": "higher",
-              "usable": true
-            },
-            "polymarket_host_tier": "official",
-            "reason": "clause_refuse_mismatch"
+            "reason": "clause_refuse_mismatch",
+            "reasons": [
+              "clause_refuse_mismatch",
+              "fingerprint_indeterminate",
+              "polarity_unverified"
+            ]
           }
         },
         "snapshot": {
@@ -1793,6 +1967,10 @@
             "total_pnl": -0.02,
             "unrealized_pnl": -0.02
           }
+        },
+        "vetoed_candidates": {
+          "by_reason": {},
+          "count": 0
         }
       },
       "notes": "Gated macro pairs at a 2-contract cap: a process probe, not an edge source.",
@@ -1828,7 +2006,7 @@
             "weight": 0.32941
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230411+00:00",
+        "created_at": "2026-09-14T21:34:24.074191+00:00",
         "equity": 999.32,
         "equity_points": 1,
         "fees_paid": 0.33,
@@ -1884,7 +2062,7 @@
         "total_pnl": -0.68,
         "unmarked_positions": 0,
         "unrealized_pnl": -0.35,
-        "updated_at": "2026-09-14T21:24:03.235645+00:00"
+        "updated_at": "2026-09-14T21:34:24.080669+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2153,9 +2331,9 @@
           "scored_fills": 3
         },
         "signal_source": {
-          "as_of": "2026-09-14T21:24:03.232593+00:00",
+          "as_of": "2026-09-14T21:34:24.077658+00:00",
           "errors": [],
-          "fetched_at": "2026-09-14T21:24:03.232616+00:00",
+          "fetched_at": "2026-09-14T21:34:24.077680+00:00",
           "name": "fixture",
           "note": "signals loaded from /workspace/research/fixtures/news_signals.json",
           "signals": 8
@@ -2224,7 +2402,7 @@
       "ledger": {
         "cash": 1002.8,
         "concentration": [],
-        "created_at": "2026-09-14T21:24:03.230419+00:00",
+        "created_at": "2026-09-14T21:34:24.074269+00:00",
         "equity": 1002.8,
         "equity_points": 1,
         "fees_paid": 0.0,
@@ -2246,7 +2424,7 @@
         "total_pnl": 2.8,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:24:03.235709+00:00"
+        "updated_at": "2026-09-14T21:34:24.080730+00:00"
       },
       "metrics": {
         "equity_point": {
@@ -2512,7 +2690,7 @@
       "ledger": {
         "cash": 1000.75444,
         "concentration": [],
-        "created_at": "2026-09-14T21:24:03.230512+00:00",
+        "created_at": "2026-09-14T21:34:24.074278+00:00",
         "equity": 1000.75444,
         "equity_points": 1,
         "fees_paid": 1.14556,
@@ -2534,7 +2712,7 @@
         "total_pnl": 0.75444,
         "unmarked_positions": 0,
         "unrealized_pnl": 0.0,
-        "updated_at": "2026-09-14T21:24:03.235748+00:00"
+        "updated_at": "2026-09-14T21:34:24.080768+00:00"
       },
       "metrics": {
         "augmented_groups": 2,
@@ -2723,7 +2901,7 @@
             "weight": 1.0
           }
         ],
-        "created_at": "2026-09-14T21:24:03.230523+00:00",
+        "created_at": "2026-09-14T21:34:24.074285+00:00",
         "equity": 996.64312,
         "equity_points": 1,
         "fees_paid": 1.55688,
@@ -2779,7 +2957,7 @@
         "total_pnl": -3.35688,
         "unmarked_positions": 0,
         "unrealized_pnl": -1.8,
-        "updated_at": "2026-09-14T21:24:03.235798+00:00"
+        "updated_at": "2026-09-14T21:34:24.080821+00:00"
       },
       "metrics": {
         "equity_point": {

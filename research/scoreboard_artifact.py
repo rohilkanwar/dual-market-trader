@@ -32,6 +32,35 @@ def _sum(values: list[Any]) -> Decimal:
     return sum((_dec(v) for v in values), ZERO).quantize(Q)
 
 
+def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
+    """Per-pair detail lives in the gate report; the scoreboard keeps counts and pointers."""
+    slim = dict(metrics)
+    if "gate_results" in slim:
+        slim["gate_results"] = {
+            pair_id: {"admitted": r.get("admitted"), "reason": r.get("reason"), "reasons": r.get("reasons", [])}
+            for pair_id, r in slim["gate_results"].items()
+        }
+        slim["gate_results_detail"] = "gate_report_<mode>.json"
+    if "refused_pairs" in slim:
+        slim["refused_pairs"] = {
+            pair_id: {"reason": r.get("reason"), "reasons": r.get("reasons", [])}
+            for pair_id, r in slim["refused_pairs"].items()
+        }
+    if isinstance(slim.get("vetoed_candidates"), list):
+        vetoes = slim["vetoed_candidates"]
+        by_reason: dict[str, int] = {}
+        for veto in vetoes:
+            by_reason[veto["reason"]] = by_reason.get(veto["reason"], 0) + 1
+        slim["vetoed_candidates"] = {"count": len(vetoes), "by_reason": dict(sorted(by_reason.items()))}
+    return slim
+
+
+def _track_row(summary: TrackSummary) -> dict[str, Any]:
+    row = {k: v for k, v in summary.as_dict().items() if k not in ("fills", "edges")}
+    row["metrics"] = _slim_metrics(row["metrics"])
+    return row
+
+
 def build_scoreboard_artifact(
     summaries: list[TrackSummary],
     *,
@@ -195,10 +224,7 @@ def build_scoreboard_artifact(
             "fees_paid": _sum([l.get("fees_paid", 0) for l in ledgers.values()]),
             "avg_edge_bps": int(sum(admitted_edges) / len(admitted_edges)) if admitted_edges else None,
         },
-        "tracks": [
-            {k: v for k, v in s.as_dict().items() if k not in ("fills", "edges")}
-            for s in summaries
-        ],
+        "tracks": [_track_row(s) for s in summaries],
         "top_fills": [{"rank": i + 1, **row} for i, row in enumerate(fills[:top_n])],
         "top_edges": [{"rank": i + 1, **row} for i, row in enumerate(edges[:top_n])],
         "portfolio": {

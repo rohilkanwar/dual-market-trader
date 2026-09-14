@@ -1,0 +1,2343 @@
+{
+  "control": {
+    "candidates": 8,
+    "gate_would_have_refused_traded_pairs": 3,
+    "ledger_total_pnl": -1.1,
+    "note": "Control only. PnL here is not realisable: legs may settle on different events.",
+    "paper_fills": 6,
+    "settlement_risk_flag": true,
+    "track": "ungated_cross_venue_macro",
+    "traded": 3
+  },
+  "kind": "gate_report",
+  "meta": {
+    "control_track": "ungated_cross_venue_macro",
+    "fee_model": {
+      "kalshi": "kalshi_fee",
+      "polymarket": "zero_fee"
+    },
+    "generated_at": "2026-09-14T21:34:33.580877+00:00",
+    "measured_at": "2026-09-14T21:34:24.229907+00:00",
+    "mode": "network",
+    "paper_only": true,
+    "parameters": {
+      "maximum_order_size": "25",
+      "minimum_net_edge": "0.01",
+      "minimum_quantity": "1"
+    },
+    "pnl_source": "core.ledger.PaperLedger",
+    "policy": {
+      "allowed_host_tiers": [
+        "official"
+      ],
+      "expiry_tolerance_hours": 72.0,
+      "minimum_heuristic_confidence": 0.6,
+      "name": "strict",
+      "require_same_publisher": true
+    },
+    "run_id": "20260914T213433Z-e04a35c8",
+    "source": "measured",
+    "stage_order": [
+      "match",
+      "clauses",
+      "fingerprint",
+      "polarity",
+      "fed_bucket",
+      "interval",
+      "hosts",
+      "expiry"
+    ],
+    "track": "gated_cross_venue"
+  },
+  "pairs": [
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.7143,
+            "match_method": "heuristic"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "refuse_mismatch",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": false,
+          "reason": "clause_refuse_mismatch",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "fed_match_type": "exact",
+            "kalshi_fed_bucket": "C25",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": "C25",
+            "polymarket_fed_bucket_source": "derived"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 5.0,
+            "kalshi_close_time": "2026-12-09T18:59:00Z",
+            "polymarket_close_time": "2026-12-09T23:59:00Z"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "refuse_mismatch",
+      "expiry_delta_hours": 5.0,
+      "fed_match_type": "exact",
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-12-09T18:59:00Z",
+      "kalshi_fed_bucket": "C25",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Cut rates by 25bps at their December 2026 meeting?",
+      "match_confidence": 0.7143,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26DEC-C25:0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "policy": "strict",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": "2026-12-09T23:59:00Z",
+      "polymarket_fed_bucket": "C25",
+      "polymarket_fed_bucket_source": "derived",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will the Fed decrease interest rates by 25 bps after the December 2026 meeting?",
+      "reason": "clause_refuse_mismatch",
+      "reasons": [
+        "clause_refuse_mismatch",
+        "fingerprint_indeterminate",
+        "polarity_unverified"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "clauses",
+        "fingerprint",
+        "polarity"
+      ],
+      "stages_passed": [
+        "match",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.5,
+            "match_method": "heuristic"
+          },
+          "passed": false,
+          "reason": "match_low_confidence",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "admit",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": null,
+              "usable": true
+            }
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "kalshi_fed_bucket": "C26",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": null,
+            "polymarket_fed_bucket_source": "none"
+          },
+          "passed": false,
+          "reason": "fed_bucket_one_side",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 706.0,
+            "kalshi_close_time": "2026-12-09T18:59:00Z",
+            "polymarket_close_time": "2027-01-08T04:59:00Z"
+          },
+          "passed": false,
+          "reason": "expiry_mismatch",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "admit",
+      "expiry_delta_hours": 706.0,
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-12-09T18:59:00Z",
+      "kalshi_fed_bucket": "C26",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Cut rates by >25bps at their December 2026 meeting?",
+      "match_confidence": 0.5,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26DEC-C26:0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93",
+      "policy": "strict",
+      "polymarket": "0xc60022fe066abd6f96c375adb09f38d92c4931f09c10b805354581b4e5465e93",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "polymarket_close_time": "2027-01-08T04:59:00Z",
+      "polymarket_fed_bucket": null,
+      "polymarket_fed_bucket_source": "none",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Fed rate cut by December 2026 meeting?",
+      "reason": "match_low_confidence",
+      "reasons": [
+        "match_low_confidence",
+        "fingerprint_indeterminate",
+        "polarity_unverified",
+        "fed_bucket_one_side",
+        "expiry_mismatch"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "match",
+        "fingerprint",
+        "polarity",
+        "fed_bucket",
+        "expiry"
+      ],
+      "stages_passed": [
+        "clauses",
+        "interval",
+        "hosts"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.7143,
+            "match_method": "heuristic"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "refuse_mismatch",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": false,
+          "reason": "clause_refuse_mismatch",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "fed_match_type": "exact",
+            "kalshi_fed_bucket": "H25",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": "H25",
+            "polymarket_fed_bucket_source": "derived"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 5.0,
+            "kalshi_close_time": "2026-12-09T18:59:00Z",
+            "polymarket_close_time": "2026-12-09T23:59:00Z"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "refuse_mismatch",
+      "expiry_delta_hours": 5.0,
+      "fed_match_type": "exact",
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-12-09T18:59:00Z",
+      "kalshi_fed_bucket": "H25",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Hike rates by 25bps at their December 2026 meeting?",
+      "match_confidence": 0.7143,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26DEC-H25:0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "policy": "strict",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": "2026-12-09T23:59:00Z",
+      "polymarket_fed_bucket": "H25",
+      "polymarket_fed_bucket_source": "derived",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will the Fed increase interest rates by 25 bps after the December 2026 meeting?",
+      "reason": "clause_refuse_mismatch",
+      "reasons": [
+        "clause_refuse_mismatch",
+        "fingerprint_indeterminate",
+        "polarity_unverified"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "clauses",
+        "fingerprint",
+        "polarity"
+      ],
+      "stages_passed": [
+        "match",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.7143,
+            "match_method": "heuristic"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "refuse_mismatch",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": false,
+          "reason": "clause_refuse_mismatch",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "fed_match_type": "exact",
+            "kalshi_fed_bucket": "C25",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": "C25",
+            "polymarket_fed_bucket_source": "derived"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 6.0,
+            "kalshi_close_time": "2026-10-28T17:59:00Z",
+            "polymarket_close_time": "2026-10-28T23:59:00Z"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "refuse_mismatch",
+      "expiry_delta_hours": 6.0,
+      "fed_match_type": "exact",
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-10-28T17:59:00Z",
+      "kalshi_fed_bucket": "C25",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Cut rates by 25bps at their October 2026 meeting?",
+      "match_confidence": 0.7143,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26OCT-C25:0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "policy": "strict",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": "2026-10-28T23:59:00Z",
+      "polymarket_fed_bucket": "C25",
+      "polymarket_fed_bucket_source": "derived",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will the Fed decrease interest rates by 25 bps after the October 2026 meeting?",
+      "reason": "clause_refuse_mismatch",
+      "reasons": [
+        "clause_refuse_mismatch",
+        "fingerprint_indeterminate",
+        "polarity_unverified"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "clauses",
+        "fingerprint",
+        "polarity"
+      ],
+      "stages_passed": [
+        "match",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.5833,
+            "match_method": "heuristic"
+          },
+          "passed": false,
+          "reason": "match_low_confidence",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "admit",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": null,
+              "usable": true
+            }
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "kalshi_fed_bucket": "H0",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": null,
+            "polymarket_fed_bucket_source": "none"
+          },
+          "passed": false,
+          "reason": "fed_bucket_one_side",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 990.0166666666667,
+            "kalshi_close_time": "2026-10-28T17:59:00Z",
+            "polymarket_close_time": "2026-12-09T00:00:00Z"
+          },
+          "passed": false,
+          "reason": "expiry_mismatch",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "admit",
+      "expiry_delta_hours": 990.0166666666667,
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26OCT-H0",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-10-28T17:59:00Z",
+      "kalshi_fed_bucket": "H0",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Hike rates by 0bps at their October 2026 meeting?",
+      "match_confidence": 0.5833,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26OCT-H0:0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e",
+      "policy": "strict",
+      "polymarket": "0x059db22dae2d735516017d47d1def0ea43e5d7221259c3aaa60c090d32566d4e",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "polymarket_close_time": "2026-12-09T00:00:00Z",
+      "polymarket_fed_bucket": null,
+      "polymarket_fed_bucket_source": "none",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Fed Rate Hike by October 2026 Meeting?",
+      "reason": "match_low_confidence",
+      "reasons": [
+        "match_low_confidence",
+        "fingerprint_indeterminate",
+        "polarity_unverified",
+        "fed_bucket_one_side",
+        "expiry_mismatch"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "match",
+        "fingerprint",
+        "polarity",
+        "fed_bucket",
+        "expiry"
+      ],
+      "stages_passed": [
+        "clauses",
+        "interval",
+        "hosts"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.7143,
+            "match_method": "heuristic"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "refuse_mismatch",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": false,
+          "reason": "clause_refuse_mismatch",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "fed_match_type": "exact",
+            "kalshi_fed_bucket": "H25",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": "H25",
+            "polymarket_fed_bucket_source": "derived"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 6.0,
+            "kalshi_close_time": "2026-10-28T17:59:00Z",
+            "polymarket_close_time": "2026-10-28T23:59:00Z"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "refuse_mismatch",
+      "expiry_delta_hours": 6.0,
+      "fed_match_type": "exact",
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-10-28T17:59:00Z",
+      "kalshi_fed_bucket": "H25",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Hike rates by 25bps at their October 2026 meeting?",
+      "match_confidence": 0.7143,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26OCT-H25:0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "policy": "strict",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": "2026-10-28T23:59:00Z",
+      "polymarket_fed_bucket": "H25",
+      "polymarket_fed_bucket_source": "derived",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will the Fed increase interest rates by 25 bps after the October 2026 meeting?",
+      "reason": "clause_refuse_mismatch",
+      "reasons": [
+        "clause_refuse_mismatch",
+        "fingerprint_indeterminate",
+        "polarity_unverified"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "clauses",
+        "fingerprint",
+        "polarity"
+      ],
+      "stages_passed": [
+        "match",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.5833,
+            "match_method": "heuristic"
+          },
+          "passed": false,
+          "reason": "match_low_confidence",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "admit",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": null,
+              "usable": true
+            }
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "kalshi_fed_bucket": "H0",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": null,
+            "polymarket_fed_bucket_source": "none"
+          },
+          "passed": false,
+          "reason": "fed_bucket_one_side",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 1998.0166666666667,
+            "kalshi_close_time": "2026-09-16T17:59:00Z",
+            "polymarket_close_time": "2026-12-09T00:00:00Z"
+          },
+          "passed": false,
+          "reason": "expiry_mismatch",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "admit",
+      "expiry_delta_hours": 1998.0166666666667,
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26SEP-H0",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-09-16T17:59:00Z",
+      "kalshi_fed_bucket": "H0",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Hike rates by 0bps at their September 2026 meeting?",
+      "match_confidence": 0.5833,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26SEP-H0:0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c",
+      "policy": "strict",
+      "polymarket": "0x73d8a8208d23a74937d114a713d6a56cd4161a1068056c52ac74c8419c99da7c",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "polymarket_close_time": "2026-12-09T00:00:00Z",
+      "polymarket_fed_bucket": null,
+      "polymarket_fed_bucket_source": "none",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Fed Rate Hike by September 2026 Meeting?",
+      "reason": "match_low_confidence",
+      "reasons": [
+        "match_low_confidence",
+        "fingerprint_indeterminate",
+        "polarity_unverified",
+        "fed_bucket_one_side",
+        "expiry_mismatch"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "match",
+        "fingerprint",
+        "polarity",
+        "fed_bucket",
+        "expiry"
+      ],
+      "stages_passed": [
+        "clauses",
+        "interval",
+        "hosts"
+      ]
+    },
+    {
+      "admitted": false,
+      "category": "macro",
+      "checks": [
+        {
+          "details": {
+            "match_confidence": 0.7143,
+            "match_method": "heuristic"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "match"
+        },
+        {
+          "details": {
+            "clause_verdict": "refuse_mismatch",
+            "kalshi_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov"
+              ],
+              "tie_break": null,
+              "usable": true
+            },
+            "polymarket_clauses": {
+              "fallback": null,
+              "revisions_excluded": null,
+              "source_urls": [
+                "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+                "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+              ],
+              "tie_break": "higher",
+              "usable": true
+            }
+          },
+          "passed": false,
+          "reason": "clause_refuse_mismatch",
+          "stage": "clauses"
+        },
+        {
+          "details": {
+            "fingerprint_missing_sides": [
+              "kalshi",
+              "polymarket"
+            ],
+            "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+            "fingerprint_relation": "indeterminate"
+          },
+          "passed": false,
+          "reason": "fingerprint_indeterminate",
+          "stage": "fingerprint"
+        },
+        {
+          "details": {
+            "fingerprint_relation": "indeterminate",
+            "same_polarity": true
+          },
+          "passed": false,
+          "reason": "polarity_unverified",
+          "stage": "polarity"
+        },
+        {
+          "details": {
+            "fed_match_type": "exact",
+            "kalshi_fed_bucket": "H25",
+            "kalshi_fed_bucket_source": "derived",
+            "polymarket_fed_bucket": "H25",
+            "polymarket_fed_bucket_source": "derived"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "fed_bucket"
+        },
+        {
+          "details": {},
+          "passed": true,
+          "reason": "not_applicable",
+          "stage": "interval"
+        },
+        {
+          "details": {
+            "host_conflict": false,
+            "kalshi_host": "federalreserve.gov",
+            "kalshi_host_tier": "official",
+            "polymarket_host": "federalreserve.gov",
+            "polymarket_host_tier": "official",
+            "same_publisher": true
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "hosts"
+        },
+        {
+          "details": {
+            "expiry_delta_hours": 17.983333333333334,
+            "kalshi_close_time": "2026-09-16T17:59:00Z",
+            "polymarket_close_time": "2026-09-16T00:00:00Z"
+          },
+          "passed": true,
+          "reason": "ok",
+          "stage": "expiry"
+        }
+      ],
+      "clause_verdict": "refuse_mismatch",
+      "expiry_delta_hours": 17.983333333333334,
+      "fed_match_type": "exact",
+      "fingerprint_missing_sides": [
+        "kalshi",
+        "polymarket"
+      ],
+      "fingerprint_reason": "fingerprint kalshi: missing, polymarket: missing",
+      "fingerprint_relation": "indeterminate",
+      "host_conflict": false,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "kalshi_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov"
+        ],
+        "tie_break": null,
+        "usable": true
+      },
+      "kalshi_close_time": "2026-09-16T17:59:00Z",
+      "kalshi_fed_bucket": "H25",
+      "kalshi_fed_bucket_source": "derived",
+      "kalshi_host": "federalreserve.gov",
+      "kalshi_host_tier": "official",
+      "kalshi_title": "Will the Federal Reserve Hike rates by 25bps at their September 2026 meeting?",
+      "match_confidence": 0.7143,
+      "match_method": "heuristic",
+      "pair_id": "heuristic:KXFEDDECISION-26SEP-H25:0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "policy": "strict",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "polymarket_clauses": {
+        "fallback": null,
+        "revisions_excluded": null,
+        "source_urls": [
+          "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+          "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"
+        ],
+        "tie_break": "higher",
+        "usable": true
+      },
+      "polymarket_close_time": "2026-09-16T00:00:00Z",
+      "polymarket_fed_bucket": "H25",
+      "polymarket_fed_bucket_source": "derived",
+      "polymarket_host": "federalreserve.gov",
+      "polymarket_host_tier": "official",
+      "polymarket_title": "Will the Fed increase interest rates by 25 bps after the September 2026 meeting?",
+      "reason": "clause_refuse_mismatch",
+      "reasons": [
+        "clause_refuse_mismatch",
+        "fingerprint_indeterminate",
+        "polarity_unverified"
+      ],
+      "same_polarity": true,
+      "same_publisher": true,
+      "stages_failed": [
+        "clauses",
+        "fingerprint",
+        "polarity"
+      ],
+      "stages_passed": [
+        "match",
+        "fed_bucket",
+        "interval",
+        "hosts",
+        "expiry"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0",
+  "stage_failures": {
+    "clauses": 5,
+    "expiry": 3,
+    "fed_bucket": 3,
+    "fingerprint": 8,
+    "match": 3,
+    "polarity": 8
+  },
+  "totals": {
+    "all_stage_reject_reasons": {
+      "clause_refuse_mismatch": 5,
+      "expiry_mismatch": 3,
+      "fed_bucket_one_side": 3,
+      "fingerprint_indeterminate": 8,
+      "match_low_confidence": 3,
+      "polarity_unverified": 8
+    },
+    "candidates": 8,
+    "expected_locked_pnl_if_settlement_equivalent": 0.0,
+    "gate_admitted": 0,
+    "gate_refused": 8,
+    "ledger_total_pnl": 0.0,
+    "paper_fills": 0,
+    "policy": "strict",
+    "priced_but_no_edge": 0,
+    "primary_reject_reasons": {
+      "clause_refuse_mismatch": 5,
+      "match_low_confidence": 3
+    },
+    "status": "zero_admits_expected",
+    "track": "gated_cross_venue",
+    "traded": 0,
+    "vetoed_candidates": 147
+  },
+  "vetoed_candidates": [
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-26SEP-H0",
+      "polymarket": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-26SEP-H0",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "direction_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26SEP-H25",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "direction_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0xb9aee520bf51ac5f00b5c43e54ef9245bc9fcdef866ce8a33025f9a441cc651d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C25",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.7143,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0xb9aee520bf51ac5f00b5c43e54ef9245bc9fcdef866ce8a33025f9a441cc651d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-C26",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-26OCT-H0",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-26OCT-H0",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "direction_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H25",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H26",
+      "polymarket": "0x21cd6160d9de634104b719d50afa4a8ebfa3d0cd10609bf752c77b66f7bbd6a7",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-26DEC-H0",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-26DEC-H0",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "direction_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0xb9aee520bf51ac5f00b5c43e54ef9245bc9fcdef866ce8a33025f9a441cc651d",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C25",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.7143,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26OCT-H26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "direction_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0xb9aee520bf51ac5f00b5c43e54ef9245bc9fcdef866ce8a33025f9a441cc651d",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H25",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0xfd0fb47daa40f79ed1bd8a0645d028c4583391b70860e4447f93b3b9fe797865",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27OCT-C25",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUL-C26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUL-C26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUL-C26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUL-C26",
+      "polymarket": "0xfd0fb47daa40f79ed1bd8a0645d028c4583391b70860e4447f93b3b9fe797865",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUL-C26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27JUL-C26",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-27JAN-H0",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-27JAN-H0",
+      "polymarket": "0x21cd6160d9de634104b719d50afa4a8ebfa3d0cd10609bf752c77b66f7bbd6a7",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0xa69ef420d8b4075ad8ba8611d02c63cb2ece46f5c8c643af223c272689b0c96f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.7143,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0xb9aee520bf51ac5f00b5c43e54ef9245bc9fcdef866ce8a33025f9a441cc651d",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-C26",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.7143,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0xde5d75ab7702875623ba509bc923241e1211da74a113521b3b70ddac930d7316",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0xb9aee520bf51ac5f00b5c43e54ef9245bc9fcdef866ce8a33025f9a441cc651d",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "threshold_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-26DEC-H26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0x8a4196617dcb703e49d9bb36d3847bf6a75fd364dbd19f8d408ac944bf1a03d8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0xa5f8a44504de30fa36fff2406b2b27b3d15476ed50448e4fc3ead4861d8a5e3e",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27DEC-H25",
+      "polymarket": "0x21cd6160d9de634104b719d50afa4a8ebfa3d0cd10609bf752c77b66f7bbd6a7",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5625,
+      "kalshi": "KXFEDDECISION-27APR-H26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUN-C26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUN-C26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUN-C26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUN-C26",
+      "polymarket": "0xfd0fb47daa40f79ed1bd8a0645d028c4583391b70860e4447f93b3b9fe797865",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27JUN-C26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27JUN-C26",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0x5e464d85eb49f22d876f3ed6168a7db5e2288e9ae1eb91effd2758e994676f86",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0x9cf563d7b55aa9aa876d5d7e55126347eee473f0ae56d799e325fdef2bf25297",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0xf17ad24eb4ad57926495b114149c765b9b95bc286eadc91cbbfa901ceb10d0b8",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0xfd0fb47daa40f79ed1bd8a0645d028c4583391b70860e4447f93b3b9fe797865",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.5,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0x50642b28be893e8752649e9ae6d687558fc5dcfeeecd10713cf59ef6ea0edce4",
+      "reason": "period_disagrees"
+    },
+    {
+      "confidence": 0.6,
+      "kalshi": "KXFEDDECISION-27SEP-C26",
+      "polymarket": "0x0bbe79a986a3f84ea82ebe714159fcfaa488f80df878599e2cd9297ea57ee60f",
+      "reason": "period_disagrees"
+    }
+  ]
+}
