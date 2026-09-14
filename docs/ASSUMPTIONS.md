@@ -197,7 +197,23 @@ Network run 2026-09-14 23:03 UTC against public Gamma + Data API with no credent
 | 12.8 | Farmers are filtered | **PARTIAL** | 44 of 105 whales reached `two_sided_share > 0.5` and were refused from then on (5,341 prints); early prints of those wallets were copied while their share was still low. Cross-sport or cross-venue hedging is invisible here. |
 | 12.9 | Synthetic fixture is never published as evidence | **PASS** | `research/fixtures/tennis_whale_tape.json` carries `_comment: SYNTHETIC FIXTURE`; the report status is `fixture_synthetic` and the headline starts "Synthetic fixture (not evidence)"; `dashboard/scripts/sync-artifacts.mjs` refuses to copy such a report and CI rejects a committed report whose `mode != network`. |
 
-## 13. Known gaps / not validated
+## 13. Tennis basis vs. free public odds (`docs/TENNIS_BASIS.md`)
+
+Separate track family (`apps.measure_tennis_basis`, track `tennis_basis`). Full audit
+and the pre-registration in `docs/TENNIS_BASIS.md`; headline rows here.
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 13.1 | Gap, de-vig, consensus (Pinnacle first, else median of ≥ 2 books), closure fraction and the pre-registered pass rule (≥ 60 % of gaps close ≥ 50 % by start, n ≥ 30) are implemented as stated | **PASS** | `strategies/tennis_basis.py`; `tests/test_tennis_basis.py` (exact de-vig on 1.25/5.00 and 1.80/2.20, PASS/FAIL/insufficient verdicts, exactly-half counts, overshoot counts). |
+| 13.2 | Mandatory settlement-mismatch filter: venue rules must state retirement → advancing player and walkover → fair price / 50-50; ITF and silence refused; walkover / cancellation / 50-50 / fair-price settlements and operator-reported retirements excluded after the fact | **PASS** | Verbatim 2026-09-14 Kalshi (`fair price`) and Polymarket (`50-50`) texts admitted; live capture 80/80 classified; `test_settlement_basis_filter_is_fail_closed`, `test_post_start_settlement_classification`; replay excludes the fair-price walkover and the retired match. |
+| 13.3 | Leans use the primary engine and rails, PnL is ledger-backed, in-play prints never enter the measurement, positions are unwound at the last pre-start mid | **PASS** | `TennisBasisLean` → `CalibratedFairValueStrategy`; `PaperLedger(ledger_id="tennis_basis")`; replay: Tjen closes on +0.02 although the in-play print is +0.20, unwind at 0.57; equity identity asserted. |
+| 13.4 | The free source is documented and budget-guarded, no paid vendor, no scraping | **PASS (mechanism)** | The Odds API free tier (500 credits/month, keyed, `GET /sports` free, 1 credit per tournament per call, Pinnacle in `eu`); `OddsApiSource` caps credits per run and honours `x-requests-remaining`; only its documented endpoints are called. |
+| 13.5 | Venue tennis universes are readable without keys | **PASS** | Live 2026-09-14: 50 `KXWTAMATCH` markets (`yes_sub_title`, `occurrence_datetime`, rules) and 30 Polymarket tag-864 `moneyline` markets (`outcomes`, `gameStartTime`, `description`, `feeType=sports_fees_v3` → 5 % taker fee on paper fills); finalized Kalshi `result: "yes"` and resolved Polymarket `outcomePrices ["0","1"]` verified for the post-start check. |
+| 13.6 | **Live gap distribution / closure rate** | **UNKNOWN** | No free-tier key in the build environment; the committed network snapshot is the honest empty (`status=no_outside_source`, `network_status=UNKNOWN…`). Needs an operator with `ODDS_API_KEY` running the CLI every few hours until `verdict.n ≥ 30`. |
+| 13.7 | Bookmaker line and venue mid price the same event | **UNKNOWN / known to differ** | Bookmakers void on walkover / retirement (`P(win | completed)`); venues pay the advancing player (`P(advances)`). Documented on every record, not modelled. |
+| 13.8 | Kalshi `occurrence_datetime` is the match start | **FAIL / handled** | Session-level and stale after postponements (Maria vs Townsend: Kalshi `09-13T19:00Z` vs Polymarket `09-14T21:05Z`); the paired outside `commence_time` is used instead. |
+
+## 14. Known gaps / not validated
 
 * No live or demo-authenticated path exists; everything past `Settings.live_enabled` is a stub by design.
 * `apps/dashboard_api.py` has no authentication (unchanged from the original design; README warns).
@@ -207,6 +223,7 @@ Network run 2026-09-14 23:03 UTC against public Gamma + Data API with no credent
 * Ledger aggregation across tracks sums twelve independent `1000` starting-cash books (`portfolio.starting_cash = 12000` on the full board, `3000` on the arb-only board, `2000` on the FLB-only board); per-track figures are under `portfolio.by_track` and the primary track under `portfolio.primary`.
 * Daily-loss reset semantics (1.4) are cumulative, not calendar-based.
 * The `news_underreaction` lane's signal→probability mapping, pre-signal price provenance and drift horizon are all UNKNOWN; see section 9 and `docs/NEWS_UNDERREACTION.md`.
+* `tennis_basis`: the live gap distribution against the free feed is UNKNOWN (no key in the build environment), the bookmaker-vs-venue settlement basis is documented but not modelled, and retirements are only detectable from an operator results file; see section 13 and `docs/TENNIS_BASIS.md`.
 * Polymarket arb tracks: subset NegRisk conversions, implication-based combinatorial arbitrage across events, converter fee, maker/taker rebates and legging beyond the one-tick buffer are not modelled (see `docs/POLYMARKET_ARB.md`, "Known limits").
 * FLB maker fill probabilities, queue position and adverse selection (10.4) are assumptions; the ex-post trade tape cannot distinguish opening from closing trades, and the sample covers only the newest settled markets per series (see section 10 and `docs/FLB_RUNBOOK.md`).
 * The self-logged book archive (section 11) is polled REST L2: it cannot recover queue position or FIFO priority, misses everything between polls, and its Kalshi snapshots have no venue timestamp. `SidecarSource` (official RSS / free weather) is a protocol stub with no implementation.
