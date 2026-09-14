@@ -30,7 +30,7 @@ import argparse
 import asyncio
 import json
 import uuid
-from dataclasses import asdict, replace
+from dataclasses import asdict
 from datetime import UTC, datetime
 from decimal import Decimal
 from pathlib import Path

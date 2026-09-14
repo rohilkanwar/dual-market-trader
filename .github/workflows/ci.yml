@@ -374,7 +374,7 @@ jobs:
         run: |
           node - <<'EOF'
           const fs = require('node:fs');
-          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_weather_buckets.json','scoreboard_tourist_fade.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_weather_buckets.json','scoreboard_tourist_fade.json','scoreboard_whale_noise.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
             const isSample = f.includes('sample');
@@ -429,4 +429,11 @@ jobs:
           if (!tourist.adverse_selection_fail_risk) throw new Error('tourist_fade_report_latest.json: adverse-selection failure mode not documented');
           if (tourist.mode !== 'network') throw new Error('committed fade-the-tourist report must be a network measurement');
           console.log('tourist_fade_report_latest.json', tourist.mode, tourist.universe, tourist.headline);
+          const whale = JSON.parse(fs.readFileSync('public/artifacts/whale_noise_report_latest.json', 'utf8'));
+          if (whale.kind !== 'kalshi_whale_noise_report' || whale.paper_only !== true) throw new Error('whale_noise_report_latest.json: not a paper-only whale/noise report');
+          if (whale.mode === 'fixtures') throw new Error('whale_noise_report_latest.json: committed report must come from an archive or network run, not the synthetic fixture');
+          const cv = whale.combined_vs_legs;
+          if (!['PASS', 'FAIL', 'INSUFFICIENT_DATA', 'NOT_SIMULATED'].includes(cv.verdict)) throw new Error(`whale/noise verdict ${cv.verdict}`);
+          if (cv.verdict === 'PASS' && !(cv.combined_pnl > Math.max(cv.maker_leg_pnl, cv.taker_leg_pnl))) throw new Error('whale/noise PASS contradicts its own PnL');
+          console.log('whale_noise_report_latest.json', whale.mode, whale.headline);
           EOF

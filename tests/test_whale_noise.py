@@ -8,7 +8,6 @@ import pytest
 
 from apps.measure_all import load_ledgers
 from apps.measure_whale_noise import build_parser, parameters_from_args, run
-from core.ledger import PaperLedger
 from core.risk import RiskManager
 from core.types import Market, OrderBook, Outcome, Position, PriceLevel, Venue
 from research.flb_expost import load_settled_trades
@@ -18,7 +17,6 @@ from research.whale_noise import (
     MAKER_LEG,
     TAKER_LEG,
     WHALE_NOISE_TRACKS,
-    MarketTimeline,
     combined_verdict,
     load_fixture_timelines,
     run_whale_noise_tracks,
