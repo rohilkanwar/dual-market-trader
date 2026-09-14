@@ -56,6 +56,7 @@ Captures research headlines that explain empty cross-venue panels:
   `gated_cross_venue` candidate count (every matched pair, all categories)
 - `arbai_summary`: short educational string for empty states
 - `news_underreaction`: `{ status, signal_source, signals, mapped, unmapped, paper_fills, reaction_ratio_observed_mean, reaction_ratio_literature, literature_reference, mapping_validated: false, note }`. `status` is one of `no_signal_source`, `fixture_synthetic`, `signal_source_errors`, `signals_unmapped`, `no_signals_matched`, `operator_mapped_signals`. Present on every generated artifact; see `docs/NEWS_UNDERREACTION.md`.
+- `category_specialist`: `{ status, source, traders, resolved_bets, open_bets, specialists, follows_this_run, follow_log_resolved, follow_log_pending, preregistered_n, evaluation_status, hit_rate, mean_excess_vs_mid, sign_test_p, hypothesis_validated, note }`. `evaluation_status` is one of `no_follows`, `pending_resolutions`, `underpowered` (fewer than `preregistered_n` = 30 resolved follows), `pass`, `fail`; `hypothesis_validated` is true only on `pass`. The full board (per-trader-category scores, promotions, follow log, pre-registration) is `specialist_scoreboard_<mode>.json`, pointed to by the root `specialist_scoreboard: { file, totals }`. See `docs/SPECIALIST_SCOREBOARD.md`.
 - `gated_cross_venue` (1.3.0): a `GateSummary` — `candidates`, `gate_admitted` (passed all
   eight gate stages), `gate_refused`, `priced_but_no_edge`, `traded`, `paper_fills`,
   `primary_reject_reasons`, `all_stage_reject_reasons`, `policy`, `status`
@@ -80,7 +81,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote` (Kalshi FLB lane). Grouping: see [Track ids and families](#track-ids-and-families) |
+| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote` (Kalshi FLB lane), `category_specialist` (paper-follows top-decile in-category traders; Polymarket only). Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
 | `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
@@ -114,6 +115,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | `single_venue` | Single venue | no | `single_venue_fair_value` | `single_venue`, `fair_value` |
 | `news` | News | no | `news_underreaction` | `news`, `underreaction`, `headline` |
 | `tennis_basis` | Tennis basis | no | `tennis_basis` (own board `scoreboard_tennis_basis.json`, report `tennis_basis_latest.json`) | `tennis`, `sports` + `basis` |
+| `specialist` | Specialists | no | `category_specialist` | `specialist`, `copytrade`, `trader` + `follow` |
 | `other` | Other | no | — | anything else |
 
 Resolution order for a track row: explicit `family` (or `metrics.family` /
@@ -145,7 +147,7 @@ Edges: `rank`, `track`, `venue`, `market`, `edge_bps`, `admitted`, `filled`, `fa
 
 `risk_flags` may include `combinatorial_positions_marked_at_mid_not_resolution` when the buy-all-YES track holds positions (their payoff arrives at resolution, the board shows the mid-mark).
 
-Ledger-backed (1.2.0) additions: `source: "ledger_aggregate"`, `starting_cash`, `cash`, `equity`, `total_pnl`, `fees_paid`, `primary_track`, `primary` (the primary track's full `PaperLedger.summary()` including `positions[]`), and `by_track` (per-track cash/equity/PnL/drawdown). `max_drawdown` is the maximum across track ledgers because tracks are independent books. `risk_flags` always includes `pnl_from_ledger_not_placeholder` on generated artifacts. `news_signal_mapping_unvalidated` is added whenever the `news_underreaction` lane booked a paper fill, because its signal→probability mapping is not validated.
+Ledger-backed (1.2.0) additions: `source: "ledger_aggregate"`, `starting_cash`, `cash`, `equity`, `total_pnl`, `fees_paid`, `primary_track`, `primary` (the primary track's full `PaperLedger.summary()` including `positions[]`), and `by_track` (per-track cash/equity/PnL/drawdown). `max_drawdown` is the maximum across track ledgers because tracks are independent books. `risk_flags` always includes `pnl_from_ledger_not_placeholder` on generated artifacts. `news_signal_mapping_unvalidated` is added whenever the `news_underreaction` lane booked a paper fill, because its signal→probability mapping is not validated. `specialist_hypothesis_not_validated` is added whenever the `category_specialist` follow log is non-empty and the pooled pre-registered test has not passed (normally: underpowered).
 
 ## `findings`
 

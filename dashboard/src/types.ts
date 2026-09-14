@@ -15,6 +15,7 @@ export type TrackId =
   | 'polymarket_rebalancing_arb'
   | 'polymarket_negrisk_arb'
   | 'polymarket_combinatorial_arb'
+  | 'category_specialist'
   | string
 
 /**
@@ -30,6 +31,7 @@ export type TrackFamilyId =
   | 'single_venue'
   | 'news'
   | 'tennis_copy'
+  | 'specialist'
   | 'other'
   | string
 
@@ -102,6 +104,32 @@ export interface GateSummary {
   status: 'zero_admits_expected' | 'admits_present_verify_fingerprints' | string | null
 }
 
+/**
+ * Headline of the `category_specialist` track. `evaluation_status` follows the
+ * pre-registration: `no_follows` | `pending_resolutions` | `underpowered` (fewer
+ * than `preregistered_n` resolved follows) | `pass` | `fail`. Nothing here is a
+ * result until it says `pass` or `fail`.
+ */
+export interface CategorySpecialistFinding {
+  status: string
+  source?: string | null
+  traders: number
+  resolved_bets: number
+  open_bets: number
+  specialists: number
+  follows_this_run: number
+  follow_log_resolved: number
+  follow_log_pending: number
+  preregistered_n?: number | null
+  evaluation_status: string
+  hit_rate?: number | null
+  mean_excess_vs_mid?: number | null
+  sign_test_p?: number | null
+  /** True only when the pooled pre-registered test passed. */
+  hypothesis_validated: boolean
+  note?: string
+}
+
 export interface ScoreboardFindings {
   fed_exact_divergences?: DivergenceFinding
   macro_admitted_bucket_divergences?: DivergenceFinding
@@ -109,6 +137,7 @@ export interface ScoreboardFindings {
   arbai_summary?: string
   news_underreaction?: NewsUnderreactionFinding
   gated_cross_venue?: GateSummary
+  category_specialist?: CategorySpecialistFinding
 }
 
 export interface ScoreboardTotals {
@@ -254,6 +283,8 @@ export interface ScoreboardArtifact {
   charts?: ScoreboardCharts
   /** Pointer to the per-pair gate report written alongside this run (schema >= 1.3.0). */
   gate_report?: { file: string; totals: GateSummary }
+  /** Pointer to the specialist board written alongside this run (`specialist_scoreboard_<mode>.json`). */
+  specialist_scoreboard?: { file: string; totals: Record<string, unknown> }
 }
 
 /** Experiments index — built from public/artifacts by scripts/build-experiments-index.mjs */
