@@ -79,6 +79,8 @@ export const KNOWN_TRACKS = {
   polymarket_rebalancing_arb: 'negrisk',
   polymarket_negrisk_arb: 'negrisk',
   polymarket_combinatorial_arb: 'negrisk',
+  kalshi_longshot_fade: 'kalshi_flb',
+  kalshi_maker_quote: 'kalshi_flb',
 }
 
 const tokensOf = (id) =>
@@ -102,7 +104,7 @@ export function familyOf(trackOrId) {
   const joined = [...tokens].join('_')
 
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
-  if (any('flb', 'maker')) return 'kalshi_flb'
+  if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'
   const crossVenue = any('xv') || has('cross', 'venue') || joined.includes('crossvenue')
   if (crossVenue) {

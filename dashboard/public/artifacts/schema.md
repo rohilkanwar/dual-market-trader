@@ -106,7 +106,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | Family id | Lane label | Pinned lane | Tracks emitted today | Matches new ids containing |
 | --- | --- | --- | --- | --- |
 | `negrisk` | NegRisk | yes | `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb` | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
-| `kalshi_flb` | Kalshi FLB | yes | `kalshi_longshot_fade`, `kalshi_maker_quote` | `flb`, `maker` |
+| `kalshi_flb` | Kalshi FLB | yes | `kalshi_longshot_fade`, `kalshi_maker_quote` | `flb`, `maker`, `longshot` |
 | `xv_gated` | XV gated | yes | `gated_cross_venue_macro`, `small_deliberate_bet` | `gated` + (`cross_venue` \| `xv`) |
 | `xv_ungated` | XV ungated | no | `ungated_cross_venue_macro`, `sports_cross_venue` | `ungated` + (`cross_venue` \| `xv`) |
 | `cross_venue` | Cross-venue | no | — | `cross_venue` \| `xv` without gated/ungated |
