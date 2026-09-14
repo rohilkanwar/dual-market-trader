@@ -88,7 +88,8 @@ def test_identify_longshot_on_both_sides() -> None:
     assert identify_longshot(_book(("0.01", "5"), ("0.03", "5")), D("0.20")) == (Outcome.YES, D("0.03"))
     assert identify_longshot(_book(("0.91", "5"), ("0.93", "5")), D("0.20")) == (Outcome.NO, D("0.09"))
     assert identify_longshot(_book(("0.45", "5"), ("0.48", "5")), D("0.20")) is None
-    assert identify_longshot(_book(None, ("0.20", "5")), D("0.20")) == (Outcome.YES, D("0.20"))
+    assert identify_longshot(_book(None, ("0.20", "5")), D("0.20")) is None  # strict: 20c is not a longshot
+    assert identify_longshot(_book(None, ("0.19", "5")), D("0.20")) == (Outcome.YES, D("0.19"))
 
 
 def test_taker_fade_buys_the_favourite_at_the_touch_within_caps() -> None:
@@ -134,6 +135,33 @@ def test_market_cash_at_risk_cap_stops_re_entry() -> None:
     assert total <= FLB_RISK_LIMITS.max_position_per_market
     assert position_cash_at_risk(ledger.portfolio.get(Venue.KALSHI, "KX-TEST")) <= D("75")
     assert abs(ledger.portfolio.get(Venue.KALSHI, "KX-TEST").quantity) <= FLB_RISK_LIMITS.max_position_per_market
+
+
+def test_total_cash_at_risk_cap_prevents_borrowing() -> None:
+    from core.types import Fill
+
+    ledger = PaperLedger(starting_cash=D("100"))
+    params = FlbParameters(max_total_cash_at_risk=D("100"))
+    strategy = LongshotFadeStrategy(params, portfolio=ledger.portfolio)
+    book = _book(("0.01", "500"), ("0.03", "800"))
+    filled = 0
+    for i in range(10):
+        market = _market(f"KX-{i}")
+        ev = strategy.evaluate(market, book)
+        if not ev.traded:
+            assert ev.reason == "capital_cap_reached"
+            break
+        (order,) = ev.orders
+        ledger.record_fill(Fill(venue=Venue.KALSHI, market_id=market.market_id, order_id="x", side=Side.BUY, outcome=Outcome.NO, quantity=order.quantity, price=order.price))
+        filled += 1
+    else:
+        pytest.fail("capital cap never reached")
+    assert filled == 5  # 4 x 24.75 = 99, then a 1-contract order, then nothing fits
+    assert ledger.cash >= D("0")
+    from strategies.flb import portfolio_cash_at_risk
+
+    assert portfolio_cash_at_risk(ledger.portfolio) <= D("100")
+    assert longshot_buy_order(_market("KX-Z"), book, params, total_cash_at_risk=D("100")) is None
 
 
 def test_maker_quote_improves_when_spread_allows_else_joins_with_queue_scaling() -> None:
@@ -224,6 +252,9 @@ async def test_flb_tracks_on_fixture_universe() -> None:
     assert ledgers["kalshi_maker_quote"].mark_method == "conservative"
     assert ledgers["kalshi_longshot_fade"].mark_method == "mid"
     assert maker.ledger["fees_paid"] < fade.ledger["fees_paid"]  # maker rate is a quarter of the taker rate
+    cash_at_risk = maker.metrics["cash_at_risk"]
+    assert cash_at_risk["positions"] + cash_at_risk["resting_orders_reserved"] <= cash_at_risk["cap"] == D("1000")
+    assert cash_at_risk["resting_orders_reserved"] > 0  # unfilled remainders lock collateral
     for ledger in ledgers.values():
         assert ledger.equity == ledger.starting_cash + ledger.realized_pnl + ledger.unrealized_pnl
         for position in ledger.open_positions:
@@ -241,9 +272,14 @@ async def test_flb_tracks_carry_ledgers_and_stop_at_the_market_cap() -> None:
     summaries, ledgers = await run_flb_tracks({Venue.KALSHI: snapshot}, ledgers=ledgers)
     fade = next(s for s in summaries if s.track == "kalshi_longshot_fade")
     assert fade.paper_fills == 0
-    assert fade.refused_by_reason.get("market_cap_reached") == 9
+    # Every longshot market is capped: by $75 cash at risk (99c favourites) or by the
+    # RiskManager's 75-contract rail (cheaper favourites hit 75 contracts before $75).
+    reasons = fade.refused_by_reason
+    assert reasons.get("market_cap_reached", 0) + reasons.get("risk_position_cap_reached", 0) == 9
+    assert reasons.get("market_cap_reached", 0) >= 1 and reasons.get("risk_position_cap_reached", 0) >= 1
     for position in ledgers["kalshi_longshot_fade"].open_positions:
         assert position_cash_at_risk(position) <= D("75")
+        assert abs(position.quantity) <= D("75")
     assert len(ledgers["kalshi_longshot_fade"].equity_curve) == 5
 
 

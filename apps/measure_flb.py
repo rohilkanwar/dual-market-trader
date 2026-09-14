@@ -162,8 +162,8 @@ def build_report(
             "queue": "Joining the touch assumes pro-rata position behind the displayed size; improving assumes first in queue at the new price. Book depth beyond the touch is ignored for resting orders.",
             "adverse_selection": f"{params.adverse_selection_haircut} of the half-spread is deducted from the reported expected maker edge (edge_bps). The maker ledger uses conservative marks (exit price) instead of mid, so a resting fill shows no spread-capture until it can be exited.",
             "marks": "Fade track marked at mid; maker track marked conservatively (longs at bid, shorts at ask). Positions without a two-sided book are valued at cost and counted as unmarked.",
-            "sizing": f"Whole contracts; ${params.max_order_notional}/order, ${params.max_market_notional} cash-at-risk per market (strategy) and 75 contracts/market + $75 daily loss (RiskManager). Paper caps mirror the caps decided for a later live canary.",
-            "longshot_definition": f"A side priced at or below {params.longshot_threshold} at the touch (YES ask, or 1 - YES bid for NO). Bands are by price: <10c, 10-20c, ..., >=90c; the ex-post table buckets by the price the taker paid.",
+            "sizing": f"Whole contracts; ${params.max_order_notional}/order, ${params.max_market_notional} cash-at-risk per market and ${params.max_total_cash_at_risk} total collateral (strategy), plus 75 contracts/market + $75 daily loss (RiskManager). Per-order/market/daily caps mirror the caps decided for a later live canary; the total cap equals the paper starting cash so the ledger never borrows.",
+            "longshot_definition": f"A side priced strictly below {params.longshot_threshold} at the touch (YES ask, or 1 - YES bid for NO). Bands are by price: <10c, 10-20c, ..., >=90c; the ex-post table buckets by the price the taker paid.",
             "snapshot_limits": "Open books contain no outcomes; FLB cannot be identified from a snapshot. Snapshot checks quantify take cost by band and event overround only.",
             "ex_post_limits": "Trades page newest-first with a per-market cap (trades_truncated); markets are the inference unit (clustered SE); series fee parameters are as of harvest time.",
         },
@@ -349,6 +349,7 @@ def main() -> None:
     parser.add_argument("--join-fill-probability", type=Decimal, default=Decimal("0.25"))
     parser.add_argument("--improve-fill-probability", type=Decimal, default=Decimal("0.50"))
     parser.add_argument("--adverse-selection-haircut", type=Decimal, default=Decimal("0.25"))
+    parser.add_argument("--max-total-cash-at-risk", type=Decimal, default=Decimal("1000"), help="total collateral cap per track (default = paper starting cash)")
     parser.add_argument("--min-markets", type=int, default=10, help="settled markets required in the longshot bands for a verdict")
     parser.add_argument("--min-contracts", type=float, default=1000.0)
     parser.add_argument("--exclude-final-minutes", type=int, default=60)
@@ -362,6 +363,7 @@ def main() -> None:
         join_fill_probability=args.join_fill_probability,
         improve_fill_probability=args.improve_fill_probability,
         adverse_selection_haircut=args.adverse_selection_haircut,
+        max_total_cash_at_risk=args.max_total_cash_at_risk,
     )
     asyncio.run(
         run(

@@ -21,7 +21,7 @@ settlement outcomes: see :mod:`research.flb_expost`.
 Paper tracks
 ------------
 ``kalshi_longshot_fade`` (taker) and ``kalshi_maker_quote`` (resting) fade the
-longshot side of every qualifying Kalshi market in the shared snapshot through
+longshot side (priced below 20c) of every qualifying Kalshi market in the shared snapshot through
 the normal risk-gated :class:`core.execution.ExecutionEngine`, with the paper
 risk defaults $25/order, $75/market, $75 daily. The fade track also books the
 mirror longshot buy in a shadow ledger. Fills are marked from the same snapshot
@@ -46,6 +46,7 @@ from strategies.flb import (
     LongshotFadeStrategy,
     MakerQuoteStrategy,
     longshot_buy_order,
+    portfolio_cash_at_risk,
     whole_contracts,
 )
 
@@ -328,7 +329,9 @@ async def _run_flb_track(runtime: TrackRuntime, strategy: LongshotFadeStrategy |
         row["fill_probability"].append(ev.fill_probability or ZERO)
         fills_before = len(summary.fills)
         for order in ev.orders:
-            await runtime.submit(order, edge=ev.expected_edge_after_adverse_selection)
+            report = await runtime.submit(order, edge=ev.expected_edge_after_adverse_selection)
+            if isinstance(strategy, MakerQuoteStrategy):
+                strategy.note_resting(order, report.filled_quantity if report is not None else ZERO)
         for fill_row in summary.fills[fills_before:]:
             fill_row.update({
                 "band": band_for(fill_row["price"]),
@@ -345,7 +348,11 @@ async def _run_flb_track(runtime: TrackRuntime, strategy: LongshotFadeStrategy |
             row["fees"] += fill_row["fee"]
         summary.edges.append(_edge_row(runtime.name, market, ev, filled=len(summary.fills) > fills_before))
         if shadow_ledger is not None and shadow_client is not None:
-            mirror = longshot_buy_order(market, book, params, position=shadow_ledger.portfolio.get(market.venue, market.market_id))
+            mirror = longshot_buy_order(
+                market, book, params,
+                position=shadow_ledger.portfolio.get(market.venue, market.market_id),
+                total_cash_at_risk=portfolio_cash_at_risk(shadow_ledger.portfolio),
+            )
             if mirror is not None:
                 report = await shadow_client.place_order_with_book(mirror, market, book)
                 for fill in report.fills:
@@ -365,6 +372,7 @@ async def _run_flb_track(runtime: TrackRuntime, strategy: LongshotFadeStrategy |
         "longshot_threshold": params.longshot_threshold,
         "max_order_notional": params.max_order_notional,
         "max_market_notional": params.max_market_notional,
+        "max_total_cash_at_risk": params.max_total_cash_at_risk,
         "join_fill_probability": params.join_fill_probability,
         "improve_fill_probability": params.improve_fill_probability,
         "adverse_selection_haircut": params.adverse_selection_haircut,
@@ -383,6 +391,11 @@ async def _run_flb_track(runtime: TrackRuntime, strategy: LongshotFadeStrategy |
     }
     summary.metrics["longshot_bands"] = _finish_bands(bands)
     summary.metrics["longshot_candidates"] = sum(r["candidates"] for r in bands.values())
+    summary.metrics["cash_at_risk"] = {
+        "positions": _q(portfolio_cash_at_risk(runtime.ledger.portfolio)),
+        "resting_orders_reserved": _q(strategy.resting_collateral) if isinstance(strategy, MakerQuoteStrategy) else ZERO,
+        "cap": params.max_total_cash_at_risk,
+    }
     summary.metrics["mark_method"] = runtime.ledger.mark_method
     if shadow_ledger is not None:
         # Marks are applied in finalize; stash the ledger and rows for a post-mark summary.

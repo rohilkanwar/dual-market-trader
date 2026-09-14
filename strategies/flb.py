@@ -4,8 +4,8 @@ Two hypothetical ways to be the counterparty of a longshot buyer, plus the
 longshot buyer itself as a shadow benchmark:
 
 * :class:`LongshotFadeStrategy` — a *taker* fade. When one side of a binary
-  Kalshi market is a longshot (YES ask at or below ``longshot_threshold``, or
-  YES bid at or above ``1 - longshot_threshold`` so NO is the longshot), buy
+  Kalshi market is a longshot (YES ask below ``longshot_threshold``, or
+  YES bid above ``1 - longshot_threshold`` so NO is the longshot), buy
   the favourite side at the touch, crossing the spread and paying taker fees.
 * :class:`MakerQuoteStrategy` — a *maker* fade. Same trigger, but the order
   rests: it improves the favourite-side bid by one tick when the spread allows,
@@ -47,7 +47,7 @@ _WHOLE = Decimal("1")
 class FlbParameters:
     """Assumptions behind the two paper fades. Every value is a documented guess.
 
-    ``longshot_threshold``: the longshot side must be priced at or below this.
+    ``longshot_threshold``: the longshot side must be priced strictly below this.
     ``join_fill_probability``: P(fill) for a resting order that joins the touch;
     scaled by ``own / (own + displayed)`` to approximate queue position.
     ``improve_fill_probability``: P(fill) when the order improves the touch by a
@@ -59,6 +59,9 @@ class FlbParameters:
     longshot_threshold: Decimal = Decimal("0.20")
     max_order_notional: Decimal = FLB_RISK_LIMITS.max_notional_per_order
     max_market_notional: Decimal = FLB_RISK_LIMITS.max_position_per_market
+    # Total collateral the track may tie up; defaults to the paper starting cash so
+    # the ledger never simulates borrowing (Kalshi requires full collateral).
+    max_total_cash_at_risk: Decimal = Decimal("1000")
     minimum_touch_size: Decimal = Decimal("1")
     tick: Decimal = Decimal("0.01")
     join_fill_probability: Decimal = Decimal("0.25")
@@ -68,7 +71,7 @@ class FlbParameters:
     def __post_init__(self) -> None:
         if not ZERO < self.longshot_threshold < Decimal("0.5"):
             raise ValueError("longshot_threshold must be in (0, 0.5)")
-        if self.max_order_notional <= ZERO or self.max_market_notional <= ZERO:
+        if self.max_order_notional <= ZERO or self.max_market_notional <= ZERO or self.max_total_cash_at_risk <= ZERO:
             raise ValueError("notional caps must be positive")
         if self.tick <= ZERO or self.minimum_touch_size <= ZERO:
             raise ValueError("tick and minimum_touch_size must be positive")
@@ -107,12 +110,22 @@ def position_cash_at_risk(position: Position | None) -> Decimal:
     return abs(position.quantity) * unit
 
 
+def portfolio_cash_at_risk(portfolio: Portfolio | None) -> Decimal:
+    if portfolio is None:
+        return ZERO
+    return sum((position_cash_at_risk(p) for p in portfolio.positions()), ZERO)
+
+
 def identify_longshot(book: OrderBook, threshold: Decimal) -> tuple[Outcome, Decimal] | None:
-    """Return (longshot outcome, its price) or ``None`` when neither side qualifies."""
+    """Return (longshot outcome, its price) or ``None`` when neither side qualifies.
+
+    Strictly below ``threshold`` so that, with the default 0.20, the longshot set
+    is exactly the ``<10c`` and ``10-20c`` price bands.
+    """
     ask, bid = book.best_ask, book.best_bid
-    if ask is not None and ask.price <= threshold:
+    if ask is not None and ask.price < threshold:
         return Outcome.YES, ask.price
-    if bid is not None and bid.price >= ONE - threshold:
+    if bid is not None and bid.price > ONE - threshold:
         return Outcome.NO, ONE - bid.price
     return None
 
@@ -129,12 +142,14 @@ def size_order(
     position: Position | None,
     risk: RiskManager | None,
     probe: Order,
+    total_cash_at_risk: Decimal = ZERO,
 ) -> Decimal:
-    """Whole contracts allowed by touch depth, per-order and per-market caps, and risk rails."""
+    """Whole contracts allowed by touch depth, per-order/market/total caps, and risk rails."""
     headroom = params.max_market_notional - position_cash_at_risk(position)
-    if headroom <= ZERO:
+    capital = params.max_total_cash_at_risk - total_cash_at_risk
+    if headroom <= ZERO or capital <= ZERO:
         return ZERO
-    quantity = min(touch_size, params.max_order_notional / price, headroom / price)
+    quantity = min(touch_size, params.max_order_notional / price, headroom / price, capital / price)
     if risk is not None:
         quantity = min(quantity, risk.remaining_order_capacity(probe, position))
     return max(ZERO, whole_contracts(quantity))
@@ -162,6 +177,25 @@ class _FlbStrategy(Strategy):
 
     def _position(self, market: Market) -> Position | None:
         return self.portfolio.get(market.venue, market.market_id) if self.portfolio else None
+
+    def _reserved_collateral(self) -> Decimal:
+        return ZERO
+
+    def _size(self, *, price: Decimal, touch_size: Decimal, position: Position | None, probe: Order) -> tuple[Decimal, str]:
+        """(quantity, refusal reason). Reason is empty when quantity is positive."""
+        total = portfolio_cash_at_risk(self.portfolio) + self._reserved_collateral()
+        if self.parameters.max_market_notional - position_cash_at_risk(position) < price:
+            return ZERO, "market_cap_reached"
+        if self.parameters.max_total_cash_at_risk - total < price:
+            return ZERO, "capital_cap_reached"
+        quantity = size_order(price=price, touch_size=touch_size, params=self.parameters, position=position, risk=self.risk, probe=probe, total_cash_at_risk=total)
+        if quantity <= ZERO:
+            if self.risk is not None and self.risk.halted:
+                return ZERO, "risk_halted"
+            if self.risk is not None and self.risk.remaining_order_capacity(probe, position) < _WHOLE:
+                return ZERO, "risk_position_cap_reached"
+            return ZERO, "no_position_headroom"
+        return quantity, ""
 
     def evaluate(self, market: Market, book: OrderBook) -> FlbEvaluation:  # pragma: no cover - abstract
         raise NotImplementedError
@@ -211,9 +245,9 @@ class LongshotFadeStrategy(_FlbStrategy):
         common.update({"placement": "take", "quote_yes_price": yes_price, "fill_probability": ONE, "expected_edge_vs_mid": edge, "expected_edge_after_adverse_selection": edge})
         position = self._position(market)
         probe = _probe(market, Side.BUY, outcome, price)
-        quantity = size_order(price=price, touch_size=touch.size, params=params, position=position, risk=self.risk, probe=probe)
+        quantity, refusal = self._size(price=price, touch_size=touch.size, position=position, probe=probe)
         if quantity <= ZERO:
-            return FlbEvaluation(reason="market_cap_reached", **common)  # type: ignore[arg-type]
+            return FlbEvaluation(reason=refusal, **common)  # type: ignore[arg-type]
         order = Order(
             venue=market.venue,
             market_id=market.market_id,
@@ -234,9 +268,25 @@ class LongshotFadeStrategy(_FlbStrategy):
 
 
 class MakerQuoteStrategy(_FlbStrategy):
-    """Maker fade: rest a favourite-side bid one tick inside the spread, else join the touch."""
+    """Maker fade: rest a favourite-side bid one tick inside the spread, else join the touch.
+
+    Kalshi locks collateral on resting orders, so the unfilled remainder of every
+    order proposed in this run counts against ``max_total_cash_at_risk`` via
+    :meth:`note_resting` (called by the track runner after each submission).
+    """
 
     name = "kalshi_maker_quote"
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        super().__init__(*args, **kwargs)  # type: ignore[arg-type]
+        self.resting_collateral = ZERO
+
+    def _reserved_collateral(self) -> Decimal:
+        return self.resting_collateral
+
+    def note_resting(self, order: Order, filled_quantity: Decimal) -> None:
+        unfilled = max(ZERO, order.quantity - filled_quantity)
+        self.resting_collateral += unfilled * (order.price or ONE)
 
     def evaluate(self, market: Market, book: OrderBook) -> FlbEvaluation:
         params = self.parameters
@@ -270,9 +320,9 @@ class MakerQuoteStrategy(_FlbStrategy):
         position = self._position(market)
         probe = _probe(market, Side.BUY, outcome, price)
         # Depth is not a constraint for a resting order; size by caps only.
-        quantity = size_order(price=price, touch_size=Decimal("1000000"), params=params, position=position, risk=self.risk, probe=probe)
+        quantity, refusal = self._size(price=price, touch_size=Decimal("1000000"), position=position, probe=probe)
         if quantity <= ZERO:
-            return FlbEvaluation(reason="market_cap_reached", **common)  # type: ignore[arg-type]
+            return FlbEvaluation(reason=refusal, **common)  # type: ignore[arg-type]
         if improve:
             fill_probability = params.improve_fill_probability
         else:
@@ -315,6 +365,7 @@ def longshot_buy_order(
     params: FlbParameters,
     *,
     position: Position | None = None,
+    total_cash_at_risk: Decimal = ZERO,
 ) -> Order | None:
     """The literature's losing trade: take the longshot at its ask, same caps, no risk gate."""
     found = identify_longshot(book, params.longshot_threshold)
@@ -330,7 +381,7 @@ def longshot_buy_order(
     if touch is None or price is None or not ZERO < price < ONE or touch.size < params.minimum_touch_size:
         return None
     probe = _probe(market, Side.BUY, outcome, price)
-    quantity = size_order(price=price, touch_size=touch.size, params=params, position=position, risk=None, probe=probe)
+    quantity = size_order(price=price, touch_size=touch.size, params=params, position=position, risk=None, probe=probe, total_cash_at_risk=total_cash_at_risk)
     if quantity <= ZERO:
         return None
     return Order(
