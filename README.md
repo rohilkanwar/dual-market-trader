@@ -119,8 +119,17 @@ UI labels it **Sample** and hides PnL.
 cd dashboard
 npm ci
 npm run typecheck && npm run build
-npm run sync-artifacts     # copies ../artifacts/scoreboard_*.json when they exist
+npm run sync-artifacts     # copies ../artifacts/scoreboard_*.json when they exist,
+                           # writes compact public/artifacts/runs/<run_id>.json records
+                           # and rebuilds public/artifacts/experiments_index.json
 ```
+
+The dashboard's **Experiments** card lists every run found in
+`dashboard/public/artifacts/` (scoreboards deduped by `run_id`, plus `runs/*.json`
+records). The index is regenerated on every `npm run build`, so it never claims a
+run that is not on disk; sample files are marked SAMPLE with PnL hidden, and nothing
+is labelled a backtest unless the artifact's `meta` says so. See
+`dashboard/public/artifacts/schema.md`.
 
 ## Public deployment
 

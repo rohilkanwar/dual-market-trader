@@ -55,6 +55,22 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run build
+      - name: Committed experiments index matches the artifacts on disk
+        run: |
+          git diff --exit-code -- public/artifacts/experiments_index.json \
+            || { echo "experiments_index.json is stale: run 'npm run build-experiments-index' and commit"; exit 1; }
+          node - <<'EOF'
+          const fs = require('node:fs');
+          const idx = JSON.parse(fs.readFileSync('public/artifacts/experiments_index.json', 'utf8'));
+          for (const run of idx.runs) {
+            for (const f of run.artifacts) {
+              if (!fs.existsSync(`public/artifacts/${f}`)) throw new Error(`${run.run_id}: missing ${f}`);
+            }
+            if (run.kind === 'sample' && run.totals.paper_pnl !== null) throw new Error(`${run.run_id}: sample carries PnL`);
+            if (run.kind !== 'sample' && !run.pnl_source) throw new Error(`${run.run_id}: measured run without pnl_source`);
+          }
+          console.log(`index ok: ${idx.counts.total} runs (${idx.counts.measured} measured, ${idx.counts.sample} sample, ${idx.counts.backtest} backtest)`);
+          EOF
       - name: Committed artifacts are valid and the sample is labelled
         run: |
           node - <<'EOF'

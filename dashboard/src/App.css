@@ -285,6 +285,12 @@
   color: var(--color-muted);
 }
 
+.status-pill.sample {
+  background: var(--color-warn-soft);
+  border-color: color-mix(in oklch, var(--color-warn) 35%, var(--color-rule));
+  color: var(--color-warn-ink);
+}
+
 .status-pill.micro {
   background: var(--color-paper-3);
 }
