@@ -136,10 +136,31 @@ A snapshot cannot identify FLB (prices without outcomes), and the report says so
 ex-post verdicts need settlement outcomes, which the harvest provides. Measured
 results, assumptions and limits: `docs/FLB_RUNBOOK.md`.
 
+### Self-logged order-book archive ($0 path)
+
+No paid L2 vendor: `apps.book_logger` polls the public Kalshi endpoints (and,
+opt-in, Polymarket's batched CLOB `/books`) on an interval and appends
+point-in-time books plus the incremental public trade tape as JSONL under
+`artifacts/books/<venue>/<day>/` (git-ignored; `--gzip` and `--to-parquet`
+available). Rate-limited process-wide (`--max-rps`, default 4) with `Retry-After`
+aware backoff; paper-only guard; a session file tracks counters and errors.
+
+```bash
+uv run python -m apps.book_logger --once                                  # one Kalshi macro snapshot
+uv run python -m apps.book_logger --interval 30 --duration 3600 --gzip    # an hour of books + trades
+uv run python -m apps.book_logger --polymarket --skip-unchanged           # add Polymarket, write only changes
+```
+
+The archive is aggregated L2 at poll instants: **no order ids, queue position,
+cancels or intra-poll changes (no L3 / FIFO)**. `docs/BOOK_LOGGER.md` covers
+scheduling (tmux / systemd / cron), storage, the record schema and the full
+list of what is not captured.
+
 ### Other entry points
 
 ```bash
 uv run python -m apps.measure_all --help            # one-shot measurement, all 12 tracks, all flags
+uv run python -m apps.book_logger --help            # self-log public books/trades to artifacts/books (see docs/BOOK_LOGGER.md)
 uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only (see docs/POLYMARKET_ARB.md)
 uv run python -m apps.measure_flb --help            # Kalshi FLB tracks + ex-post band table (see docs/FLB_RUNBOOK.md)
 uv run python -m apps.paper_runner --strategy both  # strategy runner with logging event sink

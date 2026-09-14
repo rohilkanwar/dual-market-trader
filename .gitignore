@@ -3,6 +3,11 @@ data/harvests/*.json.gz
 # Runtime measurement output (ledgers, equity curves, scoreboards). The
 # dashboard's committed copies live under dashboard/public/artifacts/.
 /artifacts/
+# Self-logged order-book archive (apps.book_logger). Grows without bound;
+# never commit it, not even a sample day.
+/artifacts/books/
+*.jsonl.gz
+*.parquet
 __pycache__/
 *.pyc
 .pytest_cache/

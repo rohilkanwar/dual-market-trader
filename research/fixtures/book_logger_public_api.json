@@ -1,0 +1,130 @@
+{
+  "_note": "Trimmed public-API payloads (Kalshi trade-api v2, Polymarket Gamma/CLOB/Data-API) used by tests/test_book_logger.py through httpx.MockTransport. Shapes verified against the live endpoints on 2026-09-14; values are illustrative.",
+  "kalshi": {
+    "markets_page1": {
+      "cursor": "page2",
+      "markets": [
+        {
+          "ticker": "KXFEDDECISION-26SEP-C25",
+          "event_ticker": "KXFEDDECISION-26SEP",
+          "title": "Fed cuts 25 bps in September?",
+          "status": "open",
+          "open_time": "2026-08-01T00:00:00Z",
+          "close_time": "2026-09-17T18:00:00Z",
+          "yes_bid_dollars": "0.6200",
+          "yes_ask_dollars": "0.6400",
+          "last_price_dollars": "0.6300",
+          "volume_fp": "185000.00",
+          "open_interest_fp": "42000.00"
+        }
+      ]
+    },
+    "markets_page2": {
+      "cursor": "",
+      "markets": [
+        {
+          "ticker": "KXFEDDECISION-26SEP-H",
+          "event_ticker": "KXFEDDECISION-26SEP",
+          "title": "Fed holds in September?",
+          "status": "open",
+          "close_time": "2026-09-17T18:00:00Z",
+          "yes_bid": 30,
+          "yes_ask": 33,
+          "volume": 5000
+        }
+      ]
+    },
+    "orderbook_fp": {
+      "orderbook_fp": {
+        "yes_dollars": [["0.6100", "50.00"], ["0.6200", "120.00"]],
+        "no_dollars": [["0.3600", "110.00"], ["0.3500", "180.00"]]
+      }
+    },
+    "orderbook_legacy_cents": {
+      "orderbook": {
+        "yes": [[30, 40]],
+        "no": [[67, 25]]
+      }
+    },
+    "trades_page1": {
+      "cursor": "older",
+      "trades": [
+        {"trade_id": "t3", "ticker": "KXFEDDECISION-26SEP-C25", "created_time": "2026-09-14T21:00:03Z", "taker_side": "yes", "yes_price_dollars": "0.6400", "count_fp": "10.00"},
+        {"trade_id": "t2", "ticker": "KXFEDDECISION-26SEP-C25", "created_time": "2026-09-14T21:00:02Z", "taker_side": "no", "yes_price": 62, "count": 5}
+      ]
+    },
+    "trades_page1_after_new_print": {
+      "cursor": "older",
+      "trades": [
+        {"trade_id": "t4", "ticker": "KXFEDDECISION-26SEP-C25", "created_time": "2026-09-14T21:00:33Z", "taker_side": "yes", "yes_price_dollars": "0.6500", "count_fp": "3.00"},
+        {"trade_id": "t3", "ticker": "KXFEDDECISION-26SEP-C25", "created_time": "2026-09-14T21:00:03Z", "taker_side": "yes", "yes_price_dollars": "0.6400", "count_fp": "10.00"},
+        {"trade_id": "t2", "ticker": "KXFEDDECISION-26SEP-C25", "created_time": "2026-09-14T21:00:02Z", "taker_side": "no", "yes_price": 62, "count": 5}
+      ]
+    },
+    "trades_empty": {"cursor": "", "trades": []}
+  },
+  "polymarket": {
+    "public_search": {
+      "events": [
+        {
+          "id": "9001",
+          "slug": "fed-decision-september-2026",
+          "title": "Fed decision in September?",
+          "negRisk": true,
+          "closed": false,
+          "markets": [
+            {
+              "conditionId": "0xabc",
+              "slug": "fed-cuts-25-bps-september",
+              "question": "Will the Fed cut 25 bps in September?",
+              "clobTokenIds": "[\"111\", \"222\"]",
+              "outcomes": "[\"Yes\", \"No\"]",
+              "active": true,
+              "closed": false,
+              "enableOrderBook": true,
+              "orderPriceMinTickSize": 0.01,
+              "orderMinSize": 5,
+              "liquidityNum": 250000.5,
+              "volumeNum": 1200000,
+              "feesEnabled": false,
+              "endDate": "2026-09-17T18:00:00Z"
+            },
+            {
+              "conditionId": "0xdead",
+              "slug": "closed-leg",
+              "question": "closed leg must be skipped",
+              "clobTokenIds": "[\"333\", \"444\"]",
+              "active": true,
+              "closed": true
+            }
+          ]
+        }
+      ]
+    },
+    "books": [
+      {
+        "market": "0xabc",
+        "asset_id": "111",
+        "timestamp": "1789419600123",
+        "hash": "h1",
+        "tick_size": "0.01",
+        "min_order_size": "5",
+        "neg_risk": true,
+        "bids": [{"price": "0.61", "size": "300"}, {"price": "0.62", "size": "150.5"}],
+        "asks": [{"price": "0.65", "size": "200"}, {"price": "0.64", "size": "90"}]
+      },
+      {
+        "market": "0xabc",
+        "asset_id": "222",
+        "timestamp": "1789419600123",
+        "hash": "h2",
+        "bids": [{"price": "0.35", "size": "90"}],
+        "asks": [{"price": "0.38", "size": "150.5"}]
+      }
+    ],
+    "trades": [
+      {"proxyWallet": "0xw1", "side": "BUY", "asset": "111", "conditionId": "0xabc", "size": 20, "price": 0.64, "timestamp": 1789419590, "outcome": "Yes", "transactionHash": "0xtx1"},
+      {"proxyWallet": "0xw2", "side": "SELL", "asset": "222", "conditionId": "0xabc", "size": 7.5, "price": 0.36, "timestamp": 1789419580, "outcome": "No", "transactionHash": "0xtx2"}
+    ]
+  }
+}

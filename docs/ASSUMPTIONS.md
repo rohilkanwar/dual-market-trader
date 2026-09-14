@@ -165,7 +165,22 @@ against the public prod API with no credentials.
 | 10.8 | Trades near settlement bias the measurement | **PASS (mitigated, reported)** | `/markets/trades` pages newest-first, so the per-market cap (`--max-trades-per-market`) keeps end-game trades; `trades_truncated` is counted (51 of 261) and every ex-post verdict has an `excluding_final_minutes` variant (`tests/test_flb_expost.py::test_exclude_final_minutes_drops_endgame_trades`). |
 | 10.9 | Synthetic fixtures are labelled as such | **PASS** | `venues/kalshi/fixtures/flb_markets.json` and `flb_settled_trades.json` carry `_comment`/`source: fixture`; the fixture ex-post report carries `note: "Synthetic fixture: exercises the pipeline, not evidence about Kalshi."`; committed dashboard artifacts come from the network run only. |
 
-## 11. Known gaps / not validated
+## 11. Self-logged order-book archive (`apps.book_logger`, `docs/BOOK_LOGGER.md`)
+
+The $0 alternative to a paid L2 vendor. Smoke runs on 2026-09-14 against the public
+prod APIs with no credentials: 12 Kalshi + 8 Polymarket markets, 36 requests at 3 rps,
+0 retries, 0 `429`s, 0 errors; a two-cycle run wrote 241 trades in cycle 1 and 0 in cycle 2.
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 11.1 | The archive is a point-in-time L2 record, not L3 | **PASS (by construction, documented)** | Public books are aggregated size per level. `research/book_log.py` stores `bids`/`asks` in YES terms plus Kalshi's raw YES/NO ladders; no order ids, queue position, cancels or intra-poll changes exist in the source and none are claimed (`docs/BOOK_LOGGER.md`, "What is NOT captured"). Kalshi books carry no venue timestamp; `ts` is capture time and `latency_ms` bounds staleness. |
+| 11.2 | Kalshi NO bids are YES asks at `1 − p`, and legacy cents are handled | **PASS** | `KalshiBookSource._book_record` mirrors `venues/kalshi/client.py::get_order_book`; `tests/test_book_logger.py::test_kalshi_cycle_writes_books_markets_and_trades` asserts `orderbook_fp` dollars and legacy integer cents both normalise to best-first YES bids / ascending YES asks. Live smoke: no crossed touch on any of 28 books. |
+| 11.3 | Trades are captured incrementally without duplicates | **PASS (single process)** | `/markets/trades` pages newest-first; the poller stops at the first already-seen `trade_id` and remembers up to 5,000 ids per market (`test_second_cycle_is_incremental_and_skips_unchanged_books`: t3,t2 then only t4, no second page fetched). State is in-process, so cron `--once` runs re-fetch the newest page; de-duplicate on `trade_id` at read time in that shape. Polymarket Data-API prints have no id and use a composite key. |
+| 11.4 | Polling is rate-limit safe | **PASS (mitigated)** | One process-wide `RateLimiter` spaces request starts to `--max-rps` (default 4); `Fetcher` retries `429`/`5xx`/transport errors with exponential backoff, honours `Retry-After`, and penalises the shared limiter so other tasks pause (`test_fetcher_retries_on_429_and_gives_up_cleanly`, `test_rate_limiter_spaces_requests`). Venue limits for unauthenticated reads are not published precisely; the default produced zero `429`s in testing and is a knob, not a guarantee. |
+| 11.5 | The logger never touches authenticated or order endpoints | **PASS** | Only `/markets`, `/markets/{t}/orderbook`, `/markets/trades`, Gamma `/public-search` + `/markets`, CLOB `/books`, Data-API `/trades` are called; the mock in `tests/test_book_logger.py` asserts no `demo-api`, `/portfolio` or `/orders` path is ever requested, and `apps.book_logger.run` calls `require_paper_only` (`test_cli_once_writes_archive_and_refuses_live`). |
+| 11.6 | Archive files are never committed | **PASS** | `.gitignore` covers `/artifacts/`, `/artifacts/books/`, `*.jsonl.gz`, `*.parquet`. The test fixture (`research/fixtures/book_logger_public_api.json`) is a trimmed API payload, not archive output. |
+
+## 12. Known gaps / not validated
 
 * No live or demo-authenticated path exists; everything past `Settings.live_enabled` is a stub by design.
 * `apps/dashboard_api.py` has no authentication (unchanged from the original design; README warns).
@@ -177,3 +192,4 @@ against the public prod API with no credentials.
 * The `news_underreaction` lane's signal→probability mapping, pre-signal price provenance and drift horizon are all UNKNOWN; see section 9 and `docs/NEWS_UNDERREACTION.md`.
 * Polymarket arb tracks: subset NegRisk conversions, implication-based combinatorial arbitrage across events, converter fee, maker/taker rebates and legging beyond the one-tick buffer are not modelled (see `docs/POLYMARKET_ARB.md`, "Known limits").
 * FLB maker fill probabilities, queue position and adverse selection (10.4) are assumptions; the ex-post trade tape cannot distinguish opening from closing trades, and the sample covers only the newest settled markets per series (see section 10 and `docs/FLB_RUNBOOK.md`).
+* The self-logged book archive (section 11) is polled REST L2: it cannot recover queue position or FIFO priority, misses everything between polls, and its Kalshi snapshots have no venue timestamp. `SidecarSource` (official RSS / free weather) is a protocol stub with no implementation.

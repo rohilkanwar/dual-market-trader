@@ -16,6 +16,10 @@ api = [
     "fastapi>=0.110",
     "uvicorn>=0.29",
 ]
+# Parquet export for the self-logged order-book archive (apps.book_logger --to-parquet).
+books = [
+    "pyarrow>=17",
+]
 dev = [
     "fastapi>=0.110",
     "pytest>=8",
