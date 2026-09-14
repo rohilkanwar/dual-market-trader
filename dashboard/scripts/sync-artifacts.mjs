@@ -34,7 +34,8 @@ const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 // for a new mode, or paper/ledger_<track>.json for a new track, is picked up with
 // no change here. Validation below still decides what is publishable.
 async function listCandidates() {
-  const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json'])
+  // flb_report_latest.json is the Kalshi FLB report written by apps.measure_flb.
+  const names = new Set(['paper_loop_latest.json', 'polymarket_arb_latest.json', 'flb_report_latest.json'])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
     if (/^gate_report_.*\.json$/.test(file)) names.add(file)
@@ -101,13 +102,19 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: opportunity report must be paper_only and measured`)
     continue
   }
+  const isFlbReport = relative === 'flb_report_latest.json'
+  if (isFlbReport && (doc.kind !== 'kalshi_flb_report' || doc.paper_only !== true)) {
+    console.warn(`skip ${relative}: not a paper-only kalshi_flb_report`)
+    continue
+  }
   const target = join(publicRoot, relative.replace('paper/', 'paper_'))
   await copyFile(source, target)
   copied[relative] = {
     target: target.replace(`${dashboardRoot}/`, ''),
-    source: doc.meta?.source ?? (doc.paper_only ? 'ledger' : 'unknown'),
-    measured_at: doc.meta?.measured_at ?? doc.completed_at ?? doc.updated_at ?? null,
+    source: doc.meta?.source ?? (isFlbReport ? 'measured' : doc.paper_only ? 'ledger' : 'unknown'),
+    measured_at: doc.meta?.measured_at ?? doc.measured_at ?? doc.completed_at ?? doc.updated_at ?? null,
     paper_pnl: doc.totals?.paper_pnl ?? null,
+    ...(isFlbReport ? { headline: doc.headline ?? null } : {}),
   }
 }
 
@@ -258,6 +265,12 @@ function compactRunRecord(file, manifest, cycle) {
     kalshi_env: manifest.kalshi_env ?? null,
     track_family: manifest.track_family ?? null,
     primary_track: manifest.primary_track ?? cycle?.primary_track ?? 'single_venue_fair_value',
+    ...(manifest.label ? { label: manifest.label } : {}),
+    ...(manifest.kind ? { run_kind: manifest.kind } : {}),
+    ...(Array.isArray(manifest.venues) ? { venues: manifest.venues } : {}),
+    ...(manifest.venue_focus ? { venue_focus: manifest.venue_focus } : {}),
+    ...(manifest.kalshi_env ? { kalshi_env: manifest.kalshi_env } : {}),
+    ...(manifest.flb ? { flb: manifest.flb } : {}),
     pnl_source: ledgerBacked ? LEDGER_PNL_SOURCE : null,
     totals: {
       candidates: sum(tracks, (t) => t.candidates),

@@ -276,38 +276,62 @@ class _Cluster:
     taker_gross: float = 0.0
     taker_fee: float = 0.0
     maker_fee: float = 0.0
+    taker_stake: float = 0.0  # dollars the takers paid (count * price)
+    maker_collateral: float = 0.0  # dollars the makers posted (count * (1 - price))
     trades: int = 0
     wins: float = 0.0  # contracts on which the taker won
 
 
 def _weighted_stats(clusters: list[_Cluster]) -> dict[str, Any]:
-    """Contract-weighted mean of per-market taker gross return with a clustered SE."""
-    weights = [c.contracts for c in clusters if c.contracts > 0]
-    if not weights:
+    """Band statistics with markets as clusters.
+
+    ``*_per_contract`` are contract-weighted across markets (what a dollar of
+    flow earned); ``taker_roi`` / ``maker_roi`` are return on the dollars staked
+    (the natural FLB scale: a 1c loser is -100%); ``*_equal_weight`` treats
+    every market as one observation, so a single mega-volume market cannot
+    dominate. ``effective_n_markets`` shows how concentrated the weights are.
+    """
+    active = [c for c in clusters if c.contracts > 0]
+    if not active:
         return {"n_markets": 0, "n_trades": 0, "contracts": 0.0}
+    weights = [c.contracts for c in active]
     total_w = sum(weights)
-    means = [c.taker_gross / c.contracts for c in clusters if c.contracts > 0]
+    means = [c.taker_gross / c.contracts for c in active]
     mu = sum(w * m for w, m in zip(weights, means)) / total_w
     var = sum(w * (m - mu) ** 2 for w, m in zip(weights, means)) / total_w
     n_eff = total_w**2 / sum(w * w for w in weights)
     se = math.sqrt(var / (n_eff - 1)) if n_eff > 1 and var > 0 else None
-    taker_fee = sum(c.taker_fee for c in clusters) / total_w
-    maker_fee = sum(c.maker_fee for c in clusters) / total_w
-    contracts = sum(c.contracts for c in clusters)
+    n = len(active)
+    mu_eq = sum(means) / n
+    var_eq = sum((m - mu_eq) ** 2 for m in means) / (n - 1) if n > 1 else 0.0
+    se_eq = math.sqrt(var_eq / n) if n > 1 and var_eq > 0 else None
+    taker_fee = sum(c.taker_fee for c in active) / total_w
+    maker_fee = sum(c.maker_fee for c in active) / total_w
+    contracts = total_w
+    gross = sum(c.taker_gross for c in active)
+    stake = sum(c.taker_stake for c in active)
+    collateral = sum(c.maker_collateral for c in active)
     return {
-        "n_markets": len(weights),
-        "n_trades": sum(c.trades for c in clusters),
+        "n_markets": n,
+        "n_trades": sum(c.trades for c in active),
         "contracts": round(contracts, 2),
-        "taker_win_rate": round(sum(c.wins for c in clusters) / contracts, 4),
+        "taker_stake_dollars": round(stake, 2),
+        "taker_win_rate": round(sum(c.wins for c in active) / contracts, 4),
         "taker_gross_per_contract": round(mu, 5),
         "taker_fee_per_contract": round(taker_fee, 5),
         "taker_net_per_contract": round(mu - taker_fee, 5),
+        "taker_roi": round(gross / stake, 5) if stake else None,
+        "taker_roi_net": round((gross - taker_fee * contracts) / stake, 5) if stake else None,
         "maker_gross_per_contract": round(-mu, 5),
         "maker_fee_per_contract": round(maker_fee, 5),
         "maker_net_per_contract": round(-mu - maker_fee, 5),
+        "maker_roi_net": round((-gross - maker_fee * contracts) / collateral, 5) if collateral else None,
         "clustered_se": round(se, 5) if se is not None else None,
         "t_stat_taker_gross": round(mu / se, 2) if se else None,
         "effective_n_markets": round(n_eff, 2),
+        "taker_gross_per_contract_equal_weight": round(mu_eq, 5),
+        "se_equal_weight": round(se_eq, 5) if se_eq is not None else None,
+        "t_stat_equal_weight": round(mu_eq / se_eq, 2) if se_eq else None,
     }
 
 
@@ -335,6 +359,8 @@ def _accumulate(markets: list[SettledMarket], fee_model: KalshiFeeModel, *, excl
             cluster.taker_gross += count * ((1.0 - float(price)) if won else -float(price))
             cluster.taker_fee += count * float(fee_model.per_contract(price, maker=False, market=proxy))
             cluster.maker_fee += count * float(fee_model.per_contract(price, maker=True, market=proxy))
+            cluster.taker_stake += count * float(price)
+            cluster.maker_collateral += count * (1.0 - float(price))
     return by_band
 
 
@@ -347,9 +373,15 @@ def _merge_clusters(by_band: dict[str, dict[str, _Cluster]], bands: tuple[str, .
             target.taker_gross += cluster.taker_gross
             target.taker_fee += cluster.taker_fee
             target.maker_fee += cluster.maker_fee
+            target.taker_stake += cluster.taker_stake
+            target.maker_collateral += cluster.maker_collateral
             target.trades += cluster.trades
             target.wins += cluster.wins
     return list(merged.values())
+
+
+BELOW_50C: tuple[str, ...] = BAND_ORDER[:5]
+ABOVE_50C: tuple[str, ...] = BAND_ORDER[5:]
 
 
 def expost_band_table(markets: list[SettledMarket], *, fee_model: KalshiFeeModel | None = None, exclude_final_minutes: int | None = None) -> dict[str, Any]:
@@ -361,32 +393,76 @@ def expost_band_table(markets: list[SettledMarket], *, fee_model: KalshiFeeModel
         "bands": bands,
         "longshot": _weighted_stats(_merge_clusters(by_band, LONGSHOT_BANDS)),
         "favorite": _weighted_stats(_merge_clusters(by_band, FAVORITE_BANDS)),
+        "below_50c": _weighted_stats(_merge_clusters(by_band, BELOW_50C)),
+        "above_50c": _weighted_stats(_merge_clusters(by_band, ABOVE_50C)),
         "all": _weighted_stats(_merge_clusters(by_band, BAND_ORDER)),
     }
 
 
-def flb_verdict(table: dict[str, Any], *, min_markets: int = 10, min_contracts: float = 1000.0, t_threshold: float = 2.0) -> dict[str, Any]:
-    """PASS = longshot takers lose significantly and do worse than favourite takers."""
-    longshot, favorite = table["longshot"], table["favorite"]
+def slope_verdict(table: dict[str, Any], *, min_markets: int = 10, min_contracts: float = 1000.0, t_threshold: float = 2.0) -> dict[str, Any]:
+    """PASS = the typical market pays takers below 50c less than zero and above 50c more than zero.
+
+    Uses equal weighting by market (one vote per market) because contract
+    weighting concentrates on a few mega-volume markets; both sets of numbers
+    are in the payload.
+    """
+    below, above = table["below_50c"], table["above_50c"]
     base = {
-        "question": "Do takers who buy longshots (<20c) earn significantly negative gross returns, below favourite (>=80c) takers?",
+        "question": "Across the whole price range, do takers lose on contracts bought below 50c and gain on contracts bought above 50c (the favorite-longshot slope)?",
+        "weighting": "markets",
+        "below_50c": below,
+        "above_50c": above,
+        "thresholds": {"min_markets": min_markets, "min_contracts": min_contracts, "t_stat": t_threshold},
+    }
+    for side in (below, above):
+        if side.get("n_markets", 0) < min_markets or side.get("contracts", 0.0) < min_contracts:
+            return {"verdict": VERDICT_INSUFFICIENT, "reason": "both halves need enough markets and contracts", **base}
+    b_mu, b_t = below["taker_gross_per_contract_equal_weight"], below.get("t_stat_equal_weight")
+    a_mu, a_t = above["taker_gross_per_contract_equal_weight"], above.get("t_stat_equal_weight")
+    if b_mu < 0 and a_mu > 0 and b_t is not None and a_t is not None and b_t <= -t_threshold and a_t >= t_threshold:
+        return {"verdict": VERDICT_PASS, "reason": f"takers lose below 50c (t={b_t}) and gain above 50c (t={a_t}), equal-weighted by market", **base}
+    return {"verdict": VERDICT_FAIL, "reason": f"slope not significant on both halves (below 50c t={b_t}, above 50c t={a_t})", **base}
+
+
+def flb_verdict(
+    table: dict[str, Any],
+    *,
+    min_markets: int = 10,
+    min_contracts: float = 1000.0,
+    t_threshold: float = 2.0,
+    weighting: str = "contracts",
+) -> dict[str, Any]:
+    """PASS = longshot takers lose significantly and earn a lower ROI than favourite takers.
+
+    ``weighting="contracts"`` tests the contract-weighted mean with a
+    market-clustered SE (what flow earned); ``weighting="markets"`` gives every
+    market one vote (does the typical market show it).
+    """
+    longshot, favorite = table["longshot"], table["favorite"]
+    equal = weighting == "markets"
+    mean_key = "taker_gross_per_contract_equal_weight" if equal else "taker_gross_per_contract"
+    t_key = "t_stat_equal_weight" if equal else "t_stat_taker_gross"
+    base = {
+        "question": "Do takers who buy longshots (<20c) earn significantly negative returns, and a lower ROI than favourite (>=80c) takers?",
+        "weighting": weighting,
         "longshot": longshot,
         "favorite": favorite,
         "thresholds": {"min_markets": min_markets, "min_contracts": min_contracts, "t_stat": -t_threshold},
     }
     if longshot.get("n_markets", 0) < min_markets or longshot.get("contracts", 0.0) < min_contracts:
         return {"verdict": VERDICT_INSUFFICIENT, "reason": f"longshot bands need >= {min_markets} markets and >= {min_contracts:g} contracts", **base}
-    t = longshot.get("t_stat_taker_gross")
-    gross = longshot["taker_gross_per_contract"]
-    worse_than_favorites = favorite.get("n_markets", 0) == 0 or gross < favorite["taker_gross_per_contract"]
+    t = longshot.get(t_key)
+    gross = longshot[mean_key]
+    roi, fav_roi = longshot.get("taker_roi"), favorite.get("taker_roi")
+    worse_than_favorites = favorite.get("n_markets", 0) == 0 or roi is None or fav_roi is None or roi < fav_roi
     if gross < 0 and t is not None and t <= -t_threshold and worse_than_favorites:
-        return {"verdict": VERDICT_PASS, "reason": "longshot taker gross return negative, |t| >= threshold, below favourite band", **base}
+        return {"verdict": VERDICT_PASS, "reason": f"longshot taker return negative ({weighting}-weighted), |t| >= {t_threshold:g}, ROI below favourite band", **base}
     if gross >= 0:
         reason = "longshot takers did not lose on average"
     elif t is None or t > -t_threshold:
-        reason = "longshot taker losses not significant at the market-cluster level"
+        reason = f"longshot taker losses not significant at the market-cluster level ({weighting}-weighted, t={t})"
     else:
-        reason = "longshot takers lost, but not more than favourite takers"
+        reason = "longshot takers lost, but their ROI was not below favourite takers'"
     return {"verdict": VERDICT_FAIL, "reason": reason, **base}
 
 
@@ -422,11 +498,22 @@ def expost_report(
     for category in sorted({m.category or "unknown" for m in markets}):
         subset = [m for m in markets if (m.category or "unknown") == category]
         table = expost_band_table(subset, fee_model=fee_model)
+        table_early = expost_band_table(subset, fee_model=fee_model, exclude_final_minutes=exclude_final_minutes)
+
+        def _short(verdict: dict[str, Any]) -> dict[str, Any]:
+            return {k: v for k, v in verdict.items() if k in ("verdict", "reason")}
+
         categories[category] = {
             "markets": len(subset),
             "longshot": table["longshot"],
             "favorite": table["favorite"],
-            "flb": {k: v for k, v in flb_verdict(table, min_markets=min_markets, min_contracts=min_contracts).items() if k in ("verdict", "reason")},
+            "longshot_excluding_final_minutes": table_early["longshot"],
+            "flb": _short(flb_verdict(table, min_markets=min_markets, min_contracts=min_contracts)),
+            "flb_equal_weighted_markets": _short(flb_verdict(table, min_markets=min_markets, min_contracts=min_contracts, weighting="markets")),
+            "flb_excluding_final_minutes": _short(flb_verdict(table_early, min_markets=min_markets, min_contracts=min_contracts)),
+            "flb_excluding_final_minutes_equal_weighted": _short(flb_verdict(table_early, min_markets=min_markets, min_contracts=min_contracts, weighting="markets")),
+            "slope": _short(slope_verdict(table, min_markets=min_markets, min_contracts=min_contracts)),
+            "slope_excluding_final_minutes": _short(slope_verdict(table_early, min_markets=min_markets, min_contracts=min_contracts)),
         }
     return {
         "status": "measured_from_settled_trades" if markets else "no_settled_trades",
@@ -439,7 +526,10 @@ def expost_report(
         "fee_model": {"taker_rate": fee_model.taker_rate, "maker_rate": fee_model.maker_rate, "note": "per-contract, unrounded; M = series fee_multiplier"},
         "verdicts": {
             "ex_post_flb": flb_verdict(all_trades, min_markets=min_markets, min_contracts=min_contracts),
+            "ex_post_flb_equal_weighted_markets": flb_verdict(all_trades, min_markets=min_markets, min_contracts=min_contracts, weighting="markets"),
             "ex_post_flb_excluding_final_minutes": {**flb_verdict(early, min_markets=min_markets, min_contracts=min_contracts), "exclude_final_minutes": exclude_final_minutes},
+            "ex_post_favorite_longshot_slope": slope_verdict(all_trades, min_markets=min_markets, min_contracts=min_contracts),
+            "ex_post_favorite_longshot_slope_excluding_final_minutes": {**slope_verdict(early, min_markets=min_markets, min_contracts=min_contracts), "exclude_final_minutes": exclude_final_minutes},
             "maker_fade_edge_after_fees": maker_fade_verdict(all_trades, min_markets=min_markets, min_contracts=min_contracts),
         },
         "band_table": all_trades["bands"],
@@ -454,6 +544,8 @@ def not_measured_report(reason: str) -> dict[str, Any]:
         "reason": reason,
         "verdicts": {
             "ex_post_flb": {"verdict": VERDICT_INSUFFICIENT, "reason": reason},
+            "ex_post_flb_equal_weighted_markets": {"verdict": VERDICT_INSUFFICIENT, "reason": reason},
+            "ex_post_favorite_longshot_slope": {"verdict": VERDICT_INSUFFICIENT, "reason": reason},
             "maker_fade_edge_after_fees": {"verdict": VERDICT_INSUFFICIENT, "reason": reason},
         },
         "how_to_measure": "python -m apps.measure_flb --network --kalshi-env prod --harvest-trades",

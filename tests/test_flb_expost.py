@@ -16,6 +16,7 @@ from research.flb_expost import (
     load_settled_trades,
     maker_fade_verdict,
     not_measured_report,
+    slope_verdict,
 )
 
 D = Decimal
@@ -91,6 +92,41 @@ def test_fair_prices_fail_the_flb_test_and_small_samples_are_insufficient() -> N
     assert flb_verdict(few)["verdict"] == "INSUFFICIENT_DATA"
     assert maker_fade_verdict(few)["verdict"] == "INSUFFICIENT_DATA"
     assert flb_verdict(expost_band_table([]))["verdict"] == "INSUFFICIENT_DATA"
+
+
+def test_slope_verdict_needs_both_halves_significant() -> None:
+    # Below 50c: takers buy at 0.30 and always lose; above 50c: takers buy at 0.70 and always win.
+    biased = [_market(f"B{i}", "no", [("yes", "0.30", "100"), ("no", "0.30", "100")]) for i in range(12)]
+    table = expost_band_table(biased)
+    assert table["below_50c"]["taker_gross_per_contract_equal_weight"] == -0.3
+    assert table["above_50c"]["taker_gross_per_contract_equal_weight"] == 0.3
+    # Identical per-market means -> zero variance -> no SE -> cannot be significant.
+    assert slope_verdict(table)["verdict"] == "FAIL"
+    # Add dispersion so the SE exists but the sign pattern holds.
+    biased.append(_market("B99", "yes", [("yes", "0.30", "100"), ("no", "0.30", "100")]))
+    for i in range(3):
+        biased.append(_market(f"C{i}", "no", [("yes", "0.20", "100"), ("no", "0.20", "100")]))
+    verdict = slope_verdict(expost_band_table(biased))
+    assert verdict["verdict"] == "PASS", verdict["reason"]
+    assert verdict["weighting"] == "markets"
+    assert slope_verdict(expost_band_table(biased[:3]))["verdict"] == "INSUFFICIENT_DATA"
+    fixture_markets, _ = load_settled_trades(FIXTURE_PATH)
+    assert "ex_post_favorite_longshot_slope" in expost_report(fixture_markets)["verdicts"]
+
+
+def test_equal_weighting_and_roi_are_reported_alongside_contract_weighting() -> None:
+    # One mega-volume market that loses 1c per contract and nine tiny markets where the longshot won.
+    mega = _market("MEGA", "no", [("yes", "0.01", "1000000")])
+    small = [_market(f"S{i}", "yes", [("yes", "0.05", "10")]) for i in range(9)]
+    table = expost_band_table([mega, *small])
+    longshot = table["longshot"]
+    assert longshot["n_markets"] == 10
+    assert longshot["effective_n_markets"] < 1.01  # contract weights collapse onto MEGA
+    assert longshot["taker_gross_per_contract"] < 0  # contract-weighted: MEGA dominates
+    assert longshot["taker_gross_per_contract_equal_weight"] > 0  # typical market: the longshot won
+    assert longshot["taker_roi"] < 0  # -1c on a 1c stake = -100% on almost all dollars
+    assert longshot["taker_stake_dollars"] == round(1000000 * 0.01 + 9 * 10 * 0.05, 2)
+    assert flb_verdict(table, weighting="markets")["reason"] == "longshot takers did not lose on average"
 
 
 def test_market_clustering_prevents_one_market_from_looking_like_many_trades() -> None:

@@ -39,7 +39,7 @@ from apps.measure_all import (
 from core.config import require_paper_only
 from core.ledger import PaperLedger
 from core.types import Venue
-from research.flb import FLB_PRIMARY_TRACK, FLB_TRACKS, KalshiFeeModel, snapshot_verdicts
+from research.flb import FLB_PRIMARY_TRACK, FLB_TRACKS, VERDICT_INSUFFICIENT, KalshiFeeModel, snapshot_verdicts
 from research.flb_expost import (
     DEFAULT_EXPOST_SERIES,
     FIXTURE_PATH as EXPOST_FIXTURE_PATH,
@@ -91,11 +91,15 @@ def _verdict_table(report: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _headline(report: dict[str, Any]) -> str:
     snap = report["snapshot"]["verdicts"]["flb_identifiable_from_snapshot"]["verdict"]
-    ex_post = report["ex_post"]["verdicts"]["ex_post_flb"]["verdict"]
-    maker = report["ex_post"]["verdicts"]["maker_fade_edge_after_fees"]["verdict"]
+    verdicts = report["ex_post"]["verdicts"]
+    ex_post = verdicts["ex_post_flb"]["verdict"]
+    equal = verdicts.get("ex_post_flb_equal_weighted_markets", {}).get("verdict", VERDICT_INSUFFICIENT)
+    slope = verdicts.get("ex_post_favorite_longshot_slope", {}).get("verdict", VERDICT_INSUFFICIENT)
+    maker = verdicts["maker_fade_edge_after_fees"]["verdict"]
     return (
         f"Snapshot books: FLB {snap} (prices without outcomes). "
-        f"Ex-post from settled trades: FLB {ex_post}; maker fade edge after fees {maker}."
+        f"Ex-post from settled trades: longshot tail (<20c) {ex_post} contract-weighted / {equal} equal-weighted by market; "
+        f"favorite-longshot slope (below vs above 50c) {slope}; maker fade edge after fees {maker}."
     )
 
 
@@ -238,10 +242,10 @@ def persist_flb_run(
 def _print_report(report: dict[str, Any]) -> None:
     print(f"\nkalshi FLB paper measurement ({report['mode']}, run {report['run_id']})")
     print(report["headline"])
-    print(f"\n{'scope':<9}{'check':<44}{'verdict':<20}detail")
-    print("-" * 110)
+    print(f"\n{'scope':<9}{'check':<58}{'verdict':<20}detail")
+    print("-" * 124)
     for row in report["verdict_table"]:
-        print(f"{row['scope']:<9}{row['check']:<44}{row['verdict']:<20}{(row['detail'] or '')[:60]}")
+        print(f"{row['scope']:<9}{row['check']:<58}{row['verdict']:<20}{(row['detail'] or '')[:60]}")
     print("\nsnapshot band table (YES price bands)")
     print(f"{'band':<8}{'mkts':>6}{'2side':>6}{'spread':>8}{'fee%':>8}{'take%':>8}")
     for band, cell in report["snapshot"]["band_table"].items():
@@ -255,10 +259,16 @@ def _print_report(report: dict[str, Any]) -> None:
         print(f"{name:<24}{track['candidates']:>6}{track['longshot_candidates']:>6}{track['admitted']:>6}{track['paper_fills']:>6}{float(ledger.get('realized_pnl') or 0):>10.4f}{float(ledger.get('unrealized_pnl') or 0):>10.4f}{float(ledger.get('fees_paid') or 0):>8.2f}")
     ex_post = report["ex_post"]
     if ex_post.get("status") == "measured_from_settled_trades":
-        print(f"\nex-post band table ({ex_post['markets']} settled markets, {ex_post['trades']} trades, {ex_post['contracts']} contracts)")
-        print(f"{'band':<8}{'mkts':>6}{'trades':>8}{'contracts':>12}{'taker gross':>12}{'taker net':>11}{'maker net':>11}{'t':>7}")
+        print(f"\nex-post band table by taker purchase price ({ex_post['markets']} settled markets, {ex_post['trades']} trades, {ex_post['contracts']:.0f} contracts)")
+        print(f"{'band':<8}{'mkts':>6}{'n_eff':>7}{'trades':>8}{'contracts':>12}{'taker/ct':>10}{'taker ROI':>10}{'maker net':>10}{'t(cw)':>7}{'t(eq)':>7}")
         for band, cell in ex_post["band_table"].items():
-            print(f"{band:<8}{cell['n_markets']:>6}{cell['n_trades']:>8}{cell['contracts']:>12.0f}{cell['taker_gross_per_contract']:>12.4f}{cell['taker_net_per_contract']:>11.4f}{cell['maker_net_per_contract']:>11.4f}{(cell['t_stat_taker_gross'] if cell['t_stat_taker_gross'] is not None else float('nan')):>7.2f}")
+            t_cw = cell["t_stat_taker_gross"] if cell["t_stat_taker_gross"] is not None else float("nan")
+            t_eq = cell["t_stat_equal_weight"] if cell["t_stat_equal_weight"] is not None else float("nan")
+            roi = cell["taker_roi"] if cell["taker_roi"] is not None else float("nan")
+            print(f"{band:<8}{cell['n_markets']:>6}{cell['effective_n_markets']:>7.1f}{cell['n_trades']:>8}{cell['contracts']:>12.0f}{cell['taker_gross_per_contract']:>10.4f}{roi:>10.3f}{cell['maker_net_per_contract']:>10.4f}{t_cw:>7.2f}{t_eq:>7.2f}")
+        for name, cat in ex_post.get("by_category", {}).items():
+            ls = cat["longshot"]
+            print(f"category {name:<12} markets={cat['markets']:<4} longshot: n={ls.get('n_markets', 0)} n_eff={ls.get('effective_n_markets', 0)} taker/ct={ls.get('taker_gross_per_contract')} ROI={ls.get('taker_roi')} t(cw)={ls.get('t_stat_taker_gross')} t(eq)={ls.get('t_stat_equal_weight')} -> {cat['flb']['verdict']} / eq {cat['flb_equal_weighted_markets']['verdict']} / excl-final {cat['flb_excluding_final_minutes']['verdict']} (eq {cat['flb_excluding_final_minutes_equal_weighted']['verdict']})")
     else:
         print(f"\nex-post: {ex_post.get('status')} — {ex_post.get('reason', '')}")
 
