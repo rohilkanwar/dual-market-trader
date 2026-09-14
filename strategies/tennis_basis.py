@@ -31,7 +31,7 @@ from typing import Any
 
 from core.portfolio import Portfolio
 from core.risk import RiskManager
-from core.types import ONE, ZERO, Market, Order, OrderBook, Venue
+from core.types import ONE, ZERO, Market, Order, OrderBook
 from strategies.edge import DEFAULT_VENUE_PARAMETERS, CalibratedFairValueStrategy, FairValueEvaluation
 
 TRACK = "tennis_basis"
