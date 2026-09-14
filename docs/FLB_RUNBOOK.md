@@ -99,35 +99,35 @@ on collateral posted.
 
 ## Measured on 2026-09-14 (prod public API, no credentials)
 
-Run `20260914T212958Z-flb-e087a770`; committed as
+Run `20260914T213812Z-flb-f76ab826`; committed as
 `dashboard/public/artifacts/flb_report_latest.json` / `scoreboard_flb.json`.
 
 ### Snapshot: 200 open markets, 8 macro series
 
 | Band (YES mid) | Markets | Mean spread | Taker fee / price | Take cost / price |
 | --- | --- | --- | --- | --- |
-| `<10c` | 38 | 1.9¢ | 6.7% | **27.1%** |
-| `10-20c` | 28 | 7.2¢ | 5.8% | 24.9% |
-| `40-50c` | 11 | 11.7¢ | 3.5% | 14.2% |
-| `80-90c` | 19 | 9.8¢ | 0.7% | 6.2% |
-| `>=90c` | 37 | 3.2¢ | 0.2% | **1.9%** |
+| `<10c` | 38 | 1.9¢ | 6.7% | **27.0%** |
+| `10-20c` | 29 | 7.1¢ | 5.8% | 24.6% |
+| `40-50c` | 11 | 11.9¢ | 3.5% | 14.2% |
+| `80-90c` | 21 | 11.1¢ | 0.7% | 6.8% |
+| `>=90c` | 37 | 3.0¢ | 0.2% | **1.8%** |
 
-* `longshot_take_cost_exceeds_favorite`: **PASS** — 26.0% vs 4.0% of the price paid.
+* `longshot_take_cost_exceeds_favorite`: **PASS** — 25.8% vs 4.3% of the price paid.
 * `event_overround_positive`: **PASS** — 12 mutually exclusive events, mean `Σ ask − 1 = 0.11`;
   legs under 20¢ carry 21% of the summed asks.
 * `flb_identifiable_from_snapshot`: **NOT_IDENTIFIABLE** (by construction).
 
-### Paper tracks on that snapshot (ledgers carried from the same-day 15-market canary; the tracks also run inside the eight-track `measure_all` scoreboard)
+### Paper tracks on that snapshot (ledgers carried from the same-day 15-market canary; the tracks also run inside the eleven-track `measure_all` scoreboard)
 
 | Track | Longshot candidates | Admitted | Fills | Realized | Unrealized | Fees | Refusals |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `kalshi_longshot_fade` | 104 | 36 | 36 | −3.93 | −12.70 | 3.93 | `capital_cap_reached` 68 |
-| `kalshi_maker_quote` | 104 | 40 | 27 | −0.52 | −2.96 | 0.52 | `capital_cap_reached` 64 |
-| shadow longshot buyer | — | — | 36 | — | — | 32.06 | total −131.16 |
+| `kalshi_longshot_fade` | 104 | 37 | 37 | −3.98 | −12.84 | 3.98 | `capital_cap_reached` 67 |
+| `kalshi_maker_quote` | 104 | 40 | 25 | −0.51 | −2.97 | 0.51 | `capital_cap_reached` 64 |
+| shadow longshot buyer | — | — | 37 | — | — | 35.98 | total −144.73 |
 
 Per longshot band (paper PnL on notional, marked from the same snapshot): fade
-`<10c` −107 bps / `10-20c` −293 bps; maker `<10c` −109 bps / `10-20c` −134 bps; shadow
-longshot buyer `<10c` **−2,899 bps** / `10-20c` −2,301 bps. The fade pays the half-spread
+`<10c` −118 bps / `10-20c` −280 bps; maker `<10c` −112 bps / `10-20c` −134 bps; shadow
+longshot buyer `<10c` **−2,909 bps** / `10-20c` −2,157 bps. The fade pays the half-spread
 plus taker fee; the maker shows one tick (conservative mark) plus a quarter of the taker
 fee; the longshot buyer pays the same half-spread on many more contracts per dollar.
 These are entry costs against the snapshot, not outcomes.
