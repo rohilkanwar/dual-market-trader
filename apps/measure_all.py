@@ -46,7 +46,7 @@ from strategies.polymarket_arb import ArbParameters
 def add_specialist_arguments(parser: argparse.ArgumentParser) -> None:
     group = parser.add_argument_group("category specialist track")
     group.add_argument(
-        "--specialist-traders", type=int, default=10,
+        "--specialist-traders", type=int, default=25,
         help="network runs: wallets read from the public Polymarket volume leaderboard (0 disables the lane)",
     )
     group.add_argument("--specialist-window", default="month", help="leaderboard window: day, week, month, all")

@@ -36,8 +36,11 @@ All prices are probabilities of the market's first outcome ("YES"). A bet has a
 * promotion: within one category, traders with enough history and notional are
   ranked by ROI (Brier skill breaks ties); the top ``ceil(top_fraction * n)``
   ranks that also have ``roi > 0`` and ``brier_skill > 0`` are the specialists.
+  The taxonomy's catch-all ``other`` is scored for the record but never promoted.
 * follow: a specialist's currently open in-category bet is paper-followed at the
-  touch; the benchmark recorded is the YES mid at follow time.
+  touch; the benchmark recorded is the YES mid at follow time. Markets past
+  their end date (stale books) and books wider than ``max_spread`` (no
+  meaningful mid) are refused.
 * evaluation: per resolved follow, ``excess_vs_mid = 1[won] - p_dir`` where
   ``p_dir`` is the mid expressed for the followed direction. The pre-registered
   test is a one-sided exact binomial sign test on the hit rate (H0: 0.5) with
@@ -57,6 +60,7 @@ from typing import Any
 from core.types import ONE, ZERO, Outcome, Venue
 
 Q4 = Decimal("0.0001")
+UNCLASSIFIED_CATEGORY = "other"
 LITERATURE_NOTE = (
     "Persistence of forecaster skill by domain is documented for human "
     "forecasters (Mellers et al. 2015 'superforecasters'; Tetlock & Gardner 2015) "
@@ -84,6 +88,7 @@ class SpecialistParameters:
     top_fraction: Decimal = Decimal("0.1")
     forecast_shade: Decimal = Decimal("0.5")
     follow_quantity: Decimal = Decimal("10")
+    max_spread: Decimal = Decimal("0.10")
     preregistered_n: int = 30
     alpha: Decimal = Decimal("0.05")
 
@@ -100,6 +105,8 @@ class SpecialistParameters:
             raise ValueError("forecast_shade must be in (0, 1]")
         if self.follow_quantity <= ZERO:
             raise ValueError("follow_quantity must be positive")
+        if not ZERO < self.max_spread <= ONE:
+            raise ValueError("max_spread must be in (0, 1]")
         if self.preregistered_n <= 0:
             raise ValueError("preregistered_n must be positive")
         if not ZERO < self.alpha < ONE:
@@ -113,6 +120,7 @@ class SpecialistParameters:
             "top_fraction": self.top_fraction,
             "forecast_shade": self.forecast_shade,
             "follow_quantity": self.follow_quantity,
+            "max_spread": self.max_spread,
             "preregistered_n": self.preregistered_n,
             "alpha": self.alpha,
         }
@@ -384,7 +392,12 @@ def promote(scores: list[CategoryScore], params: SpecialistParameters) -> list[C
     for score in scores:
         score.rank = None
         score.promoted = False
+        if score.category == UNCLASSIFIED_CATEGORY and "unclassified_category" not in score.reasons:
+            # "other" is the taxonomy's catch-all, not a category anyone can specialise in.
+            score.reasons.append("unclassified_category")
         if "insufficient_history" in score.reasons or "below_notional" in score.reasons:
+            continue
+        if score.category == UNCLASSIFIED_CATEGORY:
             continue
         by_category.setdefault(score.category, []).append(score)
     for _, rows in by_category.items():

@@ -238,6 +238,23 @@ def _touch(book: OrderBook, direction: Outcome) -> Decimal | None:
     return view.best_ask.price if view.best_ask else None
 
 
+def _past_end_date(bet: TraderBet, as_of: datetime) -> bool:
+    """Open positions on markets whose end date has passed sit on stale books."""
+    raw = bet.metadata.get("end_date")
+    if not raw:
+        return False
+    try:
+        end = datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    if end.tzinfo is None:
+        end = end.replace(tzinfo=UTC)
+    # A bare date means the event day; give it the whole day before calling it stale.
+    if len(str(raw)) <= 10:
+        end = end.replace(hour=23, minute=59, second=59)
+    return end < as_of
+
+
 async def run_category_specialist_track(
     runtime: Any,
     *,
@@ -367,6 +384,8 @@ async def run_category_specialist_track(
             reason = "market_not_in_snapshot"
         elif not markets[bet.market_id].active:
             reason = "market_inactive"
+        elif _past_end_date(bet, as_of):
+            reason = "market_past_end_date"
         else:
             book = books.get(bet.market_id, OrderBook(market_id=bet.market_id))
             mid = book.mid_price
@@ -374,6 +393,8 @@ async def run_category_specialist_track(
             position = runtime.ledger.portfolio.get(bet.venue, bet.market_id)
             if mid is None:
                 reason = "no_two_sided_book"
+            elif (book.spread or ZERO) > params.max_spread:
+                reason = "spread_too_wide"
             elif touch is None:
                 reason = "no_ask_for_direction"
             elif not ZERO < touch < ONE:
@@ -686,14 +707,15 @@ def print_report(report: dict[str, Any]) -> None:
     print(f"\ncategory_specialist ({meta['mode']}) status={meta['status']} source={meta['data_source'].get('name')}")
     for error in meta["data_source"].get("errors", [])[:5]:
         print(f"  source error: {error}")
-    header = f"{'trader':<22}{'category':<18}{'n':>4}{'notional':>10}{'roi':>8}{'brier':>8}{'hit':>8}{'rank':>6}  verdict"
+    header = f"{'trader':<22}{'category':<18}{'n':>4}{'notional':>14}{'roi':>9}{'brier':>9}{'hit':>8}{'rank':>6}  verdict"
     print(header)
     print("-" * len(header))
     for row in report["scoreboard"]:
         verdict = "PROMOTED" if row["promoted"] else ",".join(row["reasons"]) or "-"
+        notional = f"{float(row['notional']):>14,.0f}" if row["notional"] is not None else f"{'-':>14}"
         print(
-            f"{row['trader'][:21]:<22}{row['category']:<18}{row['resolved_bets']:>4}{_fmt(row['notional'], 10)}"
-            f"{_fmt(row['roi'])}{_fmt(row['brier_skill'])}{_fmt(row['hit_rate'])}{_fmt(row['rank'], 6)}  {verdict}"
+            f"{row['trader'][:21]:<22}{row['category']:<18}{row['resolved_bets']:>4}{notional}"
+            f"{_fmt(row['roi'], 9)}{_fmt(row['brier_skill'], 9)}{_fmt(row['hit_rate'])}{_fmt(row['rank'], 6)}  {verdict}"
         )
     print(f"\nfollow attempts this run: {len(report['follow_attempts'])}  refused={totals['refused_by_reason']}")
     for row in report["follows_this_run"]:
@@ -720,7 +742,7 @@ def print_report(report: dict[str, Any]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--network", action="store_true", help="read the public Polymarket Data API + CLOB books (paper fills stay local)")
-    parser.add_argument("--traders", type=int, default=10, help="wallets from the volume leaderboard on network runs (0 disables)")
+    parser.add_argument("--traders", type=int, default=25, help="wallets from the volume leaderboard on network runs (0 disables)")
     parser.add_argument("--window", default="month", help="leaderboard window: day, week, month, all")
     parser.add_argument("--artifact-dir", type=Path, default=Path("artifacts"),
                         help="follow state + ledger live in <dir>/paper/, the report in <dir>/specialist_scoreboard_<mode>.json")

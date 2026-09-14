@@ -234,7 +234,7 @@ def main() -> None:
     parser.add_argument("--kalshi-env", choices=("demo", "prod"), default=None)
     parser.add_argument("--news-signals", type=Path, default=None, help="JSON signals file for the news_underreaction lane")
     parser.add_argument("--news-rss", action="append", default=[], metavar="URL", help="public RSS/Atom feed for the news lane (headlines only, never mapped; repeatable)")
-    parser.add_argument("--specialist-traders", type=int, default=10, help="network cycles: wallets read from the public Polymarket volume leaderboard for the category_specialist lane (0 disables)")
+    parser.add_argument("--specialist-traders", type=int, default=25, help="network cycles: wallets read from the public Polymarket volume leaderboard for the category_specialist lane (0 disables)")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     # Third-party INFO logs (httpx request lines) would break the one-JSON-line

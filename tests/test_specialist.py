@@ -226,6 +226,53 @@ def test_promotion_is_top_decile_per_category_and_positive() -> None:
     assert by_key[("crypto-x", "crypto")].rank == 1 and "negative_roi" in by_key[("crypto-x", "crypto")].reasons
 
 
+async def test_follow_refuses_stale_markets_and_wide_books() -> None:
+    """A promoted trader's open bets on a past-end-date market and on a 40c-wide book are refused."""
+    from core.types import Market, OrderBook, PriceLevel
+    from research.scoreboard import DEFAULT_RISK_LIMITS, DEFAULT_STARTING_CASH, TrackRuntime, VenueSnapshot
+    from research.specialist_scoreboard import fixture_book_fetcher, run_category_specialist_track
+
+    history = [bet("pro", "soccer", "0.5", won=i < 9, index=i) for i in range(12)]
+    stale = TraderBet("open-stale", "pro", Venue.POLYMARKET, "m-stale", "soccer", YES, D("0.5"), D("10"), AS_OF,
+                      metadata={"end_date": "2026-08-11"})
+    wide = TraderBet("open-wide", "pro", Venue.POLYMARKET, "m-wide", "soccer", YES, D("0.5"), D("10"), AS_OF,
+                     metadata={"end_date": "2026-12-01T00:00:00Z"})
+    fine = TraderBet("open-fine", "pro", Venue.POLYMARKET, "m-fine", "soccer", YES, D("0.5"), D("10"), AS_OF,
+                     metadata={"end_date": "2026-09-14"})  # same day as as_of: still live
+
+    class Source:
+        name = "test"
+
+        async def fetch(self, *, as_of):
+            return TraderHistoryBatch(source=self.name, bets=history + [stale, wide, fine])
+
+    markets = [Market(Venue.POLYMARKET, mid, mid) for mid in ("m-stale", "m-wide", "m-fine")]
+    books = {
+        "m-stale": OrderBook("m-stale", bids=(PriceLevel(D("0.30"), D("50")),), asks=(PriceLevel(D("0.39"), D("50")),)),
+        "m-wide": OrderBook("m-wide", bids=(PriceLevel(D("0.18"), D("50")),), asks=(PriceLevel(D("0.59"), D("50")),)),
+        "m-fine": OrderBook("m-fine", bids=(PriceLevel(D("0.54"), D("50")),), asks=(PriceLevel(D("0.56"), D("50")),)),
+    }
+    runtime = TrackRuntime.create(
+        SPECIALIST_TRACK, {Venue.POLYMARKET: VenueSnapshot(venue=Venue.POLYMARKET, source="test")},
+        ledger=None, risk_limits=DEFAULT_RISK_LIMITS, starting_cash=DEFAULT_STARTING_CASH, model_fees=False,
+    )
+    summary = await run_category_specialist_track(
+        runtime, source=Source(), book_fetcher=fixture_book_fetcher(markets, books), as_of=AS_OF, mode="fixtures"
+    )
+    assert summary.candidates == 3 and summary.admitted == 1
+    assert summary.refused_by_reason == {"market_past_end_date": 1, "spread_too_wide": 1}
+    (followed,) = summary.metrics["follows_this_run"]
+    assert followed["market_id"] == "m-fine" and followed["fill_price"] == D("0.56") and followed["mid_at_follow"] == D("0.55")
+
+
+def test_unclassified_category_is_scored_but_never_promoted() -> None:
+    params = SpecialistParameters()
+    bets = [bet("catchall", "other", "0.5", won=True, index=i) for i in range(12)]
+    (score,) = promote(score_traders(bets, params), params)
+    assert score.roi == D("1") and score.brier_skill > 0
+    assert score.rank is None and not score.promoted and score.reasons == ["unclassified_category"]
+
+
 def test_promotion_breaks_roi_ties_on_brier_skill() -> None:
     params = SpecialistParameters()
     # Same ROI (7/12 wins at 0.5) but "b" recorded mids that make its calls look better.
@@ -301,6 +348,13 @@ def test_evaluation_statuses_follow_the_preregistration() -> None:
         (("Who will win the match?",), (), ("Tennis",), "tennis"),
         (("Will Kai and Speed beat the Minecraft challenge by August 17?",), (), (), "other"),
         (("Will New York beat Boston?",), (), ("NBA",), "basketball"),
+        (("Will Japan vs. Sweden end in a draw?",), ("fifwc-jpn-swe-2026-06-20",), (), "soccer"),
+        (("Will CA Platense win on 2026-07-29?",), ("arg-pla-x-2026-07-29",), (), "soccer"),
+        (("Spread: Genoa CFC (-1.5)",), (), (), "soccer"),
+        (("Will Manchester City win on 2026-09-20?",), (), (), "soccer"),
+        (("Spread: Chiefs (-3.5)",), (), (), "other"),
+        (("England Lions and Sri Lanka T20s: England Lions vs Sri Lanka",), ("crint-eng-sl",), (), "cricket"),
+        (("Will the US confirm that aliens exist before 2027?",), (), (), "other"),
     ],
 )
 def test_specialist_category_taxonomy(texts, slugs, tags, expected) -> None:

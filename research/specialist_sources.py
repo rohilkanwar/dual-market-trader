@@ -45,6 +45,7 @@ LOGGER = logging.getLogger("specialist_sources")
 FIXTURE_PATH = Path(__file__).with_name("fixtures") / "specialist_trades.json"
 DATA_API_URL = "https://data-api.polymarket.com"
 USER_AGENT = "dual-market-trader-paper/0.2 (paper-only measurement; public read-only)"
+DEFAULT_TRADERS = 25
 CLOSED_PAGE_SIZE = 50
 POSITIONS_PAGE_SIZE = 100
 RESOLVED_YES_PRICE = "1000000000000000000"
@@ -64,6 +65,7 @@ CATEGORIES: tuple[str, ...] = (
     "esports",
     "motorsport",
     "golf",
+    "cricket",
     "crypto",
     "macro",
     "politics",
@@ -76,9 +78,17 @@ CATEGORIES: tuple[str, ...] = (
 # is the most reliable category signal available without Gamma tags.
 _SLUG_PREFIXES: dict[str, str] = {
     "atp": "tennis", "wta": "tennis", "tennis": "tennis",
-    "epl": "soccer", "ucl": "soccer", "uel": "soccer", "mls": "soccer", "laliga": "soccer", "seriea": "soccer",
-    "bundesliga": "soccer", "ligue1": "soccer", "fifa": "soccer", "uefa": "soccer", "copa": "soccer",
-    "eredivisie": "soccer", "liga": "soccer", "sco": "soccer", "por": "soccer", "tur": "soccer",
+    "epl": "soccer", "ucl": "soccer", "uel": "soccer", "ucol": "soccer", "mls": "soccer", "laliga": "soccer",
+    "lal": "soccer", "seriea": "soccer", "sea": "soccer", "bundesliga": "soccer", "bun": "soccer", "ligue1": "soccer",
+    "fl1": "soccer", "fifa": "soccer", "fifwc": "soccer", "fif": "soccer", "cwc": "soccer", "uefa": "soccer",
+    "copa": "soccer", "lib": "soccer", "eredivisie": "soccer", "ere": "soccer", "liga": "soccer", "sco": "soccer",
+    "por": "soccer", "tur": "soccer", "arg": "soccer", "bra": "soccer", "bra2": "soccer", "brco": "soccer",
+    "grc": "soccer", "col1": "soccer", "uru1": "soccer", "ukr1": "soccer", "chi1": "soccer", "egy1": "soccer",
+    "mex": "soccer", "ligamx": "soccer", "uslc": "soccer", "nwsl": "soccer", "spl": "soccer", "nor": "soccer",
+    "gsc": "soccer", "ecu1": "soccer", "bel1": "soccer", "isl1": "soccer", "itc": "soccer", "fac": "soccer",
+    "efl": "soccer", "dfb": "soccer", "cdr": "soccer", "den1": "soccer", "swe1": "soccer", "aus1": "soccer",
+    "jpn1": "soccer", "kor1": "soccer", "chn1": "soccer", "per1": "soccer", "par1": "soccer", "bol1": "soccer",
+    "crint": "cricket", "ipl": "cricket", "cricket": "cricket", "bbl": "cricket", "cpl": "cricket",
     "nba": "basketball", "wnba": "basketball", "ncaab": "basketball", "cbb": "basketball", "euroleague": "basketball",
     "nfl": "american_football", "ncaaf": "american_football", "cfb": "american_football",
     "mlb": "baseball", "kbo": "baseball", "npb": "baseball",
@@ -96,7 +106,9 @@ _SLUG_PREFIXES: dict[str, str] = {
 _KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("tennis", ("tennis", "atp ", "wta ", "wimbledon", "roland garros", "french open", "australian open", "grand slam", " set ", "davis cup")),
     ("soccer", ("soccer", "premier league", "la liga", "serie a", "bundesliga", "ligue 1", "champions league", "europa league",
-                "uefa", "fifa", "world cup", "copa ", " fc ", " fc", "cf ", "mls ", "eredivisie", "primeira", "o/u 2.5", "o/u 3.5", "o/u 1.5", "both teams to score")),
+                "uefa", "fifa", "world cup", "copa ", " fc ", " fc", "cf ", "mls ", "eredivisie", "primeira", "end in a draw",
+                "exact score:", "both teams to score", "o/u 0.5", "o/u 1.5", "o/u 2.5", "o/u 3.5", "o/u 4.5", "o/u 5.5")),
+    ("cricket", ("cricket", " t20", "ipl ", " odi", "test match", "wickets", "runs scored")),
     ("basketball", ("nba", "wnba", "basketball", "ncaa tournament", "march madness", "euroleague")),
     ("american_football", ("nfl", "super bowl", "ncaaf", "college football", "touchdown", "quarterback")),
     ("baseball", ("mlb", "baseball", "world series", "home run")),
@@ -122,12 +134,20 @@ _TAG_ALIASES: dict[str, str] = {
     "mlb": "baseball", "baseball": "baseball", "nhl": "hockey", "hockey": "hockey", "ufc": "mma", "mma": "mma", "boxing": "mma",
     "esports": "esports", "league of legends": "esports", "counter-strike": "esports", "f1": "motorsport", "formula 1": "motorsport",
     "golf": "golf", "crypto": "crypto", "bitcoin": "crypto", "ethereum": "crypto", "economy": "macro", "fed": "macro",
-    "macro": "macro", "business": "macro", "finance": "macro", "politics": "politics", "elections": "politics",
+    "macro": "macro", "business": "macro", "finance": "macro", "cricket": "cricket", "politics": "politics", "elections": "politics",
     "us politics": "politics", "world": "politics", "geopolitics": "politics", "weather": "weather", "climate": "weather",
     "pop culture": "entertainment", "entertainment": "entertainment", "movies": "entertainment", "music": "entertainment",
 }
 
 _SLUG_TOKEN = re.compile(r"[a-z0-9]+")
+# Last resort for club fixtures the tables above miss: "Will CA Platense win on ...",
+# "Spread: Genoa CFC (-1.5)". Club-style abbreviations next to a team name are
+# overwhelmingly association football on Polymarket.
+_CLUB_ABBREVIATION = re.compile(
+    r"(?:^|[\s:(])(?:FC|CF|CFC|FK|SC|CD|CA|EC|AFC|SK|AC|AS|CS|SV|BK|IK|SS|UD|SD|RCD|FBPA|SE|CR|IF)(?:$|[\s.,)?])"
+)
+_CLUB_WORD = re.compile(r"\b(?:calcio|fotball|sporting|athletic|atl[ée]tico|deportivo|club|united|city|town)\b", re.IGNORECASE)
+_FIXTURE_MARKER = re.compile(r"(?:\bwin on \d{4}-\d{2}-\d{2}|^spread:|\bvs\.? )", re.IGNORECASE)
 
 
 def specialist_category(
@@ -152,6 +172,9 @@ def specialist_category(
     for category, needles in _KEYWORDS:
         if any(needle in haystack for needle in needles):
             return category
+    raw = " ".join(str(t or "") for t in texts)
+    if _FIXTURE_MARKER.search(raw) and (_CLUB_ABBREVIATION.search(raw) or _CLUB_WORD.search(raw)):
+        return "soccer"
     return "other"
 
 
@@ -405,7 +428,7 @@ class PolymarketDataApiSource:
     def __init__(
         self,
         *,
-        traders: int = 10,
+        traders: int = DEFAULT_TRADERS,
         window: str = "month",
         closed_pages: int = 2,
         timeout: float = 20.0,
@@ -579,7 +602,7 @@ def build_trader_source(*, use_fixtures: bool, traders: int | None = None, windo
     if use_fixtures:
         return FixtureTraderSource()
     if traders is None:
-        traders = 10
+        traders = DEFAULT_TRADERS
     if traders <= 0:
         return NullTraderSource()
     return PolymarketDataApiSource(traders=traders, window=window)
