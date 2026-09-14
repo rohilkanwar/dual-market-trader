@@ -4,7 +4,8 @@ Only unauthenticated endpoints are called:
 
 * ``GET /markets?series_ticker=...&status=open``
 * ``GET /markets/{ticker}/orderbook``
-* ``GET /events/{event_ticker}`` (category + settlement sources)
+* ``GET /events/{event_ticker}`` (category, settlement sources, mutual exclusivity)
+* ``GET /series/{series_ticker}`` (fee type + multiplier, used by the FLB fee model)
 
 No API key is required for those. The authenticated signer and live order
 routing are deliberately stubs that raise; see ``docs/ASSUMPTIONS.md``.
@@ -156,9 +157,11 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
         signer: KalshiSigner | None = None,
         series_tickers: tuple[str, ...] | None = DEFAULT_MACRO_SERIES,
         timeout: float = 15.0,
+        fixture_path: Path = FIXTURE_PATH,
     ) -> None:
         self.paper = paper
         self.use_fixtures = use_fixtures
+        self.fixture_path = fixture_path
         self.environment = (environment or os.getenv("KALSHI_ENV") or "demo").lower()
         if self.environment not in HOSTS:
             raise ValueError(f"KALSHI_ENV must be one of {sorted(HOSTS)}")
@@ -169,12 +172,13 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
         self._http = http or httpx.AsyncClient(timeout=timeout)
         self._fixture_books: dict[str, OrderBook] = {}
         self._event_cache: dict[str, dict[str, Any]] = {}
+        self._series_cache: dict[str, dict[str, Any]] = {}
         self._init_paper(fee_schedule or kalshi_fee)
 
     # ------------------------------------------------------------ market data
     async def list_markets(self, *, limit: int = 20) -> list[Market]:
         if self.use_fixtures:
-            markets, books = load_fixture(FIXTURE_PATH, Venue.KALSHI)
+            markets, books = load_fixture(self.fixture_path, Venue.KALSHI)
             self._fixture_books = books
             markets = markets[:limit]
         else:
@@ -220,8 +224,22 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
                 self._event_cache[event_ticker] = {"error": f"{type(exc).__name__}: {exc}"}
         return self._event_cache[event_ticker]
 
+    async def _series(self, series_ticker: str | None) -> dict[str, Any]:
+        if not series_ticker:
+            return {}
+        if series_ticker not in self._series_cache:
+            try:
+                response = await self._http.get(f"{self.base_url}/series/{series_ticker}")
+                response.raise_for_status()
+                self._series_cache[series_ticker] = response.json().get("series") or {}
+            except httpx.HTTPError as exc:
+                self._series_cache[series_ticker] = {"error": f"{type(exc).__name__}: {exc}"}
+        return self._series_cache[series_ticker]
+
     async def _market_from_api(self, item: dict[str, Any]) -> Market:
         event = await self._event(item.get("event_ticker"))
+        series_ticker = item.get("series_ticker") or event.get("series_ticker")
+        series = await self._series(series_ticker)
         sources = [s for s in (event.get("settlement_sources") or []) if isinstance(s, dict)]
         source_url = next((str(s.get("url")) for s in sources if s.get("url")), None)
         rules = " ".join(
@@ -251,11 +269,14 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
             metadata={
                 "source": "network",
                 "environment": self.environment,
-                "category": infer_category(item, event.get("category")),
-                "event_category": event.get("category"),
+                "category": infer_category(item, event.get("category") or series.get("category")),
+                "event_category": event.get("category") or series.get("category"),
                 "event_ticker": item.get("event_ticker"),
                 "event_title": event.get("title") or item.get("event_title"),
-                "series_ticker": item.get("series_ticker") or event.get("series_ticker"),
+                "mutually_exclusive": event.get("mutually_exclusive"),
+                "series_ticker": series_ticker,
+                "fee_type": series.get("fee_type"),
+                "fee_multiplier": series.get("fee_multiplier"),
                 "subtitle": item.get("yes_sub_title") or item.get("subtitle"),
                 "resolution_text": rules.strip(),
                 "source_url": source_url,
@@ -271,7 +292,7 @@ class KalshiClient(PaperExecutionMixin, VenueClient):
     async def get_order_book(self, market: Market) -> OrderBook:
         if self.use_fixtures:
             if not self._fixture_books:
-                _, self._fixture_books = load_fixture(FIXTURE_PATH, Venue.KALSHI)
+                _, self._fixture_books = load_fixture(self.fixture_path, Venue.KALSHI)
             return self._fixture_books.get(market.market_id, OrderBook(market_id=market.market_id))
         response = await self._http.get(
             f"{self.base_url}/markets/{market.market_id}/orderbook",

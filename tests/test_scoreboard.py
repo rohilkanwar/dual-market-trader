@@ -15,6 +15,8 @@ async def test_parallel_scoreboard_keeps_tracks_isolated() -> None:
         "polymarket_rebalancing_arb",
         "polymarket_negrisk_arb",
         "polymarket_combinatorial_arb",
+        "kalshi_longshot_fade",
+        "kalshi_maker_quote",
     }
 
     strict = summaries["gated_cross_venue"]

@@ -419,7 +419,7 @@ async def test_raising_source_does_not_take_the_scoreboard_down() -> None:
     assert news.candidates == 0
     assert news.metrics["status"] == "signal_source_errors"
     assert "RuntimeError" in news.metrics["signal_source"]["errors"][0]
-    assert len(summaries) == 10  # the other tracks still ran
+    assert len(summaries) == len(TRACKS)  # the other tracks still ran
 
 
 async def test_rss_signals_in_the_track_are_counted_and_refused() -> None:

@@ -64,7 +64,12 @@ async def test_kalshi_network_current_payload_format() -> None:
         if "/events/" in request.url.path:
             return httpx.Response(
                 200,
-                json={"event": {"category": "Economics", "title": "Fed decision in Sep 2026?", "settlement_sources": [{"name": "Federal Reserve", "url": "https://www.federalreserve.gov"}]}},
+                json={"event": {"category": "Economics", "title": "Fed decision in Sep 2026?", "mutually_exclusive": True, "settlement_sources": [{"name": "Federal Reserve", "url": "https://www.federalreserve.gov"}]}},
+            )
+        if "/series/" in request.url.path:
+            return httpx.Response(
+                200,
+                json={"series": {"ticker": "KXFEDDECISION", "category": "Economics", "fee_type": "quadratic_with_maker_fees", "fee_multiplier": 1, "frequency": "custom"}},
             )
         assert request.url.params["series_ticker"] == "KXFEDDECISION"
         return httpx.Response(
@@ -106,6 +111,10 @@ async def test_kalshi_network_current_payload_format() -> None:
         assert "Settlement source: Federal Reserve" in top.metadata["resolution_text"]
         assert top.volume == Decimal("185000.00")
         assert calls.count("/trade-api/v2/events/KXFEDDECISION-26SEP") == 1  # cached per event
+        assert calls.count("/trade-api/v2/series/KXFEDDECISION") == 1  # cached per series
+        assert top.metadata["mutually_exclusive"] is True
+        assert top.metadata["fee_type"] == "quadratic_with_maker_fees"
+        assert top.metadata["fee_multiplier"] == 1
         book = await client.get_order_book(top)
         assert book.best_bid is not None and book.best_bid.price == Decimal("0.52")
         assert book.best_ask is not None and book.best_ask.price == Decimal("0.54")

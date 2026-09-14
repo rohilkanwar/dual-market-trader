@@ -1,0 +1,175 @@
+{
+  "_comment": "Fixture universe for the Kalshi FLB tracks: two mutually exclusive macro events with longshot legs, one two-leg game event, one non-longshot control, one one-sided longshot. Prices are illustrative, not observations.",
+  "markets": [
+    {
+      "market_id": "KXFEDDECISION-26DEC-H26",
+      "title": "Fed hikes 50+ bps in December 2026?",
+      "volume": "5200",
+      "metadata": {
+        "event_ticker": "KXFEDDECISION-26DEC",
+        "series_ticker": "KXFEDDECISION",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXFEDDECISION-26DEC-H25",
+      "title": "Fed hikes 25 bps in December 2026?",
+      "volume": "8100",
+      "metadata": {
+        "event_ticker": "KXFEDDECISION-26DEC",
+        "series_ticker": "KXFEDDECISION",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXFEDDECISION-26DEC-H0",
+      "title": "Fed holds in December 2026?",
+      "volume": "61000",
+      "metadata": {
+        "event_ticker": "KXFEDDECISION-26DEC",
+        "series_ticker": "KXFEDDECISION",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXFEDDECISION-26DEC-C25",
+      "title": "Fed cuts 25 bps in December 2026?",
+      "volume": "24000",
+      "metadata": {
+        "event_ticker": "KXFEDDECISION-26DEC",
+        "series_ticker": "KXFEDDECISION",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXFEDDECISION-26DEC-C26",
+      "title": "Fed cuts 50+ bps in December 2026?",
+      "volume": "9900",
+      "metadata": {
+        "event_ticker": "KXFEDDECISION-26DEC",
+        "series_ticker": "KXFEDDECISION",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXCPIYOY-26AUG-T2.5",
+      "title": "August 2026 CPI YoY at or below 2.5%?",
+      "volume": "3300",
+      "metadata": {
+        "event_ticker": "KXCPIYOY-26AUG",
+        "series_ticker": "KXCPIYOY",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXCPIYOY-26AUG-B2.5-3.0",
+      "title": "August 2026 CPI YoY between 2.5% and 3.0%?",
+      "volume": "18000",
+      "metadata": {
+        "event_ticker": "KXCPIYOY-26AUG",
+        "series_ticker": "KXCPIYOY",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXCPIYOY-26AUG-T3.0",
+      "title": "August 2026 CPI YoY above 3.0%?",
+      "volume": "7600",
+      "metadata": {
+        "event_ticker": "KXCPIYOY-26AUG",
+        "series_ticker": "KXCPIYOY",
+        "category": "macro",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXMLBGAME-26SEP14NYYBOS-NYY",
+      "title": "Yankees beat Red Sox on Sep 14, 2026?",
+      "volume": "410000",
+      "metadata": {
+        "event_ticker": "KXMLBGAME-26SEP14NYYBOS",
+        "series_ticker": "KXMLBGAME",
+        "category": "sports",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 0.5
+      }
+    },
+    {
+      "market_id": "KXMLBGAME-26SEP14NYYBOS-BOS",
+      "title": "Red Sox beat Yankees on Sep 14, 2026?",
+      "volume": "395000",
+      "metadata": {
+        "event_ticker": "KXMLBGAME-26SEP14NYYBOS",
+        "series_ticker": "KXMLBGAME",
+        "category": "sports",
+        "mutually_exclusive": true,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 0.5
+      }
+    },
+    {
+      "market_id": "KXPAYROLLS-26SEP-T150",
+      "title": "September 2026 payrolls above 150k?",
+      "volume": "12000",
+      "metadata": {
+        "event_ticker": "KXPAYROLLS-26SEP",
+        "series_ticker": "KXPAYROLLS",
+        "category": "macro",
+        "mutually_exclusive": false,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    },
+    {
+      "market_id": "KXU3-26SEP-T4.5",
+      "title": "September 2026 unemployment above 4.5%?",
+      "volume": "900",
+      "metadata": {
+        "event_ticker": "KXU3-26SEP",
+        "series_ticker": "KXU3",
+        "category": "macro",
+        "mutually_exclusive": false,
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1
+      }
+    }
+  ],
+  "order_books": {
+    "KXFEDDECISION-26DEC-H26": {"bids": [["0.01", "500"]], "asks": [["0.03", "800"], ["0.04", "1200"]]},
+    "KXFEDDECISION-26DEC-H25": {"bids": [["0.05", "300"], ["0.04", "600"]], "asks": [["0.08", "450"], ["0.09", "700"]]},
+    "KXFEDDECISION-26DEC-H0": {"bids": [["0.64", "220"], ["0.63", "400"]], "asks": [["0.70", "180"], ["0.71", "350"]]},
+    "KXFEDDECISION-26DEC-C25": {"bids": [["0.16", "260"], ["0.15", "500"]], "asks": [["0.19", "310"], ["0.20", "600"]]},
+    "KXFEDDECISION-26DEC-C26": {"bids": [["0.04", "900"]], "asks": [["0.05", "1500"]]},
+    "KXCPIYOY-26AUG-T2.5": {"bids": [["0.02", "400"]], "asks": [["0.04", "650"]]},
+    "KXCPIYOY-26AUG-B2.5-3.0": {"bids": [["0.81", "150"], ["0.80", "300"]], "asks": [["0.84", "140"], ["0.85", "260"]]},
+    "KXCPIYOY-26AUG-T3.0": {"bids": [["0.12", "200"]], "asks": [["0.15", "330"], ["0.16", "500"]]},
+    "KXMLBGAME-26SEP14NYYBOS-NYY": {"bids": [["0.91", "2000"]], "asks": [["0.93", "1800"]]},
+    "KXMLBGAME-26SEP14NYYBOS-BOS": {"bids": [["0.07", "1800"]], "asks": [["0.09", "2000"]]},
+    "KXPAYROLLS-26SEP-T150": {"bids": [["0.45", "100"]], "asks": [["0.48", "120"]]},
+    "KXU3-26SEP-T4.5": {"bids": [], "asks": [["0.02", "50"]]}
+  }
+}
