@@ -1,103 +1,128 @@
 {
-  "generated_at": "2026-09-14T21:34:41.786Z",
+  "generated_at": "2026-09-14T21:46:54.309Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
+    "flb_report_latest.json": {
+      "target": "public/artifacts/flb_report_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T21:46:02.135236+00:00",
+      "paper_pnl": null,
+      "headline": "Snapshot books: FLB NOT_IDENTIFIABLE (prices without outcomes). Ex-post from settled trades: longshot tail (<20c) FAIL contract-weighted / FAIL equal-weighted by market; favorite-longshot slope (below vs above 50c) FAIL; maker fade edge after fees FAIL."
+    },
     "gate_report_fixtures.json": {
       "target": "public/artifacts/gate_report_fixtures.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:34:24.006439+00:00",
+      "measured_at": "2026-09-14T21:45:56.093773+00:00",
       "paper_pnl": null
     },
     "gate_report_latest.json": {
       "target": "public/artifacts/gate_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:34:24.229907+00:00",
+      "measured_at": "2026-09-14T21:45:56.330050+00:00",
       "paper_pnl": null
     },
     "gate_report_network.json": {
       "target": "public/artifacts/gate_report_network.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:34:24.229907+00:00",
+      "measured_at": "2026-09-14T21:45:56.330050+00:00",
       "paper_pnl": null
     },
     "paper/ledger_gated_cross_venue.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.568961+00:00",
+      "measured_at": "2026-09-14T21:46:01.954451+00:00",
       "paper_pnl": null
     },
     "paper/ledger_gated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue_macro.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569021+00:00",
+      "measured_at": "2026-09-14T21:46:01.954513+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_kalshi_longshot_fade.json": {
+      "target": "public/artifacts/paper_ledger_kalshi_longshot_fade.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T21:46:21.274298+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_kalshi_maker_quote.json": {
+      "target": "public/artifacts/paper_ledger_kalshi_maker_quote.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T21:46:21.275329+00:00",
       "paper_pnl": null
     },
     "paper/ledger_news_underreaction.json": {
       "target": "public/artifacts/paper_ledger_news_underreaction.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569288+00:00",
+      "measured_at": "2026-09-14T21:46:01.954649+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_combinatorial_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_combinatorial_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569358+00:00",
+      "measured_at": "2026-09-14T21:46:01.954716+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_negrisk_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_negrisk_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569334+00:00",
+      "measured_at": "2026-09-14T21:46:01.954693+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_rebalancing_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_rebalancing_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569312+00:00",
+      "measured_at": "2026-09-14T21:46:01.954672+00:00",
       "paper_pnl": null
     },
     "paper/ledger_single_venue_fair_value.json": {
       "target": "public/artifacts/paper_ledger_single_venue_fair_value.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569211+00:00",
+      "measured_at": "2026-09-14T21:46:01.954574+00:00",
       "paper_pnl": null
     },
     "paper/ledger_small_deliberate_bet.json": {
       "target": "public/artifacts/paper_ledger_small_deliberate_bet.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569264+00:00",
+      "measured_at": "2026-09-14T21:46:01.954625+00:00",
       "paper_pnl": null
     },
     "paper/ledger_sports_cross_venue.json": {
       "target": "public/artifacts/paper_ledger_sports_cross_venue.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569239+00:00",
+      "measured_at": "2026-09-14T21:46:01.954600+00:00",
       "paper_pnl": null
     },
     "paper/ledger_ungated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_ungated_cross_venue_macro.json",
       "source": "ledger",
-      "measured_at": "2026-09-14T21:34:33.569092+00:00",
+      "measured_at": "2026-09-14T21:46:01.954547+00:00",
       "paper_pnl": null
     },
     "scoreboard_fixtures.json": {
       "target": "public/artifacts/scoreboard_fixtures.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:34:24.006439+00:00",
+      "measured_at": "2026-09-14T21:45:56.093773+00:00",
       "paper_pnl": -5.5224
+    },
+    "scoreboard_flb.json": {
+      "target": "public/artifacts/scoreboard_flb.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T21:46:02.135236+00:00",
+      "paper_pnl": -21.952
     },
     "scoreboard_latest.json": {
       "target": "public/artifacts/scoreboard_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:34:24.229907+00:00",
-      "paper_pnl": -1.1
+      "measured_at": "2026-09-14T21:45:56.330050+00:00",
+      "paper_pnl": -3.1764
     },
     "scoreboard_network.json": {
       "target": "public/artifacts/scoreboard_network.json",
       "source": "measured",
-      "measured_at": "2026-09-14T21:34:24.229907+00:00",
-      "paper_pnl": -1.1
+      "measured_at": "2026-09-14T21:45:56.330050+00:00",
+      "paper_pnl": -3.1764
     }
   }
 }

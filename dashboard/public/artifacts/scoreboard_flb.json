@@ -13,7 +13,7 @@
     "fills_by_track": [
       {
         "track": "kalshi_longshot_fade",
-        "value": 37
+        "value": 39
       },
       {
         "track": "kalshi_maker_quote",
@@ -23,16 +23,16 @@
     "pnl_by_track": [
       {
         "track": "kalshi_longshot_fade",
-        "value": -16.8196
+        "value": -18.0941
       },
       {
         "track": "kalshi_maker_quote",
-        "value": -3.4756
+        "value": -3.8579
       }
     ],
     "venue_fills": [
       {
-        "value": 62,
+        "value": 64,
         "venue": "kalshi"
       }
     ]
@@ -59,18 +59,18 @@
   },
   "meta": {
     "cycle": null,
-    "generated_at": "2026-09-14T21:38:34.837199+00:00",
+    "generated_at": "2026-09-14T21:46:24.869019+00:00",
     "kalshi_env": "prod",
     "kind": "kalshi_flb",
     "label": "MEASURED / NETWORK / KALSHI FLB",
     "markets_per_venue": 200,
-    "measured_at": "2026-09-14T21:38:12.459537+00:00",
+    "measured_at": "2026-09-14T21:46:02.135236+00:00",
     "mode": "network",
     "paper_only": true,
     "pnl_source": "core.ledger.PaperLedger",
     "primary_track": "kalshi_maker_quote",
     "refresh": "python -m apps.measure_flb [--network --kalshi-env prod --harvest-trades] && cd dashboard && npm run sync-artifacts",
-    "run_id": "20260914T213812Z-flb-f76ab826",
+    "run_id": "20260914T214602Z-flb-aed44114",
     "source": "measured",
     "track_family": null,
     "venue_focus": "kalshi",
@@ -81,70 +81,70 @@
   "portfolio": {
     "by_track": {
       "kalshi_longshot_fade": {
-        "cash": 738.3254,
-        "equity": 983.1804,
+        "cash": 732.6609,
+        "equity": 981.9059,
         "equity_points": 2,
-        "fees_paid": 3.9846,
-        "fills": 46,
-        "gross_notional": 341.535,
-        "max_drawdown": 16.8196,
-        "open_positions": 37,
-        "realized_pnl": -3.9846,
+        "fees_paid": 4.3791,
+        "fills": 49,
+        "gross_notional": 359.215,
+        "max_drawdown": 18.0941,
+        "open_positions": 39,
+        "realized_pnl": -4.3791,
         "starting_cash": 1000.0,
-        "total_pnl": -16.8196,
-        "unrealized_pnl": -12.835
+        "total_pnl": -18.0941,
+        "unrealized_pnl": -13.715
       },
       "kalshi_maker_quote": {
-        "cash": 923.1844,
-        "equity": 996.5244,
+        "cash": 928.8221,
+        "equity": 996.1421,
         "equity_points": 2,
-        "fees_paid": 0.5056,
-        "fills": 27,
-        "gross_notional": 122.76,
-        "max_drawdown": 3.4756,
+        "fees_paid": 0.5879,
+        "fills": 29,
+        "gross_notional": 128.42,
+        "max_drawdown": 3.8579,
         "open_positions": 25,
-        "realized_pnl": -0.5056,
+        "realized_pnl": -0.5879,
         "starting_cash": 1000.0,
-        "total_pnl": -3.4756,
-        "unrealized_pnl": -2.97
+        "total_pnl": -3.8579,
+        "unrealized_pnl": -3.27
       }
     },
-    "cash": 1661.5098,
+    "cash": 1661.483,
     "concentration": [
       {
         "venue": "kalshi",
         "weight": 1.0
       }
     ],
-    "equity": 1979.7048,
-    "fees_paid": 4.4902,
-    "gross_notional": 464.295,
-    "max_drawdown": 16.8196,
-    "net_exposure": 318.195,
-    "open_positions": 62,
+    "equity": 1978.048,
+    "fees_paid": 4.967,
+    "gross_notional": 487.635,
+    "max_drawdown": 18.0941,
+    "net_exposure": 316.565,
+    "open_positions": 64,
     "paper_only": true,
     "primary": {
-      "cash": 923.1844,
+      "cash": 928.8221,
       "concentration": [
         {
           "venue": "kalshi",
           "weight": 1.0
         }
       ],
-      "created_at": "2026-09-14T21:38:12.163519+00:00",
-      "equity": 996.5244,
+      "created_at": "2026-09-14T21:46:01.808798+00:00",
+      "equity": 996.1421,
       "equity_points": 2,
-      "fees_paid": 0.5056,
-      "fills": 27,
-      "gross_notional": 122.76,
+      "fees_paid": 0.5879,
+      "fills": 29,
+      "gross_notional": 128.42,
       "ledger_id": "kalshi_maker_quote",
       "mark_method": "conservative",
-      "max_drawdown": 3.4756,
-      "net_exposure": 73.34,
+      "max_drawdown": 3.8579,
+      "net_exposure": 67.32,
       "open_positions": 25,
       "paper_only": true,
       "peak_equity": 1000.0,
-      "position_value": 73.34,
+      "position_value": 67.32,
       "positions": [
         {
           "average_price": 0.13,
@@ -155,6 +155,17 @@
           "realized_pnl": -0.0556,
           "unrealized_pnl": -0.28,
           "value": -3.92,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.18,
+          "fees_paid": 0.0776,
+          "mark": 0.19,
+          "market_id": "KXGDP-26OCT30-T4.0",
+          "quantity": -30.0,
+          "realized_pnl": -0.0776,
+          "unrealized_pnl": -0.3,
+          "value": -5.7,
           "venue": "kalshi"
         },
         {
@@ -170,13 +181,13 @@
         },
         {
           "average_price": 0.94,
-          "fees_paid": 0.0129,
+          "fees_paid": 0.0258,
           "mark": 0.93,
           "market_id": "KXFED-26DEC-T3.75",
-          "quantity": 13.0,
-          "realized_pnl": -0.0129,
-          "unrealized_pnl": -0.13,
-          "value": 12.09,
+          "quantity": 26.0,
+          "realized_pnl": -0.0258,
+          "unrealized_pnl": -0.26,
+          "value": 24.18,
           "venue": "kalshi"
         },
         {
@@ -334,14 +345,14 @@
           "venue": "kalshi"
         },
         {
-          "average_price": 0.13,
-          "fees_paid": 0.0278,
-          "mark": 0.14,
+          "average_price": 0.14,
+          "fees_paid": 0.0295,
+          "mark": 0.15,
           "market_id": "KXFEDDECISION-27JUL-C25",
           "quantity": -14.0,
-          "realized_pnl": -0.0278,
+          "realized_pnl": -0.0295,
           "unrealized_pnl": -0.14,
-          "value": -1.96,
+          "value": -2.1,
           "venue": "kalshi"
         },
         {
@@ -401,48 +412,37 @@
         },
         {
           "average_price": 0.88,
-          "fees_paid": 0.0259,
+          "fees_paid": 0.0241,
           "mark": 0.87,
           "market_id": "KXFED-27JAN-T3.00",
-          "quantity": 14.0,
-          "realized_pnl": -0.0259,
-          "unrealized_pnl": -0.14,
-          "value": 12.18,
-          "venue": "kalshi"
-        },
-        {
-          "average_price": 0.96,
-          "fees_paid": 0.0081,
-          "mark": 0.95,
-          "market_id": "KXCPIYOY-26SEP-T3.3",
-          "quantity": 12.0,
-          "realized_pnl": -0.0081,
-          "unrealized_pnl": -0.12,
-          "value": 11.4,
+          "quantity": 13.0,
+          "realized_pnl": -0.0241,
+          "unrealized_pnl": -0.13,
+          "value": 11.31,
           "venue": "kalshi"
         }
       ],
-      "realized_pnl": -0.5056,
-      "return_pct": -0.34756,
+      "realized_pnl": -0.5879,
+      "return_pct": -0.38579,
       "settlement_fills": 0,
       "starting_cash": 1000.0,
-      "total_pnl": -3.4756,
+      "total_pnl": -3.8579,
       "unmarked_positions": 0,
-      "unrealized_pnl": -2.97,
-      "updated_at": "2026-09-14T21:38:31.099135+00:00"
+      "unrealized_pnl": -3.27,
+      "updated_at": "2026-09-14T21:46:21.275329+00:00"
     },
     "primary_track": "kalshi_maker_quote",
-    "realized_pnl": -4.4902,
+    "realized_pnl": -4.967,
     "risk_flags": [
       "pnl_from_ledger_not_placeholder"
     ],
     "settlement_risk_pairs": 0,
     "source": "ledger_aggregate",
     "starting_cash": 2000.0,
-    "total_pnl": -20.2952,
-    "unrealized_pnl": -15.805
+    "total_pnl": -21.952,
+    "unrealized_pnl": -16.985
   },
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "top_edges": [
     {
       "admitted": true,
@@ -551,6 +551,27 @@
     },
     {
       "admitted": true,
+      "edge_bps": 125,
+      "fair_value": 0.12,
+      "fill_probability": 0.5,
+      "filled": true,
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.15,
+      "market": "KXFEDDECISION-27JUL-C25",
+      "mid": 0.12,
+      "placement": "improve",
+      "quote_yes_price": 0.14,
+      "rank": 6,
+      "raw_edge_bps": 200,
+      "reason": "trade",
+      "spread": 0.06,
+      "title": "Will the Federal Reserve Cut rates by 25bps at their July 2027 meeting?",
+      "track": "kalshi_maker_quote",
+      "venue": "kalshi"
+    },
+    {
+      "admitted": true,
       "edge_bps": 88,
       "fair_value": 0.115,
       "fill_probability": 0.5,
@@ -562,7 +583,7 @@
       "mid": 0.115,
       "placement": "improve",
       "quote_yes_price": 0.13,
-      "rank": 6,
+      "rank": 7,
       "raw_edge_bps": 150,
       "reason": "trade",
       "spread": 0.05,
@@ -583,7 +604,7 @@
       "mid": 0.055,
       "placement": "improve",
       "quote_yes_price": 0.07,
-      "rank": 7,
+      "rank": 8,
       "raw_edge_bps": 150,
       "reason": "trade",
       "spread": 0.05,
@@ -604,32 +625,11 @@
       "mid": 0.105,
       "placement": "improve",
       "quote_yes_price": 0.12,
-      "rank": 8,
-      "raw_edge_bps": 150,
-      "reason": "trade",
-      "spread": 0.05,
-      "title": "Will the Federal Reserve Cut rates by >25bps at their December 2027 meeting?",
-      "track": "kalshi_maker_quote",
-      "venue": "kalshi"
-    },
-    {
-      "admitted": true,
-      "edge_bps": 88,
-      "fair_value": 0.115,
-      "fill_probability": 0.5,
-      "filled": true,
-      "longshot_band": "10-20c",
-      "longshot_outcome": "yes",
-      "longshot_price": 0.14,
-      "market": "KXFEDDECISION-27JUL-C25",
-      "mid": 0.115,
-      "placement": "improve",
-      "quote_yes_price": 0.13,
       "rank": 9,
       "raw_edge_bps": 150,
       "reason": "trade",
       "spread": 0.05,
-      "title": "Will the Federal Reserve Cut rates by 25bps at their July 2027 meeting?",
+      "title": "Will the Federal Reserve Cut rates by >25bps at their December 2027 meeting?",
       "track": "kalshi_maker_quote",
       "venue": "kalshi"
     },
@@ -661,13 +661,13 @@
       "edge_bps": -450,
       "fee": 0.0699,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.087914+00:00",
+      "filled_at": "2026-09-14T21:46:21.264050+00:00",
       "longshot_band": "10-20c",
       "longshot_outcome": "yes",
       "longshot_price": 0.13,
       "mark": 0.085,
       "market": "KXGDP-27APR29-T4.0",
-      "order_id": "paper-f834760dd25c",
+      "order_id": "paper-02349611b26a",
       "outcome": "no",
       "paper_pnl": -1.2399,
       "placement": "take",
@@ -687,13 +687,13 @@
       "edge_bps": -400,
       "fee": 0.0987,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.089899+00:00",
+      "filled_at": "2026-09-14T21:46:21.265817+00:00",
       "longshot_band": "10-20c",
       "longshot_outcome": "no",
       "longshot_price": 0.14,
       "mark": 0.9,
       "market": "KXFED-27JAN-T3.25",
-      "order_id": "paper-997d6c4f2388",
+      "order_id": "paper-7c5455c0aba1",
       "outcome": "yes",
       "paper_pnl": -1.0987,
       "placement": "take",
@@ -710,22 +710,48 @@
     },
     {
       "band": ">=90c",
+      "edge_bps": -300,
+      "fee": 0.1548,
+      "fill_probability": 1.0,
+      "filled_at": "2026-09-14T21:46:21.266513+00:00",
+      "longshot_band": "10-20c",
+      "longshot_outcome": "yes",
+      "longshot_price": 0.15,
+      "mark": 0.12,
+      "market": "KXFEDDECISION-27JUL-C25",
+      "order_id": "paper-0a898c627d5e",
+      "outcome": "no",
+      "paper_pnl": -0.9648,
+      "placement": "take",
+      "price": 0.91,
+      "qty": 27.0,
+      "rank": 3,
+      "role": "taker",
+      "side": "buy",
+      "strategy": "kalshi_longshot_fade",
+      "title": "Will the Federal Reserve Cut rates by 25bps at their July 2027 meeting?",
+      "track": "kalshi_longshot_fade",
+      "venue": "kalshi",
+      "yes_equivalent_price": 0.09
+    },
+    {
+      "band": ">=90c",
       "edge_bps": -350,
       "fee": 0.0343,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.091034+00:00",
+      "filled_at": "2026-09-14T21:46:21.267082+00:00",
       "longshot_band": "<10c",
       "longshot_outcome": "yes",
       "longshot_price": 0.09,
       "mark": 0.055,
       "market": "KXFEDDECISION-27JAN-H26",
-      "order_id": "paper-eab5cbadcae7",
+      "order_id": "paper-4c300e681c1f",
       "outcome": "no",
       "paper_pnl": -0.9093,
       "placement": "take",
       "price": 0.98,
       "qty": 25.0,
-      "rank": 3,
+      "rank": 4,
       "role": "taker",
       "side": "buy",
       "strategy": "kalshi_longshot_fade",
@@ -739,19 +765,19 @@
       "edge_bps": -250,
       "fee": 0.1919,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.090878+00:00",
+      "filled_at": "2026-09-14T21:46:21.266931+00:00",
       "longshot_band": "10-20c",
       "longshot_outcome": "no",
       "longshot_price": 0.16,
       "mark": 0.865,
       "market": "KXGDP-26OCT30-T1.0",
-      "order_id": "paper-f532ba4d13af",
+      "order_id": "paper-988cd9d36153",
       "outcome": "yes",
       "paper_pnl": -0.8919,
       "placement": "take",
       "price": 0.89,
       "qty": 28.0,
-      "rank": 4,
+      "rank": 5,
       "role": "taker",
       "side": "buy",
       "strategy": "kalshi_longshot_fade",
@@ -765,19 +791,19 @@
       "edge_bps": -250,
       "fee": 0.1548,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.088277+00:00",
+      "filled_at": "2026-09-14T21:46:21.264420+00:00",
       "longshot_band": "10-20c",
       "longshot_outcome": "yes",
       "longshot_price": 0.14,
       "mark": 0.115,
       "market": "KXFEDDECISION-27OCT-C25",
-      "order_id": "paper-c998c15ef03a",
+      "order_id": "paper-a2277ffd81e5",
       "outcome": "no",
       "paper_pnl": -0.8298,
       "placement": "take",
       "price": 0.91,
       "qty": 27.0,
-      "rank": 5,
+      "rank": 6,
       "role": "taker",
       "side": "buy",
       "strategy": "kalshi_longshot_fade",
@@ -789,41 +815,15 @@
     {
       "band": ">=90c",
       "edge_bps": -250,
-      "fee": 0.1548,
-      "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.090465+00:00",
-      "longshot_band": "10-20c",
-      "longshot_outcome": "yes",
-      "longshot_price": 0.14,
-      "mark": 0.115,
-      "market": "KXFEDDECISION-27JUL-C25",
-      "order_id": "paper-af454bd608cd",
-      "outcome": "no",
-      "paper_pnl": -0.8298,
-      "placement": "take",
-      "price": 0.91,
-      "qty": 27.0,
-      "rank": 6,
-      "role": "taker",
-      "side": "buy",
-      "strategy": "kalshi_longshot_fade",
-      "title": "Will the Federal Reserve Cut rates by 25bps at their July 2027 meeting?",
-      "track": "kalshi_longshot_fade",
-      "venue": "kalshi",
-      "yes_equivalent_price": 0.09
-    },
-    {
-      "band": ">=90c",
-      "edge_bps": -250,
       "fee": 0.0699,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.091292+00:00",
+      "filled_at": "2026-09-14T21:46:21.267332+00:00",
       "longshot_band": "<10c",
       "longshot_outcome": "no",
       "longshot_price": 0.09,
       "mark": 0.935,
       "market": "KXCPI-26SEP-T0.3",
-      "order_id": "paper-801975b8f347",
+      "order_id": "paper-a1415325da2a",
       "outcome": "yes",
       "paper_pnl": -0.7199,
       "placement": "take",
@@ -843,13 +843,13 @@
       "edge_bps": -250,
       "fee": 0.051,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.089190+00:00",
+      "filled_at": "2026-09-14T21:46:21.265323+00:00",
       "longshot_band": "<10c",
       "longshot_outcome": "yes",
       "longshot_price": 0.08,
       "mark": 0.055,
       "market": "KXFEDDECISION-27SEP-C26",
-      "order_id": "paper-d3704d8b6670",
+      "order_id": "paper-537c972964dd",
       "outcome": "no",
       "paper_pnl": -0.676,
       "placement": "take",
@@ -869,13 +869,13 @@
       "edge_bps": -150,
       "fee": 0.207,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.089515+00:00",
+      "filled_at": "2026-09-14T21:46:21.265459+00:00",
       "longshot_band": "10-20c",
       "longshot_outcome": "yes",
       "longshot_price": 0.15,
       "mark": 0.135,
       "market": "KXU3-26SEP-T4.2",
-      "order_id": "paper-d644cd6b8498",
+      "order_id": "paper-6c1e274aeb68",
       "outcome": "no",
       "paper_pnl": -0.627,
       "placement": "take",
@@ -891,76 +891,76 @@
       "yes_equivalent_price": 0.12
     },
     {
-      "band": ">=90c",
-      "edge_bps": -450,
-      "fee": 0.0502,
+      "band": "80-90c",
+      "edge_bps": -200,
+      "fee": 0.1875,
       "fill_probability": 1.0,
-      "filled_at": "2026-09-14T21:38:31.090050+00:00",
+      "filled_at": "2026-09-14T21:46:21.263422+00:00",
       "longshot_band": "10-20c",
       "longshot_outcome": "yes",
-      "longshot_price": 0.16,
-      "mark": 0.115,
-      "market": "KXFEDDECISION-27OCT-H26",
-      "order_id": "paper-004f19e524b9",
+      "longshot_price": 0.19,
+      "mark": 0.17,
+      "market": "KXGDP-26OCT30-T4.0",
+      "order_id": "paper-13a9a49b90df",
       "outcome": "no",
-      "paper_pnl": -0.5452,
+      "paper_pnl": -0.6075,
       "placement": "take",
-      "price": 0.93,
-      "qty": 11.0,
+      "price": 0.85,
+      "qty": 21.0,
       "rank": 10,
       "role": "taker",
       "side": "buy",
       "strategy": "kalshi_longshot_fade",
-      "title": "Will the Federal Reserve Hike rates by >25bps at their October 2027 meeting?",
+      "title": "Will **real GDP** increase by more than 4.0% in Q3 2026?",
       "track": "kalshi_longshot_fade",
       "venue": "kalshi",
-      "yes_equivalent_price": 0.07
+      "yes_equivalent_price": 0.15
     }
   ],
   "totals": {
-    "admitted": 77,
-    "avg_edge_bps": -44,
+    "admitted": 78,
+    "avg_edge_bps": -45,
     "candidates": 400,
-    "fees_paid": 4.4902,
-    "fill_rate": 0.8052,
-    "paper_fills": 62,
-    "paper_pnl": -20.2952,
-    "proposed_orders": 77,
-    "realized_pnl": -4.4902,
-    "rejects": 323,
+    "fees_paid": 4.967,
+    "fill_rate": 0.8205,
+    "paper_fills": 64,
+    "paper_pnl": -21.952,
+    "proposed_orders": 78,
+    "realized_pnl": -4.967,
+    "rejects": 322,
     "settlement_risk_pairs": 0,
-    "unrealized_pnl": -15.805
+    "unrealized_pnl": -16.985
   },
   "tracks": [
     {
-      "admitted": 37,
+      "admitted": 39,
       "candidates": 200,
-      "edge_bps": -145,
+      "edge_bps": -150,
       "estimated_fees_buffer": 0.0,
       "fill_rate": 1.0,
       "label": "Kalshi longshot fade (taker)",
       "ledger": {
-        "cash": 738.3254,
+        "cash": 732.6609,
         "concentration": [
           {
             "venue": "kalshi",
             "weight": 1.0
           }
         ],
-        "created_at": "2026-09-14T21:38:12.163500+00:00",
-        "equity": 983.1804,
+        "created_at": "2026-09-14T21:46:01.808777+00:00",
+        "equity": 981.9059,
         "equity_points": 2,
-        "fees_paid": 3.9846,
-        "fills": 46,
-        "gross_notional": 341.535,
+        "fees_paid": 4.3791,
+        "fills": 49,
+        "gross_notional": 359.215,
         "ledger_id": "kalshi_longshot_fade",
         "mark_method": "mid",
-        "max_drawdown": 16.8196,
-        "net_exposure": 244.855,
-        "open_positions": 37,
+        "max_drawdown": 18.0941,
+        "net_exposure": 249.245,
+        "open_positions": 39,
         "paper_only": true,
         "peak_equity": 1000.0,
-        "position_value": 244.855,
+        "position_value": 249.245,
         "positions": [
           {
             "average_price": 0.12,
@@ -974,14 +974,14 @@
             "venue": "kalshi"
           },
           {
-            "average_price": 0.88,
-            "fees_paid": 0.414,
-            "mark": 0.875,
+            "average_price": 0.87,
+            "fees_paid": 0.4434,
+            "mark": 0.865,
             "market_id": "KXFEDDECISION-26SEP-H25",
             "quantity": 56.0,
-            "realized_pnl": -0.414,
+            "realized_pnl": -0.4434,
             "unrealized_pnl": -0.28,
-            "value": 49.0,
+            "value": 48.44,
             "venue": "kalshi"
           },
           {
@@ -993,17 +993,6 @@
             "realized_pnl": -0.4434,
             "unrealized_pnl": -0.28,
             "value": 48.44,
-            "venue": "kalshi"
-          },
-          {
-            "average_price": 0.01,
-            "fees_paid": 0.0348,
-            "mark": 0.015,
-            "market_id": "KXFED-26SEP-T4.00",
-            "quantity": -50.0,
-            "realized_pnl": -0.0348,
-            "unrealized_pnl": -0.25,
-            "value": -0.75,
             "venue": "kalshi"
           },
           {
@@ -1041,6 +1030,17 @@
           },
           {
             "average_price": 0.15,
+            "fees_paid": 0.375,
+            "mark": 0.17,
+            "market_id": "KXGDP-26OCT30-T4.0",
+            "quantity": -42.0,
+            "realized_pnl": -0.375,
+            "unrealized_pnl": -0.84,
+            "value": -7.14,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.15,
             "fees_paid": 0.5178,
             "mark": 0.155,
             "market_id": "KXCPI-26SEP-T0.6",
@@ -1063,13 +1063,13 @@
           },
           {
             "average_price": 0.95,
-            "fees_paid": 0.01,
+            "fees_paid": 0.02,
             "mark": 0.94,
             "market_id": "KXFED-26DEC-T3.75",
-            "quantity": 3.0,
-            "realized_pnl": -0.01,
-            "unrealized_pnl": -0.03,
-            "value": 2.82,
+            "quantity": 6.0,
+            "realized_pnl": -0.02,
+            "unrealized_pnl": -0.06,
+            "value": 5.64,
             "venue": "kalshi"
           },
           {
@@ -1284,12 +1284,12 @@
           {
             "average_price": 0.09,
             "fees_paid": 0.1548,
-            "mark": 0.115,
+            "mark": 0.12,
             "market_id": "KXFEDDECISION-27JUL-C25",
             "quantity": -27.0,
             "realized_pnl": -0.1548,
-            "unrealized_pnl": -0.675,
-            "value": -3.105,
+            "unrealized_pnl": -0.81,
+            "value": -3.24,
             "venue": "kalshi"
           },
           {
@@ -1360,41 +1360,63 @@
           },
           {
             "average_price": 0.02,
-            "fees_paid": 0.0302,
+            "fees_paid": 0.0343,
             "mark": 0.04,
             "market_id": "KXU3-26SEP-T4.4",
-            "quantity": -22.0,
-            "realized_pnl": -0.0302,
-            "unrealized_pnl": -0.44,
-            "value": -0.88,
+            "quantity": -25.0,
+            "realized_pnl": -0.0343,
+            "unrealized_pnl": -0.5,
+            "value": -1.0,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.99,
+            "fees_paid": 0.0056,
+            "mark": 0.985,
+            "market_id": "KXCPI-26SEP-T0.0",
+            "quantity": 8.0,
+            "realized_pnl": -0.0056,
+            "unrealized_pnl": -0.04,
+            "value": 7.88,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.92,
+            "fees_paid": 0.0052,
+            "mark": 0.895,
+            "market_id": "KXFED-27JAN-T3.00",
+            "quantity": 1.0,
+            "realized_pnl": -0.0052,
+            "unrealized_pnl": -0.025,
+            "value": 0.895,
             "venue": "kalshi"
           }
         ],
-        "realized_pnl": -3.9846,
-        "return_pct": -1.68196,
+        "realized_pnl": -4.3791,
+        "return_pct": -1.80941,
         "settlement_fills": 0,
         "starting_cash": 1000.0,
-        "total_pnl": -16.8196,
+        "total_pnl": -18.0941,
         "unmarked_positions": 0,
-        "unrealized_pnl": -12.835,
-        "updated_at": "2026-09-14T21:38:31.098139+00:00"
+        "unrealized_pnl": -13.715,
+        "updated_at": "2026-09-14T21:46:21.274298+00:00"
       },
       "metrics": {
         "cash_at_risk": {
           "cap": 1000.0,
-          "positions": 999.69,
+          "positions": 999.96,
           "resting_orders_reserved": 0.0
         },
         "equity_point": {
-          "drawdown": 16.8196,
-          "equity": 983.1804,
-          "total_pnl": -16.8196
+          "drawdown": 18.0941,
+          "equity": 981.9059,
+          "total_pnl": -18.0941
         },
         "events": {
-          "fill": 37,
-          "order_acknowledged": 37,
+          "fill": 39,
+          "order_acknowledged": 39,
           "order_rejected": 0,
-          "order_submitted": 37
+          "order_submitted": 39
         },
         "fee_model": {
           "formula": "round_up(M * rate * C * P * (1-P)); M = series fee_multiplier",
@@ -1404,70 +1426,70 @@
         },
         "longshot_bands": {
           "10-20c": {
-            "candidates": 37,
-            "contracts": 350.0,
-            "expected_edge_bps_mean": -210,
-            "fees": 2.2653,
+            "candidates": 38,
+            "contracts": 372.0,
+            "expected_edge_bps_mean": -214,
+            "fees": 2.4727,
             "fill_probability_mean": 1.0,
-            "fills": 15,
-            "notional": 313.54,
-            "orders": 15
+            "fills": 17,
+            "notional": 332.03,
+            "orders": 17
           },
           "<10c": {
             "candidates": 67,
-            "contracts": 511.0,
+            "contracts": 497.0,
             "expected_edge_bps_mean": -100,
-            "fees": 0.7114,
+            "fees": 0.7037,
             "fill_probability_mean": 1.0,
             "fills": 22,
-            "notional": 500.53,
+            "notional": 486.64,
             "orders": 22
           }
         },
-        "longshot_candidates": 104,
+        "longshot_candidates": 105,
         "mark_method": "mid",
         "paper_pnl_by_longshot_band": {
           "10-20c": {
-            "contracts": 350.0,
-            "fees": 2.2653,
-            "fills": 15,
-            "marked": 15,
-            "notional": 313.54,
-            "paper_pnl": -8.7903,
-            "paper_pnl_per_contract": -0.0251,
-            "return_on_notional_bps": -280
+            "contracts": 372.0,
+            "fees": 2.4727,
+            "fills": 17,
+            "marked": 17,
+            "notional": 332.03,
+            "paper_pnl": -9.5777,
+            "paper_pnl_per_contract": -0.0257,
+            "return_on_notional_bps": -288
           },
           "<10c": {
-            "contracts": 511.0,
-            "fees": 0.7114,
+            "contracts": 497.0,
+            "fees": 0.7037,
             "fills": 22,
             "marked": 22,
-            "notional": 500.53,
-            "paper_pnl": -5.8864,
-            "paper_pnl_per_contract": -0.0115,
-            "return_on_notional_bps": -118
+            "notional": 486.64,
+            "paper_pnl": -5.8537,
+            "paper_pnl_per_contract": -0.0118,
+            "return_on_notional_bps": -120
           }
         },
         "paper_pnl_by_price_paid_band": {
           "80-90c": {
-            "contracts": 197.0,
-            "fees": 1.5152,
-            "fills": 7,
-            "marked": 7,
-            "notional": 172.21,
-            "paper_pnl": -3.4802,
-            "paper_pnl_per_contract": -0.0177,
-            "return_on_notional_bps": -202
+            "contracts": 218.0,
+            "fees": 1.7174,
+            "fills": 8,
+            "marked": 8,
+            "notional": 189.78,
+            "paper_pnl": -4.1024,
+            "paper_pnl_per_contract": -0.0188,
+            "return_on_notional_bps": -216
           },
           ">=90c": {
-            "contracts": 664.0,
-            "fees": 1.4615,
-            "fills": 30,
-            "marked": 30,
-            "notional": 641.86,
-            "paper_pnl": -11.1965,
-            "paper_pnl_per_contract": -0.0169,
-            "return_on_notional_bps": -174
+            "contracts": 651.0,
+            "fees": 1.459,
+            "fills": 31,
+            "marked": 31,
+            "notional": 628.89,
+            "paper_pnl": -11.329,
+            "paper_pnl_per_contract": -0.0174,
+            "return_on_notional_bps": -180
           }
         },
         "parameters": {
@@ -1486,36 +1508,36 @@
           "tick": 0.01
         },
         "shadow_longshot_buyer": {
-          "fees_paid": 35.9756,
-          "fills": 37,
-          "gross_notional": 3407.24,
+          "fees_paid": 37.1323,
+          "fills": 39,
+          "gross_notional": 4183.5,
           "mark_method": "mid",
           "note": "Mirror of every fade: takes the longshot at its ask with the same $25/$75 caps. Hypothetical benchmark only; never proposed to the risk-gated engine.",
           "paper_pnl_by_longshot_band": {
             "10-20c": {
-              "contracts": 1674.0,
-              "fees": 13.7963,
-              "fills": 15,
-              "marked": 15,
-              "notional": 228.31,
-              "paper_pnl": -49.2413,
-              "paper_pnl_per_contract": -0.0294,
-              "return_on_notional_bps": -2157
+              "contracts": 1835.0,
+              "fees": 15.606,
+              "fills": 17,
+              "marked": 17,
+              "notional": 260.28,
+              "paper_pnl": -55.301,
+              "paper_pnl_per_contract": -0.0301,
+              "return_on_notional_bps": -2125
             },
             "<10c": {
-              "contracts": 12347.0,
-              "fees": 22.1793,
+              "contracts": 11871.0,
+              "fees": 21.5263,
               "fills": 22,
               "marked": 22,
-              "notional": 328.29,
-              "paper_pnl": -95.4843,
-              "paper_pnl_per_contract": -0.0077,
-              "return_on_notional_bps": -2909
+              "notional": 318.77,
+              "paper_pnl": -92.4513,
+              "paper_pnl_per_contract": -0.0078,
+              "return_on_notional_bps": -2900
             }
           },
-          "realized_pnl": -35.9756,
-          "total_pnl": -144.7256,
-          "unrealized_pnl": -108.75
+          "realized_pnl": -37.1323,
+          "total_pnl": -147.7523,
+          "unrealized_pnl": -110.62
         },
         "snapshot": {
           "kalshi": {
@@ -1526,59 +1548,59 @@
         },
         "venue_pnl": {
           "kalshi": {
-            "fees_paid": 3.9846,
-            "open_positions": 37.0,
-            "realized_pnl": -3.9846,
-            "total_pnl": -16.8196,
-            "unrealized_pnl": -12.835
+            "fees_paid": 4.3791,
+            "open_positions": 39.0,
+            "realized_pnl": -4.3791,
+            "total_pnl": -18.0941,
+            "unrealized_pnl": -13.715
           }
         }
       },
       "notes": "Taker fade of every Kalshi longshot (<=20c side): buys the favourite at the touch, pays the taker fee, marked at mid. The shadow_longshot_buyer metric is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
-      "paper_fills": 37,
-      "proposed_orders": 37,
+      "paper_fills": 39,
+      "proposed_orders": 39,
       "refused_by_reason": {
-        "capital_cap_reached": 67,
-        "not_longshot": 96
+        "capital_cap_reached": 66,
+        "not_longshot": 95
       },
       "reject_reasons": {
-        "capital_cap_reached": 67,
-        "not_longshot": 96
+        "capital_cap_reached": 66,
+        "not_longshot": 95
       },
-      "rejects": 163,
+      "rejects": 161,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "kalshi_longshot_fade"
     },
     {
-      "admitted": 40,
+      "admitted": 39,
       "candidates": 200,
-      "edge_bps": 56,
+      "edge_bps": 59,
       "estimated_fees_buffer": 0.0,
-      "fill_rate": 0.625,
+      "fill_rate": 0.641,
       "label": "Kalshi maker quote (resting fade)",
       "ledger": {
-        "cash": 923.1844,
+        "cash": 928.8221,
         "concentration": [
           {
             "venue": "kalshi",
             "weight": 1.0
           }
         ],
-        "created_at": "2026-09-14T21:38:12.163519+00:00",
-        "equity": 996.5244,
+        "created_at": "2026-09-14T21:46:01.808798+00:00",
+        "equity": 996.1421,
         "equity_points": 2,
-        "fees_paid": 0.5056,
-        "fills": 27,
-        "gross_notional": 122.76,
+        "fees_paid": 0.5879,
+        "fills": 29,
+        "gross_notional": 128.42,
         "ledger_id": "kalshi_maker_quote",
         "mark_method": "conservative",
-        "max_drawdown": 3.4756,
-        "net_exposure": 73.34,
+        "max_drawdown": 3.8579,
+        "net_exposure": 67.32,
         "open_positions": 25,
         "paper_only": true,
         "peak_equity": 1000.0,
-        "position_value": 73.34,
+        "position_value": 67.32,
         "positions": [
           {
             "average_price": 0.13,
@@ -1589,6 +1611,17 @@
             "realized_pnl": -0.0556,
             "unrealized_pnl": -0.28,
             "value": -3.92,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.18,
+            "fees_paid": 0.0776,
+            "mark": 0.19,
+            "market_id": "KXGDP-26OCT30-T4.0",
+            "quantity": -30.0,
+            "realized_pnl": -0.0776,
+            "unrealized_pnl": -0.3,
+            "value": -5.7,
             "venue": "kalshi"
           },
           {
@@ -1604,13 +1637,13 @@
           },
           {
             "average_price": 0.94,
-            "fees_paid": 0.0129,
+            "fees_paid": 0.0258,
             "mark": 0.93,
             "market_id": "KXFED-26DEC-T3.75",
-            "quantity": 13.0,
-            "realized_pnl": -0.0129,
-            "unrealized_pnl": -0.13,
-            "value": 12.09,
+            "quantity": 26.0,
+            "realized_pnl": -0.0258,
+            "unrealized_pnl": -0.26,
+            "value": 24.18,
             "venue": "kalshi"
           },
           {
@@ -1768,14 +1801,14 @@
             "venue": "kalshi"
           },
           {
-            "average_price": 0.13,
-            "fees_paid": 0.0278,
-            "mark": 0.14,
+            "average_price": 0.14,
+            "fees_paid": 0.0295,
+            "mark": 0.15,
             "market_id": "KXFEDDECISION-27JUL-C25",
             "quantity": -14.0,
-            "realized_pnl": -0.0278,
+            "realized_pnl": -0.0295,
             "unrealized_pnl": -0.14,
-            "value": -1.96,
+            "value": -2.1,
             "venue": "kalshi"
           },
           {
@@ -1835,52 +1868,41 @@
           },
           {
             "average_price": 0.88,
-            "fees_paid": 0.0259,
+            "fees_paid": 0.0241,
             "mark": 0.87,
             "market_id": "KXFED-27JAN-T3.00",
-            "quantity": 14.0,
-            "realized_pnl": -0.0259,
-            "unrealized_pnl": -0.14,
-            "value": 12.18,
-            "venue": "kalshi"
-          },
-          {
-            "average_price": 0.96,
-            "fees_paid": 0.0081,
-            "mark": 0.95,
-            "market_id": "KXCPIYOY-26SEP-T3.3",
-            "quantity": 12.0,
-            "realized_pnl": -0.0081,
-            "unrealized_pnl": -0.12,
-            "value": 11.4,
+            "quantity": 13.0,
+            "realized_pnl": -0.0241,
+            "unrealized_pnl": -0.13,
+            "value": 11.31,
             "venue": "kalshi"
           }
         ],
-        "realized_pnl": -0.5056,
-        "return_pct": -0.34756,
+        "realized_pnl": -0.5879,
+        "return_pct": -0.38579,
         "settlement_fills": 0,
         "starting_cash": 1000.0,
-        "total_pnl": -3.4756,
+        "total_pnl": -3.8579,
         "unmarked_positions": 0,
-        "unrealized_pnl": -2.97,
-        "updated_at": "2026-09-14T21:38:31.099135+00:00"
+        "unrealized_pnl": -3.27,
+        "updated_at": "2026-09-14T21:46:21.275329+00:00"
       },
       "metrics": {
         "cash_at_risk": {
           "cap": 1000.0,
-          "positions": 281.31,
-          "resting_orders_reserved": 718.11
+          "positions": 305.59,
+          "resting_orders_reserved": 693.85
         },
         "equity_point": {
-          "drawdown": 3.4756,
-          "equity": 996.5244,
-          "total_pnl": -3.4756
+          "drawdown": 3.8579,
+          "equity": 996.1421,
+          "total_pnl": -3.8579
         },
         "events": {
           "fill": 25,
-          "order_acknowledged": 40,
+          "order_acknowledged": 39,
           "order_rejected": 0,
-          "order_submitted": 40
+          "order_submitted": 39
         },
         "fee_model": {
           "formula": "round_up(M * rate * C * P * (1-P)); M = series fee_multiplier",
@@ -1890,68 +1912,68 @@
         },
         "longshot_bands": {
           "10-20c": {
-            "candidates": 37,
-            "contracts": 174.0,
+            "candidates": 38,
+            "contracts": 188.0,
             "expected_edge_bps_mean": 84,
-            "fees": 0.3487,
-            "fill_probability_mean": 0.39,
-            "fills": 13,
-            "notional": 151.06,
-            "orders": 16
+            "fees": 0.3874,
+            "fill_probability_mean": 0.3965,
+            "fills": 14,
+            "notional": 162.34,
+            "orders": 17
           },
           "<10c": {
             "candidates": 67,
-            "contracts": 120.0,
-            "expected_edge_bps_mean": 37,
-            "fees": 0.1149,
-            "fill_probability_mean": 0.2,
-            "fills": 12,
-            "notional": 113.03,
-            "orders": 24
+            "contracts": 108.0,
+            "expected_edge_bps_mean": 38,
+            "fees": 0.1068,
+            "fill_probability_mean": 0.1954,
+            "fills": 11,
+            "notional": 101.51,
+            "orders": 22
           }
         },
-        "longshot_candidates": 104,
+        "longshot_candidates": 105,
         "mark_method": "conservative",
         "paper_pnl_by_longshot_band": {
           "10-20c": {
-            "contracts": 174.0,
-            "fees": 0.3487,
-            "fills": 13,
-            "marked": 13,
-            "notional": 151.06,
-            "paper_pnl": -2.0287,
+            "contracts": 188.0,
+            "fees": 0.3874,
+            "fills": 14,
+            "marked": 14,
+            "notional": 162.34,
+            "paper_pnl": -2.2074,
             "paper_pnl_per_contract": -0.0117,
-            "return_on_notional_bps": -134
+            "return_on_notional_bps": -136
           },
           "<10c": {
-            "contracts": 120.0,
-            "fees": 0.1149,
-            "fills": 12,
-            "marked": 12,
-            "notional": 113.03,
-            "paper_pnl": -1.2649,
+            "contracts": 108.0,
+            "fees": 0.1068,
+            "fills": 11,
+            "marked": 11,
+            "notional": 101.51,
+            "paper_pnl": -1.1368,
             "paper_pnl_per_contract": -0.0105,
             "return_on_notional_bps": -112
           }
         },
         "paper_pnl_by_price_paid_band": {
           "80-90c": {
-            "contracts": 174.0,
-            "fees": 0.3487,
-            "fills": 13,
-            "marked": 13,
-            "notional": 151.06,
-            "paper_pnl": -2.0287,
+            "contracts": 188.0,
+            "fees": 0.3874,
+            "fills": 14,
+            "marked": 14,
+            "notional": 162.34,
+            "paper_pnl": -2.2074,
             "paper_pnl_per_contract": -0.0117,
-            "return_on_notional_bps": -134
+            "return_on_notional_bps": -136
           },
           ">=90c": {
-            "contracts": 120.0,
-            "fees": 0.1149,
-            "fills": 12,
-            "marked": 12,
-            "notional": 113.03,
-            "paper_pnl": -1.2649,
+            "contracts": 108.0,
+            "fees": 0.1068,
+            "fills": 11,
+            "marked": 11,
+            "notional": 101.51,
+            "paper_pnl": -1.1368,
             "paper_pnl_per_contract": -0.0105,
             "return_on_notional_bps": -112
           }
@@ -1980,26 +2002,26 @@
         },
         "venue_pnl": {
           "kalshi": {
-            "fees_paid": 0.5056,
+            "fees_paid": 0.5879,
             "open_positions": 25.0,
-            "realized_pnl": -0.5056,
-            "total_pnl": -3.4756,
-            "unrealized_pnl": -2.97
+            "realized_pnl": -0.5879,
+            "total_pnl": -3.8579,
+            "unrealized_pnl": -3.27
           }
         }
       },
       "notes": "Resting fade one tick inside the spread (or joining the touch). Fills are expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks (exit price). Not a measurement of fill rates.",
       "paper_fills": 25,
-      "proposed_orders": 40,
+      "proposed_orders": 39,
       "refused_by_reason": {
-        "capital_cap_reached": 64,
-        "not_longshot": 96
+        "capital_cap_reached": 66,
+        "not_longshot": 95
       },
       "reject_reasons": {
-        "capital_cap_reached": 64,
-        "not_longshot": 96
+        "capital_cap_reached": 66,
+        "not_longshot": 95
       },
-      "rejects": 160,
+      "rejects": 161,
       "settlement_risk": false,
       "settlement_risk_flag": false,
       "track": "kalshi_maker_quote"

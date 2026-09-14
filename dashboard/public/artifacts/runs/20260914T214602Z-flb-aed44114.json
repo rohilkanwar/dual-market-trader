@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T214602Z-flb-aed44114.json"
+  ],
+  "run_id": "20260914T214602Z-flb-aed44114",
+  "mode": "network",
+  "measured_at": "2026-09-14T21:46:02.135236+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / KALSHI FLB",
+  "venues": [
+    "kalshi"
+  ],
+  "venue_focus": "kalshi",
+  "kalshi_env": "prod",
+  "track_family": null,
+  "primary_track": "kalshi_maker_quote",
+  "run_kind": "kalshi_flb",
+  "flb": {
+    "headline": "Snapshot books: FLB NOT_IDENTIFIABLE (prices without outcomes). Ex-post from settled trades: longshot tail (<20c) FAIL contract-weighted / FAIL equal-weighted by market; favorite-longshot slope (below vs above 50c) FAIL; maker fade edge after fees FAIL.",
+    "report": "flb_report_latest.json",
+    "verdicts": {
+      "event_overround_positive": "PASS",
+      "ex_post_favorite_longshot_slope": "FAIL",
+      "ex_post_favorite_longshot_slope_excluding_final_minutes": "FAIL",
+      "ex_post_flb": "FAIL",
+      "ex_post_flb_equal_weighted_markets": "FAIL",
+      "ex_post_flb_excluding_final_minutes": "FAIL",
+      "flb_identifiable_from_snapshot": "NOT_IDENTIFIABLE",
+      "longshot_take_cost_exceeds_favorite": "PASS",
+      "maker_fade_edge_after_fees": "FAIL"
+    }
+  },
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 400,
+    "admitted": 78,
+    "rejects": 322,
+    "proposed_orders": 78,
+    "paper_fills": 64,
+    "paper_pnl": -21.95,
+    "realized_pnl": -4.97,
+    "unrealized_pnl": -16.98,
+    "fees_paid": 4.97
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "kalshi_longshot_fade",
+      "label": "Kalshi longshot fade (taker)",
+      "candidates": 200,
+      "admitted": 39,
+      "rejects": 161,
+      "proposed_orders": 39,
+      "paper_fills": 39,
+      "fill_rate": 1,
+      "edge_bps": -150,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "capital_cap_reached": 66,
+        "not_longshot": 95
+      },
+      "notes": "Taker fade of every Kalshi longshot (<=20c side): buys the favourite at the touch, pays the taker fee, marked at mid. The shadow_longshot_buyer metric is the mirror trade. Paper caps $25/order, $75/market, $75 daily.",
+      "ledger": {
+        "ledger_id": "kalshi_longshot_fade",
+        "starting_cash": 1000,
+        "cash": 732.6609,
+        "equity": 981.9059,
+        "realized_pnl": -4.38,
+        "unrealized_pnl": -13.71,
+        "total_pnl": -18.09,
+        "fees_paid": 4.38,
+        "fills": 49,
+        "open_positions": 39,
+        "max_drawdown": 18.0941
+      }
+    },
+    {
+      "track": "kalshi_maker_quote",
+      "label": "Kalshi maker quote (resting fade)",
+      "candidates": 200,
+      "admitted": 39,
+      "rejects": 161,
+      "proposed_orders": 39,
+      "paper_fills": 25,
+      "fill_rate": 0.641,
+      "edge_bps": 59,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "capital_cap_reached": 66,
+        "not_longshot": 95
+      },
+      "notes": "Resting fade one tick inside the spread (or joining the touch). Fills are expected-value fills from documented fill-probability assumptions, maker fee 0.0175*M*P*(1-P) where the series charges makers, conservative marks (exit price). Not a measurement of fill rates.",
+      "ledger": {
+        "ledger_id": "kalshi_maker_quote",
+        "starting_cash": 1000,
+        "cash": 928.8221,
+        "equity": 996.1421,
+        "realized_pnl": -0.59,
+        "unrealized_pnl": -3.27,
+        "total_pnl": -3.86,
+        "fees_paid": 0.59,
+        "fills": 29,
+        "open_positions": 25,
+        "max_drawdown": 3.8579
+      }
+    }
+  ]
+}
