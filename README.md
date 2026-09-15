@@ -474,9 +474,9 @@ settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI b
 research/      scoreboard (13 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
                flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources,
                weather_tracks (reserved weather ids, findings.weather reducer, optional runner / report hooks), weather dead-bucket track + position register + free observation sources (aviationweather.gov / NWS)
-apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather (weather_dead_bucket: research/weather_dead_bucket.py + research/weather_obs.py), paper_loop, paper_runner, dashboard_api
+apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md pre-registration + audit
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md pre-registration + audit (apps/measure_weather, research/weather_dead_bucket.py, research/weather_obs.py, strategies/weather_dead_bucket.py)
 ```
 
 ### Tracks
