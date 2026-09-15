@@ -44,7 +44,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 | `venue_focus` | string | `kalshi` |
 | `kalshi_env` | `"demo"` \| `"prod"` \| null | Public API host used for network reads |
 | `run_id`, `cycle` | string, number \| null | Run identity; `cycle` set by the paper loop |
-| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; `tennis_basis` on `scoreboard_tennis_basis.json` written by `apps.measure_tennis_basis`; `weather` on `scoreboard_weather.json` (weather-only CLI); absent/null on the full board |
+| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; `tennis_basis` on `scoreboard_tennis_basis.json` written by `apps.measure_tennis_basis`; `weather` on `scoreboard_weather.json` / `scoreboard_weather_buckets.json` (weather CLIs); `weather_calibration` on `scoreboard_weather_calibration.json` written by `apps.measure_weather_calibration` (tracks `weather_naive_ensemble`, `weather_calibrated_ensemble`; full A/B report in `weather_calibration_latest.json`); absent/null on the full board |
 | `note` | string | Sample files only: explains that the numbers are placeholders |
 
 ## `findings`

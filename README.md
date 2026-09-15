@@ -35,6 +35,11 @@ already killed are bought as NO, the one certain bucket as YES, when the ask
 leaves ≥ 2¢ net after fees; settled against the venue's resolution with the
 observation-implied outcome recorded alongside (`docs/WEATHER_DEAD_BUCKET.md`;
 the committed cycle found no takeable NO ask on any dead leg).
+(`docs/SPECIALIST_SCOREBOARD.md`). `weather_naive_ensemble` /
+`weather_calibrated_ensemble` are a paper A/B on Polymarket's daily
+temperature buckets: free Open-Meteo models, per-city calibration learned from
+settled city-days, pre-registered settled-EV test that reports `UNDERPOWERED`
+until both lanes have 50 settled admissions (`docs/WEATHER_CALIBRATION.md`).
 
 ## Quick start
 
@@ -59,6 +64,9 @@ ODDS_API_KEY=... uv run python -m apps.measure_tennis_basis --network --kalshi-e
 # Weather dead buckets: fixture replay, then a public network cycle (Gamma tag 104596 + aviationweather.gov, no keys)
 uv run python -m apps.measure_weather --artifact-dir artifacts
 uv run python -m apps.measure_weather --network --artifact-dir artifacts
+# Weather per-city calibration A/B: fixture replay, then a public network cycle with a 60-day history backfill
+uv run python -m apps.measure_weather_calibration --artifact-dir artifacts
+uv run python -m apps.measure_weather_calibration --network --backfill-days 60 --artifact-dir artifacts
 ```
 
 `TRADING_MODE=paper` and `ENABLE_LIVE_TRADING=false` are the defaults. Every
@@ -79,6 +87,8 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/scoreboard_weather.json`, `weather_report_<fixtures\|network>.json`, `weather_report_latest.json`, `weather_dead_bucket/register.json` | Weather board (`meta.track_family=weather`), weather report (`kind=weather_report`; `tracks.weather_dead_bucket` = pre-registered rule, dead-bucket NO and certain-YES verdicts, per-event running highs, per-leg reasons, resting-only legs, position records) and the persistent position register from `apps.measure_weather` |
 | `artifacts/scoreboard_weather_buckets.json`, `weather_buckets_latest.json`, `weather_buckets/register.json` | Weather bucket-edge board (`meta.track_family=weather`), full report (pre-registered rule, venue-settled and METAR-provisional verdicts, station-parse rate, feed freshness, per-city-day records) and the persistent city-day register from `apps.measure_weather_buckets` |
 | `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`, `category_specialist` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
+| `artifacts/scoreboard_weather_calibration.json`, `weather_calibration_latest.json`, `weather_calibration/register.json`, `weather_calibration/calibration_store.json` | Weather A/B board (`meta.track_family=weather_calibration`, both lanes), full report (pre-registered rule, verdict, per-city × model calibration, walk-forward skill, every priced ladder), the persistent register of priced city-days / admissions and the settled-sample store from `apps.measure_weather_calibration` |
+| `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`, `category_specialist`, the `polymarket_*_arb` and the two `weather_*_ensemble` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
 | `artifacts/paper_loop_latest.json`, `paper_loop_history.jsonl` | Paper-loop cycle payloads (append-only history) |
@@ -319,10 +329,37 @@ bets yet), so the hypothesis is **not validated**; `docs/SPECIALIST_SCOREBOARD.m
 lists everything that is and is not. Kalshi has no per-trader data, so the lane
 is Polymarket-only.
 
+### Weather per-city model calibration A/B (Polymarket temperature buckets)
+
+Two paper lanes price the same *Highest temperature in &lt;city&gt; on &lt;date&gt;?*
+NegRisk ladders (51 cities, 11 buckets each) from the same seven free Open-Meteo
+models (GFS, ECMWF IFS, ICON, GEM, Météo-France, UKMO, JMA). `weather_naive_ensemble`
+(control) uses the equal-weight mean and a pooled sigma; `weather_calibrated_ensemble`
+removes each model's per-city bias, weights by de-biased variance × bucket hit rate
+and uses the city's residual sigma, learned from settled Polymarket city-days joined
+with Open-Meteo's previous-runs day-ahead archive. A leg is admitted only when
+\|p − mid\| ≥ 5¢ and the touch clears fees; both lanes settle at 1/0 the next day.
+
+```bash
+uv run python -m apps.measure_weather_calibration                                  # synthetic fixture replay, no network
+uv run python -m apps.measure_weather_calibration --network --backfill-days 60     # 3,001 settled city-days on 2026-09-15
+uv run python -m apps.measure_weather_calibration --network                        # daily: settle yesterday, price tomorrow
+```
+
+Pre-registered pass: **≥ 50 settled admissions per lane, calibrated − naive settled
+net EV ≥ 2¢/contract and calibrated ≥ 2.5¢/contract**; fewer is `UNDERPOWERED`.
+Measured 2026-09-15: 51/51 cities calibrated (59–60 days each), best model differs by
+city (ICON 17, UKMO 15, GFS 6, ECMWF 5, …), walk-forward forecast MAE 1.92 → 1.41 °F
+and top-bucket hit 29.5 % → 43.6 % (skill vs the settled bucket, not the market);
+the paper A/B is **`no_settled` / UNDERPOWERED** until the loop has run daily. Paid
+Open-Meteo keys are off unless `--allow-paid-keys` and `OPEN_METEO_API_KEY` are both set.
+Rules, sources, bucket semantics and everything not validated: `docs/WEATHER_CALIBRATION.md`.
+
 ### Other entry points
 
 ```bash
 uv run python -m apps.measure_all --help            # one-shot measurement, all 13 tracks, all flags
+uv run python -m apps.measure_weather_calibration --help  # weather calibration A/B (see docs/WEATHER_CALIBRATION.md)
 uv run python -m apps.book_logger --help            # self-log public books/trades to artifacts/books (see docs/BOOK_LOGGER.md)
 uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only (see docs/POLYMARKET_ARB.md)
 uv run python -m apps.measure_flb --help            # Kalshi FLB tracks + ex-post band table (see docs/FLB_RUNBOOK.md)
@@ -496,14 +533,14 @@ contains no keys, wallets, live-order routes, or client secrets.
 ```text
 venues/        Kalshi + Polymarket adapters (fixtures | public read-only network), shared paper fill simulator
 core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEngine (single risk-gated route), config
-strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict), specialist scoring/promotion/evaluation, weather dead-bucket (shared weather types, METAR parsing, running high, kill rules, edge after fees, verdict)
+strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict), specialist scoring/promotion/evaluation, weather dead-bucket / weather types + per-city calibration store / ensembles / A/B verdict
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
 research/      scoreboard (13 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
                flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources,
-               weather_tracks (reserved weather ids, findings.weather reducer, optional runner / report hooks), weather dead-bucket track + position register + free observation sources (aviationweather.gov / NWS)
-apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather, paper_loop, paper_runner, dashboard_api
+               weather_tracks (reserved weather ids, findings.weather reducer, optional runner / report hooks), weather dead-bucket + bucket-edge + calibration tracks and free observation / Open-Meteo sources
+apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather, measure_weather_buckets, measure_weather_calibration, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
-docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md pre-registration + audit (apps/measure_weather, research/weather_dead_bucket.py, research/weather_obs.py, strategies/weather_dead_bucket.py)
+docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md, WEATHER_BUCKETS.md, WEATHER_CALIBRATION.md
 ```
 
 ### Tracks
@@ -526,6 +563,7 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 | `kalshi_longshot_fade` | longshot side < 20¢, $25/$75/$75 paper caps, taker fee | taker fade of Kalshi longshots; shadow longshot buyer as benchmark |
 | `kalshi_maker_quote` | same trigger, resting order, expected-value fills, maker fee, conservative marks | maker fade of Kalshi longshots |
 | `tennis_whale_copy_30s` / `_2m` / `_10m` (`apps.measure_tennis_whale`, tape replay) | walk-forward whale qualification, two-sided-flow refusal, first print at/after the lag + 1 tick, $10 stake capped by print size, $25/100/$75 rails | copy Polymarket tennis whales at three lags; settlement EV and CLV by market-clustered bootstrap; pre-registered pass/kill rule |
+| `weather_naive_ensemble` (control) / `weather_calibrated_ensemble` (`apps.measure_weather_calibration`) | known city, contiguous ladder, city-local tomorrow only, two-sided book, \|p − mid\| ≥ 5¢, fee-cleared touch; calibrated lane also ≥ 20 settled city-days for the city | Polymarket temperature buckets priced from seven free Open-Meteo models; per-city bias / variance / hit-rate calibration from settled city-days; settled net-EV A/B with a pre-registered N=50-per-lane floor; `scoreboard_weather_calibration.json` + `weather_calibration_latest.json` |
 
 Each track has its own risk manager, execution engine, portfolio and ledger.
 The cross-venue, fair-value, news and Kalshi FLB tracks share one frozen per-venue
