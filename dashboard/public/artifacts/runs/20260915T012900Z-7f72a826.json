@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260915T012900Z-7f72a826.json"
+  ],
+  "run_id": "20260915T012900Z-7f72a826",
+  "mode": "network",
+  "measured_at": "2026-09-15T01:28:46.260357+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / WEATHER CALIBRATION A/B",
+  "venues": [
+    "polymarket"
+  ],
+  "venue_focus": "polymarket",
+  "kalshi_env": null,
+  "track_family": "weather_calibration",
+  "primary_track": "weather_calibrated_ensemble",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 2574,
+    "admitted": 1,
+    "rejects": 2573,
+    "proposed_orders": 1,
+    "paper_fills": 1,
+    "paper_pnl": -55.17,
+    "realized_pnl": -22.91,
+    "unrealized_pnl": -32.26,
+    "fees_paid": 22.91
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "weather_naive_ensemble",
+      "label": "Weather naive ensemble (control)",
+      "candidates": 1287,
+      "admitted": 0,
+      "rejects": 1287,
+      "proposed_orders": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "gap_below_threshold": 222,
+        "lead_not_admissible": 68,
+        "no_two_sided_mid": 133,
+        "target_position_reached": 184
+      },
+      "notes": "CONTROL. Equal-weight mean of the raw free per-model day-ahead maxima (Open-Meteo: GFS, ECMWF IFS, ICON, GEM, Meteo-France, UKMO, JMA), pooled sigma, normal bucket probabilities. Trades a bucket only when |p - mid| >= edge_threshold and the touch clears fees. Same books, sizes and rails as the calibrated lane.",
+      "ledger": {
+        "ledger_id": "weather_naive_ensemble",
+        "starting_cash": 1000,
+        "cash": 1229.61032,
+        "equity": 970.15032,
+        "realized_pnl": -11.89,
+        "unrealized_pnl": -17.96,
+        "total_pnl": -29.85,
+        "fees_paid": 11.89,
+        "fills": 210,
+        "open_positions": 184,
+        "max_drawdown": 29.84968
+      }
+    },
+    {
+      "track": "weather_calibrated_ensemble",
+      "label": "Weather calibrated ensemble (per city)",
+      "candidates": 1287,
+      "admitted": 1,
+      "rejects": 1286,
+      "proposed_orders": 1,
+      "paper_fills": 1,
+      "fill_rate": 1,
+      "edge_bps": 309,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "gap_below_threshold": 262,
+        "lead_not_admissible": 68,
+        "no_two_sided_mid": 133,
+        "target_position_reached": 143
+      },
+      "notes": "Per-city x model calibration from settled Polymarket city-days (free Open-Meteo previous-runs archive + live forecasts recorded at first sight): bias removal, inverse-variance x hit-rate weights shrunk toward equal, per-city residual sigma. Refuses cities below min_calibration_samples settled days. Pre-registered A/B on settled net EV per contract vs the naive control: PASS only with >= min_settled_per_lane settled admissions in both lanes, margin >= 0.02 and absolute EV >= 0.025; otherwise FAIL / UNDERPOWERED.",
+      "ledger": {
+        "ledger_id": "weather_calibrated_ensemble",
+        "starting_cash": 1000,
+        "cash": 1146.36731,
+        "equity": 974.67731,
+        "realized_pnl": -11.02,
+        "unrealized_pnl": -14.3,
+        "total_pnl": -25.32,
+        "fees_paid": 11.02,
+        "fills": 166,
+        "open_positions": 145,
+        "max_drawdown": 25.32269
+      }
+    }
+  ]
+}

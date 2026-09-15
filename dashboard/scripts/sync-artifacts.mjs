@@ -34,6 +34,7 @@ const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 // for a new mode, or paper/ledger_<track>.json for a new track, is picked up with
 // no change here. Validation below still decides what is publishable.
 async function listCandidates() {
+  // weather_calibration_latest.json from apps.measure_weather_calibration
   // flb_report_latest.json is the Kalshi FLB report written by apps.measure_flb;
   // tennis_whale_report_latest.json the tennis whale copy report from apps.measure_tennis_whale;
   // tennis_basis_latest.json the tennis basis report from apps.measure_tennis_basis;
@@ -47,6 +48,7 @@ async function listCandidates() {
     'tennis_whale_report_latest.json',
     'tennis_basis_latest.json',
     'weather_buckets_latest.json',
+    'weather_calibration_latest.json',
   ])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)

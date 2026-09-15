@@ -48,6 +48,8 @@ REGISTER_DETAIL_FILES = {
     "tennis_basis": "tennis_basis_latest.json",
     "weather_bucket_edge": "weather_buckets_latest.json",
     "weather_dead_bucket": "weather_report_<mode>.json",
+    "weather_calibrated_ensemble": "weather_calibration_latest.json",
+    "weather_naive_ensemble": "weather_calibration_latest.json",
 }
 
 
@@ -83,6 +85,12 @@ def _slim_metrics(metrics: dict[str, Any], track: str | None = None) -> dict[str
         for key in ("weather_events", "resting_only_opportunities"):
             if isinstance(slim.get(key), list):
                 slim[key] = {"count": len(slim[key]), "detail": detail}
+    if "detail_file" in slim:
+        # Track families that name their own report keep only counts on the board
+        # for their per-event rows and any ``*_detail`` list / mapping.
+        detail_file = str(slim.get("detail_file") or "tennis_basis_latest.json")
+        for key in [k for k in list(slim) if k.endswith("_detail") and isinstance(slim[k], (list, dict))]:
+            slim[key] = {"count": len(slim[key]), "detail": detail_file}
     if "follow_state" in slim:
         # The specialist lane's full scoreboard, follow log and per-attempt rows
         # live in specialist_scoreboard_<mode>.json; the board keeps counts.
