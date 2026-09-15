@@ -102,6 +102,34 @@ jobs:
           assert r["not_validated"], "report must list what is not validated"
           print("tennis basis ok:", r["refused_by_reason"], "verdict", v["status"])
           EOF
+      - name: Weather dead-bucket track - fixture replay proves the kill rules, the fee math and the kill switch
+        run: |
+          uv run python -m apps.measure_weather --no-persist --artifact-dir artifacts
+          uv run python - <<'EOF'
+          import json
+          a = json.load(open("artifacts/scoreboard_weather_dead_bucket.json"))
+          assert a["meta"]["source"] == "measured" and a["meta"]["track_family"] == "weather_dead_bucket", a["meta"]
+          assert a["meta"]["pnl_source"] == "core.ledger.PaperLedger" and a["meta"]["venues"] == ["polymarket"]
+          r = json.load(open("artifacts/weather_dead_bucket_latest.json"))
+          assert r["paper_only"] is True and r["status"] == "fixture_synthetic", r["status"]
+          assert r["candidates"] == 140 and r["paper_fills"] == 32 and r["positions_settled_this_run"] == 32, (r["candidates"], r["paper_fills"])
+          v = r["verdict"]
+          assert v["pre_registered"]["min_settled_positions"] == 30 and v["pre_registered"]["min_station_days"] == 10
+          assert v["n"] == 29 and v["losses"] == 1 and v["kill_rule_triggered"] is True and v["status"] == "INSUFFICIENT_DATA", v
+          reasons = r["refused_by_reason"]
+          for reason in ("station_unparsed", "station_mismatch", "stale_obs", "too_early_in_day", "not_falling", "bucket_edge_ambiguous", "no_ask", "edge_below_threshold", "insufficient_depth", "market_kind_unsupported", "station_timezone_unknown"):
+              assert reasons[reason] >= 1, reason
+          rec = {(x["city"], x["bucket_label"]): x for x in r["records"]}
+          assert rec[("Buenos Aires", "18-19°C")]["agreement"] == "disagree" and rec[("NYC", "74-75°F")]["rule"] == "certain_yes_day_complete"
+          assert r["not_validated"], "report must list what is not validated"
+          print("weather dead bucket ok:", reasons, "verdict", v["status"], "kill", v["kill_rule_triggered"])
+          EOF
+      - name: Fail-closed check - weather measurement refuses live flags
+        run: |
+          if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.measure_weather --no-persist --artifact-dir /tmp/weather-should-not-exist; then
+            echo "measure_weather started with live flags" && exit 1
+          fi
+          test ! -e /tmp/weather-should-not-exist/scoreboard_weather_dead_bucket.json
       - name: Gate report is emitted and the gated track never ordered on a refused pair
         run: |
           uv run python - <<'EOF'
@@ -237,7 +265,7 @@ jobs:
         run: |
           node - <<'EOF'
           const fs = require('node:fs');
-          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_weather_dead_bucket.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
             const isSample = f.includes('sample');
@@ -263,6 +291,12 @@ jobs:
           const kalshi = tennis.verdict_table.find((r) => r.check === 'kalshi_whales_identifiable');
           if (!kalshi || kalshi.verdict !== 'NOT_IDENTIFIABLE') throw new Error('tennis report claims Kalshi whales are identifiable');
           console.log('tennis_whale_report_latest.json', tennis.mode, tennis.status, tennis.overall_verdict, 'kill:', tennis.kill_rule.status);
+          const weather = JSON.parse(fs.readFileSync('public/artifacts/weather_dead_bucket_latest.json', 'utf8'));
+          if (weather.kind !== 'weather_dead_bucket_report' || weather.paper_only !== true || weather.source !== 'measured') throw new Error('weather_dead_bucket_latest.json: not a paper-only measured weather report');
+          if (weather.status === 'fixture_synthetic' || weather.mode !== 'network') throw new Error('weather_dead_bucket_latest.json: committed report must come from a network cycle, not the fixture');
+          const wv = weather.verdict ?? {};
+          if (wv.n < weather.experiment.pre_registered.min_settled_positions && ['PASS', 'FAIL'].includes(wv.status)) throw new Error('weather report declared pass/fail below the pre-registered n');
+          console.log('weather_dead_bucket_latest.json', weather.mode, weather.status, `admitted ${weather.admitted}/${weather.candidates}`, 'verdict', wv.status, 'no_ask', weather.refused_by_reason?.no_ask ?? 0);
           for (const f of ['specialist_scoreboard_latest.json','specialist_scoreboard_network.json','specialist_scoreboard_fixtures.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (d.kind !== 'specialist_scoreboard' || d.meta.source === 'sample' || !Array.isArray(d.scoreboard)) throw new Error(`${f}: bad specialist board`);
