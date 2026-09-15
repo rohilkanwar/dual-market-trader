@@ -89,14 +89,17 @@ an ICAO id (`RCSS`, admitted with `source = wunderground`). Units are °F for US
 cities and °C elsewhere. The Denver station is Buckley SFB (`KBKF`), not
 `KDEN` — exactly the mismatch the station parser exists to catch.
 
-Measured 2026-09-15 01:20 UTC (`apps.measure_weather_buckets --network`, run committed under
-`dashboard/public/artifacts/`): 120 events read, **118 stations parsed** (2
-`no_station`), 86 city-days priced (32 refused `too_far_ahead` at the local
-date), **50 city-days entered**, 170 paper fills, $1,000 cost basis reached, 0
-settled (a first run cannot settle anything). Bucket-level refusals: 422
-`one_sided_book`, 140 `wide_spread`, 111 `no_edge`, 90 `below_edge_threshold`.
-The verdict is therefore `insufficient_sample`; the edge is **UNKNOWN** until
-the register accumulates settled city-days (see "Run it").
+Measured 2026-09-15 01:32 UTC (`apps.measure_weather_buckets --network --limit 120`,
+run `20260915T013332Z-5149e6bf`, committed under `dashboard/public/artifacts/`):
+120 events read, **118 stations parsed** (2 `no_station`, both Hong Kong), 86
+city-days priced (32 refused `too_far_ahead` at the station's local date), **51
+city-days entered**, 172 paper fills, $1,000 cost basis reached on the last
+entry, 119 free-feed requests, 0 feed errors, 0 settled (a first run cannot
+settle anything). Bucket-level refusals: 422 `one_sided_book`, 140
+`wide_spread`, 110 `no_edge`, 88 `below_edge_threshold`, 7 `price_below_floor`,
+4 `price_above_cap`. Ledger: fees $23.99, unrealised −$47.90 at mid marks after
+crossing the spread. The verdict is therefore `insufficient_sample`; the edge is
+**UNKNOWN** until the register accumulates settled city-days (see "Run it").
 
 ## Lifecycle of a record
 
@@ -183,12 +186,12 @@ about the hypothesis.
 | W.7 | A run without a feed is an honest empty and a failing feed or resolution endpoint cannot kill a run | **PASS** | `test_network_path_without_a_feed_is_an_honest_empty`, `test_exploding_feed_and_lookup_do_not_take_the_run_down`, `test_empty_snapshot_reports_no_weather_markets`. |
 | W.8 | The register survives a restart and a resumed replay equals a straight one; a second run over a closed register opens nothing | **PASS** | `test_register_round_trips_and_a_resumed_replay_matches_a_straight_one`, `test_cli_fixture_run_writes_report_register_and_ledger`. |
 | W.9 | Paid vendors are gated OFF | **PASS (by construction)** | none implemented; `paid_source_policy` reports `enabled = false, implemented = false` even with `VISUAL_CROSSING_KEY` and `WEATHER_ALLOW_PAID_SOURCES=true` set (`test_paid_sources_are_reported_and_never_enabled`). |
-| W.10 | **The edge itself** (≥ 2¢ / contract net of fees on venue-settled city-days) | **UNKNOWN** | The committed network run entered 50 city-days and settled none (a first run cannot). Needs the CLI scheduled every 6–12 h with the same `--artifact-dir` until `verdict.n ≥ 30`. |
+| W.10 | **The edge itself** (≥ 2¢ / contract net of fees on venue-settled city-days) | **UNKNOWN** | The committed network run entered 51 city-days and settled none (a first run cannot). Needs the CLI scheduled every 6–12 h with the same `--artifact-dir` until `verdict.n ≥ 30`. |
 | W.11 | Raw ensemble frequencies are calibrated probabilities at 0–1 day lead | **UNKNOWN** | Day-ahead ensembles are typically under-dispersed and station-biased; `dispersion_multiplier` and `bias_degrees` exist but are 1 / 0 until the calibration track fits them from the register's Brier records. |
 | W.12 | The grid-interpolated forecast represents the station | **UNKNOWN** | Open-Meteo interpolates 0.25–0.4° global models to the coordinates; airports on coasts or at altitude (Buckley SFB 1,703 m) can differ from the cell by a bucket. The METAR agreement rate and per-station Brier are the diagnostics. |
 | W.13 | METAR reconstruction equals NOAA's "Temp" column | **UNKNOWN / documented** | Round-half-up of the T-group in the market unit; NOAA's own rounding, SPECI inclusion and late corrections are not verified. Hence provisional only. |
 | W.14 | Polymarket `weather_fees` = 5 % · p · (1 − p) taker | **PASS (formula) / UNKNOWN (rebates, changes)** | `venues/polymarket/fees.py` table read 2026-09-14; makers pay nothing; no rebate programme modelled. |
-| W.15 | Taker fills at the displayed touch of a frozen snapshot | **UNKNOWN / conservative** | queue, latency and adverse selection are not modelled; mid marks after crossing the spread show as an immediate unrealised loss (−$46 on 170 fills in the committed run) until settlement. |
+| W.15 | Taker fills at the displayed touch of a frozen snapshot | **UNKNOWN / conservative** | queue, latency and adverse selection are not modelled; mid marks after crossing the spread show as an immediate unrealised loss (−$47.90 on 172 fills in the committed run) until settlement. |
 | W.16 | Fixture numbers are evidence | **FAIL as evidence** | hand-written; they prove branches, not the hypothesis. `sync-artifacts` refuses to publish a `fixture_synthetic` report. |
 
 ## Limitations (deliberate, v1)

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260915T013332Z-5149e6bf.json"
+  ],
+  "run_id": "20260915T013332Z-5149e6bf",
+  "mode": "network",
+  "measured_at": "2026-09-15T01:32:32.130533+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / WEATHER BUCKETS",
+  "venues": [
+    "polymarket"
+  ],
+  "venue_focus": "polymarket",
+  "kalshi_env": null,
+  "track_family": "weather",
+  "primary_track": "weather_bucket_edge",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 120,
+    "admitted": 51,
+    "rejects": 69,
+    "proposed_orders": 172,
+    "paper_fills": 172,
+    "paper_pnl": -71.89,
+    "realized_pnl": -23.99,
+    "unrealized_pnl": -47.9,
+    "fees_paid": 23.99
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "weather_bucket_edge",
+      "label": "Weather temperature-bucket edge (free ensemble)",
+      "candidates": 120,
+      "admitted": 51,
+      "rejects": 69,
+      "proposed_orders": 172,
+      "paper_fills": 172,
+      "fill_rate": 1,
+      "edge_bps": 1780,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "no_station": 2,
+        "priced_no_edge": 35,
+        "too_far_ahead": 32
+      },
+      "notes": "Polymarket daily highest/lowest temperature buckets vs a free multi-model ensemble (Open-Meteo: GEFS, ECMWF IFS, ICON-EPS members) at the exact settlement station parsed from the rules text (fail-closed on missing or ambiguous stations). Member daily max/min rounded to whole degrees gives bucket probabilities (alpha 0.5 smoothing); a bucket is bought (YES or NO, taker at the touch) only when the model edge net of the Polymarket weather taker fee clears 3c, with caps $10/order, $20/bucket, $40/city-day, $1,000 total cost basis (= paper cash, never borrows), two-sided books with spread <= 10c, and RiskManager rails. City-days settle on the venue resolution only; METAR-derived outcomes are a provisional cross-check. Pre-registered pass: mean net PnL per contract >= 2c across >= 30 venue-settled city-days with 95% lower bound > 0. Full register: weather_buckets_latest.json.",
+      "ledger": {
+        "ledger_id": "weather_bucket_edge",
+        "starting_cash": 1000,
+        "cash": 1069.0139,
+        "equity": 928.1149,
+        "realized_pnl": -23.99,
+        "unrealized_pnl": -47.9,
+        "total_pnl": -71.89,
+        "fees_paid": 23.99,
+        "fills": 172,
+        "open_positions": 172,
+        "max_drawdown": 71.8851
+      }
+    }
+  ]
+}
