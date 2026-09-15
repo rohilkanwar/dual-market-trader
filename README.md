@@ -77,6 +77,7 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/polymarket_arb_latest.json` | Full arb opportunity report: per-group sums, fee/slippage per set, mirror statistics, conversions, holdings |
 | `artifacts/scoreboard_tennis_basis.json`, `tennis_basis_latest.json`, `tennis_basis/register.json` | Tennis-basis board (`meta.track_family=tennis_basis`), full report (pre-registered rule, verdict, per-market reasons, gap records) and the persistent gap register from `apps.measure_tennis_basis` |
 | `artifacts/scoreboard_weather.json`, `weather_report_<fixtures\|network>.json`, `weather_report_latest.json`, `weather_dead_bucket/register.json` | Weather board (`meta.track_family=weather`), weather report (`kind=weather_report`; `tracks.weather_dead_bucket` = pre-registered rule, dead-bucket NO and certain-YES verdicts, per-event running highs, per-leg reasons, resting-only legs, position records) and the persistent position register from `apps.measure_weather` |
+| `artifacts/scoreboard_weather_buckets.json`, `weather_buckets_latest.json`, `weather_buckets/register.json` | Weather bucket-edge board (`meta.track_family=weather`), full report (pre-registered rule, venue-settled and METAR-provisional verdicts, station-parse rate, feed freshness, per-city-day records) and the persistent city-day register from `apps.measure_weather_buckets` |
 | `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`, `category_specialist` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
@@ -265,8 +266,33 @@ artifact names and `metrics` keys follow the dashboard contract in
 cycle: 56 events, 616 legs, **0 admits** — all 167 dead legs of the 21:00-local
 US/LatAm events had no NO ask at all (NO bids at 0.999 only), so the leftover
 probability is a one-sided mid, not a takeable quote. `docs/WEATHER_DEAD_BUCKET.md`
-records the rules, the shared types for the sister weather tracks, and what is
-and is not validated.
+records the rules, the shared types for the sister weather tracks, and what is not validated.
+
+### Weather temperature buckets vs. a free ensemble (separate track family)
+
+`weather_bucket_edge` prices Polymarket's daily "Highest / Lowest temperature in
+*city* on *date*" NegRisk buckets with a **free** multi-model ensemble
+(Open-Meteo: GEFS + ECMWF IFS + ICON-EPS, 122 members) evaluated at the exact
+settlement station parsed from the rules text (`weather.gov/wrh/timeseries?site=klga`,
+fail-closed on anything missing or ambiguous) and rounded to the settlement
+precision. A bucket is paper-bought (YES or NO at the touch) only when the model
+edge net of the 5 % weather taker fee clears 3¢; caps $10/order, $20/bucket,
+$40/city-day, $1,000 total cost basis. City-days settle on the venue resolution;
+the public METAR history (aviationweather.gov) gives a provisional cross-check
+that is compared but never booked. Pre-registered pass: mean net PnL per
+contract ≥ 2¢ across ≥ 30 venue-settled city-days with the 95 % lower bound > 0.
+
+```bash
+uv run python -m apps.measure_weather_buckets              # fixture replay: 4 city-days, every branch
+uv run python -m apps.measure_weather_buckets --network    # public Gamma/CLOB + Open-Meteo + METAR, no keys at all
+```
+
+Run it repeatedly (every 6–12 h, same `--artifact-dir`): a run enters today's
+and tomorrow's city-days, the first run after each station's local midnight
+settles them once Polymarket resolves. The committed 2026-09-15 network run
+entered city-days and settled none, so the edge is **UNKNOWN**;
+`docs/WEATHER_BUCKETS.md` records the pre-registration, the feeds and what is not validated.
+
 
 ### Category specialist scoreboard (thirteenth track)
 
@@ -302,6 +328,7 @@ uv run python -m apps.measure_polymarket_arb --help # Polymarket arb tracks only
 uv run python -m apps.measure_flb --help            # Kalshi FLB tracks + ex-post band table (see docs/FLB_RUNBOOK.md)
 uv run python -m apps.measure_tennis_basis --help   # tennis basis vs. free odds (see docs/TENNIS_BASIS.md)
 uv run python -m apps.measure_weather --help        # weather dead buckets vs. station METARs (see docs/WEATHER_DEAD_BUCKET.md)
+uv run python -m apps.measure_weather_buckets --help # Polymarket temperature buckets vs. free ensemble (see docs/WEATHER_BUCKETS.md)
 uv run python -m apps.paper_runner --strategy both  # strategy runner with logging event sink
 uv run python -m research.compare_markets --network # top markets per venue
 uv run python -m research.cross_venue_edges         # matched pairs and executable edges

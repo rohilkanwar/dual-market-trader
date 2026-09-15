@@ -248,7 +248,29 @@ against public Gamma / CLOB and aviationweather.gov with no credentials (run
 | 14.8 | **The hypothesis** (≥ 2–3¢ net per contract on settled dead-bucket NO positions) | **UNKNOWN** | 0 settled positions; the committed snapshot is one cycle with 0 admits. Needs hourly runs against one `--artifact-dir` for weeks. |
 | 14.9 | Synthetic fixtures are labelled and never published as evidence | **PASS** | `research/fixtures/weather_dead_bucket_replay.json` `_comment` says SYNTHETIC and documents the staged Buenos Aires disagreement; report `status = fixture_synthetic` (the wiring branch's `sync-artifacts.mjs` refuses to publish that status); the committed dashboard report is the network run. |
 
-## 15. Known gaps / not validated
+
+## 15. Weather temperature-bucket edge (`docs/WEATHER_BUCKETS.md`)
+
+Separate track family (`apps.measure_weather_buckets`, track `weather_bucket_edge`,
+dashboard family `weather`). Network run 2026-09-15 against public Gamma/CLOB,
+the free Open-Meteo ensemble API and public aviationweather.gov METARs, no
+credentials of any kind. Full audit and pre-registration in the lane doc;
+headline rows here.
+
+| # | Assumption | Status | Evidence |
+| --- | --- | --- | --- |
+| 15.1 | Polymarket daily-temperature markets name an exact settlement station and a whole-degree precision in their rules | **PASS (94 of 100 live events)** | `strategies/weather_buckets.py::parse_settlement_rules` reads `weather.gov/wrh/timeseries?site=<icao>` (NOAA) or a Weather Underground ICAO history page, the unit ("in degrees Fahrenheit/Celsius"), highest/lowest and the date ("on 15 Sep '26"); verbatim live texts for NYC (`KLGA`), Tel Aviv (`LLBG`), Taipei (`RCSS`, Wunderground), London (`EGLC`) in `tests/test_weather_buckets.py`. Hong Kong (Observatory climate table) is refused `no_station`; two different station ids in one text or across legs are refused `station_ambiguous*`. Live: 118/120 events parsed. |
+| 15.2 | Bucket labels tile the line exactly once | **PASS** | `parse_bucket_label` handles `"65°F or below"`, `"66-67°F"`, `"27°C"`, `"82°F or higher"` (and the question form); `buckets_partition_reason` refuses gaps, overlaps, missing open ends and mixed units (`test_bucket_partition_check_is_fail_closed`). Live: 11 buckets per event, all partitions. |
+| 15.3 | Free feeds are readable without keys and carry what the settlement needs | **PASS** | Open-Meteo ensemble: 122 members (GEFS 31, ECMWF IFS 51, ICON-EPS 40) per station-day in °F or °C with `timezone=auto`; aviationweather.gov METAR history with the `T` tenths group and `/stationinfo` coordinates for all 49 live stations (`data/weather/stations.json`). Parsers tested on the documented shapes; one full network run used 119 requests. No paid vendor is implemented; `paid_source_policy` reports keys but never enables anything (`test_paid_sources_are_reported_and_never_enabled`). |
+| 15.4 | Ensemble → bucket probabilities, edge net of the weather taker fee, caps and the pre-registered verdict are implemented as stated | **PASS** | `test_ensemble_bucket_probabilities_match_hand_calculation`, `test_fee_formula_and_edge_math_with_caps`, `test_evaluate_refusal_reasons_are_pre_registered_gates`, `test_caps_per_market_city_day_and_total_cash_at_risk_bind`, `test_verdict_applies_the_pre_registered_rule`. Caps $10/order, $20/bucket, $40/city-day, $1,000 total cost basis (= paper cash; the first uncapped network run had tied up ~$3,600), `RiskLimits(10, 50, 250)`. |
+| 15.5 | Settlement is booked only on the venue's resolution; METAR-derived outcomes are provisional | **PASS** | `classify_venue_resolution` needs every bucket closed with exactly one `[1, 0]`; `PaperLedger.settle` closes at 1/0. Replay: NYC provisional (+11.88) equals the venue-settled realised; London METAR 13 °C vs venue 14 °C recorded as a disagreement, ledger follows the venue (`test_replay_measures_every_scripted_branch`). |
+| 15.6 | Honest empties and feed failures | **PASS** | No feed → `no_weather_feed` / `network_status = UNKNOWN…`; exploding forecast, METAR and Gamma lookups leave records open with the error recorded and never raise (`test_network_path_without_a_feed_is_an_honest_empty`, `test_exploding_feed_and_lookup_do_not_take_the_run_down`). |
+| 15.7 | **The edge itself** (≥ 2¢/contract net of fees on ≥ 30 venue-settled city-days) | **UNKNOWN** | The committed network run is a first cycle: city-days entered, none settled (`verdict.n = 0`, `insufficient_sample`). Needs the CLI scheduled every 6–12 h with the same `--artifact-dir` until `verdict.n ≥ 30`. |
+| 15.8 | Raw member frequencies are calibrated at 0–1 day lead; the grid cell represents the airport sensor; METAR round-half-up equals NOAA's "Temp" column | **UNKNOWN** | Documented in the lane doc (W.11–W.13); one live check (resolved Wellington 14 Sep: venue 16 °C, METAR-reconstructed 16 °C) agrees but is a single sample. `dispersion_multiplier` / `bias_degrees` and the per-record Brier and METAR-agreement fields are the hooks for the calibration sister track. |
+| 15.9 | Fixture numbers are evidence | **FAIL as evidence** | Hand-written replay; `sync-artifacts.mjs` refuses a `fixture_synthetic` weather report. |
+
+
+## 16. Known gaps / not validated
 
 * No live or demo-authenticated path exists; everything past `Settings.live_enabled` is a stub by design.
 * `apps/dashboard_api.py` has no authentication (unchanged from the original design; README warns).
@@ -260,6 +282,7 @@ against public Gamma / CLOB and aviationweather.gov with no credentials (run
 * The `news_underreaction` lane's signal→probability mapping, pre-signal price provenance and drift horizon are all UNKNOWN; see section 9 and `docs/NEWS_UNDERREACTION.md`.
 * `tennis_basis`: the live gap distribution against the free feed is UNKNOWN (no key in the build environment), the bookmaker-vs-venue settlement basis is documented but not modelled, and retirements are only detectable from an operator results file; see section 13 and `docs/TENNIS_BASIS.md`.
 * The `category_specialist` hypothesis is underpowered (0 of the pre-registered 30 resolved network follows); the lane is Polymarket-only, its category taxonomy is heuristic and its follow PnL is pre-fee; see section 9b and `docs/SPECIALIST_SCOREBOARD.md`.
+* `weather_bucket_edge`: the edge is UNKNOWN until the register accumulates ≥ 30 venue-settled city-days; ensemble calibration, grid-vs-station representativeness and the METAR reconstruction of NOAA's hourly column are documented assumptions, not validations; see section 15 and `docs/WEATHER_BUCKETS.md`.
 * Polymarket arb tracks: subset NegRisk conversions, implication-based combinatorial arbitrage across events, converter fee, maker/taker rebates and legging beyond the one-tick buffer are not modelled (see `docs/POLYMARKET_ARB.md`, "Known limits").
 * FLB maker fill probabilities, queue position and adverse selection (10.4) are assumptions; the ex-post trade tape cannot distinguish opening from closing trades, and the sample covers only the newest settled markets per series (see section 10 and `docs/FLB_RUNBOOK.md`).
 * The self-logged book archive (section 11) is polled REST L2: it cannot recover queue position or FIFO priority, misses everything between polls, and its Kalshi snapshots have no venue timestamp. `SidecarSource` (official RSS / free weather) is a protocol stub with no implementation.

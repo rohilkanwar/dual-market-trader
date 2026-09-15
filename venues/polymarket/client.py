@@ -485,39 +485,85 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
             self._market_cache.update({market.market_id: market for market in group.markets})
         return groups
 
-    async def list_events_by_tag(self, tag_id: int, *, limit: int = 100, closed: bool = False) -> list[MarketGroup]:
-        """Events carrying a Gamma tag (``104596`` = "Highest temperature"), soonest end first.
+    async def list_events_by_tag(
+        self,
+        tag_id: int,
+        *,
+        limit: int = 100,
+        closed: bool = False,
+        order: str = "endDate",
+        ascending: bool = True,
+    ) -> list[MarketGroup]:
+        """Events carrying a Gamma tag (weather Highest-temperature / Daily Temperature).
 
-        Fixture mode serves the committed event fixture like :meth:`list_events`;
-        weather fixtures are replayed by ``research.weather_dead_bucket`` instead.
+        Supports pagination. ``closed`` / ``order`` / ``ascending`` cover both the
+        dead-bucket (soonest end first) and bucket-edge (newest start first) call sites.
+        Fixture mode serves the committed event fixture like :meth:`list_events`.
         """
         if self.use_fixtures:
             groups = load_event_fixture().groups[:limit]
         else:
-            response = await self._http.get(
-                f"{GAMMA_URL}/events",
-                params={
-                    "tag_id": tag_id,
-                    "active": "true",
-                    "closed": "true" if closed else "false",
-                    "limit": min(max(limit, 1), 100),
-                    "order": "endDate",
-                    "ascending": "true",
-                },
-            )
-            response.raise_for_status()
             groups = []
-            for event in response.json():
-                if not isinstance(event, dict):
-                    continue
-                group = group_from_event(event, source="network")
-                if group is not None:
-                    group.metadata["tags"] = [str(t.get("label")) for t in (event.get("tags") or []) if isinstance(t, dict) and t.get("label")]
-                    groups.append(group)
+            page_size = 100
+            offset = 0
+            while len(groups) < limit:
+                response = await self._http.get(
+                    f"{GAMMA_URL}/events",
+                    params={
+                        "tag_id": tag_id,
+                        "active": "true",
+                        "closed": "true" if closed else "false",
+                        "limit": min(page_size, max(limit - len(groups), 1)),
+                        "offset": offset,
+                        "order": order,
+                        "ascending": "true" if ascending else "false",
+                    },
+                )
+                response.raise_for_status()
+                payload = response.json()
+                if not isinstance(payload, list) or not payload:
+                    break
+                for event in payload:
+                    if not isinstance(event, dict):
+                        continue
+                    group = group_from_event(event, source="network")
+                    if group is not None:
+                        group.metadata["tags"] = [
+                            str(t.get("label"))
+                            for t in (event.get("tags") or [])
+                            if isinstance(t, dict) and t.get("label")
+                        ]
+                        groups.append(group)
+                if len(payload) < page_size:
+                    break
+                offset += len(payload)
             groups = groups[:limit]
         for group in groups:
             self._market_cache.update({market.market_id: market for market in group.markets})
         return groups
+
+    async def get_event_status(self, slug: str) -> dict[str, dict[str, Any]]:
+        """Public ``GET /events?slug=``: per-leg closed flag and resolved prices, keyed by condition id."""
+        response = await self._http.get(f"{GAMMA_URL}/events", params={"slug": slug})
+        response.raise_for_status()
+        payload = response.json()
+        event = payload[0] if isinstance(payload, list) and payload and isinstance(payload[0], dict) else {}
+        out: dict[str, dict[str, Any]] = {}
+        for item in event.get("markets") or []:
+            if not isinstance(item, dict):
+                continue
+            market_id = str(item.get("conditionId") or item.get("id") or "")
+            if not market_id:
+                continue
+            out[market_id] = {
+                "closed": item.get("closed"),
+                "active": item.get("active"),
+                "outcome_prices": _json_list(item.get("outcomePrices")),
+                "uma_resolution_status": item.get("umaResolutionStatus"),
+                "end_date": item.get("endDate"),
+                "event_closed": event.get("closed"),
+            }
+        return out
 
     async def get_books(self, token_ids: list[str]) -> dict[str, OrderBook]:
         """Batch CLOB books keyed by token id (``POST /books``, chunked)."""
