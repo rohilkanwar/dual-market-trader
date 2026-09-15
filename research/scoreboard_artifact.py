@@ -91,6 +91,8 @@ def _slim_metrics(metrics: dict[str, Any], track: str | None = None) -> dict[str
         detail_file = str(slim.get("detail_file") or "tennis_basis_latest.json")
         for key in [k for k in list(slim) if k.endswith("_detail") and isinstance(slim[k], (list, dict))]:
             slim[key] = {"count": len(slim[key]), "detail": detail_file}
+        if isinstance(slim.get("measurements"), list):
+            slim["measurements"] = {"count": len(slim["measurements"]), "detail": detail_file}
     if "follow_state" in slim:
         # The specialist lane's full scoreboard, follow log and per-attempt rows
         # live in specialist_scoreboard_<mode>.json; the board keeps counts.

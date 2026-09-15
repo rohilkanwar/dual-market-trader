@@ -206,12 +206,22 @@ def slim_weather_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
 
     The strategy branches choose their own row keys (observations, buckets,
     ensemble members, kills ...); rather than enumerate them, every list of
-    dicts is reduced. Lists of scalars (``cities``) are kept.
+    dicts is reduced. Lists of scalars (``cities``) are kept. Prefer a lane's
+    declared ``detail_file`` over the shared ``weather_report_<mode>.json`` name.
     """
     slim = dict(metrics)
+    detail = str(slim.get("detail_file") or WEATHER_REPORT_FILE)
     for key, value in list(slim.items()):
         if isinstance(value, list) and value and all(isinstance(row, dict) for row in value):
-            slim[key] = {"count": len(value), "detail": WEATHER_REPORT_FILE}
+            slim[key] = {"count": len(value), "detail": detail}
+        elif (
+            isinstance(value, dict)
+            and "count" in value
+            and "detail" in value
+            and slim.get("detail_file")
+            and value.get("detail") in (None, WEATHER_REPORT_FILE, "weather_report_<mode>.json")
+        ):
+            slim[key] = {**value, "detail": detail}
     return slim
 
 
