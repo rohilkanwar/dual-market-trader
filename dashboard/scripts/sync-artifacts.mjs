@@ -41,7 +41,9 @@ async function listCandidates() {
   // weather_report_<mode>.json the weather report the weather branches are expected to
   // write next to scoreboard_weather.json (kind "weather_report"; optional);
   // weather_buckets_latest.json the weather bucket-edge report from apps.measure_weather_buckets;
-  // tourist_fade_report_latest.json is the fade-the-tourist report from apps.measure_tourist_fade.
+  // tourist_fade_report_latest.json is the fade-the-tourist report from apps.measure_tourist_fade;
+  // whale_noise_report_latest.json is the make-on-whale / take-on-noise report
+  // written by apps.measure_whale_noise.
   const names = new Set([
     'paper_loop_latest.json',
     'polymarket_arb_latest.json',
@@ -51,6 +53,7 @@ async function listCandidates() {
     'weather_buckets_latest.json',
     'weather_calibration_latest.json',
     'tourist_fade_report_latest.json',
+    'whale_noise_report_latest.json',
   ])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
@@ -180,7 +183,12 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: not a paper-only fade_the_tourist_report`)
     continue
   }
-  const isHeadlineReport = isFlbReport || isTennisReport || isTouristReport
+  const isWhaleNoiseReport = relative === 'whale_noise_report_latest.json'
+  if (isWhaleNoiseReport && (doc.kind !== 'kalshi_whale_noise_report' || doc.paper_only !== true)) {
+    console.warn(`skip ${relative}: not a paper-only kalshi_whale_noise_report`)
+    continue
+  }
+  const isHeadlineReport = isFlbReport || isTennisReport || isTouristReport || isWhaleNoiseReport
   const target = join(publicRoot, relative.replace('paper/', 'paper_'))
   await copyFile(source, target)
   copied[relative] = {
@@ -351,6 +359,8 @@ function compactRunRecord(file, manifest, cycle) {
     // Weather headline as the manifest states it (persist_run copies findings.weather
     // onto the manifest); absent on every run that carries no weather track.
     ...(manifest.weather && typeof manifest.weather === 'object' ? { weather: manifest.weather } : {}),
+    ...(manifest.whale_noise ? { whale_noise: manifest.whale_noise } : {}),
+    ...(manifest.data_mode ? { data_mode: manifest.data_mode } : {}),
     pnl_source: ledgerBacked ? LEDGER_PNL_SOURCE : null,
     totals: {
       candidates: sum(tracks, (t) => t.candidates),

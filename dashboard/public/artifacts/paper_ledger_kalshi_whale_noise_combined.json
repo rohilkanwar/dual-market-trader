@@ -1,0 +1,1671 @@
+{
+  "cash": "730.5270",
+  "created_at": "2026-09-14T23:29:17.702844+00:00",
+  "equity_curve": [
+    {
+      "cash": "730.52700",
+      "drawdown": "36.60300",
+      "equity": "963.39700",
+      "fees_paid": "8.62300",
+      "fills": 104,
+      "gross_notional": "370.79000",
+      "label": "whale_noise:archive:20260914T232916Z-whale-a6158906",
+      "net_exposure": "232.87000",
+      "open_positions": 19,
+      "peak_equity": "1000.00000",
+      "position_value": "232.87000",
+      "realized_pnl": "-7.07466",
+      "timestamp": "2026-09-14T23:29:17.940898+00:00",
+      "total_pnl": "-36.60300",
+      "unmarked_positions": 0,
+      "unrealized_pnl": "-29.52834"
+    }
+  ],
+  "fills": [
+    {
+      "fee": "0.0258",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+      "order_id": "paper-5ce3f8e4e1a3",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.704285+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1392",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+      "order_id": "paper-426add8fb40a",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.704556+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0668",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a69-9311-9945-2f4d-810992f3f7d3-1",
+      "outcome": "yes",
+      "price": "0.66",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:51:57.896926+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0786",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a69-9311-9945-2f4d-810992f3f7d3-2",
+      "outcome": "yes",
+      "price": "0.66",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:52:09.221165+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0943",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222aa2-04c1-aae0-b1ca-f93331b45c08-1",
+      "outcome": "yes",
+      "price": "0.66",
+      "quantity": "24",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:54:10.930133+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0221",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222ab0-1741-8919-f5fb-46f266d2fa19-1",
+      "outcome": "yes",
+      "price": "0.90",
+      "quantity": "14",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:59:18.357507+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0648",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-1",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "29",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:06:54.100884+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0112",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-2",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:06:54.100884+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0447",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-3",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:06:54.100884+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0313",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-4",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "14",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:06:54.100884+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1763",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-5",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "79",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:06:54.101683+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1200",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222a9d-9e31-95b6-6334-63db7807e4e4-1",
+      "outcome": "yes",
+      "price": "0.72",
+      "quantity": "34",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:08:26.654972+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0434",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222afd-f7d9-a7d4-4fe8-1a4daa56d76d-1",
+      "outcome": "yes",
+      "price": "0.55",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:04.465828+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1516",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222afd-f7d9-a7d4-4fe8-1a4daa56d76d-2",
+      "outcome": "yes",
+      "price": "0.55",
+      "quantity": "35",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:17.114625+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.2188",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222ae6-9831-8a2f-e974-e04196e95cd4-1",
+      "outcome": "yes",
+      "price": "0.50",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:26.104581+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0480",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "order_id": "paper-maker-07222b3f-1db9-b6b9-c184-f9d592e7e2a1-1",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "28",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:28:50.331924+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0393",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a68-8711-98b4-8e21-5bc982c6e58e-1",
+      "outcome": "no",
+      "price": "0.66",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:52:09.419890+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0197",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a68-8711-98b4-8e21-5bc982c6e58e-2",
+      "outcome": "no",
+      "price": "0.66",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:52:09.419890+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0197",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a68-8711-98b4-8e21-5bc982c6e58e-3",
+      "outcome": "no",
+      "price": "0.66",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:52:09.419890+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0668",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a68-8711-98b4-8e21-5bc982c6e58e-4",
+      "outcome": "no",
+      "price": "0.66",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:52:09.419890+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.2426",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a65-7309-a31e-ce38-cc6a91097fe9-1",
+      "outcome": "yes",
+      "price": "0.30",
+      "quantity": "66",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:54:32.944906+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0625",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a65-7309-a31e-ce38-cc6a91097fe9-2",
+      "outcome": "yes",
+      "price": "0.30",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:54:33.297068+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0015",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222abf-6751-9f6b-b5f5-88a437e15cbc-1",
+      "outcome": "no",
+      "price": "0.91",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:01:37.856123+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0373",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222abf-6751-9f6b-b5f5-88a437e15cbc-2",
+      "outcome": "no",
+      "price": "0.91",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:01:37.856123+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0079",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222ab9-1fa9-b2a5-cdf0-abb01b2583bb-1",
+      "outcome": "no",
+      "price": "0.90",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:02:28.129323+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0126",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222ab9-1fa9-b2a5-cdf0-abb01b2583bb-2",
+      "outcome": "no",
+      "price": "0.90",
+      "quantity": "8",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:02:30.368134+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0221",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222ab9-1fa9-b2a5-cdf0-abb01b2583bb-3",
+      "outcome": "no",
+      "price": "0.90",
+      "quantity": "14",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:02:30.790970+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0018",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a8a-e5f9-9c58-2b55-5c9d8f7ea567-1",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:03:28.098437+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0018",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a8a-e5f9-9c58-2b55-5c9d8f7ea567-2",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:03:28.098437+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0086",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a8a-e5f9-9c58-2b55-5c9d8f7ea567-3",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:03:28.098437+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0052",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a8a-e5f9-9c58-2b55-5c9d8f7ea567-4",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "3",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:03:29.543492+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0309",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222a8a-e5f9-9c58-2b55-5c9d8f7ea567-5",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "18",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:03:29.543492+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1000",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222afe-9aa1-8d71-c71e-96697a330959-1",
+      "outcome": "yes",
+      "price": "0.39",
+      "quantity": "24",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:17:14.765471+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0625",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222afe-9aa1-8d71-c71e-96697a330959-2",
+      "outcome": "yes",
+      "price": "0.39",
+      "quantity": "15",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:17:15.478257+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0042",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222afe-9aa1-8d71-c71e-96697a330959-3",
+      "outcome": "yes",
+      "price": "0.39",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:17:15.859016+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0084",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222afe-9aa1-8d71-c71e-96697a330959-4",
+      "outcome": "yes",
+      "price": "0.39",
+      "quantity": "2",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:17:18.929696+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0916",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222afe-9aa1-8d71-c71e-96697a330959-5",
+      "outcome": "yes",
+      "price": "0.39",
+      "quantity": "22",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:17:18.971622+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1030",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222ae8-73e9-8881-d483-d1bf7ada4335-1",
+      "outcome": "yes",
+      "price": "0.57",
+      "quantity": "24",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:19:48.147541+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0429",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "order_id": "paper-maker-07222ae8-73e9-8881-d483-d1bf7ada4335-2",
+      "outcome": "yes",
+      "price": "0.57",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:19:48.618119+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0699",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+      "order_id": "paper-afcc427799c8",
+      "outcome": "no",
+      "price": "0.96",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.755799+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.3100",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "order_id": "paper-6de86e678cd5",
+      "outcome": "yes",
+      "price": "0.82",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.758063+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0155",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "order_id": "paper-maker-07222af8-9179-b146-ca1e-9e739060c3ad-1",
+      "outcome": "yes",
+      "price": "0.77",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:13:49.130125+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0837",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "order_id": "paper-maker-07222af8-9179-b146-ca1e-9e739060c3ad-2",
+      "outcome": "yes",
+      "price": "0.77",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:10.977763+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0165",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "order_id": "paper-maker-07222ae2-5a21-8128-d123-1fc92e7e0a25-1",
+      "outcome": "yes",
+      "price": "0.75",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:17:40.749270+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0263",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "order_id": "paper-maker-07222ae2-5a21-8128-d123-1fc92e7e0a25-2",
+      "outcome": "yes",
+      "price": "0.75",
+      "quantity": "8",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:19:35.278529+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.3100",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "order_id": "paper-288b25c9d98e",
+      "outcome": "no",
+      "price": "0.82",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.760814+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0124",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "order_id": "paper-maker-07222afe-e061-8d0d-90ac-e2a82108571d-1",
+      "outcome": "yes",
+      "price": "0.23",
+      "quantity": "4",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:21.275586+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0217",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "order_id": "paper-maker-07222afe-e061-8d0d-90ac-e2a82108571d-2",
+      "outcome": "yes",
+      "price": "0.23",
+      "quantity": "7",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:21.275586+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1674",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "order_id": "paper-maker-07222afe-e061-8d0d-90ac-e2a82108571d-3",
+      "outcome": "yes",
+      "price": "0.23",
+      "quantity": "54",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:35.050979+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1701",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+      "order_id": "paper-fa4dd814d85f",
+      "outcome": "yes",
+      "price": "0.9",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.765678+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1548",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+      "order_id": "paper-d84fb00a7707",
+      "outcome": "yes",
+      "price": "0.91",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.766038+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0331",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+      "order_id": "paper-maker-07222ab2-8769-8287-7e9f-28f023b532f2-1",
+      "outcome": "yes",
+      "price": "0.90",
+      "quantity": "21",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:56.289796+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1701",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "order_id": "paper-d70e6cb1ff24",
+      "outcome": "no",
+      "price": "0.9",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.774198+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0865",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "order_id": "paper-0335130f392d",
+      "outcome": "no",
+      "price": "0.95",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.775081+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0869",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "order_id": "paper-467cde7015b8",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "22",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.775448+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1392",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+      "order_id": "paper-da717b2580a1",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.790945+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1392",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+      "order_id": "paper-2d89ea1d4809",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.791154+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1082",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+      "order_id": "paper-7656eedc5414",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "21",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.791343+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.2964",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+      "order_id": "paper-f83c504f459b",
+      "outcome": "no",
+      "price": "0.83",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.796198+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.3100",
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "order_id": "paper-956d2de6d0a1",
+      "outcome": "no",
+      "price": "0.82",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.798081+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.3100",
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "order_id": "paper-4fe477bc85b6",
+      "outcome": "no",
+      "price": "0.82",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.798277+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1550",
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "order_id": "paper-fdca3ba4306b",
+      "outcome": "no",
+      "price": "0.82",
+      "quantity": "15",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.798500+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.3100",
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+      "order_id": "paper-4d4fe6f2fcef",
+      "outcome": "yes",
+      "price": "0.82",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.799191+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0150",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222a64-4969-a007-a529-88684332dfb6-1",
+      "outcome": "no",
+      "price": "0.69",
+      "quantity": "4",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:51:09.514463+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0038",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222a64-4969-a007-a529-88684332dfb6-2",
+      "outcome": "no",
+      "price": "0.69",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:51:09.514463+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0038",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222a64-4969-a007-a529-88684332dfb6-3",
+      "outcome": "no",
+      "price": "0.69",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:51:09.514463+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1123",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222a64-4969-a007-a529-88684332dfb6-4",
+      "outcome": "no",
+      "price": "0.69",
+      "quantity": "30",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:51:09.514463+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1394",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222abf-da81-9160-6f74-da4c8a1f8b04-1",
+      "outcome": "yes",
+      "price": "0.21",
+      "quantity": "48",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:24.812832+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0117",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222abf-da81-9160-6f74-da4c8a1f8b04-2",
+      "outcome": "yes",
+      "price": "0.21",
+      "quantity": "4",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:25.295720+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0088",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222abf-da81-9160-6f74-da4c8a1f8b04-3",
+      "outcome": "yes",
+      "price": "0.21",
+      "quantity": "3",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:25.295720+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1083",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222a9c-74e9-87e7-7c0b-0dab042edae7-1",
+      "outcome": "no",
+      "price": "0.75",
+      "quantity": "33",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:06:50.063975+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0699",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-784114447321",
+      "outcome": "no",
+      "price": "0.96",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.814268+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0010",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222af7-8ce9-bdde-e1dd-6a73fbeb5175-1",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:54.005897+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0168",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222af7-8ce9-bdde-e1dd-6a73fbeb5175-2",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:54.005897+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0010",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222af7-8ce9-bdde-e1dd-6a73fbeb5175-3",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:54.005897+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0010",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222af7-8ce9-bdde-e1dd-6a73fbeb5175-4",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:54.005897+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0060",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-maker-07222af7-8ce9-bdde-e1dd-6a73fbeb5175-5",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "6",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:54.005897+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0356",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "order_id": "paper-b6c1ccd73ee7",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "9",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.815138+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1348",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222a61-2589-bc71-74c0-65d3022ceb06-1",
+      "outcome": "yes",
+      "price": "0.69",
+      "quantity": "36",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:51:08.766790+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1022",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ab1-5581-b914-c4d6-16eb0ec3ec20-1",
+      "outcome": "yes",
+      "price": "0.76",
+      "quantity": "32",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:59:17.605562+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0552",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ab3-c2e9-9216-3b75-97628c9982bf-1",
+      "outcome": "no",
+      "price": "0.21",
+      "quantity": "19",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:19.413634+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0552",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ab3-c2e9-9216-3b75-97628c9982bf-2",
+      "outcome": "no",
+      "price": "0.21",
+      "quantity": "19",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:19.413634+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0668",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ab3-c2e9-9216-3b75-97628c9982bf-3",
+      "outcome": "no",
+      "price": "0.21",
+      "quantity": "23",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:19.413634+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1684",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ab3-c2e9-9216-3b75-97628c9982bf-4",
+      "outcome": "no",
+      "price": "0.21",
+      "quantity": "58",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:19.413634+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1200",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222abd-7851-b0dc-166c-123b3da504e8-1",
+      "outcome": "yes",
+      "price": "0.72",
+      "quantity": "34",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:01:15.651669+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.2217",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-3ba332017799",
+      "outcome": "yes",
+      "price": "0.87",
+      "quantity": "28",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.877389+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0648",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222a9a-9ec1-b0aa-8fe0-88dc444e9713-1",
+      "outcome": "yes",
+      "price": "0.85",
+      "quantity": "29",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:09:13.235642+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0217",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ae3-ef21-a07a-4c7e-b032b0f2056d-1",
+      "outcome": "yes",
+      "price": "0.95",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:15:27.889268+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0075",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "order_id": "paper-maker-07222ae1-6f81-b2c3-6d0c-d64ee661e69a-1",
+      "outcome": "yes",
+      "price": "0.95",
+      "quantity": "9",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:16:49.919193+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1027",
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+      "order_id": "paper-ea4803511e31",
+      "outcome": "yes",
+      "price": "0.94",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.896843+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1027",
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+      "order_id": "paper-79bbd9752660",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.897384+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1674",
+      "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+      "order_id": "paper-maker-07222ac2-f169-9479-4922-e7c2d7bf3429-1",
+      "outcome": "yes",
+      "price": "0.15",
+      "quantity": "75",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:27:38.382085+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0048",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222a6e-d359-895a-4349-a25223b152be-1",
+      "outcome": "yes",
+      "price": "0.84",
+      "quantity": "2",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:50:03.804157+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0636",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222a6e-d359-895a-4349-a25223b152be-2",
+      "outcome": "yes",
+      "price": "0.84",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:50:03.804157+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0683",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222982-6571-994d-d1f9-204d05f589a7-1",
+      "outcome": "yes",
+      "price": "0.84",
+      "quantity": "29",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:50:07.869960+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0018",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222aaf-d351-8fa7-1754-d167140bc676-1",
+      "outcome": "yes",
+      "price": "0.89",
+      "quantity": "1",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:58:34.890742+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0275",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222aaf-d351-8fa7-1754-d167140bc676-2",
+      "outcome": "yes",
+      "price": "0.89",
+      "quantity": "16",
+      "side": "buy",
+      "timestamp": "2026-09-14T22:58:34.890742+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1071",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222ab3-6ad9-b6c7-23aa-cd7b7e42b992-1",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "48",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:32.361675+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0224",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222ab3-6ad9-b6c7-23aa-cd7b7e42b992-2",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:32.361675+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0357",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "order_id": "paper-maker-07222ab3-6ad9-b6c7-23aa-cd7b7e42b992-3",
+      "outcome": "no",
+      "price": "0.15",
+      "quantity": "16",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:32.361675+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1919",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+      "order_id": "paper-d1ade041ffcf",
+      "outcome": "no",
+      "price": "0.89",
+      "quantity": "28",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.925336+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.1701",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+      "order_id": "paper-36babd6e9dde",
+      "outcome": "no",
+      "price": "0.9",
+      "quantity": "27",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.926043+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0790",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+      "order_id": "paper-e9b480d4f3e4",
+      "outcome": "no",
+      "price": "0.94",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:29:17.926431+00:00",
+      "venue": "kalshi"
+    },
+    {
+      "fee": "0.0926",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+      "order_id": "paper-maker-07222abd-e991-b5ac-fdec-484950d1a317-1",
+      "outcome": "yes",
+      "price": "0.24",
+      "quantity": "29",
+      "side": "buy",
+      "timestamp": "2026-09-14T23:00:03.199479+00:00",
+      "venue": "kalshi"
+    }
+  ],
+  "ledger_id": "kalshi_whale_noise_combined",
+  "mark_method": "conservative",
+  "marks": [
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+      "venue": "kalshi",
+      "yes_price": "0.09"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "venue": "kalshi",
+      "yes_price": "0.09"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "venue": "kalshi",
+      "yes_price": "0.9"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+      "venue": "kalshi",
+      "yes_price": "0.05"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "venue": "kalshi",
+      "yes_price": "0.75"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "venue": "kalshi",
+      "yes_price": "0.24"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+      "venue": "kalshi",
+      "yes_price": "0.61"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "venue": "kalshi",
+      "yes_price": "0.38"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+      "venue": "kalshi",
+      "yes_price": "0.11"
+    },
+    {
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+      "venue": "kalshi",
+      "yes_price": "0.18"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "venue": "kalshi",
+      "yes_price": "0.2"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+      "venue": "kalshi",
+      "yes_price": "0.8"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "venue": "kalshi",
+      "yes_price": "0.01"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "venue": "kalshi",
+      "yes_price": "0.99"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+      "venue": "kalshi",
+      "yes_price": "0.93"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+      "venue": "kalshi",
+      "yes_price": "0.07"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+      "venue": "kalshi",
+      "yes_price": "0.13"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "venue": "kalshi",
+      "yes_price": "0.84"
+    },
+    {
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+      "venue": "kalshi",
+      "yes_price": "0.11"
+    }
+  ],
+  "max_drawdown": "36.6030",
+  "paper_only": true,
+  "peak_equity": "1000",
+  "positions": [
+    {
+      "average_price": "0.08",
+      "fees_paid": "0.1650",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+      "quantity": "-32",
+      "realized_pnl": "-0.1650",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.5061403508771929824561403509",
+      "fees_paid": "1.1719",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "quantity": "29",
+      "realized_pnl": "14.44617017543859649122807017",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.4887096774193548387096774194",
+      "fees_paid": "0.9929",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "quantity": "62",
+      "realized_pnl": "-19.14290000000000000000000000",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.04",
+      "fees_paid": "0.0699",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+      "quantity": "-26",
+      "realized_pnl": "-0.0699",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.7865333333333333333333333333",
+      "fees_paid": "0.4520",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+      "quantity": "75",
+      "realized_pnl": "-0.4520",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.23",
+      "fees_paid": "0.5115",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+      "quantity": "35",
+      "realized_pnl": "-2.0115",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.9036",
+      "fees_paid": "0.3580",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+      "quantity": "75",
+      "realized_pnl": "-0.3580",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.07093333333333333333333333333",
+      "fees_paid": "0.3435",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+      "quantity": "-75",
+      "realized_pnl": "-0.3435",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.08",
+      "fees_paid": "0.3866",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+      "quantity": "-75",
+      "realized_pnl": "-0.3866",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.17",
+      "fees_paid": "0.2964",
+      "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+      "quantity": "-30",
+      "realized_pnl": "-0.2964",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.18",
+      "fees_paid": "0.7750",
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+      "quantity": "-75",
+      "realized_pnl": "-0.7750",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.82",
+      "fees_paid": "0.3100",
+      "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+      "quantity": "30",
+      "realized_pnl": "-0.3100",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.08853333333333333333333333332",
+      "fees_paid": "0.5344",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+      "quantity": "-75",
+      "realized_pnl": "3.8256",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.89960000000000000000000000",
+      "fees_paid": "1.0183",
+      "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+      "quantity": "75",
+      "realized_pnl": "4.561699999999999999999999997",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.94",
+      "fees_paid": "0.1027",
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+      "quantity": "26",
+      "realized_pnl": "-0.1027",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.06",
+      "fees_paid": "0.1027",
+      "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+      "quantity": "-26",
+      "realized_pnl": "-0.1027",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.15",
+      "fees_paid": "0.1674",
+      "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+      "quantity": "75",
+      "realized_pnl": "-0.1674",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.8513333333333333333333333333",
+      "fees_paid": "0.3312",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+      "quantity": "1",
+      "realized_pnl": "-0.4298666666666666666666666642",
+      "venue": "kalshi"
+    },
+    {
+      "average_price": "0.09306666666666666666666666667",
+      "fees_paid": "0.5336",
+      "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+      "quantity": "-46",
+      "realized_pnl": "-4.794666666666666666666666666",
+      "venue": "kalshi"
+    }
+  ],
+  "schema_version": "1.0.0",
+  "starting_cash": "1000",
+  "summary": {
+    "cash": "730.52700",
+    "concentration": [
+      {
+        "venue": "kalshi",
+        "weight": "1.00000"
+      }
+    ],
+    "created_at": "2026-09-14T23:29:17.702844+00:00",
+    "equity": "963.39700",
+    "equity_points": 1,
+    "fees_paid": "8.62300",
+    "fills": 104,
+    "gross_notional": "370.79000",
+    "ledger_id": "kalshi_whale_noise_combined",
+    "mark_method": "conservative",
+    "max_drawdown": "36.60300",
+    "net_exposure": "232.87000",
+    "open_positions": 19,
+    "paper_only": true,
+    "peak_equity": "1000.00000",
+    "position_value": "232.87000",
+    "positions": [
+      {
+        "average_price": "0.08000",
+        "fees_paid": "0.16500",
+        "mark": "0.09000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+        "quantity": "-32.00000",
+        "realized_pnl": "-0.16500",
+        "unrealized_pnl": "-0.32000",
+        "value": "-2.88000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.50614",
+        "fees_paid": "1.17190",
+        "mark": "0.09000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+        "quantity": "29.00000",
+        "realized_pnl": "14.44617",
+        "unrealized_pnl": "-12.06807",
+        "value": "2.61000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.48871",
+        "fees_paid": "0.99290",
+        "mark": "0.90000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+        "quantity": "62.00000",
+        "realized_pnl": "-19.14290",
+        "unrealized_pnl": "25.50000",
+        "value": "55.80000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.04000",
+        "fees_paid": "0.06990",
+        "mark": "0.05000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+        "quantity": "-26.00000",
+        "realized_pnl": "-0.06990",
+        "unrealized_pnl": "-0.26000",
+        "value": "-1.30000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.78653",
+        "fees_paid": "0.45200",
+        "mark": "0.75000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+        "quantity": "75.00000",
+        "realized_pnl": "-0.45200",
+        "unrealized_pnl": "-2.74000",
+        "value": "56.25000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.23000",
+        "fees_paid": "0.51150",
+        "mark": "0.24000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+        "quantity": "35.00000",
+        "realized_pnl": "-2.01150",
+        "unrealized_pnl": "0.35000",
+        "value": "8.40000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.90360",
+        "fees_paid": "0.35800",
+        "mark": "0.61000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+        "quantity": "75.00000",
+        "realized_pnl": "-0.35800",
+        "unrealized_pnl": "-22.02000",
+        "value": "45.75000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.07093",
+        "fees_paid": "0.34350",
+        "mark": "0.38000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+        "quantity": "-75.00000",
+        "realized_pnl": "-0.34350",
+        "unrealized_pnl": "-23.18000",
+        "value": "-28.50000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.08000",
+        "fees_paid": "0.38660",
+        "mark": "0.11000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+        "quantity": "-75.00000",
+        "realized_pnl": "-0.38660",
+        "unrealized_pnl": "-2.25000",
+        "value": "-8.25000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.17000",
+        "fees_paid": "0.29640",
+        "mark": "0.18000",
+        "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+        "quantity": "-30.00000",
+        "realized_pnl": "-0.29640",
+        "unrealized_pnl": "-0.30000",
+        "value": "-5.40000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.18000",
+        "fees_paid": "0.77500",
+        "mark": "0.20000",
+        "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+        "quantity": "-75.00000",
+        "realized_pnl": "-0.77500",
+        "unrealized_pnl": "-1.50000",
+        "value": "-15.00000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.82000",
+        "fees_paid": "0.31000",
+        "mark": "0.80000",
+        "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+        "quantity": "30.00000",
+        "realized_pnl": "-0.31000",
+        "unrealized_pnl": "-0.60000",
+        "value": "24.00000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.08853",
+        "fees_paid": "0.53440",
+        "mark": "0.01000",
+        "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+        "quantity": "-75.00000",
+        "realized_pnl": "3.82560",
+        "unrealized_pnl": "5.89000",
+        "value": "-0.75000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.89960",
+        "fees_paid": "1.01830",
+        "mark": "0.99000",
+        "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+        "quantity": "75.00000",
+        "realized_pnl": "4.56170",
+        "unrealized_pnl": "6.78000",
+        "value": "74.25000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.94000",
+        "fees_paid": "0.10270",
+        "mark": "0.93000",
+        "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+        "quantity": "26.00000",
+        "realized_pnl": "-0.10270",
+        "unrealized_pnl": "-0.26000",
+        "value": "24.18000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.06000",
+        "fees_paid": "0.10270",
+        "mark": "0.07000",
+        "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+        "quantity": "-26.00000",
+        "realized_pnl": "-0.10270",
+        "unrealized_pnl": "-0.26000",
+        "value": "-1.82000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.15000",
+        "fees_paid": "0.16740",
+        "mark": "0.13000",
+        "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+        "quantity": "75.00000",
+        "realized_pnl": "-0.16740",
+        "unrealized_pnl": "-1.50000",
+        "value": "9.75000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.85133",
+        "fees_paid": "0.33120",
+        "mark": "0.84000",
+        "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+        "quantity": "1.00000",
+        "realized_pnl": "-0.42987",
+        "unrealized_pnl": "-0.01133",
+        "value": "0.84000",
+        "venue": "kalshi"
+      },
+      {
+        "average_price": "0.09307",
+        "fees_paid": "0.53360",
+        "mark": "0.11000",
+        "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+        "quantity": "-46.00000",
+        "realized_pnl": "-4.79467",
+        "unrealized_pnl": "-0.77893",
+        "value": "-5.06000",
+        "venue": "kalshi"
+      }
+    ],
+    "realized_pnl": "-7.07466",
+    "return_pct": "-3.66030",
+    "settlement_fills": 0,
+    "starting_cash": "1000.00000",
+    "total_pnl": "-36.60300",
+    "unmarked_positions": 0,
+    "unrealized_pnl": "-29.52834",
+    "updated_at": "2026-09-14T23:29:17.940898+00:00"
+  },
+  "updated_at": "2026-09-14T23:29:17.940898+00:00"
+}

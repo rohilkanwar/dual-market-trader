@@ -1,0 +1,2210 @@
+{
+  "charts": {
+    "candidates_by_track": [
+      {
+        "track": "kalshi_whale_noise_combined",
+        "value": 7927
+      },
+      {
+        "track": "kalshi_whale_maker_leg",
+        "value": 790
+      },
+      {
+        "track": "kalshi_noise_taker_leg",
+        "value": 7137
+      }
+    ],
+    "fills_by_track": [
+      {
+        "track": "kalshi_whale_noise_combined",
+        "value": 104
+      },
+      {
+        "track": "kalshi_whale_maker_leg",
+        "value": 86
+      },
+      {
+        "track": "kalshi_noise_taker_leg",
+        "value": 28
+      }
+    ],
+    "pnl_by_track": [
+      {
+        "track": "kalshi_whale_noise_combined",
+        "value": -36.603
+      },
+      {
+        "track": "kalshi_whale_maker_leg",
+        "value": 6.6687
+      },
+      {
+        "track": "kalshi_noise_taker_leg",
+        "value": -54.4192
+      }
+    ],
+    "venue_fills": [
+      {
+        "value": 218,
+        "venue": "kalshi"
+      }
+    ]
+  },
+  "findings": {
+    "arbai_summary": "Combined vs legs: FAIL (combined -36.60 vs maker +6.67 / taker -54.42, 104 combined fills). Maker fill rate 50% of quoted contracts (32/65 quotes filled), 300s toxicity 30%. Whale flow ex post: FAIL (unverified).",
+    "divergence_findings_status": "not_applicable_whale_noise_run",
+    "kalshi_whale_noise": {
+      "combined_vs_legs": {
+        "combined_fills": 104,
+        "combined_pnl": -36.603,
+        "interaction_pnl": 11.1475,
+        "maker_leg_pnl": 6.6687,
+        "taker_leg_pnl": -54.4192,
+        "verdict": "FAIL"
+      },
+      "headline": "Combined vs legs: FAIL (combined -36.60 vs maker +6.67 / taker -54.42, 104 combined fills). Maker fill rate 50% of quoted contracts (32/65 quotes filled), 300s toxicity 30%. Whale flow ex post: FAIL (unverified).",
+      "report": "whale_noise_report_latest.json",
+      "verdicts": {
+        "combined_beats_each_leg": "FAIL",
+        "maker_fills_not_adversely_selected": "PASS",
+        "retail_longshot_fade_ev_positive": "PASS",
+        "retail_longshot_fade_ev_positive_excluding_final_minutes": "PASS",
+        "whale_flow_ev_positive": "FAIL",
+        "whale_flow_ev_positive_excluding_final_minutes": "FAIL"
+      }
+    },
+    "live_network_cross_venue_candidates": 0
+  },
+  "meta": {
+    "cycle": null,
+    "data_mode": "archive",
+    "generated_at": "2026-09-14T23:29:21.713160+00:00",
+    "kalshi_env": null,
+    "kind": "kalshi_whale_noise",
+    "label": "MEASURED / NETWORK / KALSHI WHALE/NOISE / ARCHIVE REPLAY",
+    "markets_per_venue": 200,
+    "measured_at": "2026-09-14T23:29:16.972531+00:00",
+    "mode": "network",
+    "paper_only": true,
+    "pnl_source": "core.ledger.PaperLedger",
+    "primary_track": "kalshi_whale_noise_combined",
+    "refresh": "python -m apps.measure_whale_noise [--archive artifacts/books | --network --kalshi-env prod] && cd dashboard && npm run sync-artifacts",
+    "run_id": "20260914T232916Z-whale-a6158906",
+    "source": "measured",
+    "track_family": "kalshi_flb",
+    "venue_focus": "kalshi",
+    "venues": [
+      "kalshi"
+    ]
+  },
+  "portfolio": {
+    "by_track": {
+      "kalshi_noise_taker_leg": {
+        "cash": 881.0808,
+        "equity": 945.5808,
+        "equity_points": 1,
+        "fees_paid": 4.5492,
+        "fills": 28,
+        "gross_notional": 223.8,
+        "max_drawdown": 54.4192,
+        "open_positions": 15,
+        "realized_pnl": -4.5492,
+        "starting_cash": 1000.0,
+        "total_pnl": -54.4192,
+        "unrealized_pnl": -49.87
+      },
+      "kalshi_whale_maker_leg": {
+        "cash": 778.0987,
+        "equity": 1006.6687,
+        "equity_points": 1,
+        "fees_paid": 4.6913,
+        "fills": 86,
+        "gross_notional": 235.61,
+        "max_drawdown": 0.0,
+        "open_positions": 10,
+        "realized_pnl": -1.4387,
+        "starting_cash": 1000.0,
+        "total_pnl": 6.6687,
+        "unrealized_pnl": 8.1074
+      },
+      "kalshi_whale_noise_combined": {
+        "cash": 730.527,
+        "equity": 963.397,
+        "equity_points": 1,
+        "fees_paid": 8.623,
+        "fills": 104,
+        "gross_notional": 370.79,
+        "max_drawdown": 36.603,
+        "open_positions": 19,
+        "realized_pnl": -7.07466,
+        "starting_cash": 1000.0,
+        "total_pnl": -36.603,
+        "unrealized_pnl": -29.52834
+      }
+    },
+    "cash": 2389.7065,
+    "concentration": [
+      {
+        "venue": "kalshi",
+        "weight": 1.0
+      }
+    ],
+    "equity": 2915.6465,
+    "fees_paid": 17.8635,
+    "gross_notional": 830.2,
+    "max_drawdown": 54.4192,
+    "net_exposure": 525.94,
+    "open_positions": 44,
+    "paper_only": true,
+    "primary": {
+      "cash": 730.527,
+      "concentration": [
+        {
+          "venue": "kalshi",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-09-14T23:29:17.702844+00:00",
+      "equity": 963.397,
+      "equity_points": 1,
+      "fees_paid": 8.623,
+      "fills": 104,
+      "gross_notional": 370.79,
+      "ledger_id": "kalshi_whale_noise_combined",
+      "mark_method": "conservative",
+      "max_drawdown": 36.603,
+      "net_exposure": 232.87,
+      "open_positions": 19,
+      "paper_only": true,
+      "peak_equity": 1000.0,
+      "position_value": 232.87,
+      "positions": [
+        {
+          "average_price": 0.08,
+          "fees_paid": 0.165,
+          "mark": 0.09,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+          "quantity": -32.0,
+          "realized_pnl": -0.165,
+          "unrealized_pnl": -0.32,
+          "value": -2.88,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.50614,
+          "fees_paid": 1.1719,
+          "mark": 0.09,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+          "quantity": 29.0,
+          "realized_pnl": 14.44617,
+          "unrealized_pnl": -12.06807,
+          "value": 2.61,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.48871,
+          "fees_paid": 0.9929,
+          "mark": 0.9,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+          "quantity": 62.0,
+          "realized_pnl": -19.1429,
+          "unrealized_pnl": 25.5,
+          "value": 55.8,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.04,
+          "fees_paid": 0.0699,
+          "mark": 0.05,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+          "quantity": -26.0,
+          "realized_pnl": -0.0699,
+          "unrealized_pnl": -0.26,
+          "value": -1.3,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.78653,
+          "fees_paid": 0.452,
+          "mark": 0.75,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+          "quantity": 75.0,
+          "realized_pnl": -0.452,
+          "unrealized_pnl": -2.74,
+          "value": 56.25,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.23,
+          "fees_paid": 0.5115,
+          "mark": 0.24,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+          "quantity": 35.0,
+          "realized_pnl": -2.0115,
+          "unrealized_pnl": 0.35,
+          "value": 8.4,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.9036,
+          "fees_paid": 0.358,
+          "mark": 0.61,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+          "quantity": 75.0,
+          "realized_pnl": -0.358,
+          "unrealized_pnl": -22.02,
+          "value": 45.75,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.07093,
+          "fees_paid": 0.3435,
+          "mark": 0.38,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+          "quantity": -75.0,
+          "realized_pnl": -0.3435,
+          "unrealized_pnl": -23.18,
+          "value": -28.5,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.08,
+          "fees_paid": 0.3866,
+          "mark": 0.11,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+          "quantity": -75.0,
+          "realized_pnl": -0.3866,
+          "unrealized_pnl": -2.25,
+          "value": -8.25,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.17,
+          "fees_paid": 0.2964,
+          "mark": 0.18,
+          "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+          "quantity": -30.0,
+          "realized_pnl": -0.2964,
+          "unrealized_pnl": -0.3,
+          "value": -5.4,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.18,
+          "fees_paid": 0.775,
+          "mark": 0.2,
+          "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+          "quantity": -75.0,
+          "realized_pnl": -0.775,
+          "unrealized_pnl": -1.5,
+          "value": -15.0,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.82,
+          "fees_paid": 0.31,
+          "mark": 0.8,
+          "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+          "quantity": 30.0,
+          "realized_pnl": -0.31,
+          "unrealized_pnl": -0.6,
+          "value": 24.0,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.08853,
+          "fees_paid": 0.5344,
+          "mark": 0.01,
+          "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+          "quantity": -75.0,
+          "realized_pnl": 3.8256,
+          "unrealized_pnl": 5.89,
+          "value": -0.75,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.8996,
+          "fees_paid": 1.0183,
+          "mark": 0.99,
+          "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+          "quantity": 75.0,
+          "realized_pnl": 4.5617,
+          "unrealized_pnl": 6.78,
+          "value": 74.25,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.94,
+          "fees_paid": 0.1027,
+          "mark": 0.93,
+          "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+          "quantity": 26.0,
+          "realized_pnl": -0.1027,
+          "unrealized_pnl": -0.26,
+          "value": 24.18,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.06,
+          "fees_paid": 0.1027,
+          "mark": 0.07,
+          "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+          "quantity": -26.0,
+          "realized_pnl": -0.1027,
+          "unrealized_pnl": -0.26,
+          "value": -1.82,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.15,
+          "fees_paid": 0.1674,
+          "mark": 0.13,
+          "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+          "quantity": 75.0,
+          "realized_pnl": -0.1674,
+          "unrealized_pnl": -1.5,
+          "value": 9.75,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.85133,
+          "fees_paid": 0.3312,
+          "mark": 0.84,
+          "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+          "quantity": 1.0,
+          "realized_pnl": -0.42987,
+          "unrealized_pnl": -0.01133,
+          "value": 0.84,
+          "venue": "kalshi"
+        },
+        {
+          "average_price": 0.09307,
+          "fees_paid": 0.5336,
+          "mark": 0.11,
+          "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+          "quantity": -46.0,
+          "realized_pnl": -4.79467,
+          "unrealized_pnl": -0.77893,
+          "value": -5.06,
+          "venue": "kalshi"
+        }
+      ],
+      "realized_pnl": -7.07466,
+      "return_pct": -3.6603,
+      "settlement_fills": 0,
+      "starting_cash": 1000.0,
+      "total_pnl": -36.603,
+      "unmarked_positions": 0,
+      "unrealized_pnl": -29.52834,
+      "updated_at": "2026-09-14T23:29:17.940898+00:00"
+    },
+    "primary_track": "kalshi_whale_noise_combined",
+    "realized_pnl": -13.0626,
+    "risk_flags": [
+      "pnl_from_ledger_not_placeholder"
+    ],
+    "settlement_risk_pairs": 0,
+    "source": "ledger_aggregate",
+    "starting_cash": 3000.0,
+    "total_pnl": -84.3535,
+    "unrealized_pnl": -71.2909
+  },
+  "schema_version": "1.3.0",
+  "top_edges": [
+    {
+      "admitted": true,
+      "edge_bps": 300,
+      "fair_value": 0.53,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "mid": 0.53,
+      "placement": "behind",
+      "quote_yes_price": 0.5,
+      "rank": 1,
+      "reason": "quote_filled",
+      "title": "Alastair Gray wins",
+      "track": "kalshi_whale_noise_combined",
+      "venue": "kalshi",
+      "whale_size": 1314.06
+    },
+    {
+      "admitted": true,
+      "edge_bps": 300,
+      "fair_value": 0.26,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "mid": 0.26,
+      "placement": "behind",
+      "quote_yes_price": 0.29,
+      "rank": 2,
+      "reason": "quote_filled",
+      "title": "Patrick Maloney wins",
+      "track": "kalshi_whale_noise_combined",
+      "venue": "kalshi",
+      "whale_size": 4927.36
+    },
+    {
+      "admitted": true,
+      "edge_bps": 300,
+      "fair_value": 0.53,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "mid": 0.53,
+      "placement": "behind",
+      "quote_yes_price": 0.5,
+      "rank": 3,
+      "reason": "quote_filled",
+      "title": "Alastair Gray wins",
+      "track": "kalshi_whale_maker_leg",
+      "venue": "kalshi",
+      "whale_size": 1314.06
+    },
+    {
+      "admitted": true,
+      "edge_bps": 300,
+      "fair_value": 0.26,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "mid": 0.26,
+      "placement": "behind",
+      "quote_yes_price": 0.29,
+      "rank": 4,
+      "reason": "quote_filled",
+      "title": "Patrick Maloney wins",
+      "track": "kalshi_whale_maker_leg",
+      "venue": "kalshi",
+      "whale_size": 4927.36
+    },
+    {
+      "admitted": true,
+      "edge_bps": 250,
+      "fair_value": 0.575,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "mid": 0.575,
+      "placement": "behind",
+      "quote_yes_price": 0.55,
+      "rank": 5,
+      "reason": "quote_filled",
+      "title": "Alastair Gray wins",
+      "track": "kalshi_whale_noise_combined",
+      "venue": "kalshi",
+      "whale_size": 2530.21
+    },
+    {
+      "admitted": true,
+      "edge_bps": 250,
+      "fair_value": 0.205,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "mid": 0.205,
+      "placement": "behind",
+      "quote_yes_price": 0.18,
+      "rank": 6,
+      "reason": "quote_filled",
+      "title": "Patrick Maloney wins",
+      "track": "kalshi_whale_noise_combined",
+      "venue": "kalshi",
+      "whale_size": 2033.88
+    },
+    {
+      "admitted": true,
+      "edge_bps": 250,
+      "fair_value": 0.415,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "mid": 0.415,
+      "placement": "behind",
+      "quote_yes_price": 0.39,
+      "rank": 7,
+      "reason": "quote_filled",
+      "title": "Patrick Maloney wins",
+      "track": "kalshi_whale_noise_combined",
+      "venue": "kalshi",
+      "whale_size": 1795.79
+    },
+    {
+      "admitted": true,
+      "edge_bps": 250,
+      "fair_value": 0.285,
+      "filled": false,
+      "market": "KXWTAMATCH-26SEP15OSUQUE-OSU",
+      "mid": 0.285,
+      "placement": "behind",
+      "quote_yes_price": 0.26,
+      "rank": 8,
+      "reason": "quote_resting",
+      "title": "Whitney Osuigwe wins",
+      "track": "kalshi_whale_noise_combined",
+      "venue": "kalshi",
+      "whale_size": 3000.0
+    },
+    {
+      "admitted": true,
+      "edge_bps": 250,
+      "fair_value": 0.575,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "mid": 0.575,
+      "placement": "behind",
+      "quote_yes_price": 0.55,
+      "rank": 9,
+      "reason": "quote_filled",
+      "title": "Alastair Gray wins",
+      "track": "kalshi_whale_maker_leg",
+      "venue": "kalshi",
+      "whale_size": 2530.21
+    },
+    {
+      "admitted": true,
+      "edge_bps": 250,
+      "fair_value": 0.205,
+      "filled": true,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "mid": 0.205,
+      "placement": "behind",
+      "quote_yes_price": 0.18,
+      "rank": 10,
+      "reason": "quote_filled",
+      "title": "Patrick Maloney wins",
+      "track": "kalshi_whale_maker_leg",
+      "venue": "kalshi",
+      "whale_size": 2033.88
+    }
+  ],
+  "top_fills": [
+    {
+      "edge_bps": null,
+      "fee": 0.1763,
+      "filled_at": "2026-09-14T23:06:54.101683+00:00",
+      "mark": 0.09,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "markout_cents": {
+        "300": 26.5,
+        "60": 7.0
+      },
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-5",
+      "outcome": "no",
+      "paper_pnl": 59.8637,
+      "placement": "behind",
+      "price": 0.15,
+      "qty": 79.0,
+      "queue_ahead_initial": 42919.36,
+      "rank": 1,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_noise_combined",
+      "title": "Alastair Gray wins",
+      "toxic_at_longest_horizon": false,
+      "track": "kalshi_whale_noise_combined",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 3560.53,
+      "yes_equivalent_price": 0.85
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.1763,
+      "filled_at": "2026-09-14T23:06:54.101683+00:00",
+      "mark": 0.09,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "markout_cents": {
+        "300": 26.5,
+        "60": 7.0
+      },
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-5",
+      "outcome": "no",
+      "paper_pnl": 59.8637,
+      "placement": "behind",
+      "price": 0.15,
+      "qty": 79.0,
+      "queue_ahead_initial": 42919.36,
+      "rank": 2,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_maker_leg",
+      "title": "Alastair Gray wins",
+      "toxic_at_longest_horizon": false,
+      "track": "kalshi_whale_maker_leg",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 3560.53,
+      "yes_equivalent_price": 0.85
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.2426,
+      "filled_at": "2026-09-14T22:54:32.944906+00:00",
+      "mark": 0.9,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "markout_cents": {
+        "300": -22.5,
+        "60": -18.5
+      },
+      "order_id": "paper-maker-07222a65-7309-a31e-ce38-cc6a91097fe9-1",
+      "outcome": "yes",
+      "paper_pnl": 39.3574,
+      "placement": "behind",
+      "price": 0.3,
+      "qty": 66.0,
+      "queue_ahead_initial": 23444.54,
+      "rank": 3,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_noise_combined",
+      "title": "Patrick Maloney wins",
+      "toxic_at_longest_horizon": true,
+      "track": "kalshi_whale_noise_combined",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 1422.45,
+      "yes_equivalent_price": 0.3
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.2426,
+      "filled_at": "2026-09-14T22:54:32.944906+00:00",
+      "mark": 0.9,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "markout_cents": {
+        "300": -22.5,
+        "60": -18.5
+      },
+      "order_id": "paper-maker-07222a65-7309-a31e-ce38-cc6a91097fe9-1",
+      "outcome": "yes",
+      "paper_pnl": 39.3574,
+      "placement": "behind",
+      "price": 0.3,
+      "qty": 66.0,
+      "queue_ahead_initial": 23444.54,
+      "rank": 4,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_maker_leg",
+      "title": "Patrick Maloney wins",
+      "toxic_at_longest_horizon": true,
+      "track": "kalshi_whale_maker_leg",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 1422.45,
+      "yes_equivalent_price": 0.3
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.0648,
+      "filled_at": "2026-09-14T23:06:54.100884+00:00",
+      "mark": 0.09,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "markout_cents": {
+        "300": 26.5,
+        "60": 7.0
+      },
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-1",
+      "outcome": "no",
+      "paper_pnl": 21.9752,
+      "placement": "behind",
+      "price": 0.15,
+      "qty": 29.0,
+      "queue_ahead_initial": 42919.36,
+      "rank": 5,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_noise_combined",
+      "title": "Alastair Gray wins",
+      "toxic_at_longest_horizon": false,
+      "track": "kalshi_whale_noise_combined",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 3560.53,
+      "yes_equivalent_price": 0.85
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.0648,
+      "filled_at": "2026-09-14T23:06:54.100884+00:00",
+      "mark": 0.09,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "markout_cents": {
+        "300": 26.5,
+        "60": 7.0
+      },
+      "order_id": "paper-maker-07222a85-6d49-91fa-fdf4-9fa7e9ae2297-1",
+      "outcome": "no",
+      "paper_pnl": 21.9752,
+      "placement": "behind",
+      "price": 0.15,
+      "qty": 29.0,
+      "queue_ahead_initial": 42919.36,
+      "rank": 6,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_maker_leg",
+      "title": "Alastair Gray wins",
+      "toxic_at_longest_horizon": false,
+      "track": "kalshi_whale_maker_leg",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 3560.53,
+      "yes_equivalent_price": 0.85
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.12,
+      "filled_at": "2026-09-14T23:08:26.654972+00:00",
+      "mark": 0.09,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "markout_cents": {
+        "300": -14.5,
+        "60": -6.5
+      },
+      "order_id": "paper-maker-07222a9d-9e31-95b6-6334-63db7807e4e4-1",
+      "outcome": "yes",
+      "paper_pnl": -21.54,
+      "placement": "behind",
+      "price": 0.72,
+      "qty": 34.0,
+      "queue_ahead_initial": 38759.37,
+      "rank": 7,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_noise_combined",
+      "title": "Alastair Gray wins",
+      "toxic_at_longest_horizon": true,
+      "track": "kalshi_whale_noise_combined",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 2000.0,
+      "yes_equivalent_price": 0.72
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.12,
+      "filled_at": "2026-09-14T23:08:26.654972+00:00",
+      "mark": 0.09,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+      "markout_cents": {
+        "300": -14.5,
+        "60": -6.5
+      },
+      "order_id": "paper-maker-07222a9d-9e31-95b6-6334-63db7807e4e4-1",
+      "outcome": "yes",
+      "paper_pnl": -21.54,
+      "placement": "behind",
+      "price": 0.72,
+      "qty": 34.0,
+      "queue_ahead_initial": 38759.37,
+      "rank": 8,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_maker_leg",
+      "title": "Alastair Gray wins",
+      "toxic_at_longest_horizon": true,
+      "track": "kalshi_whale_maker_leg",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 2000.0,
+      "yes_equivalent_price": 0.72
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.0373,
+      "filled_at": "2026-09-14T23:01:37.856123+00:00",
+      "mark": 0.9,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "markout_cents": {
+        "300": -4.5,
+        "60": -1.5
+      },
+      "order_id": "paper-maker-07222abf-6751-9f6b-b5f5-88a437e15cbc-2",
+      "outcome": "no",
+      "paper_pnl": -21.0973,
+      "placement": "behind",
+      "price": 0.91,
+      "qty": 26.0,
+      "queue_ahead_initial": 33766.22,
+      "rank": 9,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_noise_combined",
+      "title": "Patrick Maloney wins",
+      "toxic_at_longest_horizon": true,
+      "track": "kalshi_whale_noise_combined",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 1595.77,
+      "yes_equivalent_price": 0.09
+    },
+    {
+      "edge_bps": null,
+      "fee": 0.0373,
+      "filled_at": "2026-09-14T23:01:37.856123+00:00",
+      "mark": 0.9,
+      "market": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+      "markout_cents": {
+        "300": -4.5,
+        "60": -1.5
+      },
+      "order_id": "paper-maker-07222abf-6751-9f6b-b5f5-88a437e15cbc-2",
+      "outcome": "no",
+      "paper_pnl": -21.0973,
+      "placement": "behind",
+      "price": 0.91,
+      "qty": 26.0,
+      "queue_ahead_initial": 33766.22,
+      "rank": 10,
+      "role": "maker",
+      "side": "buy",
+      "strategy": "kalshi_whale_maker_leg",
+      "title": "Patrick Maloney wins",
+      "toxic_at_longest_horizon": true,
+      "track": "kalshi_whale_maker_leg",
+      "trade_through": true,
+      "venue": "kalshi",
+      "whale_size": 1595.77,
+      "yes_equivalent_price": 0.09
+    }
+  ],
+  "totals": {
+    "admitted": 192,
+    "avg_edge_bps": 71,
+    "candidates": 15854,
+    "fees_paid": 17.8635,
+    "fill_rate": 1.1354,
+    "paper_fills": 218,
+    "paper_pnl": -84.3535,
+    "proposed_orders": 192,
+    "realized_pnl": -13.0626,
+    "rejects": 15662,
+    "settlement_risk_pairs": 0,
+    "unrealized_pnl": -71.2909
+  },
+  "tracks": [
+    {
+      "admitted": 91,
+      "candidates": 7927,
+      "edge_bps": 103,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 1.1429,
+      "label": "Kalshi whale-follow maker + noise fade (combined)",
+      "ledger": {
+        "cash": 730.527,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:29:17.702844+00:00",
+        "equity": 963.397,
+        "equity_points": 1,
+        "fees_paid": 8.623,
+        "fills": 104,
+        "gross_notional": 370.79,
+        "ledger_id": "kalshi_whale_noise_combined",
+        "mark_method": "conservative",
+        "max_drawdown": 36.603,
+        "net_exposure": 232.87,
+        "open_positions": 19,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 232.87,
+        "positions": [
+          {
+            "average_price": 0.08,
+            "fees_paid": 0.165,
+            "mark": 0.09,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+            "quantity": -32.0,
+            "realized_pnl": -0.165,
+            "unrealized_pnl": -0.32,
+            "value": -2.88,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.50614,
+            "fees_paid": 1.1719,
+            "mark": 0.09,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+            "quantity": 29.0,
+            "realized_pnl": 14.44617,
+            "unrealized_pnl": -12.06807,
+            "value": 2.61,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.48871,
+            "fees_paid": 0.9929,
+            "mark": 0.9,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+            "quantity": 62.0,
+            "realized_pnl": -19.1429,
+            "unrealized_pnl": 25.5,
+            "value": 55.8,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.04,
+            "fees_paid": 0.0699,
+            "mark": 0.05,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+            "quantity": -26.0,
+            "realized_pnl": -0.0699,
+            "unrealized_pnl": -0.26,
+            "value": -1.3,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.78653,
+            "fees_paid": 0.452,
+            "mark": 0.75,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+            "quantity": 75.0,
+            "realized_pnl": -0.452,
+            "unrealized_pnl": -2.74,
+            "value": 56.25,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.23,
+            "fees_paid": 0.5115,
+            "mark": 0.24,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+            "quantity": 35.0,
+            "realized_pnl": -2.0115,
+            "unrealized_pnl": 0.35,
+            "value": 8.4,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.9036,
+            "fees_paid": 0.358,
+            "mark": 0.61,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+            "quantity": 75.0,
+            "realized_pnl": -0.358,
+            "unrealized_pnl": -22.02,
+            "value": 45.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.07093,
+            "fees_paid": 0.3435,
+            "mark": 0.38,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+            "quantity": -75.0,
+            "realized_pnl": -0.3435,
+            "unrealized_pnl": -23.18,
+            "value": -28.5,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.08,
+            "fees_paid": 0.3866,
+            "mark": 0.11,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+            "quantity": -75.0,
+            "realized_pnl": -0.3866,
+            "unrealized_pnl": -2.25,
+            "value": -8.25,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.17,
+            "fees_paid": 0.2964,
+            "mark": 0.18,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+            "quantity": -30.0,
+            "realized_pnl": -0.2964,
+            "unrealized_pnl": -0.3,
+            "value": -5.4,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.18,
+            "fees_paid": 0.775,
+            "mark": 0.2,
+            "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+            "quantity": -75.0,
+            "realized_pnl": -0.775,
+            "unrealized_pnl": -1.5,
+            "value": -15.0,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.82,
+            "fees_paid": 0.31,
+            "mark": 0.8,
+            "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+            "quantity": 30.0,
+            "realized_pnl": -0.31,
+            "unrealized_pnl": -0.6,
+            "value": 24.0,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.08853,
+            "fees_paid": 0.5344,
+            "mark": 0.01,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+            "quantity": -75.0,
+            "realized_pnl": 3.8256,
+            "unrealized_pnl": 5.89,
+            "value": -0.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.8996,
+            "fees_paid": 1.0183,
+            "mark": 0.99,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+            "quantity": 75.0,
+            "realized_pnl": 4.5617,
+            "unrealized_pnl": 6.78,
+            "value": 74.25,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.94,
+            "fees_paid": 0.1027,
+            "mark": 0.93,
+            "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+            "quantity": 26.0,
+            "realized_pnl": -0.1027,
+            "unrealized_pnl": -0.26,
+            "value": 24.18,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.06,
+            "fees_paid": 0.1027,
+            "mark": 0.07,
+            "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+            "quantity": -26.0,
+            "realized_pnl": -0.1027,
+            "unrealized_pnl": -0.26,
+            "value": -1.82,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.15,
+            "fees_paid": 0.1674,
+            "mark": 0.13,
+            "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+            "quantity": 75.0,
+            "realized_pnl": -0.1674,
+            "unrealized_pnl": -1.5,
+            "value": 9.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.85133,
+            "fees_paid": 0.3312,
+            "mark": 0.84,
+            "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+            "quantity": 1.0,
+            "realized_pnl": -0.42987,
+            "unrealized_pnl": -0.01133,
+            "value": 0.84,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.09307,
+            "fees_paid": 0.5336,
+            "mark": 0.11,
+            "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+            "quantity": -46.0,
+            "realized_pnl": -4.79467,
+            "unrealized_pnl": -0.77893,
+            "value": -5.06,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -7.07466,
+        "return_pct": -3.6603,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -36.603,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -29.52834,
+        "updated_at": "2026-09-14T23:29:17.940898+00:00"
+      },
+      "metrics": {
+        "alignment": "time_aligned",
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 722.3983,
+          "resting_orders_reserved": 0.0
+        },
+        "combined_vs_legs": {
+          "combined_fills": 104,
+          "combined_pnl": -36.603,
+          "interaction_pnl": 11.1475,
+          "maker_leg_fills": 86,
+          "maker_leg_pnl": 6.6687,
+          "question": "Does running the whale-follow maker leg and the retail-longshot taker fade in one book beat either leg alone (paper PnL after fees, conservative marks)?",
+          "reason": "combined book did not beat the better single leg",
+          "sum_of_legs_pnl": -47.7505,
+          "taker_leg_fills": 28,
+          "taker_leg_pnl": -54.4192,
+          "thresholds": {
+            "min_fills_for_verdict": 5,
+            "rule": "combined_pnl > max(maker_leg_pnl, taker_leg_pnl)"
+          },
+          "verdict": "FAIL"
+        },
+        "equity_point": {
+          "drawdown": 36.603,
+          "equity": 963.397,
+          "total_pnl": -36.603
+        },
+        "events": {
+          "fill": 104,
+          "order_acknowledged": 104,
+          "order_rejected": 0,
+          "order_submitted": 104
+        },
+        "fade_evaluations": {
+          "count": 544,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "leg": {
+          "maker": true,
+          "taker": true
+        },
+        "maker": {
+          "consumed_ahead_total": 73245.72,
+          "contracts_filled": 1498.0,
+          "contracts_quoted": 3000.0,
+          "enabled": true,
+          "fill_events": 78,
+          "fill_model": {
+            "fill_from": "public prints at our level after the queue ahead is consumed; a print through our level fills at most its printed size",
+            "name": "conservative_queue",
+            "never": "no priority from cancels ahead, no fills inside reaction latency, no fills after TTL, no fills without a forward tape",
+            "queue_ahead": "all displayed size at our level at placement; later snapshots can only raise it"
+          },
+          "fill_rate_contracts": 0.4993,
+          "fill_rate_quotes": 0.5538,
+          "fills_dropped_by_risk_at_fill_time": 0,
+          "fills_not_simulated_single_snapshot": 0,
+          "queue_ahead_initial_mean": 24293.5351,
+          "queue_raised_by_later_books": 36,
+          "quotes_expired_unfilled": 29,
+          "quotes_filled": 32,
+          "quotes_partially_filled": 4,
+          "quotes_placed": 65,
+          "quotes_resting_at_end": 0,
+          "seconds_to_first_fill_mean": 52.2,
+          "toxicity": {
+            "300": {
+              "contract_weighted_markout_cents": 5.2427,
+              "fills_with_markout": 70,
+              "mean_markout_cents": 5.55,
+              "toxic_fills": 21,
+              "toxicity_rate": 0.3
+            },
+            "60": {
+              "contract_weighted_markout_cents": 2.4327,
+              "fills_with_markout": 72,
+              "mean_markout_cents": 1.6944,
+              "toxic_fills": 21,
+              "toxicity_rate": 0.2917
+            }
+          },
+          "trade_through_fills": 78,
+          "whale_triggers": 790
+        },
+        "maker_toxicity_verdict": {
+          "contract_weighted_markout_cents": 5.2427,
+          "fills_with_markout": 70,
+          "horizon_seconds": 300,
+          "mean_markout_cents": 5.55,
+          "question": "Do maker fills show negative 300s markouts (adverse selection) on average?",
+          "reason": "maker fills were not adversely selected on average",
+          "toxic_fills": 21,
+          "toxicity_rate": 0.3,
+          "verdict": "PASS"
+        },
+        "mark_method": "conservative",
+        "parameters": {
+          "default_rule": {
+            "ev_status": "unverified",
+            "min_contracts": 1000.0,
+            "min_history": 5,
+            "min_notional": 500.0,
+            "note": "",
+            "size_multiple": 10.0
+          },
+          "later_arrivals_ahead": true,
+          "longshot_threshold": 0.2,
+          "markout_horizons_seconds": [
+            60,
+            300
+          ],
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_resting_quotes_per_market": 1,
+          "max_total_cash_at_risk": 1000.0,
+          "min_fills_for_verdict": 5,
+          "minimum_touch_size": 1.0,
+          "quote_ttl_seconds": 300.0,
+          "reaction_latency_seconds": 2.0,
+          "recent_prints_window": 50,
+          "require_ev_verified": false,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "series": [
+            "KXATPMATCH",
+            "KXWTAMATCH",
+            "KXATPCHALLENGERMATCH",
+            "KXWTACHALLENGERMATCH",
+            "KXITFMATCH",
+            "KXITFWMATCH"
+          ],
+          "series_rules": {},
+          "taker_cooldown_seconds": 60.0,
+          "tick": 0.01,
+          "ticks_behind": 1,
+          "whale_lookback_seconds": 120.0
+        },
+        "print_classes": {
+          "retail_longshot": 7137,
+          "retail_other": 37758,
+          "whale_lift": 790
+        },
+        "prints_seen": 45685,
+        "quote_evaluations": {
+          "count": 577,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "quotes": {
+          "count": 65,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "settlement_preview": {
+          "hypothetical_pnl_at_fixture_settlement": 0.0,
+          "note": "Only fixture markets carry paper_settlement_outcome; archive and network fills are not scored.",
+          "scored_fills": 0
+        },
+        "snapshot": {
+          "kalshi": {
+            "alignment": "time_aligned",
+            "errors": [],
+            "markets": 150,
+            "source": "archive"
+          }
+        },
+        "taker": {
+          "contracts_filled": 647.0,
+          "enabled": true,
+          "fades_proposed": 26,
+          "fill_events": 26,
+          "fill_rate_orders": 1.0,
+          "retail_longshot_triggers": 7137,
+          "toxicity": {
+            "300": {
+              "contract_weighted_markout_cents": -1.4289,
+              "fills_with_markout": 24,
+              "mean_markout_cents": -1.6458,
+              "toxic_fills": 18,
+              "toxicity_rate": 0.75
+            },
+            "60": {
+              "contract_weighted_markout_cents": -0.1006,
+              "fills_with_markout": 25,
+              "mean_markout_cents": -0.06,
+              "toxic_fills": 18,
+              "toxicity_rate": 0.72
+            }
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 8.623,
+            "open_positions": 19.0,
+            "realized_pnl": -7.0746631578947365,
+            "total_pnl": -36.603,
+            "unrealized_pnl": -29.52833684210526
+          }
+        },
+        "whale_follow_through": {
+          "300": {
+            "continued": 183,
+            "mean_drift_cents": -0.7769,
+            "n": 372,
+            "reversal_rate": 0.4435,
+            "reverted": 165
+          },
+          "60": {
+            "continued": 272,
+            "mean_drift_cents": 0.7984,
+            "n": 491,
+            "reversal_rate": 0.3605,
+            "reverted": 177
+          },
+          "events": 790
+        }
+      },
+      "notes": "The experiment. Whale-class lifts (large non-block aggressive prints) trigger a same-direction resting bid one tick behind the touch, filled only by the conservative queue model; retail longshot prints with no whale in the lookback trigger the taker fade of the favourite. One ledger, paper caps $25/order, $75/market, $75 daily, $1,000 collateral, conservative marks.",
+      "paper_fills": 104,
+      "proposed_orders": 91,
+      "refused_by_reason": {
+        "fade_not_longshot": 99,
+        "fade_one_sided_book": 103,
+        "fade_risk_position_cap_reached": 316,
+        "no_book_before_print": 549,
+        "quote_already_resting": 430,
+        "risk_position_cap_reached": 49,
+        "stale_book_crossed": 33,
+        "taker_cooldown": 334,
+        "whale_flow_in_lookback": 5923
+      },
+      "reject_reasons": {
+        "fade_not_longshot": 99,
+        "fade_one_sided_book": 103,
+        "fade_risk_position_cap_reached": 316,
+        "no_book_before_print": 549,
+        "quote_already_resting": 430,
+        "risk_position_cap_reached": 49,
+        "stale_book_crossed": 33,
+        "taker_cooldown": 334,
+        "whale_flow_in_lookback": 5923
+      },
+      "rejects": 7836,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_whale_noise_combined"
+    },
+    {
+      "admitted": 73,
+      "candidates": 790,
+      "edge_bps": 164,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 1.1781,
+      "label": "Kalshi whale-follow maker leg",
+      "ledger": {
+        "cash": 778.0987,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:29:17.702905+00:00",
+        "equity": 1006.6687,
+        "equity_points": 1,
+        "fees_paid": 4.6913,
+        "fills": 86,
+        "gross_notional": 235.61,
+        "ledger_id": "kalshi_whale_maker_leg",
+        "mark_method": "conservative",
+        "max_drawdown": 0.0,
+        "net_exposure": 228.57,
+        "open_positions": 10,
+        "paper_only": true,
+        "peak_equity": 1006.6687,
+        "position_value": 228.57,
+        "positions": [
+          {
+            "average_price": 0.50614,
+            "fees_paid": 1.1719,
+            "mark": 0.09,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-GRA",
+            "quantity": 29.0,
+            "realized_pnl": 14.44617,
+            "unrealized_pnl": -12.06807,
+            "value": 2.61,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.48871,
+            "fees_paid": 0.9929,
+            "mark": 0.9,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14GRAMAL-MAL",
+            "quantity": 62.0,
+            "realized_pnl": -19.1429,
+            "unrealized_pnl": 25.5,
+            "value": 55.8,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.75985,
+            "fees_paid": 0.2076,
+            "mark": 0.75,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+            "quantity": 65.0,
+            "realized_pnl": -0.2076,
+            "unrealized_pnl": -0.64,
+            "value": 48.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.23,
+            "fees_paid": 0.2015,
+            "mark": 0.24,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+            "quantity": 65.0,
+            "realized_pnl": -0.2015,
+            "unrealized_pnl": 0.65,
+            "value": 15.6,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.84655,
+            "fees_paid": 0.1294,
+            "mark": 0.61,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+            "quantity": 58.0,
+            "realized_pnl": -0.1294,
+            "unrealized_pnl": -13.72,
+            "value": 35.38,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.1265,
+            "fees_paid": 0.4289,
+            "mark": 0.01,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+            "quantity": -40.0,
+            "realized_pnl": 3.9311,
+            "unrealized_pnl": 4.66,
+            "value": -0.4,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.93125,
+            "fees_paid": 0.8108,
+            "mark": 0.99,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+            "quantity": 64.0,
+            "realized_pnl": 5.1092,
+            "unrealized_pnl": 3.76,
+            "value": 63.36,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.15,
+            "fees_paid": 0.1674,
+            "mark": 0.13,
+            "market_id": "KXWTAMATCH-26SEP14SONSHY-SHY",
+            "quantity": 75.0,
+            "realized_pnl": -0.1674,
+            "unrealized_pnl": -1.5,
+            "value": 9.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.85133,
+            "fees_paid": 0.3312,
+            "mark": 0.84,
+            "market_id": "KXWTAMATCH-26SEP14ZARDOL-DOL",
+            "quantity": 1.0,
+            "realized_pnl": -0.42987,
+            "unrealized_pnl": -0.01133,
+            "value": 0.84,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.11787,
+            "fees_paid": 0.2497,
+            "mark": 0.08,
+            "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+            "quantity": -39.0,
+            "realized_pnl": -4.6465,
+            "unrealized_pnl": 1.4768,
+            "value": -3.12,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -1.4387,
+        "return_pct": 0.66687,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": 6.6687,
+        "unmarked_positions": 0,
+        "unrealized_pnl": 8.1074,
+        "updated_at": "2026-09-14T23:29:17.942092+00:00"
+      },
+      "metrics": {
+        "alignment": "time_aligned",
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 299.4626,
+          "resting_orders_reserved": 0.0
+        },
+        "combined_vs_legs": {
+          "combined_fills": 104,
+          "combined_pnl": -36.603,
+          "interaction_pnl": 11.1475,
+          "maker_leg_fills": 86,
+          "maker_leg_pnl": 6.6687,
+          "question": "Does running the whale-follow maker leg and the retail-longshot taker fade in one book beat either leg alone (paper PnL after fees, conservative marks)?",
+          "reason": "combined book did not beat the better single leg",
+          "sum_of_legs_pnl": -47.7505,
+          "taker_leg_fills": 28,
+          "taker_leg_pnl": -54.4192,
+          "thresholds": {
+            "min_fills_for_verdict": 5,
+            "rule": "combined_pnl > max(maker_leg_pnl, taker_leg_pnl)"
+          },
+          "verdict": "FAIL"
+        },
+        "equity_point": {
+          "drawdown": 0.0,
+          "equity": 1006.6687,
+          "total_pnl": 6.6687
+        },
+        "events": {
+          "fill": 86,
+          "order_acknowledged": 86,
+          "order_rejected": 0,
+          "order_submitted": 86
+        },
+        "fade_evaluations": {
+          "count": 0,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "leg": {
+          "maker": true,
+          "taker": false
+        },
+        "maker": {
+          "consumed_ahead_total": 76712.96,
+          "contracts_filled": 1654.0,
+          "contracts_quoted": 3319.0,
+          "enabled": true,
+          "fill_events": 86,
+          "fill_model": {
+            "fill_from": "public prints at our level after the queue ahead is consumed; a print through our level fills at most its printed size",
+            "name": "conservative_queue",
+            "never": "no priority from cancels ahead, no fills inside reaction latency, no fills after TTL, no fills without a forward tape",
+            "queue_ahead": "all displayed size at our level at placement; later snapshots can only raise it"
+          },
+          "fill_rate_contracts": 0.4983,
+          "fill_rate_quotes": 0.5479,
+          "fills_dropped_by_risk_at_fill_time": 0,
+          "fills_not_simulated_single_snapshot": 0,
+          "queue_ahead_initial_mean": 26244.3852,
+          "queue_raised_by_later_books": 41,
+          "quotes_expired_unfilled": 33,
+          "quotes_filled": 36,
+          "quotes_partially_filled": 4,
+          "quotes_placed": 73,
+          "quotes_resting_at_end": 0,
+          "seconds_to_first_fill_mean": 52.9,
+          "toxicity": {
+            "300": {
+              "contract_weighted_markout_cents": 4.8332,
+              "fills_with_markout": 72,
+              "mean_markout_cents": 5.1667,
+              "toxic_fills": 23,
+              "toxicity_rate": 0.3194
+            },
+            "60": {
+              "contract_weighted_markout_cents": 1.8574,
+              "fills_with_markout": 80,
+              "mean_markout_cents": 1.3375,
+              "toxic_fills": 26,
+              "toxicity_rate": 0.325
+            }
+          },
+          "trade_through_fills": 86,
+          "whale_triggers": 790
+        },
+        "maker_toxicity_verdict": {
+          "contract_weighted_markout_cents": 4.8332,
+          "fills_with_markout": 72,
+          "horizon_seconds": 300,
+          "mean_markout_cents": 5.1667,
+          "question": "Do maker fills show negative 300s markouts (adverse selection) on average?",
+          "reason": "maker fills were not adversely selected on average",
+          "toxic_fills": 23,
+          "toxicity_rate": 0.3194,
+          "verdict": "PASS"
+        },
+        "mark_method": "conservative",
+        "parameters": {
+          "default_rule": {
+            "ev_status": "unverified",
+            "min_contracts": 1000.0,
+            "min_history": 5,
+            "min_notional": 500.0,
+            "note": "",
+            "size_multiple": 10.0
+          },
+          "later_arrivals_ahead": true,
+          "longshot_threshold": 0.2,
+          "markout_horizons_seconds": [
+            60,
+            300
+          ],
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_resting_quotes_per_market": 1,
+          "max_total_cash_at_risk": 1000.0,
+          "min_fills_for_verdict": 5,
+          "minimum_touch_size": 1.0,
+          "quote_ttl_seconds": 300.0,
+          "reaction_latency_seconds": 2.0,
+          "recent_prints_window": 50,
+          "require_ev_verified": false,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "series": [
+            "KXATPMATCH",
+            "KXWTAMATCH",
+            "KXATPCHALLENGERMATCH",
+            "KXWTACHALLENGERMATCH",
+            "KXITFMATCH",
+            "KXITFWMATCH"
+          ],
+          "series_rules": {},
+          "taker_cooldown_seconds": 60.0,
+          "tick": 0.01,
+          "ticks_behind": 1,
+          "whale_lookback_seconds": 120.0
+        },
+        "print_classes": {
+          "retail_longshot": 7137,
+          "retail_other": 37758,
+          "whale_lift": 790
+        },
+        "prints_seen": 45685,
+        "quote_evaluations": {
+          "count": 577,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "quotes": {
+          "count": 73,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "settlement_preview": {
+          "hypothetical_pnl_at_fixture_settlement": 0.0,
+          "note": "Only fixture markets carry paper_settlement_outcome; archive and network fills are not scored.",
+          "scored_fills": 0
+        },
+        "snapshot": {
+          "kalshi": {
+            "alignment": "time_aligned",
+            "errors": [],
+            "markets": 150,
+            "source": "archive"
+          }
+        },
+        "taker": {
+          "contracts_filled": 0.0,
+          "enabled": false,
+          "fades_proposed": 0,
+          "fill_events": 0,
+          "fill_rate_orders": null,
+          "retail_longshot_triggers": 0,
+          "toxicity": {
+            "300": {
+              "contract_weighted_markout_cents": null,
+              "fills_with_markout": 0,
+              "mean_markout_cents": null,
+              "toxic_fills": 0,
+              "toxicity_rate": null
+            },
+            "60": {
+              "contract_weighted_markout_cents": null,
+              "fills_with_markout": 0,
+              "mean_markout_cents": null,
+              "toxic_fills": 0,
+              "toxicity_rate": null
+            }
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 4.6913,
+            "open_positions": 10.0,
+            "realized_pnl": -1.4386964912280702,
+            "total_pnl": 6.6687,
+            "unrealized_pnl": 8.10739649122807
+          }
+        },
+        "whale_follow_through": {
+          "300": {
+            "continued": 183,
+            "mean_drift_cents": -0.7769,
+            "n": 372,
+            "reversal_rate": 0.4435,
+            "reverted": 165
+          },
+          "60": {
+            "continued": 272,
+            "mean_drift_cents": 0.7984,
+            "n": 491,
+            "reversal_rate": 0.3605,
+            "reverted": 177
+          },
+          "events": 790
+        }
+      },
+      "notes": "Control: maker leg alone. Fill rate and markouts come from public prints after placement; a whale's own print never fills us and cancels ahead of us are never assumed.",
+      "paper_fills": 86,
+      "proposed_orders": 73,
+      "refused_by_reason": {
+        "no_book_before_print": 213,
+        "quote_already_resting": 462,
+        "risk_position_cap_reached": 11,
+        "stale_book_crossed": 31
+      },
+      "reject_reasons": {
+        "no_book_before_print": 213,
+        "quote_already_resting": 462,
+        "risk_position_cap_reached": 11,
+        "stale_book_crossed": 31
+      },
+      "rejects": 717,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_whale_maker_leg"
+    },
+    {
+      "admitted": 28,
+      "candidates": 7137,
+      "edge_bps": -54,
+      "estimated_fees_buffer": 0.0,
+      "fill_rate": 1.0,
+      "label": "Kalshi retail-longshot taker fade leg",
+      "ledger": {
+        "cash": 881.0808,
+        "concentration": [
+          {
+            "venue": "kalshi",
+            "weight": 1.0
+          }
+        ],
+        "created_at": "2026-09-14T23:29:17.702934+00:00",
+        "equity": 945.5808,
+        "equity_points": 1,
+        "fees_paid": 4.5492,
+        "fills": 28,
+        "gross_notional": 223.8,
+        "ledger_id": "kalshi_noise_taker_leg",
+        "mark_method": "conservative",
+        "max_drawdown": 54.4192,
+        "net_exposure": 64.5,
+        "open_positions": 15,
+        "paper_only": true,
+        "peak_equity": 1000.0,
+        "position_value": 64.5,
+        "positions": [
+          {
+            "average_price": 0.08,
+            "fees_paid": 0.165,
+            "mark": 0.09,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14DELLOM-LOM",
+            "quantity": -32.0,
+            "realized_pnl": -0.165,
+            "unrealized_pnl": -0.32,
+            "value": -2.88,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.04,
+            "fees_paid": 0.0699,
+            "mark": 0.05,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14HAPAV-HA",
+            "quantity": -26.0,
+            "realized_pnl": -0.0699,
+            "unrealized_pnl": -0.26,
+            "value": -1.3,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.82,
+            "fees_paid": 0.31,
+            "mark": 0.75,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-MMO",
+            "quantity": 30.0,
+            "realized_pnl": -0.31,
+            "unrealized_pnl": -2.1,
+            "value": 22.5,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.18,
+            "fees_paid": 0.31,
+            "mark": 0.25,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SELMMO-SEL",
+            "quantity": -30.0,
+            "realized_pnl": -0.31,
+            "unrealized_pnl": -2.1,
+            "value": -7.5,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.898,
+            "fees_paid": 0.4802,
+            "mark": 0.61,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-SHE",
+            "quantity": 75.0,
+            "realized_pnl": -0.4802,
+            "unrealized_pnl": -21.6,
+            "value": 45.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.07093,
+            "fees_paid": 0.3435,
+            "mark": 0.38,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP14SHEZIN-ZIN",
+            "quantity": -75.0,
+            "realized_pnl": -0.3435,
+            "unrealized_pnl": -23.18,
+            "value": -28.5,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.08,
+            "fees_paid": 0.3866,
+            "mark": 0.11,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP15BASCHI-BAS",
+            "quantity": -75.0,
+            "realized_pnl": -0.3866,
+            "unrealized_pnl": -2.25,
+            "value": -8.25,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.17,
+            "fees_paid": 0.2964,
+            "mark": 0.18,
+            "market_id": "KXATPCHALLENGERMATCH-26SEP15STRMIK-STR",
+            "quantity": -30.0,
+            "realized_pnl": -0.2964,
+            "unrealized_pnl": -0.3,
+            "value": -5.4,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.18,
+            "fees_paid": 0.775,
+            "mark": 0.2,
+            "market_id": "KXWTAMATCH-26SEP13JACSAM-JAC",
+            "quantity": -75.0,
+            "realized_pnl": -0.775,
+            "unrealized_pnl": -1.5,
+            "value": -15.0,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.82,
+            "fees_paid": 0.31,
+            "mark": 0.8,
+            "market_id": "KXWTAMATCH-26SEP13JACSAM-SAM",
+            "quantity": 30.0,
+            "realized_pnl": -0.31,
+            "unrealized_pnl": -0.6,
+            "value": 24.0,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.04693,
+            "fees_paid": 0.2345,
+            "mark": 0.01,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-MAR",
+            "quantity": -75.0,
+            "realized_pnl": -0.2345,
+            "unrealized_pnl": 2.77,
+            "value": -0.75,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.87,
+            "fees_paid": 0.2217,
+            "mark": 0.99,
+            "market_id": "KXWTAMATCH-26SEP13MARTOW-TOW",
+            "quantity": 28.0,
+            "realized_pnl": -0.2217,
+            "unrealized_pnl": 3.36,
+            "value": 27.72,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.94,
+            "fees_paid": 0.1027,
+            "mark": 0.93,
+            "market_id": "KXWTAMATCH-26SEP14MIKBAD-BAD",
+            "quantity": 26.0,
+            "realized_pnl": -0.1027,
+            "unrealized_pnl": -0.26,
+            "value": 24.18,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.06,
+            "fees_paid": 0.1027,
+            "mark": 0.07,
+            "market_id": "KXWTAMATCH-26SEP14MIKBAD-MIK",
+            "quantity": -26.0,
+            "realized_pnl": -0.1027,
+            "unrealized_pnl": -0.26,
+            "value": -1.82,
+            "venue": "kalshi"
+          },
+          {
+            "average_price": 0.09307,
+            "fees_paid": 0.441,
+            "mark": 0.11,
+            "market_id": "KXWTAMATCH-26SEP14ZARDOL-ZAR",
+            "quantity": -75.0,
+            "realized_pnl": -0.441,
+            "unrealized_pnl": -1.27,
+            "value": -8.25,
+            "venue": "kalshi"
+          }
+        ],
+        "realized_pnl": -4.5492,
+        "return_pct": -5.44192,
+        "settlement_fills": 0,
+        "starting_cash": 1000.0,
+        "total_pnl": -54.4192,
+        "unmarked_positions": 0,
+        "unrealized_pnl": -49.87,
+        "updated_at": "2026-09-14T23:29:17.942656+00:00"
+      },
+      "metrics": {
+        "alignment": "time_aligned",
+        "cash_at_risk": {
+          "cap": 1000.0,
+          "positions": 633.37,
+          "resting_orders_reserved": 0.0
+        },
+        "combined_vs_legs": {
+          "combined_fills": 104,
+          "combined_pnl": -36.603,
+          "interaction_pnl": 11.1475,
+          "maker_leg_fills": 86,
+          "maker_leg_pnl": 6.6687,
+          "question": "Does running the whale-follow maker leg and the retail-longshot taker fade in one book beat either leg alone (paper PnL after fees, conservative marks)?",
+          "reason": "combined book did not beat the better single leg",
+          "sum_of_legs_pnl": -47.7505,
+          "taker_leg_fills": 28,
+          "taker_leg_pnl": -54.4192,
+          "thresholds": {
+            "min_fills_for_verdict": 5,
+            "rule": "combined_pnl > max(maker_leg_pnl, taker_leg_pnl)"
+          },
+          "verdict": "FAIL"
+        },
+        "equity_point": {
+          "drawdown": 54.4192,
+          "equity": 945.5808,
+          "total_pnl": -54.4192
+        },
+        "events": {
+          "fill": 28,
+          "order_acknowledged": 28,
+          "order_rejected": 0,
+          "order_submitted": 28
+        },
+        "fade_evaluations": {
+          "count": 496,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "leg": {
+          "maker": false,
+          "taker": true
+        },
+        "maker": {
+          "consumed_ahead_total": 0.0,
+          "contracts_filled": 0.0,
+          "contracts_quoted": 0.0,
+          "enabled": false,
+          "fill_events": 0,
+          "fill_model": {
+            "fill_from": "public prints at our level after the queue ahead is consumed; a print through our level fills at most its printed size",
+            "name": "conservative_queue",
+            "never": "no priority from cancels ahead, no fills inside reaction latency, no fills after TTL, no fills without a forward tape",
+            "queue_ahead": "all displayed size at our level at placement; later snapshots can only raise it"
+          },
+          "fill_rate_contracts": null,
+          "fill_rate_quotes": null,
+          "fills_dropped_by_risk_at_fill_time": 0,
+          "fills_not_simulated_single_snapshot": 0,
+          "queue_ahead_initial_mean": null,
+          "queue_raised_by_later_books": 0,
+          "quotes_expired_unfilled": 0,
+          "quotes_filled": 0,
+          "quotes_partially_filled": 0,
+          "quotes_placed": 0,
+          "quotes_resting_at_end": 0,
+          "seconds_to_first_fill_mean": null,
+          "toxicity": {
+            "300": {
+              "contract_weighted_markout_cents": null,
+              "fills_with_markout": 0,
+              "mean_markout_cents": null,
+              "toxic_fills": 0,
+              "toxicity_rate": null
+            },
+            "60": {
+              "contract_weighted_markout_cents": null,
+              "fills_with_markout": 0,
+              "mean_markout_cents": null,
+              "toxic_fills": 0,
+              "toxicity_rate": null
+            }
+          },
+          "trade_through_fills": 0,
+          "whale_triggers": 0
+        },
+        "maker_toxicity_verdict": null,
+        "mark_method": "conservative",
+        "parameters": {
+          "default_rule": {
+            "ev_status": "unverified",
+            "min_contracts": 1000.0,
+            "min_history": 5,
+            "min_notional": 500.0,
+            "note": "",
+            "size_multiple": 10.0
+          },
+          "later_arrivals_ahead": true,
+          "longshot_threshold": 0.2,
+          "markout_horizons_seconds": [
+            60,
+            300
+          ],
+          "max_market_notional": 75.0,
+          "max_order_notional": 25.0,
+          "max_resting_quotes_per_market": 1,
+          "max_total_cash_at_risk": 1000.0,
+          "min_fills_for_verdict": 5,
+          "minimum_touch_size": 1.0,
+          "quote_ttl_seconds": 300.0,
+          "reaction_latency_seconds": 2.0,
+          "recent_prints_window": 50,
+          "require_ev_verified": false,
+          "risk_limits": {
+            "max_daily_loss": 75.0,
+            "max_notional_per_order": 25.0,
+            "max_position_per_market": 75.0
+          },
+          "series": [
+            "KXATPMATCH",
+            "KXWTAMATCH",
+            "KXATPCHALLENGERMATCH",
+            "KXWTACHALLENGERMATCH",
+            "KXITFMATCH",
+            "KXITFWMATCH"
+          ],
+          "series_rules": {},
+          "taker_cooldown_seconds": 60.0,
+          "tick": 0.01,
+          "ticks_behind": 1,
+          "whale_lookback_seconds": 120.0
+        },
+        "print_classes": {
+          "retail_longshot": 7137,
+          "retail_other": 37758,
+          "whale_lift": 790
+        },
+        "prints_seen": 45685,
+        "quote_evaluations": {
+          "count": 0,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "quotes": {
+          "count": 0,
+          "detail": "whale_noise_report_latest.json"
+        },
+        "settlement_preview": {
+          "hypothetical_pnl_at_fixture_settlement": 0.0,
+          "note": "Only fixture markets carry paper_settlement_outcome; archive and network fills are not scored.",
+          "scored_fills": 0
+        },
+        "snapshot": {
+          "kalshi": {
+            "alignment": "time_aligned",
+            "errors": [],
+            "markets": 150,
+            "source": "archive"
+          }
+        },
+        "taker": {
+          "contracts_filled": 708.0,
+          "enabled": true,
+          "fades_proposed": 28,
+          "fill_events": 28,
+          "fill_rate_orders": 1.0,
+          "retail_longshot_triggers": 7137,
+          "toxicity": {
+            "300": {
+              "contract_weighted_markout_cents": -1.5976,
+              "fills_with_markout": 26,
+              "mean_markout_cents": -1.8462,
+              "toxic_fills": 19,
+              "toxicity_rate": 0.7308
+            },
+            "60": {
+              "contract_weighted_markout_cents": -0.3079,
+              "fills_with_markout": 27,
+              "mean_markout_cents": -0.4259,
+              "toxic_fills": 19,
+              "toxicity_rate": 0.7037
+            }
+          }
+        },
+        "venue_pnl": {
+          "kalshi": {
+            "fees_paid": 4.5492,
+            "open_positions": 15.0,
+            "realized_pnl": -4.5492,
+            "total_pnl": -54.4192,
+            "unrealized_pnl": -49.87
+          }
+        },
+        "whale_follow_through": {
+          "300": {
+            "continued": 183,
+            "mean_drift_cents": -0.7769,
+            "n": 372,
+            "reversal_rate": 0.4435,
+            "reverted": 165
+          },
+          "60": {
+            "continued": 272,
+            "mean_drift_cents": 0.7984,
+            "n": 491,
+            "reversal_rate": 0.3605,
+            "reverted": 177
+          },
+          "events": 790
+        }
+      },
+      "notes": "Control: taker leg alone. Fades retail longshot flow at the touch (taker fee), skipped whenever a whale print hit the market inside the lookback window.",
+      "paper_fills": 28,
+      "proposed_orders": 28,
+      "refused_by_reason": {
+        "fade_not_longshot": 99,
+        "fade_one_sided_book": 103,
+        "fade_risk_position_cap_reached": 266,
+        "no_book_before_print": 336,
+        "taker_cooldown": 382,
+        "whale_flow_in_lookback": 5923
+      },
+      "reject_reasons": {
+        "fade_not_longshot": 99,
+        "fade_one_sided_book": 103,
+        "fade_risk_position_cap_reached": 266,
+        "no_book_before_print": 336,
+        "taker_cooldown": 382,
+        "whale_flow_in_lookback": 5923
+      },
+      "rejects": 7109,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "track": "kalshi_noise_taker_leg"
+    }
+  ]
+}

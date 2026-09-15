@@ -125,6 +125,9 @@ export const KNOWN_TRACKS = {
   weather_dead_bucket: 'weather',
   weather_calibrated_ensemble: 'weather',
   fade_the_tourist: 'tourist_fade',
+  kalshi_whale_noise_combined: 'kalshi_flb',
+  kalshi_whale_maker_leg: 'kalshi_flb',
+  kalshi_noise_taker_leg: 'kalshi_flb',
 }
 
 /**
@@ -168,7 +171,9 @@ export function familyOf(trackOrId) {
   }
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
   if (any('tourist', 'recreational')) return 'tourist_fade'
-  if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
+  // whale+copy is tennis copy; bare whale (e.g. tennis_whale_follow) lands in kalshi_flb
+  if (has('whale', 'copy')) return 'tennis_copy'
+  if (any('flb', 'maker', 'longshot', 'whale')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'
   if (any('specialist', 'specialists', 'copytrade', 'copytrading') || has('trader', 'follow')) return 'specialist'
   if (has('tennis', 'basis') || has('sports', 'basis')) return 'tennis_basis'

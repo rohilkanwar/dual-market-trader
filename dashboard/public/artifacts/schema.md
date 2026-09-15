@@ -91,7 +91,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote` (Kalshi FLB lane), `category_specialist` (paper-follows top-decile in-category traders; Polymarket only), and the reserved weather ids `weather_bucket_edge`, `weather_dead_bucket`, `weather_calibrated_ensemble` (present only once a weather strategy branch merges). Grouping: see [Track ids and families](#track-ids-and-families) |
+| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote`, `kalshi_whale_noise_combined`, `kalshi_whale_maker_leg`, `kalshi_noise_taker_leg` (Kalshi FLB lane), `category_specialist` (paper-follows top-decile in-category traders; Polymarket only), and the reserved weather ids `weather_bucket_edge`, `weather_dead_bucket`, `weather_calibrated_ensemble` (present only once a weather strategy branch merges). Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
 | `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
@@ -117,7 +117,7 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | Family id | Lane label | Pinned lane | Tracks emitted today | Matches new ids containing |
 | --- | --- | --- | --- | --- |
 | `negrisk` | NegRisk | yes | `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb` | `negrisk`, `neg_risk`, `combinatorial`, `combo` |
-| `kalshi_flb` | Kalshi FLB | yes | `kalshi_longshot_fade`, `kalshi_maker_quote` | `flb`, `maker`, `longshot` |
+| `kalshi_flb` | Kalshi FLB | yes | `kalshi_longshot_fade`, `kalshi_maker_quote`, `kalshi_whale_noise_combined`, `kalshi_whale_maker_leg`, `kalshi_noise_taker_leg` | `flb`, `maker`, `longshot`, `whale` |
 | `tennis_copy` | Tennis copy | no | `tennis_whale_copy_30s`, `tennis_whale_copy_2m`, `tennis_whale_copy_10m` | `tennis`, `whale` + `copy` |
 | `tourist_fade` | Tourist fade | no | `fade_the_tourist` | `tourist`, `recreational` |
 | `xv_gated` | XV gated | yes | `gated_cross_venue_macro`, `small_deliberate_bet` | `gated` + (`cross_venue` \| `xv`) |
@@ -141,7 +141,7 @@ Conventions for the parallel tracks (ids are the sister branches' choice; these 
 patterns the matcher already recognises, not a claim that any of them has run):
 
 - Polymarket NegRisk / combinatorial / rebalancing: the three `polymarket_*_arb` ids above (registered in `KNOWN_TRACKS`)
-- Kalshi maker / FLB: `kalshi_longshot_fade`, `kalshi_maker_quote` (registered in `KNOWN_TRACKS`), `kalshi_maker_flb`, `kalshi_flb`, …
+- Kalshi maker / FLB: `kalshi_longshot_fade`, `kalshi_maker_quote`, `kalshi_whale_noise_combined`, `kalshi_whale_maker_leg`, `kalshi_noise_taker_leg` (registered in `KNOWN_TRACKS`), `kalshi_maker_flb`, `kalshi_flb`, …
 - Gated cross-venue variants: `gated_cross_venue_<scope>`
 
 To add a track to a lane explicitly, either extend `KNOWN_TRACKS` in
@@ -317,6 +317,33 @@ The synced `paper_ledger_fade_the_tourist.json` is the live-track ledger (positi
 carried across runs and settled once `GET /markets/{ticker}` reports a result). Run
 records carry `kind: "fade_the_tourist"`, `track_family: "tourist_fade"` and the
 `fade_the_tourist` verdict map. See `docs/FADE_THE_TOURIST.md`.
+## `scoreboard_whale_noise.json` and `whale_noise_report_latest.json` — make-on-whale / take-on-noise run
+
+`apps.measure_whale_noise` writes a scoreboard artifact for the three whale/noise
+tracks (`meta.kind = "kalshi_whale_noise"`, `meta.data_mode = fixtures | archive |
+network`, `meta.track_family = "kalshi_flb"`, `meta.primary_track =
+"kalshi_whale_noise_combined"`, `meta.label` ends in `/ KALSHI WHALE/NOISE` and, for
+archive replays, `/ ARCHIVE REPLAY`) whose `findings.kalshi_whale_noise` carries the
+headline, the verdict map and the `combined_vs_legs` PnL comparison, plus the report:
+
+| Field | Notes |
+| --- | --- |
+| `kind` | `kalshi_whale_noise_report`; `paper_only: true`; `pnl_source: core.ledger.PaperLedger` |
+| `headline`, `verdict_table[]` | `{scope: replay \| ex_post, check, verdict: PASS \| FAIL \| INSUFFICIENT_DATA \| NOT_SIMULATED, detail}` |
+| `experiment` | hypothesis, pre-registered pass criterion, fail risks (queue priority, whale cancel, anonymity) |
+| `data`, `event_stream` | timeline source (`fixture` \| `archive` \| `network`), alignment, prints by class (`whale_lift`, `retail_longshot`, `retail_other`, `block_trade`), whale events, per-market census |
+| `combined_vs_legs` | `combined_pnl`, `maker_leg_pnl`, `taker_leg_pnl`, `sum_of_legs_pnl`, `interaction_pnl`, fills, thresholds, verdict |
+| `legs` | per track: counts, refusals, ledger totals, `maker` (quotes placed / filled / expired, contracts quoted / filled, `fill_rate_contracts`, `fill_rate_quotes`, trade-through fills, queue lengthening, `toxicity` per horizon, `fill_model`), `taker` (triggers, fades, fills, `toxicity`), `whale_follow_through` (`reversal_rate` per horizon), `maker_toxicity_verdict`, `settlement_preview` |
+| `quotes` | every resting quote of the combined and maker legs with its queue history and fills |
+| `ex_post` | `status`, class table (`whale`, `retail_longshot`, `retail_other`, `block`: taker/maker gross and net per contract, ROI, market-clustered t), `verdicts` (`whale_flow_ev_positive` with `ev_status`, `retail_longshot_fade_ev_positive`), `excluding_final_minutes` |
+| `assumptions` | whale definition, one-tick-behind rule, fill model, taker leg, toxicity, marks, sizing, comparison, ex-post |
+
+`NOT_SIMULATED` is the expected `combined_beats_each_leg` verdict on a single network
+snapshot: the public tape precedes the book, so maker fills are not simulated there.
+The synced `paper_ledger_kalshi_whale_noise_combined.json` / `..._maker_leg.json` /
+`..._taker_leg.json` are the three ledgers. Run records carry `run_kind:
+"kalshi_whale_noise"`, `data_mode`, `primary_track: "kalshi_whale_noise_combined"` and
+the `whale_noise` verdict map. See `docs/WHALE_NOISE_RUNBOOK.md`.
 
 ## `experiments_index.json` — run history
 

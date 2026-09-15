@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260914T232916Z-whale-a6158906.json"
+  ],
+  "run_id": "20260914T232916Z-whale-a6158906",
+  "mode": "network",
+  "measured_at": "2026-09-14T23:29:16.972531+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / KALSHI WHALE/NOISE / ARCHIVE REPLAY",
+  "venues": [
+    "kalshi"
+  ],
+  "venue_focus": "kalshi",
+  "kalshi_env": null,
+  "track_family": "kalshi_flb",
+  "primary_track": "kalshi_whale_noise_combined",
+  "run_kind": "kalshi_whale_noise",
+  "whale_noise": {
+    "combined_vs_legs": {
+      "combined_fills": 104,
+      "combined_pnl": -36.603,
+      "interaction_pnl": 11.1475,
+      "maker_leg_pnl": 6.6687,
+      "taker_leg_pnl": -54.4192,
+      "verdict": "FAIL"
+    },
+    "headline": "Combined vs legs: FAIL (combined -36.60 vs maker +6.67 / taker -54.42, 104 combined fills). Maker fill rate 50% of quoted contracts (32/65 quotes filled), 300s toxicity 30%. Whale flow ex post: FAIL (unverified).",
+    "report": "whale_noise_report_latest.json",
+    "verdicts": {
+      "combined_beats_each_leg": "FAIL",
+      "maker_fills_not_adversely_selected": "PASS",
+      "retail_longshot_fade_ev_positive": "PASS",
+      "retail_longshot_fade_ev_positive_excluding_final_minutes": "PASS",
+      "whale_flow_ev_positive": "FAIL",
+      "whale_flow_ev_positive_excluding_final_minutes": "FAIL"
+    }
+  },
+  "data_mode": "archive",
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 15854,
+    "admitted": 192,
+    "rejects": 15662,
+    "proposed_orders": 192,
+    "paper_fills": 218,
+    "paper_pnl": -84.35,
+    "realized_pnl": -13.06,
+    "unrealized_pnl": -71.29,
+    "fees_paid": 17.86
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "kalshi_whale_noise_combined",
+      "label": "Kalshi whale-follow maker + noise fade (combined)",
+      "candidates": 7927,
+      "admitted": 91,
+      "rejects": 7836,
+      "proposed_orders": 91,
+      "paper_fills": 104,
+      "fill_rate": 1.1429,
+      "edge_bps": 103,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "fade_not_longshot": 99,
+        "fade_one_sided_book": 103,
+        "fade_risk_position_cap_reached": 316,
+        "no_book_before_print": 549,
+        "quote_already_resting": 430,
+        "risk_position_cap_reached": 49,
+        "stale_book_crossed": 33,
+        "taker_cooldown": 334,
+        "whale_flow_in_lookback": 5923
+      },
+      "notes": "The experiment. Whale-class lifts (large non-block aggressive prints) trigger a same-direction resting bid one tick behind the touch, filled only by the conservative queue model; retail longshot prints with no whale in the lookback trigger the taker fade of the favourite. One ledger, paper caps $25/order, $75/market, $75 daily, $1,000 collateral, conservative marks.",
+      "ledger": {
+        "ledger_id": "kalshi_whale_noise_combined",
+        "starting_cash": 1000,
+        "cash": 730.527,
+        "equity": 963.397,
+        "realized_pnl": -7.07,
+        "unrealized_pnl": -29.53,
+        "total_pnl": -36.6,
+        "fees_paid": 8.62,
+        "fills": 104,
+        "open_positions": 19,
+        "max_drawdown": 36.603
+      }
+    },
+    {
+      "track": "kalshi_whale_maker_leg",
+      "label": "Kalshi whale-follow maker leg",
+      "candidates": 790,
+      "admitted": 73,
+      "rejects": 717,
+      "proposed_orders": 73,
+      "paper_fills": 86,
+      "fill_rate": 1.1781,
+      "edge_bps": 164,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "no_book_before_print": 213,
+        "quote_already_resting": 462,
+        "risk_position_cap_reached": 11,
+        "stale_book_crossed": 31
+      },
+      "notes": "Control: maker leg alone. Fill rate and markouts come from public prints after placement; a whale's own print never fills us and cancels ahead of us are never assumed.",
+      "ledger": {
+        "ledger_id": "kalshi_whale_maker_leg",
+        "starting_cash": 1000,
+        "cash": 778.0987,
+        "equity": 1006.6687,
+        "realized_pnl": -1.44,
+        "unrealized_pnl": 8.11,
+        "total_pnl": 6.67,
+        "fees_paid": 4.69,
+        "fills": 86,
+        "open_positions": 10,
+        "max_drawdown": 0
+      }
+    },
+    {
+      "track": "kalshi_noise_taker_leg",
+      "label": "Kalshi retail-longshot taker fade leg",
+      "candidates": 7137,
+      "admitted": 28,
+      "rejects": 7109,
+      "proposed_orders": 28,
+      "paper_fills": 28,
+      "fill_rate": 1,
+      "edge_bps": -54,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "fade_not_longshot": 99,
+        "fade_one_sided_book": 103,
+        "fade_risk_position_cap_reached": 266,
+        "no_book_before_print": 336,
+        "taker_cooldown": 382,
+        "whale_flow_in_lookback": 5923
+      },
+      "notes": "Control: taker leg alone. Fades retail longshot flow at the touch (taker fee), skipped whenever a whale print hit the market inside the lookback window.",
+      "ledger": {
+        "ledger_id": "kalshi_noise_taker_leg",
+        "starting_cash": 1000,
+        "cash": 881.0808,
+        "equity": 945.5808,
+        "realized_pnl": -4.55,
+        "unrealized_pnl": -49.87,
+        "total_pnl": -54.42,
+        "fees_paid": 4.55,
+        "fills": 28,
+        "open_positions": 15,
+        "max_drawdown": 54.4192
+      }
+    }
+  ]
+}

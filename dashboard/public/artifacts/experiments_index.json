@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-15T19:07:42.140Z",
+  "generated_at": "2026-09-15T19:12:42.650Z",
   "schema_version": "1.3.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 23,
-    "measured": 21,
+    "total": 24,
+    "measured": 22,
     "sample": 2,
     "backtest": 0
   },
   "modes": {
-    "network": 16,
+    "network": 17,
     "fixtures": 7
   },
   "latest_run_id": "20260914T233027Z-f33c4c98",
@@ -36,10 +36,13 @@
       "lane": true,
       "tracks": [
         "kalshi_longshot_fade",
-        "kalshi_maker_quote"
+        "kalshi_maker_quote",
+        "kalshi_noise_taker_leg",
+        "kalshi_whale_maker_leg",
+        "kalshi_whale_noise_combined"
       ],
-      "runs": 5,
-      "measured_runs": 5,
+      "runs": 6,
+      "measured_runs": 6,
       "sample_runs": 0
     },
     {
@@ -928,6 +931,81 @@
         "specialist",
         "xv_gated",
         "xv_ungated"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260914T232916Z-whale-a6158906",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / KALSHI WHALE/NOISE / ARCHIVE REPLAY",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-14T23:29:16.972531+00:00",
+      "generated_at": "2026-09-14T23:29:21.713160+00:00",
+      "venues": [
+        "kalshi"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": null,
+      "primary_track": "kalshi_whale_noise_combined",
+      "track_family": "kalshi_flb",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 15854,
+        "admitted": 192,
+        "rejects": 15662,
+        "paper_fills": 218,
+        "paper_pnl": -84.35,
+        "realized_pnl": -13.06,
+        "unrealized_pnl": -71.29,
+        "fees_paid": 17.86
+      },
+      "tracks": [
+        {
+          "track": "kalshi_whale_noise_combined",
+          "label": "Kalshi whale-follow maker + noise fade (combined)",
+          "family": "kalshi_flb",
+          "candidates": 7927,
+          "admitted": 91,
+          "paper_fills": 104,
+          "edge_bps": 103,
+          "settlement_risk": false,
+          "paper_pnl": -36.6
+        },
+        {
+          "track": "kalshi_whale_maker_leg",
+          "label": "Kalshi whale-follow maker leg",
+          "family": "kalshi_flb",
+          "candidates": 790,
+          "admitted": 73,
+          "paper_fills": 86,
+          "edge_bps": 164,
+          "settlement_risk": false,
+          "paper_pnl": 6.67
+        },
+        {
+          "track": "kalshi_noise_taker_leg",
+          "label": "Kalshi retail-longshot taker fade leg",
+          "family": "kalshi_flb",
+          "candidates": 7137,
+          "admitted": 28,
+          "paper_fills": 28,
+          "edge_bps": -54,
+          "settlement_risk": false,
+          "paper_pnl": -54.42
+        }
+      ],
+      "gate": null,
+      "weather": null,
+      "artifacts": [
+        "scoreboard_whale_noise.json",
+        "runs/20260914T232916Z-whale-a6158906.json"
+      ],
+      "detail": "/artifacts/scoreboard_whale_noise.json",
+      "families": [
+        "kalshi_flb"
       ],
       "is_latest": false
     },
@@ -3002,6 +3080,48 @@
       "total_pnl": -0.51,
       "max_drawdown": 0.5135,
       "artifact": "/artifacts/paper_ledger_kalshi_maker_quote.json"
+    },
+    {
+      "ledger_id": "kalshi_noise_taker_leg",
+      "track": "kalshi_noise_taker_leg",
+      "family": "kalshi_flb",
+      "updated_at": "2026-09-14T23:29:17.942656+00:00",
+      "mark_method": "conservative",
+      "fills": 28,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 945.5808,
+      "total_pnl": -54.42,
+      "max_drawdown": 54.4192,
+      "artifact": "/artifacts/paper_ledger_kalshi_noise_taker_leg.json"
+    },
+    {
+      "ledger_id": "kalshi_whale_maker_leg",
+      "track": "kalshi_whale_maker_leg",
+      "family": "kalshi_flb",
+      "updated_at": "2026-09-14T23:29:17.942092+00:00",
+      "mark_method": "conservative",
+      "fills": 86,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 1006.6687,
+      "total_pnl": 6.67,
+      "max_drawdown": 0,
+      "artifact": "/artifacts/paper_ledger_kalshi_whale_maker_leg.json"
+    },
+    {
+      "ledger_id": "kalshi_whale_noise_combined",
+      "track": "kalshi_whale_noise_combined",
+      "family": "kalshi_flb",
+      "updated_at": "2026-09-14T23:29:17.940898+00:00",
+      "mark_method": "conservative",
+      "fills": 104,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 963.397,
+      "total_pnl": -36.6,
+      "max_drawdown": 36.603,
+      "artifact": "/artifacts/paper_ledger_kalshi_whale_noise_combined.json"
     },
     {
       "ledger_id": "news_underreaction",
