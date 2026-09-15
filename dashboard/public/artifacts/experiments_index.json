@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-15T02:35:23.921Z",
+  "generated_at": "2026-09-15T19:07:42.140Z",
   "schema_version": "1.3.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 22,
-    "measured": 20,
+    "total": 23,
+    "measured": 21,
     "sample": 2,
     "backtest": 0
   },
   "modes": {
-    "network": 15,
+    "network": 16,
     "fixtures": 7
   },
   "latest_run_id": "20260914T233027Z-f33c4c98",
@@ -155,6 +155,18 @@
       "runs": 4,
       "measured_runs": 3,
       "sample_runs": 1
+    },
+    {
+      "id": "tourist_fade",
+      "label": "Tourist fade",
+      "description": "Fade clustered recreational-looking taker flow (Kalshi tennis; crypto 15-minute windows optional)",
+      "lane": false,
+      "tracks": [
+        "fade_the_tourist"
+      ],
+      "runs": 1,
+      "measured_runs": 1,
+      "sample_runs": 0
     },
     {
       "id": "other",
@@ -916,6 +928,59 @@
         "specialist",
         "xv_gated",
         "xv_ungated"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260914T231958Z-tourist-591eb8cd",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / FADE THE TOURIST",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-14T23:19:58.741525+00:00",
+      "generated_at": "2026-09-14T23:20:15.843993+00:00",
+      "venues": [
+        "kalshi"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": "prod",
+      "primary_track": "fade_the_tourist",
+      "track_family": "tourist_fade",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 60,
+        "admitted": 3,
+        "rejects": 57,
+        "paper_fills": 3,
+        "paper_pnl": -1.18,
+        "realized_pnl": -0.8,
+        "unrealized_pnl": -0.37,
+        "fees_paid": 0.8
+      },
+      "tracks": [
+        {
+          "track": "fade_the_tourist",
+          "label": "Fade the tourist (Kalshi tennis)",
+          "family": "tourist_fade",
+          "candidates": 60,
+          "admitted": 3,
+          "paper_fills": 3,
+          "edge_bps": 0,
+          "settlement_risk": false,
+          "paper_pnl": -1.18
+        }
+      ],
+      "gate": null,
+      "weather": null,
+      "artifacts": [
+        "scoreboard_tourist_fade.json",
+        "runs/20260914T231958Z-tourist-591eb8cd.json"
+      ],
+      "detail": "/artifacts/scoreboard_tourist_fade.json",
+      "families": [
+        "tourist_fade"
       ],
       "is_latest": false
     },
@@ -2867,6 +2932,20 @@
       "total_pnl": 0,
       "max_drawdown": 0,
       "artifact": "/artifacts/paper_ledger_category_specialist.json"
+    },
+    {
+      "ledger_id": "fade_the_tourist",
+      "track": "fade_the_tourist",
+      "family": "tourist_fade",
+      "updated_at": "2026-09-14T23:20:02.639828+00:00",
+      "mark_method": "mid",
+      "fills": 3,
+      "equity_points": 1,
+      "starting_cash": 1000,
+      "equity": 998.8213,
+      "total_pnl": -1.18,
+      "max_drawdown": 1.1787,
+      "artifact": "/artifacts/paper_ledger_fade_the_tourist.json"
     },
     {
       "ledger_id": "gated_cross_venue",
