@@ -38,13 +38,15 @@ async function listCandidates() {
   // tennis_whale_report_latest.json the tennis whale copy report from apps.measure_tennis_whale;
   // tennis_basis_latest.json the tennis basis report from apps.measure_tennis_basis;
   // weather_report_<mode>.json the weather report the weather branches are expected to
-  // write next to scoreboard_weather.json (kind "weather_report"; optional).
+  // write next to scoreboard_weather.json (kind "weather_report"; optional);
+  // weather_buckets_latest.json the weather bucket-edge report from apps.measure_weather_buckets.
   const names = new Set([
     'paper_loop_latest.json',
     'polymarket_arb_latest.json',
     'flb_report_latest.json',
     'tennis_whale_report_latest.json',
     'tennis_basis_latest.json',
+    'weather_buckets_latest.json',
   ])
   for (const file of await safeReaddir(runtimeRoot)) {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
