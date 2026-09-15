@@ -535,7 +535,9 @@ async def run_weather_cycle(
         summary.candidates += 1
         bucket_markets += len(group.markets)
         station_parse[city_day.rules.reason] = station_parse.get(city_day.rules.reason, 0) + 1
-        row: dict[str, Any] = {**city_day.as_dict(), "record_id": city_day.record_id if city_day.admitted else None}
+        # Per-bucket probabilities, edges and fills live on the register record; the
+        # measurement row keeps the parse outcome, the feed summary and the reason.
+        row: dict[str, Any] = {**city_day.as_dict(), "buckets": len(city_day.buckets), "record_id": city_day.record_id if city_day.admitted else None}
         rows.append(row)
         if not city_day.admitted:
             row["reason"] = city_day.reason
@@ -608,7 +610,7 @@ async def run_weather_cycle(
             continue
         buckets = [bm.bucket for bm in city_day.buckets]
         probabilities: BucketProbabilities = ensemble_bucket_probabilities(forecast.members, buckets, parameters=params)
-        row["model"] = probabilities.as_dict()
+        row["model"] = {"mean": probabilities.mean, "std": probabilities.std, "n_members": probabilities.n_members}
         priced_city_days += 1
 
         bucket_rows: list[dict[str, Any]] = []
