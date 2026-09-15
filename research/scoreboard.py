@@ -109,6 +109,8 @@ TRACK_LABELS = {
     # Separate family with its own CLI (apps.measure_tennis_basis); not part of TRACKS.
     "tennis_basis": "Tennis cross-platform basis (free odds)",
     SPECIALIST_TRACK: "Category specialist follow",
+    # Weather calibration A/B control lane (not a reserved weather_tracks id).
+    "weather_naive_ensemble": "Weather naive ensemble (control)",
     # Weather lane: reserved ids (research/weather_tracks.py); measured only when a
     # strategy branch provides research.weather_scoreboard.run_weather_tracks.
     **WEATHER_TRACK_LABELS,
