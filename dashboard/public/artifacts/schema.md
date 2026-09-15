@@ -14,7 +14,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `schema_version` | string | Semver for this document shape (currently `1.3.0`; `1.1.0`/`1.2.0` readers remain compatible) |
+| `schema_version` | string | Semver for this document shape (currently `1.4.0`; `1.1.0`–`1.3.0` readers remain compatible) |
 | `meta` | object | Provenance, paper-only flag, timestamps |
 | `findings` | object | ArbAI / settlement research headlines |
 | `totals` | object | Aggregate KPI strip |
@@ -24,6 +24,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 | `portfolio` | object | Paper portfolio & risk summary |
 | `charts` | object | Simple series for SVG/CSS bar charts |
 | `gate_report` | `{ file, totals }` | 1.3.0: pointer to the per-pair `gate_report_<mode>.json` written with this run plus its `totals` (a `GateSummary`, below) |
+| `weather_report` | `{ file, totals }` | 1.4.0, optional: pointer to `weather_report_<mode>.json` when a weather strategy branch provides `research.weather_scoreboard.build_weather_report`; absent otherwise |
 
 ## `meta`
 
@@ -43,7 +44,7 @@ The React app tries these URLs in order and uses the first successful JSON respo
 | `venue_focus` | string | `kalshi` |
 | `kalshi_env` | `"demo"` \| `"prod"` \| null | Public API host used for network reads |
 | `run_id`, `cycle` | string, number \| null | Run identity; `cycle` set by the paper loop |
-| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; `tennis_basis` on `scoreboard_tennis_basis.json` written by `apps.measure_tennis_basis`; absent/null on the full board |
+| `track_family` | string \| null | `polymarket_arb` on boards written by `apps.measure_polymarket_arb`; `tennis_basis` on `scoreboard_tennis_basis.json` written by `apps.measure_tennis_basis`; `weather` on `scoreboard_weather.json` (weather-only CLI); absent/null on the full board |
 | `note` | string | Sample files only: explains that the numbers are placeholders |
 
 ## `findings`
@@ -61,6 +62,15 @@ Captures research headlines that explain empty cross-venue panels:
   eight gate stages), `gate_refused`, `priced_but_no_edge`, `traded`, `paper_fills`,
   `primary_reject_reasons`, `all_stage_reject_reasons`, `policy`, `status`
   (`zero_admits_expected` | `admits_present_verify_fingerprints`)
+- `weather` (1.4.0, only when the run carries a `weather_*` track): `{ status, source, tracks[],
+  markets, buckets, cities[], stations, stations_parsed, station_parse_rate, ensemble_edge_n,
+  ensemble_edge_mean_bps, dead_bucket_candidates, dead_bucket_kills, calibration_n,
+  preregistered_n, evaluation_status, hypothesis_validated, candidates, admitted, paper_fills,
+  note }`. Reduced by `research/weather_tracks.py::weather_finding` from the weather tracks'
+  `metrics` (keys in `METRIC_KEYS`); a missing key reads as `0` / `null`, never a guess.
+  `evaluation_status` is `not_run` | `no_candidates` | `pending_resolutions` | `underpowered` |
+  `pass` | `fail`; `hypothesis_validated` is true only on `pass`. See
+  [Weather tracks](#weather-tracks--reserved-ids-and-what-the-dashboard-expects).
 
 ## `totals`
 
@@ -81,7 +91,7 @@ Captures research headlines that explain empty cross-venue panels:
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote` (Kalshi FLB lane), `category_specialist` (paper-follows top-decile in-category traders; Polymarket only). Grouping: see [Track ids and families](#track-ids-and-families) |
+| `track` | string | Stable id: `gated_cross_venue` (1.3.0, settlement-safe), `gated_cross_venue_macro`, `ungated_cross_venue_macro` (control), `single_venue_fair_value`, `sports_cross_venue`, `small_deliberate_bet`, `news_underreaction` (optional lane; empty on network without a signal source), `polymarket_rebalancing_arb`, `polymarket_negrisk_arb`, `polymarket_combinatorial_arb`, `kalshi_longshot_fade`, `kalshi_maker_quote` (Kalshi FLB lane), `category_specialist` (paper-follows top-decile in-category traders; Polymarket only), and the reserved weather ids `weather_bucket_edge`, `weather_dead_bucket`, `weather_calibrated_ensemble` (present only once a weather strategy branch merges). Grouping: see [Track ids and families](#track-ids-and-families) |
 | `label` | string | Display name |
 | `family` | string | Optional. Strategy family id from the registry below; when absent the index builder derives it from the track id |
 | `candidates` | number | |
@@ -116,12 +126,15 @@ the only place the mapping lives. Nothing else in the UI needs to know a track i
 | `news` | News | no | `news_underreaction` | `news`, `underreaction`, `headline` |
 | `tennis_basis` | Tennis basis | no | `tennis_basis` (own board `scoreboard_tennis_basis.json`, report `tennis_basis_latest.json`) | `tennis`, `sports` + `basis` |
 | `specialist` | Specialists | no | `category_specialist` | `specialist`, `copytrade`, `trader` + `follow` |
+| `weather` | Weather | yes | — (reserved: `weather_bucket_edge`, `weather_dead_bucket`, `weather_calibrated_ensemble`) | `weather`, `metar`, `temperature`, `ensemble`, `nws`, `noaa`, `hrrr`, `gfs`, `ecmwf`, `dead` + `bucket`, `temp` + `bucket` |
 | `other` | Other | no | — | anything else |
 
 Resolution order for a track row: explicit `family` (or `metrics.family` /
 `metrics.track_family`) naming a registered family → the known-id table → keyword match
 on the id → `other`. An unknown id therefore never breaks the index; it lands in `other`
 until either the id is added to `KNOWN_TRACKS` or the artifact declares its family.
+Keyword rules are tested narrow-first: the weather rule runs before FLB / news / tennis /
+single-venue, so `weather_maker_quote` or `weather_fair_value_ensemble` stay in Weather.
 
 Conventions for the parallel tracks (ids are the sister branches' choice; these are the
 patterns the matcher already recognises, not a claim that any of them has run):
@@ -132,8 +145,57 @@ patterns the matcher already recognises, not a claim that any of them has run):
 
 To add a track to a lane explicitly, either extend `KNOWN_TRACKS` in
 `track-families.mjs` or emit `"family": "<family id>"` on the track row (the sync script
-copies it into the run record). The three pinned lanes render even when they have no
+copies it into the run record). The four pinned lanes render even when they have no
 artifacts yet, with the copy "Not measured yet".
+
+## Weather tracks — reserved ids and what the dashboard expects
+
+The Polymarket weather paper tracks are developed on sibling branches. The dashboard,
+`measure_all` and the scoreboard writer already know the lane, so a strategy branch only
+has to honour this contract (single source of truth: `research/weather_tracks.py`,
+mirrored by `WEATHER_TRACKS` in `dashboard/scripts/track-families.mjs`):
+
+| Track id | Meaning | Primary |
+| --- | --- | --- |
+| `weather_bucket_edge` | ensemble forecast probability per temperature bucket vs. the Polymarket mid | yes |
+| `weather_dead_bucket` | buckets a late-day METAR observation has already ruled out | |
+| `weather_calibrated_ensemble` | ensemble probabilities recalibrated on resolved buckets before pricing | |
+
+- **Ids**: emit exactly these strings (a subset is fine). Any other weather-like id is still
+  caught by keyword and stamped `family: "weather"` by the Python writer, but only the
+  reserved ids are listed in `KNOWN_TRACKS` and carried across cycles by `load_ledgers`.
+- **Metrics** (`summary.metrics`, all optional; `METRIC_KEYS` documents each): `status`,
+  `source {name}`, `markets`, `buckets`, `cities[]`, `stations`, `stations_parsed`,
+  `ensemble_edge {n, mean_bps}`, `dead_bucket {candidates, kills}`, `calibration {n, status}`,
+  `evaluation {status, preregistered_n}`. The writer reduces them to `findings.weather`;
+  any list of row dicts in `metrics` is slimmed to `{count, detail}` on the board.
+- **Runner hook** (optional): `research.weather_scoreboard.run_weather_tracks(snapshots, *,
+  ledgers, starting_cash, model_fees, use_fixtures, cycle_label) -> (summaries, ledgers)`.
+  When importable, `measure_all_with_ledgers` appends the weather tracks after the thirteen
+  core tracks; when absent the board is byte-for-byte unchanged; when it raises, the error is
+  logged and the core board still lands. `measure_all_with_ledgers(include_weather=False)`
+  opts out.
+- **Report hook** (optional): `research.weather_scoreboard.build_weather_report(summaries,
+  *, mode, measured_at, run_id) -> dict` with `kind: "weather_report"`, `paper_only: true`,
+  `meta.source` measured and (recommended) `totals`. `persist_run` writes it as
+  `weather_report_<mode>.json` + `weather_report_latest.json` and points the board's
+  `weather_report` at it. `npm run sync-artifacts` copies `weather_report_*.json`, refusing
+  `meta.source: "sample"` and `status: "fixture_synthetic"`.
+- **Own board** (recommended for a dedicated CLI): `persist_run(..., scoreboard_name=
+  "scoreboard_weather.json", write_latest=False, artifact_kwargs={"track_family": "weather",
+  "primary_track": "weather_bucket_edge", "venues": ("polymarket",), "venue_focus":
+  "polymarket", "label_suffix": "WEATHER"})`. The sync discovers `scoreboard_weather.json`
+  and `paper/ledger_weather_*.json` with no dashboard change.
+- **PnL** stays with each track's `PaperLedger` (`summary.ledger = ledger.summary()`); the
+  finding carries counts only. `weather_hypothesis_not_validated` is added to
+  `portfolio.risk_flags` whenever a weather track has fills and `evaluation_status != pass`.
+
+On the Experiments card: the **Weather** lane tile reads "Not measured yet" until a run
+carrying a weather track is synced ("Sample only" while only
+`scoreboard_weather_sample.json` exists); afterwards it shows fills / paper PnL / date and
+filters the history to weather runs. Each weather run's detail row groups the tracks under
+a Weather heading and appends a `weather 3/4 stations · 2 kills · n 12` line from
+`runs[].weather`. Boards without weather tracks render exactly as before.
 
 ## `top_fills[]` / `top_edges[]`
 
@@ -255,17 +317,21 @@ Inputs, in this directory:
   (not indexed as a run): pre-registered rule, `verdict` / `verdict_provisional_including_pending`,
   `by_venue`, per-market `measurements[]`, gap `records[]`, `network_status`, `not_validated[]`.
   See `docs/TENNIS_BASIS.md`.
+- `scoreboard_weather_sample.json` — hand-written schema example for the weather lane
+  (`meta.source = "sample"`, `track_family = "weather"`, zero counts, `paper_pnl: null`).
+  Indexed as a `sample` run so the Weather lane reads "Sample only" until a measured
+  `scoreboard_weather.json` / weather run record is synced.
 - `runs/<run_id>.json` — compact run records written by the sync script (below).
 - `paper_ledger_*.json` — ledger snapshots, listed under `ledgers[]` (they carry no run id).
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `schema_version` | string | `1.2.0`. Additive over `1.0.0`: `families`, `lanes`, `track.family`, `run.families`, `ledger.track/family` (1.1.0); `run.gate`, `run.gate_report`, `gate_reports[]` (1.2.0) |
+| `schema_version` | string | `1.3.0`. Additive over `1.0.0`: `families`, `lanes`, `track.family`, `run.families`, `ledger.track/family` (1.1.0); `run.gate`, `run.gate_report`, `gate_reports[]` (1.2.0); `run.weather` (1.3.0) |
 | `counts` | `{ total, measured, sample, backtest }` | `measured` = everything that is not a sample |
 | `modes` | Record<string, number> | Runs per `meta.mode` |
 | `latest_run_id` | string \| null | Run id found in `scoreboard_latest.json` |
 | `families[]` | TrackFamilySummary[] | Every registered family, in registry order, including those with zero runs |
-| `lanes[]` | LaneSummary[] | The pinned lanes (`negrisk`, `kalshi_flb`, `xv_gated`) |
+| `lanes[]` | LaneSummary[] | The pinned lanes (`negrisk`, `kalshi_flb`, `xv_gated`, `weather`) |
 | `runs[]` | ExperimentEntry[] | Newest `measured_at` first |
 | `ledgers[]` | LedgerSnapshotEntry[] | `ledger_id`, `track`, `family`, `updated_at`, `fills`, `equity`, `total_pnl`, … |
 
@@ -275,8 +341,10 @@ Inputs, in this directory:
 `realized_pnl`, `unrealized_pnl`, `fees_paid`), `tracks[]` (`track`, `label`, `family`,
 `candidates`, `admitted`, `paper_fills`, `edge_bps`, `settlement_risk`, `paper_pnl`),
 `families[]` (distinct families in `tracks`), `gate` (GateSummary \| null; index schema
-1.2.0), `gate_report` (URL, when the report is on disk), `artifacts[]`, `detail` (URL of the
-richest file), `is_latest`.
+1.2.0), `gate_report` (URL, when the report is on disk), `weather` (normalised
+`findings.weather` headline, index schema 1.3.0; `null` on samples and on every run without
+a weather track — counts default to `0`, rates to `null`, `hypothesis_validated` to `false`),
+`artifacts[]`, `detail` (URL of the richest file), `is_latest`.
 
 `families[]` entries: `id`, `label`, `description`, `lane` (pinned in the strip), `tracks[]`
 (ids seen under the family across all runs), `runs`, `measured_runs`, `sample_runs`.
@@ -290,7 +358,8 @@ family**, reduced to that family's tracks. `status` is:
   has `pnl_source` and every family track carries a ledger PnL.
 - `sample_only` — only sample files carry the family; every number is `null`.
 - `missing` — no file in this directory has a track in the family; every number is `null`.
-  This is the state of Kalshi FLB until its branch merges and a run is synced.
+  This is the state of any pinned lane whose branch has not merged and synced a run yet
+  (Weather is `sample_only` today because of the committed sample board).
 
 Honesty rules baked into the builder:
 
@@ -331,7 +400,8 @@ own metrics so it survives the next run overwriting `gate_report_latest.json`), 
 (with a `ledger` block: `equity`, `realized_pnl`,
 `unrealized_pnl`, `total_pnl`, `fees_paid`, `fills`, `open_positions`, `max_drawdown`, and
 `family` when the manifest row declared one), `derived_from[]`, plus `label`, `venues`,
-`venue_focus`, `kalshi_env`, `track_family` copied from the run manifest. `primary_track` is
+`venue_focus`, `kalshi_env`, `track_family` and `weather` (the `findings.weather` headline
+`persist_run` copies onto the manifest; absent otherwise) copied from the run manifest. `primary_track` is
 taken from the manifest, then the loop history row, then `single_venue_fair_value`. The
 newest 200 manifests are kept (`MAX_RUN_RECORDS`).
 
