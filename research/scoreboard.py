@@ -12,7 +12,9 @@ network runs) and is otherwise an honest empty row. The three
 leg); see ``research/polymarket_arb_tracks.py``. ``category_specialist`` reads
 public per-trader histories (synthetic fixtures, or the Polymarket Data API
 when a source is supplied) and paper-follows in-category specialists; see
-``research/specialist_scoreboard.py``.
+``research/specialist_scoreboard.py``. The Polymarket weather tracks
+(``weather_*``, see ``research/weather_tracks.py``) are appended only when a
+strategy branch provides ``research.weather_scoreboard.run_weather_tracks``.
 """
 
 from __future__ import annotations
@@ -44,6 +46,7 @@ from research.specialist_scoreboard import (
     run_category_specialist_track,
 )
 from research.specialist_sources import FixtureTraderSource, NullTraderSource, TraderHistorySource
+from research.weather_tracks import WEATHER_TRACK_LABELS, WeatherRunner, is_weather_track, load_weather_runner
 from strategies.specialist import SpecialistParameters
 from settlement.gate import STAGE_ORDER, STRICT_POLICY, GatePolicy, GateResult, settlement_gate
 from strategies.cross_venue import (
@@ -106,6 +109,9 @@ TRACK_LABELS = {
     # Separate family with its own CLI (apps.measure_tennis_basis); not part of TRACKS.
     "tennis_basis": "Tennis cross-platform basis (free odds)",
     SPECIALIST_TRACK: "Category specialist follow",
+    # Weather lane: reserved ids (research/weather_tracks.py); measured only when a
+    # strategy branch provides research.weather_scoreboard.run_weather_tracks.
+    **WEATHER_TRACK_LABELS,
 }
 NEWS_TRACK = "news_underreaction"
 CROSS_VENUE_TRACKS = {
@@ -1004,6 +1010,8 @@ async def measure_all_with_ledgers(
     specialist_source: TraderHistorySource | None = None,
     specialist_parameters: SpecialistParameters | None = None,
     specialist_state: SpecialistState | None = None,
+    include_weather: bool = True,
+    weather_runner: WeatherRunner | None = None,
 ) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
     """Run every track against one shared snapshot.
 
@@ -1025,6 +1033,13 @@ async def measure_all_with_ledgers(
     traders on fixture runs, nothing on network runs unless the caller passes
     a ``PolymarketDataApiSource``); ``specialist_state`` carries its follow log
     across runs and is returned inside ``summary.metrics["follow_state"]``.
+
+    The weather tracks are optional: when ``include_weather`` is set and a
+    strategy branch provides ``research.weather_scoreboard.run_weather_tracks``
+    (or ``weather_runner`` is passed), its summaries and ledgers are appended
+    after the thirteen core tracks. Without a runner the board is unchanged,
+    and a runner that raises is logged and skipped so the core board still
+    lands (see ``research/weather_tracks.py`` for the contract).
     """
     from research import flb  # local import: research.flb builds on this module
     from research.polymarket_arb_tracks import run_polymarket_arb_tracks
@@ -1197,7 +1212,46 @@ async def measure_all_with_ledgers(
         "venue_breakdown": fair_rt.summary.metrics["venue_breakdown"].get(Venue.KALSHI.value, {}),
         "pnl": fair_rt.summary.metrics["venue_pnl"].get(Venue.KALSHI.value, {}),
     }
-    return summaries, {rt.name: rt.ledger for rt in runtimes}
+    ledgers_out = {rt.name: rt.ledger for rt in runtimes}
+    if include_weather:
+        weather_summaries, weather_ledgers = await _run_optional_weather_tracks(
+            weather_runner,
+            snapshots,
+            ledgers={name: ledger for name, ledger in ledgers.items() if is_weather_track(name)},
+            starting_cash=starting_cash,
+            model_fees=model_fees,
+            use_fixtures=use_fixtures,
+            cycle_label=label,
+        )
+        summaries = list(summaries) + [s for s in weather_summaries if s.track not in ledgers_out]
+        ledgers_out.update({t: l for t, l in weather_ledgers.items() if t not in ledgers_out})
+    return summaries, ledgers_out
+
+
+async def _run_optional_weather_tracks(
+    runner: WeatherRunner | None,
+    snapshots: dict[Venue, VenueSnapshot],
+    **kwargs: Any,
+) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
+    """Run the weather tracks when a strategy branch provides them; otherwise nothing.
+
+    A missing module is the expected state until those branches merge. A runner
+    that raises is logged and skipped rather than taking the core board down,
+    and only summaries with a reserved / weather-like id are kept.
+    """
+    runner = runner or load_weather_runner()
+    if runner is None:
+        return [], {}
+    try:
+        weather_summaries, weather_ledgers = await runner(snapshots, **kwargs)
+    except Exception:  # noqa: BLE001 - an optional lane never fails the shared board
+        LOGGER.exception("weather tracks failed; writing the board without them")
+        return [], {}
+    kept = [s for s in weather_summaries if is_weather_track(getattr(s, "track", None))]
+    dropped = len(weather_summaries) - len(kept)
+    if dropped:
+        LOGGER.warning("weather runner returned %d summary(ies) without a weather track id; dropped", dropped)
+    return kept, {t: l for t, l in dict(weather_ledgers).items() if is_weather_track(t)}
 
 
 async def _ready(value: Any) -> Any:

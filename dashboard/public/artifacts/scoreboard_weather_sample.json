@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.4.0",
+  "meta": {
+    "source": "sample",
+    "label": "SAMPLE / WEATHER SCHEMA PLACEHOLDER",
+    "note": "Hand-written schema example for the Polymarket weather paper tracks. Nothing here was measured: every count is zero, paper_pnl is null and there is no pnl_source. Replace by running the weather CLI once its branch merges (see meta.refresh).",
+    "paper_only": true,
+    "mode": "network",
+    "measured_at": "2026-09-15T00:00:00Z",
+    "generated_at": "2026-09-15T00:00:00Z",
+    "venues": ["polymarket"],
+    "markets_per_venue": 0,
+    "primary_track": "weather_bucket_edge",
+    "venue_focus": "polymarket",
+    "kalshi_env": null,
+    "track_family": "weather",
+    "refresh": "uv run python -m apps.measure_weather --network && cd dashboard && npm run sync-artifacts"
+  },
+  "findings": {
+    "live_network_cross_venue_candidates": 0,
+    "divergence_findings_status": "not_applicable_weather_run",
+    "weather": {
+      "status": "not_run",
+      "source": null,
+      "tracks": ["weather_bucket_edge", "weather_dead_bucket", "weather_calibrated_ensemble"],
+      "markets": 0,
+      "buckets": 0,
+      "cities": [],
+      "stations": 0,
+      "stations_parsed": 0,
+      "station_parse_rate": null,
+      "ensemble_edge_n": 0,
+      "ensemble_edge_mean_bps": null,
+      "dead_bucket_candidates": 0,
+      "dead_bucket_kills": 0,
+      "calibration_n": 0,
+      "preregistered_n": null,
+      "evaluation_status": "not_run",
+      "hypothesis_validated": false,
+      "candidates": 0,
+      "admitted": 0,
+      "paper_fills": 0,
+      "note": "Schema placeholder. Field meanings: research/weather_tracks.py METRIC_KEYS."
+    }
+  },
+  "totals": {
+    "candidates": 0,
+    "admitted": 0,
+    "rejects": 0,
+    "proposed_orders": 0,
+    "paper_fills": 0,
+    "fill_rate": null,
+    "settlement_risk_pairs": 0,
+    "paper_pnl": null,
+    "avg_edge_bps": null
+  },
+  "tracks": [
+    {
+      "track": "weather_bucket_edge",
+      "label": "Weather bucket edge (ensemble vs. mid)",
+      "family": "weather",
+      "candidates": 0,
+      "admitted": 0,
+      "rejects": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "proposed_orders": 0,
+      "estimated_fees_buffer": 0,
+      "notes": "Placeholder row. Ensemble forecast probability per temperature bucket vs. the Polymarket mid; paper only.",
+      "reject_reasons": {},
+      "metrics": {
+        "status": "not_run",
+        "markets": 0,
+        "buckets": 0,
+        "cities": [],
+        "stations": 0,
+        "stations_parsed": 0,
+        "ensemble_edge": { "n": 0, "mean_bps": null },
+        "evaluation": { "status": "not_run", "preregistered_n": null }
+      }
+    },
+    {
+      "track": "weather_dead_bucket",
+      "label": "Weather dead bucket (late-day METAR)",
+      "family": "weather",
+      "candidates": 0,
+      "admitted": 0,
+      "rejects": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "proposed_orders": 0,
+      "estimated_fees_buffer": 0,
+      "notes": "Placeholder row. Buckets a late-day METAR observation has already ruled out; paper only.",
+      "reject_reasons": {},
+      "metrics": {
+        "status": "not_run",
+        "markets": 0,
+        "buckets": 0,
+        "cities": [],
+        "stations": 0,
+        "stations_parsed": 0,
+        "dead_bucket": { "candidates": 0, "kills": 0 },
+        "evaluation": { "status": "not_run", "preregistered_n": null }
+      }
+    },
+    {
+      "track": "weather_calibrated_ensemble",
+      "label": "Weather calibrated ensemble",
+      "family": "weather",
+      "candidates": 0,
+      "admitted": 0,
+      "rejects": 0,
+      "paper_fills": 0,
+      "fill_rate": null,
+      "edge_bps": null,
+      "settlement_risk": false,
+      "settlement_risk_flag": false,
+      "proposed_orders": 0,
+      "estimated_fees_buffer": 0,
+      "notes": "Placeholder row. Ensemble probabilities recalibrated on resolved buckets before pricing; paper only.",
+      "reject_reasons": {},
+      "metrics": {
+        "status": "not_run",
+        "markets": 0,
+        "buckets": 0,
+        "cities": [],
+        "calibration": { "n": 0, "status": "not_run" },
+        "evaluation": { "status": "not_run", "preregistered_n": null }
+      }
+    }
+  ],
+  "top_fills": [],
+  "top_edges": [],
+  "portfolio": {
+    "paper_only": true,
+    "open_positions": 0,
+    "gross_notional": 0,
+    "net_exposure": 0,
+    "realized_pnl": null,
+    "unrealized_pnl": null,
+    "max_drawdown": 0,
+    "settlement_risk_pairs": 0,
+    "concentration": [],
+    "risk_flags": ["sample_schema_placeholder_not_measured"]
+  },
+  "charts": {
+    "candidates_by_track": [
+      { "track": "weather_bucket_edge", "value": 0 },
+      { "track": "weather_dead_bucket", "value": 0 },
+      { "track": "weather_calibrated_ensemble", "value": 0 }
+    ],
+    "fills_by_track": [
+      { "track": "weather_bucket_edge", "value": 0 },
+      { "track": "weather_dead_bucket", "value": 0 },
+      { "track": "weather_calibrated_ensemble", "value": 0 }
+    ],
+    "venue_fills": [{ "venue": "polymarket", "value": 0 }]
+  }
+}

@@ -36,7 +36,9 @@ const LEDGER_PNL_SOURCE = 'core.ledger.PaperLedger'
 async function listCandidates() {
   // flb_report_latest.json is the Kalshi FLB report written by apps.measure_flb;
   // tennis_whale_report_latest.json the tennis whale copy report from apps.measure_tennis_whale;
-  // tennis_basis_latest.json the tennis basis report from apps.measure_tennis_basis.
+  // tennis_basis_latest.json the tennis basis report from apps.measure_tennis_basis;
+  // weather_report_<mode>.json the weather report the weather branches are expected to
+  // write next to scoreboard_weather.json (kind "weather_report"; optional).
   const names = new Set([
     'paper_loop_latest.json',
     'polymarket_arb_latest.json',
@@ -48,6 +50,7 @@ async function listCandidates() {
     if (/^scoreboard_.*\.json$/.test(file)) names.add(file)
     if (/^gate_report_.*\.json$/.test(file)) names.add(file)
     if (/^specialist_scoreboard_.*\.json$/.test(file)) names.add(file)
+    if (/^weather_report_.*\.json$/.test(file)) names.add(file)
   }
   for (const file of await safeReaddir(join(runtimeRoot, 'paper'))) {
     if (/^ledger_.*\.json$/.test(file)) names.add(`paper/${file}`)
@@ -88,6 +91,14 @@ function isSpecialistBoard(doc) {
   )
 }
 
+// Weather report contract (research/weather_tracks.py): `kind: "weather_report"`,
+// `paper_only: true`, `meta.source` measured/synced. Everything else about its
+// shape is the strategy branch's choice; the board only needs the headline that
+// the scoreboard already carries under findings.weather.
+function isWeatherReport(doc) {
+  return doc?.kind === 'weather_report' && Boolean(doc?.meta) && doc?.paper_only === true
+}
+
 await mkdir(publicRoot, { recursive: true })
 const copied = {}
 for (const relative of await listCandidates()) {
@@ -102,6 +113,7 @@ for (const relative of await listCandidates()) {
   const isBoard = relative.startsWith('scoreboard_')
   const isGate = relative.startsWith('gate_report_')
   const isSpecialist = relative.startsWith('specialist_scoreboard_')
+  const isWeather = relative.startsWith('weather_report_')
   if (isBoard && !isScoreboard(doc)) {
     console.warn(`skip ${relative}: missing meta/tracks/totals`)
     continue
@@ -114,8 +126,16 @@ for (const relative of await listCandidates()) {
     console.warn(`skip ${relative}: not a specialist scoreboard (kind/meta/scoreboard/follow_log/totals/preregistration)`)
     continue
   }
-  if ((isBoard || isGate || isSpecialist) && doc.meta.source === 'sample') {
+  if (isWeather && !isWeatherReport(doc)) {
+    console.warn(`skip ${relative}: not a paper-only weather_report (kind/meta/paper_only)`)
+    continue
+  }
+  if ((isBoard || isGate || isSpecialist || isWeather) && doc.meta.source === 'sample') {
     console.warn(`skip ${relative}: refusing to publish meta.source=sample as a runtime artifact`)
+    continue
+  }
+  if (isWeather && (doc.meta.status === 'fixture_synthetic' || doc.status === 'fixture_synthetic')) {
+    console.warn(`skip ${relative}: refusing to publish a synthetic-fixture weather report as a runtime artifact`)
     continue
   }
   if (isBoard && doc.meta.paper_only === false) {
@@ -317,6 +337,9 @@ function compactRunRecord(file, manifest, cycle) {
     ...(manifest.kalshi_env ? { kalshi_env: manifest.kalshi_env } : {}),
     ...(manifest.flb ? { flb: manifest.flb } : {}),
     ...(manifest.tennis_whale_copy ? { tennis_whale_copy: manifest.tennis_whale_copy } : {}),
+    // Weather headline as the manifest states it (persist_run copies findings.weather
+    // onto the manifest); absent on every run that carries no weather track.
+    ...(manifest.weather && typeof manifest.weather === 'object' ? { weather: manifest.weather } : {}),
     pnl_source: ledgerBacked ? LEDGER_PNL_SOURCE : null,
     totals: {
       candidates: sum(tracks, (t) => t.candidates),

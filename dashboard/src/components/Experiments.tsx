@@ -7,7 +7,7 @@ import type {
   TrackFamilyId,
   TrackFamilySummary,
 } from '../types'
-import { OTHER_FAMILY, formatNum, formatSigned, gateLine, trackFamily } from '../types'
+import { OTHER_FAMILY, formatNum, formatSigned, gateLine, trackFamily, weatherLine } from '../types'
 
 const THIN_ARCHIVE_RUNS = 5
 const ALL = 'all'
@@ -150,6 +150,8 @@ function RunDetail({ run, filter, index }: { run: ExperimentEntry; filter: Filte
   else if (run.kind === 'sample') bits.push('numbers are placeholders')
   const gate = gateLine(run.gate)
   if (gate) bits.push(gate)
+  const weather = weatherLine(run.weather)
+  if (weather) bits.push(weather)
 
   const rows = tracksIn(run, filter)
   const groups = new Map<TrackFamilyId, ExperimentTrack[]>()

@@ -7,8 +7,10 @@
 // Resolution order for a track:
 //   1. an explicit `family` (or `metrics.family` / `metrics.track_family`) on the
 //      artifact, when it names a registered family
-//   2. KNOWN_TRACKS — ids the Python scoreboard emits today
-//   3. keyword heuristics on the id (negrisk / flb / gated cross-venue …)
+//   2. KNOWN_TRACKS — ids the Python scoreboard emits today, plus ids reserved
+//      for branches that have not merged yet (the weather tracks)
+//   3. keyword heuristics on the id (weather / negrisk / flb / gated cross-venue …);
+//      narrow families are tested before broad ones
 //   4. `other`
 //
 // Families with `lane: true` are pinned in the lanes strip even when no run has
@@ -76,6 +78,12 @@ export const FAMILIES = [
     description: 'Category specialist scoreboard: paper-follow top-decile in-category traders (pre-registered N=30; underpowered until then)',
   },
   {
+    id: 'weather',
+    label: 'Weather',
+    lane: true,
+    description: 'Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble',
+  },
+  {
     id: 'other',
     label: 'Other',
     lane: false,
@@ -104,7 +112,23 @@ export const KNOWN_TRACKS = {
   tennis_whale_copy_10m: 'tennis_copy',
   tennis_basis: 'tennis_basis',
   category_specialist: 'specialist',
+  // Reserved for the Polymarket weather paper tracks (see WEATHER_TRACKS). The
+  // strategy branches must emit exactly these ids to land in the Weather lane
+  // without a dashboard change; anything else weather-like is caught by keyword.
+  weather_bucket_edge: 'weather',
+  weather_dead_bucket: 'weather',
+  weather_calibrated_ensemble: 'weather',
 }
+
+/**
+ * Track id contract for the weather strategy branches, mirrored in
+ * research/weather_tracks.py. Order is the display order on the board.
+ */
+export const WEATHER_TRACKS = Object.freeze([
+  'weather_bucket_edge',
+  'weather_dead_bucket',
+  'weather_calibrated_ensemble',
+])
 
 const tokensOf = (id) =>
   String(id ?? '')
@@ -126,6 +150,15 @@ export function familyOf(trackOrId) {
   const any = (...words) => words.some((w) => tokens.has(w))
   const joined = [...tokens].join('_')
 
+  // Weather first: its ids can legitimately contain `maker`, `fair_value`,
+  // `basis` or `copy`, so the broader matchers below must never see them.
+  if (
+    any('weather', 'metar', 'temperature', 'ensemble', 'nws', 'noaa', 'hrrr', 'gfs', 'ecmwf') ||
+    has('dead', 'bucket') ||
+    has('temp', 'bucket')
+  ) {
+    return 'weather'
+  }
   if (any('negrisk', 'combinatorial', 'combo') || has('neg', 'risk')) return 'negrisk'
   if (any('flb', 'maker', 'longshot')) return 'kalshi_flb'
   if (any('news', 'underreaction', 'headline')) return 'news'

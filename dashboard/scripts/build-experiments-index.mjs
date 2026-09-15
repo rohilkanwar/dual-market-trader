@@ -21,7 +21,8 @@ const INDEX_FILE = 'experiments_index.json'
 // 1.1.0: tracks carry `family`; runs carry `families[]`; root gains `families[]`
 // and `lanes[]`; ledgers carry `track` + `family`. 1.0.0 readers still work.
 // 1.2.0: runs carry `gate` (+ `gate_report` URL) and root gains `gate_reports[]`.
-const INDEX_SCHEMA = '1.2.0'
+// 1.3.0: runs carry `weather` (compact headline of the weather tracks, or null).
+const INDEX_SCHEMA = '1.3.0'
 const KNOWN_MODES = new Set(['fixtures', 'network', 'harvest', 'sample'])
 
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : v == null ? null : Number(v))
@@ -91,6 +92,34 @@ function gateSummary(raw) {
   }
 }
 
+// Headline of the weather tracks (`findings.weather` on a board, `weather` on a
+// run record). Counts only, copied as stated; `hypothesis_validated` is never
+// defaulted to true. Returns null when the run carries no weather block, which
+// is the normal state of every board written before the weather branches merge.
+function weatherSummary(raw) {
+  if (!raw || typeof raw !== 'object') return null
+  const cities = Array.isArray(raw.cities) ? raw.cities.filter((c) => typeof c === 'string') : []
+  return {
+    status: typeof raw.status === 'string' ? raw.status : 'unknown',
+    source: raw.source ?? null,
+    tracks: Array.isArray(raw.tracks) ? raw.tracks.filter((t) => typeof t === 'string') : [],
+    markets: finite(raw.markets) ?? 0,
+    buckets: finite(raw.buckets) ?? 0,
+    cities,
+    stations: finite(raw.stations) ?? 0,
+    stations_parsed: finite(raw.stations_parsed) ?? 0,
+    station_parse_rate: finite(raw.station_parse_rate),
+    ensemble_edge_n: finite(raw.ensemble_edge_n) ?? 0,
+    ensemble_edge_mean_bps: finite(raw.ensemble_edge_mean_bps),
+    dead_bucket_candidates: finite(raw.dead_bucket_candidates) ?? 0,
+    dead_bucket_kills: finite(raw.dead_bucket_kills) ?? 0,
+    calibration_n: finite(raw.calibration_n) ?? 0,
+    preregistered_n: finite(raw.preregistered_n),
+    evaluation_status: typeof raw.evaluation_status === 'string' ? raw.evaluation_status : 'not_run',
+    hypothesis_validated: raw.hypothesis_validated === true,
+  }
+}
+
 function entryFromScoreboard(file, doc) {
   const meta = doc.meta
   const kind = kindOf(meta)
@@ -130,6 +159,7 @@ function entryFromScoreboard(file, doc) {
       return measuredPnl ? row : { ...row, paper_pnl: null }
     }),
     gate: isSample ? null : gateSummary(doc.gate_report?.totals ?? doc.findings?.gated_cross_venue),
+    weather: isSample ? null : weatherSummary(doc.findings?.weather),
     artifacts: [file],
     detail: `/artifacts/${file}`,
   }
@@ -177,6 +207,7 @@ function entryFromRunRecord(file, doc) {
     },
     tracks: validTracks(doc.tracks, `runs/${file}`).map((tr) => trackRow(tr)),
     gate: gateSummary(doc.gate),
+    weather: weatherSummary(doc.weather),
     artifacts: [`runs/${file}`],
     detail: `/artifacts/runs/${file}`,
   }
@@ -196,6 +227,7 @@ function merge(existing, incoming) {
     primary_track: richer.primary_track ?? other.primary_track,
     track_family: richer.track_family ?? other.track_family,
     gate: richer.gate ?? other.gate ?? null,
+    weather: richer.weather ?? other.weather ?? null,
     artifacts: [...new Set([...existing.artifacts, ...incoming.artifacts])],
   }
 }

@@ -57,7 +57,7 @@ entry point refuses to start if either variable requests live operation.
 
 | Path | Contents |
 | --- | --- |
-| `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.3.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
+| `artifacts/scoreboard_latest.json` | Dashboard artifact (schema 1.4.0, `meta.source=measured`, `meta.pnl_source=core.ledger.PaperLedger`) |
 | `artifacts/scoreboard_<fixtures\|network>.json` | Same document, kept per mode |
 | `artifacts/gate_report_<fixtures\|network>.json`, `gate_report_latest.json` | Per-pair admissibility verdicts of `gated_cross_venue` (every stage, every reason, depth-aware edge for admitted pairs); emitted even with zero candidates |
 | `artifacts/specialist_scoreboard_<fixtures\|network>.json`, `specialist_scoreboard_latest.json` | `category_specialist` board: per-trader-category scores, promotions, follow log, pre-registration and the pooled evaluation (`no_follows` / `pending_resolutions` / `underpowered` / `pass` / `fail`) |
@@ -70,6 +70,7 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
 | `artifacts/paper_loop_latest.json`, `paper_loop_history.jsonl` | Paper-loop cycle payloads (append-only history) |
 | `artifacts/flb_report_latest.json`, `scoreboard_flb.json` | Kalshi favorite–longshot bias report + scoreboard from `apps.measure_flb` (see `docs/FLB_RUNBOOK.md`) |
+| `artifacts/weather_report_<fixtures\|network>.json`, `weather_report_latest.json`, `scoreboard_weather.json` | Reserved for the Polymarket weather tracks (`weather_bucket_edge`, `weather_dead_bucket`, `weather_calibrated_ensemble`); written only once a weather strategy branch provides `research.weather_scoreboard` (see `research/weather_tracks.py` and `dashboard/public/artifacts/schema.md` → "Weather tracks") |
 
 `artifacts/` is git-ignored. The dashboard's committed copies live in
 `dashboard/public/artifacts/` and are refreshed with `npm run sync-artifacts`.
@@ -309,15 +310,32 @@ is labelled a backtest unless the artifact's `meta` says so.
 
 Tracks are grouped into **families** (strategy lanes) by
 `dashboard/scripts/track-families.mjs`: NegRisk (Polymarket NegRisk / combinatorial),
-Kalshi FLB (maker / FLB), XV gated, XV ungated, cross-venue, single venue, news, other. The
-card shows a thin lanes strip for the three pinned lanes — "Not measured yet" until a
-run carrying that family is synced — and filter pills that scope fills / paper PnL to
+Kalshi FLB (maker / FLB), XV gated, XV ungated, cross-venue, single venue, news, tennis
+copy, tennis basis, specialists, weather, other. The card shows a thin lanes strip for
+the four pinned lanes (NegRisk, Kalshi FLB, XV gated, Weather) — "Not measured yet" until
+a run carrying that family is synced — and filter pills that scope fills / paper PnL to
 one family. A track from a parallel branch appears after `measure_all` + `npm run
 sync-artifacts` with no dashboard change: the sync discovers the new scoreboard and
 ledger files, the index stamps a family on the track (by explicit `family`, known id, or
 keyword match on the id; unknown ids land in **Other**), and the UI reads only those
 stamps. See `dashboard/public/artifacts/schema.md` for the id conventions and the
 step-by-step.
+
+**Weather experiments on the Experiments history.** The Polymarket weather paper tracks
+are wired in ahead of their strategy code. Reserved ids (`research/weather_tracks.py`):
+`weather_bucket_edge` (ensemble vs. mid), `weather_dead_bucket` (late-day METAR),
+`weather_calibrated_ensemble`. Until a weather branch merges, the **Weather** lane tile
+reads "Sample only" (from the committed `scoreboard_weather_sample.json`, zero counts,
+`paper_pnl: null`) and the main track table shows no weather rows — nothing is invented.
+Once a run carries a weather track (via `measure_all`, which picks up
+`research.weather_scoreboard.run_weather_tracks` when it exists, or a dedicated CLI
+writing `scoreboard_weather.json` with `meta.track_family = "weather"`), the sync
+publishes it like any other run: the lane tile flips to fills / paper PnL / date, a
+**Weather** filter pill appears, each run's detail row groups the weather tracks under a
+Weather heading, and a `weather 3/4 stations · 2 kills · n 12` line is appended from the
+board's `findings.weather` headline (station parse rate, cities, ensemble-edge sample,
+dead-bucket kills, calibration n). A missing or failing weather module never changes
+the thirteen-track board. Contract, metric keys and hooks: `schema.md` → "Weather tracks".
 
 ## Public deployment
 
@@ -407,7 +425,8 @@ core/          types, risk rails, portfolio (avg cost), PaperLedger, ExecutionEn
 strategies/    single-venue fair value (primary), cross-venue mispricing, depth/fee-aware paper edge, market matching, news underreaction, Polymarket arb detectors, FLB fades (taker + maker), tennis basis math (de-vig, consensus, settlement-basis classifier, closure, verdict), specialist scoring/promotion/evaluation
 settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI bucket matching, eight-stage admissibility gate
 research/      scoreboard (13 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
-               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources
+               flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources,
+               weather_tracks (reserved weather ids, findings.weather reducer, optional runner / report hooks; no strategy code)
 apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
 docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit
