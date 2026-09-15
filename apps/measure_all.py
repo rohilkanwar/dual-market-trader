@@ -10,6 +10,9 @@ Outputs (relative to ``--artifact-dir``, default ``artifacts/``):
                                    category_specialist board: per-trader-category scores,
                                    promotions, follow log, pre-registered evaluation
 * ``paper/specialist_follow_state.json``  the specialist follow log carried across runs
+* ``weather_report_<mode>.json``, ``weather_report_latest.json``
+                                   only when a weather strategy branch is merged and the
+                                   run carried a ``weather_*`` track (research/weather_tracks.py)
 * ``paper/ledger_<track>.json``    full ledger per track (fills, marks, equity curve)
 * ``paper/equity_curve_<track>.jsonl``  one appended equity point per run
 * ``paper/runs/<run_id>.json``     raw track summaries for this run
@@ -39,6 +42,7 @@ from research.scoreboard import GATED_TRACK, SPECIALIST_TRACK, TRACKS, TrackSumm
 from research.scoreboard_artifact import build_gate_report, build_scoreboard_artifact
 from research.specialist_scoreboard import SpecialistState, build_specialist_report, load_specialist_state, state_path
 from research.specialist_sources import build_trader_source
+from research.weather_tracks import WEATHER_TRACKS, load_weather_report_builder, weather_summaries
 from strategies.edge import load_priors
 from strategies.polymarket_arb import ArbParameters
 
@@ -118,9 +122,20 @@ def equity_curve_path(artifact_dir: Path, track: str) -> Path:
     return artifact_dir / "paper" / f"equity_curve_{track}.jsonl"
 
 
-def load_ledgers(artifact_dir: Path, tracks: tuple[str, ...]) -> dict[str, PaperLedger]:
+def load_ledgers(
+    artifact_dir: Path,
+    tracks: tuple[str, ...],
+    *,
+    optional_tracks: tuple[str, ...] = WEATHER_TRACKS,
+) -> dict[str, PaperLedger]:
+    """Load the ledger of every track in ``tracks`` (+ ``optional_tracks``) that has one on disk.
+
+    ``optional_tracks`` defaults to the reserved weather ids so a weather ledger
+    written by an earlier run is carried across cycles once its strategy lands,
+    without every caller having to know the lane exists.
+    """
     ledgers: dict[str, PaperLedger] = {}
-    for track in tracks:
+    for track in (*tracks, *(t for t in optional_tracks if t not in tracks)):
         path = ledger_path(artifact_dir, track)
         if path.exists():
             ledgers[track] = PaperLedger.load(path)
@@ -184,6 +199,17 @@ def persist_run(
         if SPECIALIST_TRACK in ledgers_by_track and specialist.metrics.get("follow_state"):
             # The follow log persists alongside the ledgers, never without them.
             SpecialistState.from_dict(specialist.metrics["follow_state"]).save(state_path(artifact_dir))
+    weather = weather_summaries(summaries)
+    if weather:
+        # The board already carries findings.weather (research/weather_tracks.py). The
+        # per-station / per-bucket report is written only when a strategy branch
+        # provides research.weather_scoreboard.build_weather_report.
+        build_weather_report = load_weather_report_builder()
+        if build_weather_report is not None:
+            report = build_weather_report(weather, mode=mode, measured_at=measured_at, run_id=run_id)
+            write_json(artifact_dir / f"weather_report_{mode}.json", report)
+            write_json(artifact_dir / "weather_report_latest.json", report)
+            artifact["weather_report"] = {"file": f"weather_report_{mode}.json", "totals": report.get("totals", {})}
     write_json(artifact_dir / (scoreboard_name or f"scoreboard_{mode}.json"), artifact)
     if write_latest:
         write_json(artifact_dir / "scoreboard_latest.json", artifact)
@@ -200,6 +226,9 @@ def persist_run(
             "kalshi_env": kalshi_env,
             "primary_track": artifact["meta"]["primary_track"],
             "track_family": artifact["meta"].get("track_family"),
+            # Copied so the compact run record keeps the weather headline after the
+            # next run overwrites scoreboard_latest.json; absent without weather tracks.
+            **({"weather": artifact["findings"]["weather"]} if "weather" in artifact["findings"] else {}),
             "tracks": [summary.as_dict() for summary in summaries],
         },
     )
@@ -296,6 +325,14 @@ async def run(
             f"specialists={spec['specialists']} follows_this_run={spec['follows_this_run']} "
             f"follow_log={spec['follow_log_resolved']} resolved/{spec['follow_log_pending']} pending "
             f"evaluation={spec['evaluation_status']}"
+        )
+    weather = artifact.get("findings", {}).get("weather")
+    if weather:
+        print(
+            f"\nweather: tracks={','.join(weather['tracks'])} markets={weather['markets']} "
+            f"stations={weather['stations_parsed']}/{weather['stations']} cities={len(weather['cities'])} "
+            f"dead_bucket_kills={weather['dead_bucket_kills']} calibration_n={weather['calibration_n']} "
+            f"evaluation={weather['evaluation_status']}"
         )
     print(
         f"\nledger totals: realized={artifact['totals']['realized_pnl']} "

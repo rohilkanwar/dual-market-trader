@@ -21,8 +21,11 @@ from research.scoreboard import (
     TrackSummary,
 )
 from research.specialist_scoreboard import specialist_finding
+from research.weather_tracks import WEATHER_FAMILY, is_weather_track, slim_weather_metrics, weather_finding
 
-SCHEMA_VERSION = "1.3.0"
+# 1.4.0: `findings.weather` (+ root `weather_report` pointer) on boards that carry
+# a weather track; boards without one are unchanged, so 1.3.0 readers still work.
+SCHEMA_VERSION = "1.4.0"
 GATE_REPORT_SCHEMA_VERSION = "1.0.0"
 ALLOWED_SOURCES = ("measured", "synced")
 ZERO = Decimal("0")
@@ -83,6 +86,12 @@ def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
 def _track_row(summary: TrackSummary) -> dict[str, Any]:
     row = {k: v for k, v in summary.as_dict().items() if k not in ("fills", "edges")}
     row["metrics"] = _slim_metrics(row["metrics"])
+    if is_weather_track(summary.track):
+        # Per-station / per-bucket rows belong in weather_report_<mode>.json; the
+        # board keeps counts. The family stamp lets the dashboard place the row
+        # even if the id is a weather-like variant the registry has not seen.
+        row["metrics"] = slim_weather_metrics(row["metrics"])
+        row.setdefault("family", WEATHER_FAMILY)
     return row
 
 
@@ -167,6 +176,14 @@ def build_scoreboard_artifact(
         if int(specialist.metrics.get("follow_log", {}).get("total", 0)) > 0 and pooled_status != "pass":
             # Follow PnL exists but the pre-registered test has not passed (usually: underpowered).
             risk_flags.append("specialist_hypothesis_not_validated")
+    weather = weather_finding(summaries)
+    if weather is not None and not weather["hypothesis_validated"]:
+        weather_fills = weather["paper_fills"] + sum(
+            int(ledgers.get(t, {}).get("fills", 0)) for t in weather["tracks"]
+        )
+        if weather_fills > 0:
+            # Paper PnL on the weather lane exists, but its pre-registered test has not passed.
+            risk_flags.append("weather_hypothesis_not_validated")
     risk_flags.append("pnl_from_ledger_not_placeholder")
 
     fills = [dict(row) for s in summaries for row in s.fills]
@@ -216,6 +233,8 @@ def build_scoreboard_artifact(
         findings_out["gated_cross_venue"] = gate_summary(gated)
     if specialist is not None:
         findings_out["category_specialist"] = specialist_finding(specialist)
+    if weather is not None:
+        findings_out["weather"] = weather
     if findings:
         findings_out.update(findings)
 
@@ -239,6 +258,8 @@ def build_scoreboard_artifact(
             "refresh": (
                 "python -m apps.measure_polymarket_arb [--network] && cd dashboard && npm run sync-artifacts"
                 if track_family == "polymarket_arb"
+                else "python -m apps.measure_weather [--network] && cd dashboard && npm run sync-artifacts"
+                if track_family == WEATHER_FAMILY
                 else "python -m apps.measure_all [--network] && cd dashboard && npm run sync-artifacts"
             ),
         },

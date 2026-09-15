@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-14T23:30:51.289Z",
-  "schema_version": "1.2.0",
+  "generated_at": "2026-09-15T01:02:33.143Z",
+  "schema_version": "1.3.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 18,
+    "total": 19,
     "measured": 17,
-    "sample": 1,
+    "sample": 2,
     "backtest": 0
   },
   "modes": {
-    "network": 11,
+    "network": 12,
     "fixtures": 7
   },
   "latest_run_id": "20260914T233027Z-f33c4c98",
@@ -142,6 +142,20 @@
       "sample_runs": 0
     },
     {
+      "id": "weather",
+      "label": "Weather",
+      "description": "Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble",
+      "lane": true,
+      "tracks": [
+        "weather_bucket_edge",
+        "weather_calibrated_ensemble",
+        "weather_dead_bucket"
+      ],
+      "runs": 1,
+      "measured_runs": 0,
+      "sample_runs": 1
+    },
+    {
       "id": "other",
       "label": "Other",
       "description": "Tracks not matched to a family",
@@ -211,9 +225,103 @@
       "paper_fills": 0,
       "paper_pnl": 0,
       "detail": "/artifacts/scoreboard_network.json"
+    },
+    {
+      "family": "weather",
+      "label": "Weather",
+      "description": "Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble",
+      "status": "sample_only",
+      "run_id": null,
+      "measured_at": null,
+      "mode": null,
+      "pnl_source": null,
+      "tracks": [
+        "weather_bucket_edge",
+        "weather_calibrated_ensemble",
+        "weather_dead_bucket"
+      ],
+      "candidates": null,
+      "admitted": null,
+      "paper_fills": null,
+      "paper_pnl": null,
+      "detail": null
     }
   ],
   "runs": [
+    {
+      "run_id": "sample:scoreboard_weather_sample.json",
+      "kind": "sample",
+      "source": "sample",
+      "label": "SAMPLE / WEATHER SCHEMA PLACEHOLDER",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-15T00:00:00Z",
+      "generated_at": "2026-09-15T00:00:00Z",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_bucket_edge",
+      "track_family": "weather",
+      "pnl_source": null,
+      "note": "Hand-written schema example for the Polymarket weather paper tracks. Nothing here was measured: every count is zero, paper_pnl is null and there is no pnl_source. Replace by running the weather CLI once its branch merges (see meta.refresh).",
+      "totals": {
+        "candidates": 0,
+        "admitted": 0,
+        "rejects": 0,
+        "paper_fills": 0,
+        "paper_pnl": null,
+        "realized_pnl": null,
+        "unrealized_pnl": null,
+        "fees_paid": null
+      },
+      "tracks": [
+        {
+          "track": "weather_bucket_edge",
+          "label": "Weather bucket edge (ensemble vs. mid)",
+          "family": "weather",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": null
+        },
+        {
+          "track": "weather_dead_bucket",
+          "label": "Weather dead bucket (late-day METAR)",
+          "family": "weather",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": null
+        },
+        {
+          "track": "weather_calibrated_ensemble",
+          "label": "Weather calibrated ensemble",
+          "family": "weather",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": null
+        }
+      ],
+      "gate": null,
+      "weather": null,
+      "artifacts": [
+        "scoreboard_weather_sample.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather_sample.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
     {
       "run_id": "20260914T233027Z-f33c4c98",
       "kind": "paper_run",
@@ -407,6 +515,7 @@
         },
         "status": "zero_admits_expected"
       },
+      "weather": null,
       "artifacts": [
         "scoreboard_network.json",
         "scoreboard_latest.json",
@@ -622,6 +731,7 @@
         },
         "status": "admits_present_verify_fingerprints"
       },
+      "weather": null,
       "artifacts": [
         "scoreboard_fixtures.json",
         "runs/20260914T233008Z-01ea5ab1.json",
@@ -683,6 +793,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "scoreboard_tennis_basis.json",
         "runs/20260914T231551Z-0640791f.json"
@@ -736,6 +847,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T231547Z-1bb7d584.json"
       ],
@@ -809,6 +921,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "scoreboard_tennis_whale.json",
         "runs/20260914T230348Z-tennis-63ad64de.json"
@@ -872,6 +985,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "scoreboard_flb.json",
         "runs/20260914T214602Z-flb-aed44114.json"
@@ -1064,6 +1178,7 @@
         },
         "status": "zero_admits_expected"
       },
+      "weather": null,
       "artifacts": [
         "runs/20260914T214601Z-d5338a8c.json"
       ],
@@ -1262,6 +1377,7 @@
         },
         "status": "admits_present_verify_fingerprints"
       },
+      "weather": null,
       "artifacts": [
         "runs/20260914T214556Z-68961964.json"
       ],
@@ -1440,6 +1556,7 @@
         },
         "status": "zero_admits_expected"
       },
+      "weather": null,
       "artifacts": [
         "runs/20260914T213433Z-e04a35c8.json"
       ],
@@ -1615,6 +1732,7 @@
         },
         "status": "admits_present_verify_fingerprints"
       },
+      "weather": null,
       "artifacts": [
         "runs/20260914T213424Z-85083a97.json"
       ],
@@ -1759,6 +1877,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T212414Z-70a904d9.json"
       ],
@@ -1903,6 +2022,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T212403Z-a763b42e.json"
       ],
@@ -1980,6 +2100,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "scoreboard_polymarket_arb.json",
         "runs/20260914T210549Z-519e2135.json"
@@ -2110,6 +2231,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T210541Z-cd15a2c5.json"
       ],
@@ -2242,6 +2364,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T210532Z-de84053d.json"
       ],
@@ -2349,6 +2472,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T205159Z-e67169b1.json"
       ],
@@ -2448,6 +2572,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "runs/20260914T185905Z-432d7071.json"
       ],
@@ -2546,6 +2671,7 @@
         }
       ],
       "gate": null,
+      "weather": null,
       "artifacts": [
         "scoreboard_sample.json"
       ],

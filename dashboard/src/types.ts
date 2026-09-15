@@ -16,7 +16,18 @@ export type TrackId =
   | 'polymarket_negrisk_arb'
   | 'polymarket_combinatorial_arb'
   | 'category_specialist'
+  | WeatherTrackId
   | string
+
+/**
+ * Reserved ids for the Polymarket weather paper tracks (contract with the
+ * weather strategy branches; mirrored in scripts/track-families.mjs and
+ * research/weather_tracks.py). None of them has to exist for the board to render.
+ */
+export type WeatherTrackId =
+  | 'weather_bucket_edge'
+  | 'weather_dead_bucket'
+  | 'weather_calibrated_ensemble'
 
 /**
  * Strategy lane a track belongs to. Assigned by scripts/track-families.mjs when
@@ -31,7 +42,9 @@ export type TrackFamilyId =
   | 'single_venue'
   | 'news'
   | 'tennis_copy'
+  | 'tennis_basis'
   | 'specialist'
+  | 'weather'
   | 'other'
   | string
 
@@ -130,6 +143,37 @@ export interface CategorySpecialistFinding {
   note?: string
 }
 
+/**
+ * Headline of the weather tracks (schema >= 1.4.0), present only on boards
+ * that carry at least one `weather_*` track. Every field is a count or a rate
+ * the strategy measured; nothing here is PnL. `evaluation_status` follows the
+ * same vocabulary as the specialist lane (`not_run` | `no_candidates` |
+ * `pending_resolutions` | `underpowered` | `pass` | `fail`) and
+ * `hypothesis_validated` is true only on `pass`.
+ */
+export interface WeatherFinding {
+  status: string
+  source?: string | null
+  /** Weather track ids that contributed to this headline. */
+  tracks?: WeatherTrackId[] | string[]
+  markets?: number
+  buckets?: number
+  cities?: string[]
+  stations?: number
+  stations_parsed?: number
+  /** `stations_parsed / stations`, 0–1; null when no station was requested. */
+  station_parse_rate?: number | null
+  ensemble_edge_n?: number
+  ensemble_edge_mean_bps?: number | null
+  dead_bucket_candidates?: number
+  dead_bucket_kills?: number
+  calibration_n?: number
+  preregistered_n?: number | null
+  evaluation_status: string
+  hypothesis_validated: boolean
+  note?: string
+}
+
 export interface ScoreboardFindings {
   fed_exact_divergences?: DivergenceFinding
   macro_admitted_bucket_divergences?: DivergenceFinding
@@ -138,6 +182,7 @@ export interface ScoreboardFindings {
   news_underreaction?: NewsUnderreactionFinding
   gated_cross_venue?: GateSummary
   category_specialist?: CategorySpecialistFinding
+  weather?: WeatherFinding
 }
 
 export interface ScoreboardTotals {
@@ -285,6 +330,8 @@ export interface ScoreboardArtifact {
   gate_report?: { file: string; totals: GateSummary }
   /** Pointer to the specialist board written alongside this run (`specialist_scoreboard_<mode>.json`). */
   specialist_scoreboard?: { file: string; totals: Record<string, unknown> }
+  /** Pointer to the weather report written alongside this run (`weather_report_<mode>.json`), when a strategy branch emits one. */
+  weather_report?: { file: string; totals: Record<string, unknown> }
 }
 
 /** Experiments index — built from public/artifacts by scripts/build-experiments-index.mjs */
@@ -340,6 +387,8 @@ export interface ExperimentEntry {
   gate?: GateSummary | null
   /** URL of the per-pair gate report when one is on disk for this run. */
   gate_report?: string
+  /** Weather headline (index 1.3.0); null on samples and on runs without weather tracks. */
+  weather?: WeatherFinding | null
   /** Files under public/artifacts that describe this run (deduped by run_id). */
   artifacts: string[]
   /** URL of the richest artifact for this run. */
@@ -419,7 +468,7 @@ export interface ExperimentsIndex {
   latest_run_id: string | null
   /** 1.1.0+: every registered family, including those with no runs yet. */
   families?: TrackFamilySummary[]
-  /** 1.1.0+: pinned lanes (NegRisk / Kalshi FLB / XV gated). */
+  /** 1.1.0+: pinned lanes (NegRisk / Kalshi FLB / XV gated / Weather). */
   lanes?: LaneSummary[]
   runs: ExperimentEntry[]
   ledgers: LedgerSnapshotEntry[]
@@ -431,6 +480,23 @@ export function gateLine(gate: GateSummary | null | undefined): string | null {
   if (!gate) return null
   const base = `gate ${gate.gate_admitted}/${gate.candidates} admitted`
   return gate.traded > 0 ? `${base} · ${gate.traded} traded` : base
+}
+
+/**
+ * "weather 3/4 stations · 2 kills · n 12" style readout; null when the run
+ * carries no weather headline. Only counts the finding states are shown, so a
+ * half-filled block from an in-progress branch still renders quietly.
+ */
+export function weatherLine(w: WeatherFinding | null | undefined): string | null {
+  if (!w) return null
+  const parts: string[] = []
+  if ((w.stations ?? 0) > 0) parts.push(`${formatNum(w.stations_parsed ?? 0)}/${formatNum(w.stations)} stations`)
+  if ((w.cities?.length ?? 0) > 0) parts.push(`${w.cities!.length} ${w.cities!.length === 1 ? 'city' : 'cities'}`)
+  if ((w.ensemble_edge_n ?? 0) > 0) parts.push(`edge n ${formatNum(w.ensemble_edge_n)}`)
+  if ((w.dead_bucket_kills ?? 0) > 0) parts.push(`${formatNum(w.dead_bucket_kills)} ${w.dead_bucket_kills === 1 ? 'kill' : 'kills'}`)
+  if ((w.calibration_n ?? 0) > 0) parts.push(`n ${formatNum(w.calibration_n)}`)
+  if (parts.length === 0) return `weather ${w.evaluation_status || w.status || 'idle'}`
+  return `weather ${parts.join(' · ')}`
 }
 
 export const OTHER_FAMILY: TrackFamilyId = 'other'

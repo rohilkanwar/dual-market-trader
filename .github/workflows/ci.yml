@@ -237,7 +237,7 @@ jobs:
         run: |
           node - <<'EOF'
           const fs = require('node:fs');
-          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_sample.json']) {
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
             const isSample = f.includes('sample');

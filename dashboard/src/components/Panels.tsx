@@ -1,5 +1,5 @@
 import type { ScoreboardArtifact } from '../types'
-import { formatNum, formatSigned, hasLedgerPnl } from '../types'
+import { formatNum, formatPct, formatSigned, hasLedgerPnl } from '../types'
 
 export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
   const f = data.findings
@@ -8,6 +8,17 @@ export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
   const gate = data.gate_report?.totals ?? f?.gated_cross_venue
   const ledger = hasLedgerPnl(data.meta) ? p : undefined
   const primary = ledger?.primary
+  // Weather headline is optional: boards without weather tracks never carry it.
+  const weather = f?.weather
+  const weatherValue = weather
+    ? [
+        (weather.stations ?? 0) > 0 ? `parse ${formatPct(weather.station_parse_rate, 0)}` : null,
+        (weather.dead_bucket_kills ?? 0) > 0 ? `${formatNum(weather.dead_bucket_kills)} kills` : null,
+        (weather.calibration_n ?? 0) > 0 ? `n ${formatNum(weather.calibration_n)}` : null,
+      ]
+        .filter(Boolean)
+        .join(' · ') || weather.evaluation_status
+    : null
 
   return (
     <div className="details-stack">
@@ -43,6 +54,12 @@ export function DetailsSection({ data }: { data: ScoreboardArtifact }) {
               <div className="mini-stat">
                 <dt>Macro</dt>
                 <dd>{f.macro_admitted_bucket_divergences.label}</dd>
+              </div>
+            )}
+            {weatherValue && (
+              <div className="mini-stat">
+                <dt>Weather</dt>
+                <dd>{weatherValue}</dd>
               </div>
             )}
             {ledger ? (
