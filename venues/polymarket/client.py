@@ -195,6 +195,7 @@ def _leg_market(item: dict[str, Any], event: dict[str, Any], *, source: str) -> 
             "min_order_size": str(decimal_or_zero(item.get("orderMinSize") or item.get("min_order_size")) or DEFAULT_MIN_ORDER_SIZE),
             "end_date": item.get("endDate") or event.get("endDate") or event.get("end_date"),
             "resolution_text": item.get("description", ""),
+            "source_url": item.get("resolutionSource") or event.get("resolutionSource") or None,
         },
     )
 
@@ -240,6 +241,8 @@ def group_from_event(event: dict[str, Any], *, source: str) -> MarketGroup | Non
             "volume": str(decimal_or_zero(event.get("volume"))),
             "listed_markets": len(raw_markets),
             "scenario": event.get("scenario"),
+            "description": event.get("description"),
+            "resolution_source": event.get("resolutionSource") or event.get("resolution_source"),
         },
     )
 
@@ -482,6 +485,40 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
             self._market_cache.update({market.market_id: market for market in group.markets})
         return groups
 
+    async def list_events_by_tag(self, tag_id: int, *, limit: int = 100, closed: bool = False) -> list[MarketGroup]:
+        """Events carrying a Gamma tag (``104596`` = "Highest temperature"), soonest end first.
+
+        Fixture mode serves the committed event fixture like :meth:`list_events`;
+        weather fixtures are replayed by ``research.weather_dead_bucket`` instead.
+        """
+        if self.use_fixtures:
+            groups = load_event_fixture().groups[:limit]
+        else:
+            response = await self._http.get(
+                f"{GAMMA_URL}/events",
+                params={
+                    "tag_id": tag_id,
+                    "active": "true",
+                    "closed": "true" if closed else "false",
+                    "limit": min(max(limit, 1), 100),
+                    "order": "endDate",
+                    "ascending": "true",
+                },
+            )
+            response.raise_for_status()
+            groups = []
+            for event in response.json():
+                if not isinstance(event, dict):
+                    continue
+                group = group_from_event(event, source="network")
+                if group is not None:
+                    group.metadata["tags"] = [str(t.get("label")) for t in (event.get("tags") or []) if isinstance(t, dict) and t.get("label")]
+                    groups.append(group)
+            groups = groups[:limit]
+        for group in groups:
+            self._market_cache.update({market.market_id: market for market in group.markets})
+        return groups
+
     async def get_books(self, token_ids: list[str]) -> dict[str, OrderBook]:
         """Batch CLOB books keyed by token id (``POST /books``, chunked)."""
         if self.use_fixtures:
@@ -508,14 +545,23 @@ class PolymarketClient(PaperExecutionMixin, VenueClient):
                     books[token] = _book_from_levels(str(payload.get("market") or token), payload)
         return books
 
-    async def capture_events(self, *, limit: int = 20) -> EventSnapshot:
-        """Events plus both books per leg; network failures land in ``errors``."""
+    async def capture_events(self, *, limit: int = 20, groups: list[MarketGroup] | None = None) -> EventSnapshot:
+        """Events plus both books per leg; network failures land in ``errors``.
+
+        ``groups`` lets a caller supply an already-discovered event list (for
+        example :meth:`list_events_by_tag`) instead of the liquidity ranking.
+        """
         snapshot = EventSnapshot()
-        try:
-            snapshot.groups = await self.list_events(limit=limit)
-        except Exception as exc:  # a dead endpoint must not kill the run
-            snapshot.errors.append(f"list_events: {type(exc).__name__}: {exc}")
-            return snapshot
+        if groups is not None:
+            snapshot.groups = list(groups)
+            for group in snapshot.groups:
+                self._market_cache.update({market.market_id: market for market in group.markets})
+        else:
+            try:
+                snapshot.groups = await self.list_events(limit=limit)
+            except Exception as exc:  # a dead endpoint must not kill the run
+                snapshot.errors.append(f"list_events: {type(exc).__name__}: {exc}")
+                return snapshot
         tokens = [
             token
             for market in snapshot.markets
