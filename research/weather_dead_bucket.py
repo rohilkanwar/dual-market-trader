@@ -77,7 +77,8 @@ from venues.polymarket.client import PolymarketClient, _book_from_levels, group_
 WEATHER_TRACK = TRACK
 WEATHER_TRACKS: tuple[str, ...] = (WEATHER_TRACK,)
 WEATHER_TRACK_LABEL = TRACK_LABEL
-WEATHER_FAMILY = "weather_dead_bucket"
+WEATHER_FAMILY = "weather_dead_bucket"  # meta.track_family on the family's own scoreboard
+WEATHER_DASHBOARD_FAMILY = "weather"  # lane id in dashboard/scripts/track-families.mjs (shared with sibling weather tracks)
 POLYMARKET_HIGHEST_TEMPERATURE_TAG = 104596
 POLYMARKET_DAILY_TEMPERATURE_TAG = 103040
 REPLAY_FIXTURE = Path(__file__).with_name("fixtures") / "weather_dead_bucket_replay.json"
@@ -467,6 +468,7 @@ async def run_weather_dead_bucket_cycle(
                             "buy_outcome": bucket_verdict.outcome.value,
                             "best_bid": _q(evaluation.bid),
                             "best_bid_size": evaluation.bid_size,
+                            "resting_gross_edge_at_best_bid": _q(ONE - evaluation.bid),
                             "note": "no taker ask on the certain side; only a resting order at or above best_bid could enter",
                         }
                     )
@@ -538,7 +540,8 @@ async def run_weather_dead_bucket_cycle(
 
     summary.metrics.update(
         {
-            "family": WEATHER_FAMILY,
+            "family": WEATHER_DASHBOARD_FAMILY,
+            "track_family": WEATHER_FAMILY,
             "detail_file": REPORT_FILE,
             "status": track_status(snapshot, batch, events, summary),
             "as_of": as_of.isoformat(),
@@ -552,6 +555,7 @@ async def run_weather_dead_bucket_cycle(
             "positions_opened": opened,
             "positions_settled_this_run": settled_now,
             "dead_buckets_without_taker_ask": len(resting_only),
+            "resting_only_best_bid": _best_bid_summary(resting_only),
             "resting_only_opportunities": resting_only,
             "register": {
                 "records": len(register.records),
@@ -637,6 +641,16 @@ async def _settle(runtime: TrackRuntime, register: DeadBucketRegister, lookup: S
         )
         settled += 1
     return settled
+
+
+def _best_bid_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Where the resting queue sits on dead legs that have no taker ask (1 - bid = the most a resting NO buyer could earn)."""
+    bids = sorted(r["best_bid"] for r in rows if r.get("best_bid") is not None)
+    if not bids:
+        return {"n": 0, "min": None, "median": None, "max": None, "max_resting_gross_edge": None}
+    mid = len(bids) // 2
+    median = bids[mid] if len(bids) % 2 else (bids[mid - 1] + bids[mid]) / 2
+    return {"n": len(bids), "min": bids[0], "median": _q(median), "max": bids[-1], "max_resting_gross_edge": _q(ONE - bids[0])}
 
 
 def _edge_row(track: str, market: Market, evaluation: Any, spec: WeatherMarketSpec, *, filled: bool) -> dict[str, Any]:
@@ -832,7 +846,8 @@ async def replay_fixture(
         "observation_source": {**last.metrics.get("observation_source", {}), "stations": dict(sorted(stations.items()))},
         "weather_events": [{"step": s.metrics.get("step"), **row} for s in step_summaries for row in s.metrics.get("weather_events", [])],
         "measurements": [{"step": s.metrics.get("step"), **row} for s in step_summaries for row in s.metrics.get("measurements", [])],
-        "resting_only_opportunities": [{"step": s.metrics.get("step"), **row} for s in step_summaries for row in s.metrics.get("resting_only_opportunities", [])],
+        "resting_only_opportunities": (resting_rows := [{"step": s.metrics.get("step"), **row} for s in step_summaries for row in s.metrics.get("resting_only_opportunities", [])]),
+        "resting_only_best_bid": _best_bid_summary(resting_rows),
         **{key: sum(int(s.metrics.get(key, 0)) for s in step_summaries) for key in ("positions_opened", "positions_settled_this_run", "settlement_fills", "events_total", "events_parsed", "dead_buckets_without_taker_ask")},
     }
     aggregate.notes = last.notes
@@ -882,6 +897,7 @@ __all__ = [
     "REPLAY_FIXTURE",
     "REPORT_FILE",
     "ReplayStep",
+    "WEATHER_DASHBOARD_FAMILY",
     "WEATHER_FAMILY",
     "WEATHER_TRACK",
     "WEATHER_TRACKS",

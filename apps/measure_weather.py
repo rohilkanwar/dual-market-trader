@@ -49,6 +49,30 @@ REPORT_NAME = REPORT_FILE
 TRACK_FAMILY = WEATHER_FAMILY
 
 
+def _compact_measurement(row: dict[str, Any]) -> dict[str, Any]:
+    """One line per bucket leg: the reason plus the numbers that justify it (full dicts stay in memory only)."""
+    verdict = row.get("verdict") or {}
+    evaluation = row.get("evaluation") or {}
+    out = {k: row.get(k) for k in ("step", "event_id", "market_id", "bucket", "station", "local_date", "reason", "detail", "paper_fills") if k in row}
+    if verdict:
+        out["verdict"] = verdict.get("status")
+        out["rule"] = verdict.get("rule")
+        out["buy_outcome"] = verdict.get("buy_outcome")
+    for key in ("ask", "ask_size", "bid", "net_edge", "quantity"):
+        if evaluation.get(key) is not None:
+            out[key] = evaluation[key]
+    return out
+
+
+def _compact_event(row: dict[str, Any]) -> dict[str, Any]:
+    out = {k: row.get(k) for k in ("step", "event_id", "title", "legs", "reason", "detail", "observation_status", "observation_detail") if k in row}
+    spec = row.get("spec") or {}
+    out["spec"] = {k: spec.get(k) for k in ("station_icao", "local_date", "unit", "timezone", "resolution_source")} if spec else None
+    high = row.get("running_high") or {}
+    out["running_high"] = {k: high.get(k) for k in ("running_high_low", "running_high_high", "running_high_all_reports_high", "latest_temp_high", "latest_observed_at_local", "trend", "day_complete", "hourly_observations")} if high else None
+    return out
+
+
 def build_report(summary: TrackSummary, *, mode: str, measured_at: str, run_id: str, register: DeadBucketRegister) -> dict[str, Any]:
     m = summary.metrics
     return to_jsonable(
@@ -92,14 +116,15 @@ def build_report(summary: TrackSummary, *, mode: str, measured_at: str, run_id: 
             "positions_opened": m.get("positions_opened"),
             "positions_settled_this_run": m.get("positions_settled_this_run"),
             "dead_buckets_without_taker_ask": m.get("dead_buckets_without_taker_ask"),
+            "resting_only_best_bid": m.get("resting_only_best_bid"),
             "resting_only_opportunities": m.get("resting_only_opportunities"),
             "refused_by_reason": dict(sorted(summary.refused_by_reason.items())),
             "register": m.get("register"),
             "verdict": m.get("verdict"),
             "verdict_certain_yes": m.get("verdict_certain_yes"),
             "running_highs": m.get("running_highs"),
-            "events": m.get("weather_events"),
-            "measurements": m.get("measurements"),
+            "events": [_compact_event(row) for row in (m.get("weather_events") or [])],
+            "measurements": [_compact_measurement(row) for row in (m.get("measurements") or [])],
             "records": [r.as_dict() for r in register.records.values()],
             "fills": summary.fills,
             "ledger": summary.ledger,

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T23:30:34.734Z",
+  "generated_at": "2026-09-15T01:25:08.293Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -99,6 +99,12 @@
       "measured_at": "2026-09-14T23:30:27.427601+00:00",
       "paper_pnl": null
     },
+    "paper/ledger_weather_dead_bucket.json": {
+      "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
+      "source": "ledger",
+      "measured_at": "2026-09-15T01:24:56.162929+00:00",
+      "paper_pnl": null
+    },
     "scoreboard_fixtures.json": {
       "target": "public/artifacts/scoreboard_fixtures.json",
       "source": "measured",
@@ -117,6 +123,12 @@
       "measured_at": "2026-09-14T23:30:08.244995+00:00",
       "paper_pnl": -3.2721
     },
+    "scoreboard_weather_dead_bucket.json": {
+      "target": "public/artifacts/scoreboard_weather_dead_bucket.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:24:45.532357+00:00",
+      "paper_pnl": 0
+    },
     "specialist_scoreboard_fixtures.json": {
       "target": "public/artifacts/specialist_scoreboard_fixtures.json",
       "source": "measured",
@@ -133,6 +145,12 @@
       "target": "public/artifacts/specialist_scoreboard_network.json",
       "source": "measured",
       "measured_at": "2026-09-14T23:30:08.244995+00:00",
+      "paper_pnl": null
+    },
+    "weather_dead_bucket_latest.json": {
+      "target": "public/artifacts/weather_dead_bucket_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:24:45.532357+00:00",
       "paper_pnl": null
     }
   }
