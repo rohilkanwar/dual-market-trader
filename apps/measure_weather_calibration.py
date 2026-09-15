@@ -53,6 +53,37 @@ SCOREBOARD_NAME = "scoreboard_weather_calibration.json"
 REPORT_NAME = DETAIL_FILE
 
 
+_LANE_KEYS = ("reason", "side", "touch_price", "quantity", "paper_fills", "n_calibration_days")
+
+
+def _compact_measurements(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Per-event rows for the report: full ladder, but only each lane's outcome per leg."""
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        compact = {k: v for k, v in row.items() if k not in ("ladder", "naive", "calibrated")}
+        for lane in ("naive", "calibrated"):
+            est = row.get(lane)
+            if isinstance(est, dict):
+                compact[lane] = {k: est.get(k) for k in ("mean", "sigma", "adequate", "n_calibration_days", "sigma_source") if k in est}
+        if isinstance(row.get("ladder"), list):
+            compact["ladder"] = [
+                {
+                    **{k: leg.get(k) for k in ("bucket", "market_id", "mid", "p_naive", "p_calibrated")},
+                    "lanes": {
+                        lane: ({k: ev.get(k) for k in _LANE_KEYS if k in ev} if ev.get("reason") == "trade" else {"reason": ev.get("reason")})
+                        for lane, ev in (leg.get("lanes") or {}).items()
+                    },
+                }
+                for leg in row["ladder"]
+            ]
+        out.append(compact)
+    return out
+
+
+def _ledger_without_positions(ledger: dict[str, Any]) -> dict[str, Any]:
+    return {k: v for k, v in ledger.items() if k != "positions"}
+
+
 def build_report(
     summaries: dict[str, TrackSummary],
     *,
@@ -76,10 +107,11 @@ def build_report(
             "open_admissions": len(register.open_admissions(lane)),
             "settled_admissions": len(register.settled_admissions(lane)),
             "settled": cal.get("verdict", {}).get(lane),
-            "ledger": s.ledger,
+            "ledger": _ledger_without_positions(s.ledger),
         }
         for lane, s in summaries.items()
     }
+    settled = [a.as_dict() for a in register.settled_admissions()]
     return to_jsonable(
         {
             "schema_version": "1.0.0",
@@ -123,10 +155,13 @@ def build_report(
             "lanes": lanes,
             "verdict": cal.get("verdict"),
             "calibration": {**cal.get("calibration", {}), "per_city": cal.get("calibration_detail", [])},
-            "measurements": cal.get("measurements"),
-            "city_days": [r.as_dict() for r in register.city_days.values()],
-            "admissions": [a.as_dict() for a in register.admissions.values()],
-            "fills": {lane: s.fills for lane, s in summaries.items()},
+            "measurements": _compact_measurements(cal.get("measurements") or []),
+            "settled_admissions": settled,
+            "detail_files": {
+                "register": f"{TRACK_FAMILY}/register.json (every priced city-day with its recorded forecasts, every open and settled admission)",
+                "calibration_store": f"{TRACK_FAMILY}/calibration_store.json (every settled city-day sample)",
+                "ledgers": [f"paper/ledger_{track}.json" for track in WEATHER_TRACKS],
+            },
             "not_validated": [
                 "the paper A/B is forward-only: admissions settle the next day, so the verdict stays UNDERPOWERED until the loop has run daily long enough for both lanes to clear the pre-registered floor",
                 "calibration samples use the previous-runs archive (run issued ~24 h earlier); live admissions use the freshest run at pricing time, so calibration lead is somewhat longer than trading lead",
@@ -157,6 +192,13 @@ def _print(summaries: dict[str, TrackSummary], report: dict[str, Any]) -> None:
         f"(floor {c.get('min_calibration_samples')}) range={c.get('date_range')} by_source={c.get('samples_by_forecast_source')} "
         f"best_model_by_city={c.get('best_model_by_city_count')}"
     )
+    wf = c.get("walk_forward_skill") or {}
+    if wf.get("n_city_days"):
+        print(
+            f"walk-forward forecast skill vs settled bucket (n={wf['n_city_days']} city-days; not the pre-registered test): "
+            f"MAE(F) naive={wf['mae_f']['naive']} cal={wf['mae_f']['calibrated']}  top-bucket hit naive={wf['top_bucket_hit']['naive']} "
+            f"cal={wf['top_bucket_hit']['calibrated']}  log score naive={wf['log_score']['naive']} cal={wf['log_score']['calibrated']}"
+        )
     header = f"{'lane':<12}{'cand':>6}{'adm':>6}{'fills':>7}{'open':>6}{'settled':>9}{'contracts':>11}{'net_ev':>10}{'ev/ct':>9}  ci95 ev/ct"
     print(header)
     print("-" * len(header))

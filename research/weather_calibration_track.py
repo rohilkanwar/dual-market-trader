@@ -70,6 +70,7 @@ from strategies.weather_calibration import (
     calibrated_ensemble,
     ladder_probabilities,
     naive_ensemble,
+    walk_forward_skill,
 )
 from strategies.weather_types import CityRegistry, WeatherEvent
 
@@ -545,6 +546,7 @@ async def run_weather_cycle(
     verdict = ab_verdict(register.settled_records(), parameters=params)
     calibration_summary = store.summary(parameters=params)
     per_city = calibration_summary.pop("per_city")
+    calibration_summary["walk_forward_skill"] = walk_forward_skill(store, parameters=params)
     register_counts = {
         "city_days": len(register.city_days),
         "city_days_pending": len(register.pending_city_days()),

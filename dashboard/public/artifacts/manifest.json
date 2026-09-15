@@ -176,6 +176,30 @@
       "source": "measured",
       "measured_at": "2026-09-15T01:32:32.130533+00:00",
       "paper_pnl": null
+    },
+    "paper/ledger_weather_calibrated_ensemble.json": {
+      "target": "public/artifacts/paper_ledger_weather_calibrated_ensemble.json",
+      "source": "ledger",
+      "measured_at": "2026-09-15T01:29:00.175840+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_weather_naive_ensemble.json": {
+      "target": "public/artifacts/paper_ledger_weather_naive_ensemble.json",
+      "source": "ledger",
+      "measured_at": "2026-09-15T01:29:00.173873+00:00",
+      "paper_pnl": null
+    },
+    "scoreboard_weather_calibration.json": {
+      "target": "public/artifacts/scoreboard_weather_calibration.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:28:46.260357+00:00",
+      "paper_pnl": -55.1724
+    },
+    "weather_calibration_latest.json": {
+      "target": "public/artifacts/weather_calibration_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:28:46.260357+00:00",
+      "paper_pnl": null
     }
   }
 }

@@ -166,6 +166,26 @@ jobs:
             echo "measure_weather_buckets started with live flags" && exit 1
           fi
           test ! -e /tmp/weather-should-not-exist/scoreboard_weather_buckets.json
+      - name: Weather calibration A/B - fixture replay proves the two-lane arithmetic and the pre-registered verdict
+        run: |
+          uv run python -m apps.measure_weather_calibration --no-persist --artifact-dir artifacts
+          uv run python - <<'EOF'
+          import json
+          a = json.load(open("artifacts/scoreboard_weather_calibration.json"))
+          assert a["meta"]["source"] == "measured" and a["meta"]["track_family"] == "weather_calibration", a["meta"]
+          assert a["meta"]["pnl_source"] == "core.ledger.PaperLedger"
+          assert {t["track"] for t in a["tracks"]} == {"weather_naive_ensemble", "weather_calibrated_ensemble"}
+          r = json.load(open("artifacts/weather_calibration_latest.json"))
+          assert r["paper_only"] is True and r["status"] == "fixture_synthetic", r["status"]
+          assert r["experiment"]["forecasts"]["paid_key_used"] is False
+          v = r["verdict"]
+          assert v["status"] == "UNDERPOWERED" and v["pre_registered"]["min_settled_per_lane"] == 50, v
+          assert v["naive"]["settled"] == 9 and v["calibrated"]["settled"] == 7, v
+          assert r["lanes"]["calibrated"]["refused_by_reason"]["calibration_underpowered"] == 11, r["lanes"]["calibrated"]["refused_by_reason"]
+          assert r["calibration"]["cities_adequate"] == 2 and r["calibration"]["samples"] == 73, r["calibration"]
+          assert r["not_validated"], "report must list what is not validated"
+          print("weather calibration ok:", v["status"], v["sample_callout"])
+          EOF
       - name: Gate report is emitted and the gated track never ordered on a refused pair
         run: |
           uv run python - <<'EOF'

@@ -46,6 +46,7 @@ from strategies.weather_calibration import (
     ladder_probabilities,
     naive_ensemble,
     normal_cdf,
+    walk_forward_skill,
 )
 from strategies.weather_types import (
     CityRegistry,
@@ -181,6 +182,16 @@ def test_calibration_store_learns_bias_variance_hit_rate_and_weights() -> None:
     assert abs(estimate.mean - 77.0) < 0.6 and estimate.adequate and estimate.n_calibration_days == 30
     naive = naive_ensemble({"gfs_seamless": 80.0, "ecmwf_ifs025": 77.1, "gem_seamless": 72.0}, sigma=3.0, sigma_source="test")
     assert abs(naive.mean - 76.3667) < 1e-3 and naive.sigma == 3.0
+
+
+def test_walk_forward_skill_scores_only_days_with_prior_history_and_rewards_the_calibrated_lane() -> None:
+    store = _biased_store(40)
+    skill = walk_forward_skill(store, parameters=PARAMS)
+    assert skill["n_city_days"] == 20 and skill["skipped_thin_history"] == 20 and skill["skipped_open_ended_truth"] == 0
+    assert skill["mae_f"]["calibrated"] < skill["mae_f"]["naive"]
+    assert skill["log_score"]["calibrated"] > skill["log_score"]["naive"] and skill["brier"]["calibrated"] < skill["brier"]["naive"]
+    assert 0.0 <= skill["top_bucket_hit"]["calibrated"] <= 1.0 and "not the pre-registered test" in skill["note"].lower()
+    assert walk_forward_skill(CalibrationStore(), parameters=PARAMS)["n_city_days"] == 0
 
 
 def test_calibration_cutoff_is_strictly_before_and_shrinks_to_equal_weights_on_thin_history() -> None:

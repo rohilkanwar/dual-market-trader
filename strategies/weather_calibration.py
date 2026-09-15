@@ -532,6 +532,68 @@ class CalibrationStore:
         return cls()
 
 
+def walk_forward_skill(store: CalibrationStore, *, parameters: WeatherParameters | None = None, ladder_half_width: int = 5) -> dict[str, Any]:
+    """Out-of-sample-in-time forecast skill of both lanes against the settled bucket.
+
+    For every settled city-day whose city already had an adequate history *before*
+    that day, both ensembles are built from the earlier days only and scored on a
+    synthetic ladder (``2 * ladder_half_width + 1`` closed buckets of the city's
+    width centred on the settled bucket, plus two open ends). This is skill
+    against the truth, **not** against the market, and is not the pre-registered
+    test; it says whether the calibration improves the forecast at all.
+    Open-ended settled buckets are skipped (no midpoint to centre on).
+    """
+    params = parameters or WeatherParameters()
+    n = 0
+    skipped_open = skipped_thin = 0
+    acc = {"mae_f": [0.0, 0.0], "top_bucket_hit": [0, 0], "p_settled": [0.0, 0.0], "log_score": [0.0, 0.0], "brier": [0.0, 0.0]}
+    sigma_cache: dict[tuple[str, str], tuple[float, str]] = {}
+    for city in store.cities():
+        for sample in store.city_samples(city, min_models=params.min_models_per_sample):
+            if sample.truth_lo is None or sample.truth_hi is None:
+                skipped_open += 1
+                continue
+            day = sample.day
+            calibration = store.city_calibration(city, unit=sample.unit, precision=sample.precision, parameters=params, before=day)
+            if not calibration.adequate:
+                skipped_thin += 1
+                continue
+            key = (sample.unit, sample.date)
+            if key not in sigma_cache:
+                sigma_cache[key] = store.pooled_naive_sigma(unit=sample.unit, parameters=params, before=day)
+            forecasts = {m: v for m, v in sample.forecasts.items() if m in params.models}
+            naive = naive_ensemble(forecasts, sigma=sigma_cache[key][0], sigma_source=sigma_cache[key][1])
+            cal = calibrated_ensemble(calibration, forecasts)
+            width = sample.truth_hi - sample.truth_lo + 1
+            lo0 = sample.truth_lo - ladder_half_width * width
+            closed = [TemperatureBucket(lo0 + i * width, lo0 + i * width + width - 1, sample.unit, f"b{i}") for i in range(2 * ladder_half_width + 1)]
+            ladder = [TemperatureBucket(None, lo0 - 1, sample.unit, "low"), *closed, TemperatureBucket(lo0 + len(closed) * width, None, sample.unit, "high")]
+            truth_label = f"b{ladder_half_width}"
+            to_f = F_PER_C if sample.unit == "C" else 1.0
+            for idx, estimate in enumerate((naive, cal)):
+                probs = ladder_probabilities(estimate.mean, estimate.sigma, ladder, sample.precision)
+                p = probs[truth_label]
+                acc["mae_f"][idx] += abs(estimate.mean - sample.truth_value) * to_f
+                acc["top_bucket_hit"][idx] += int(max(probs, key=probs.get) == truth_label)
+                acc["p_settled"][idx] += p
+                acc["log_score"][idx] += math.log(max(p, 1e-6))
+                acc["brier"][idx] += sum((probs[b.label] - (1.0 if b.label == truth_label else 0.0)) ** 2 for b in ladder)
+            n += 1
+    lanes = ("naive", "calibrated")
+    out: dict[str, Any] = {
+        "n_city_days": n,
+        "skipped_open_ended_truth": skipped_open,
+        "skipped_thin_history": skipped_thin,
+        "note": (
+            "Forecast skill vs the settled bucket, statistics from strictly earlier days only; synthetic ladder centred on the "
+            "settled bucket. Not the pre-registered test (which is settled paper EV vs the market)."
+        ),
+    }
+    for metric, totals in acc.items():
+        out[metric] = {lane: (_r(totals[i] / n, 4) if n else None) for i, lane in enumerate(lanes)}
+    return out
+
+
 def _count(values: Any) -> dict[str, int]:
     out: dict[str, int] = {}
     for v in values:
@@ -802,4 +864,5 @@ __all__ = [
     "lane_outcome",
     "naive_ensemble",
     "normal_cdf",
+    "walk_forward_skill",
 ]
