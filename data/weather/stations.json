@@ -1,0 +1,350 @@
+{
+  "_comment": "Settlement stations seen on Polymarket daily-temperature markets (Gamma tag 103040) on 2026-09-15. Coordinates from the public aviationweather.gov stationinfo endpoint (no key). Timezones are resolved by Open-Meteo (timezone=auto) at fetch time and recorded per city-day; stations missing here are looked up live and refused when the lookup fails.",
+  "fetched_at": "2026-09-15",
+  "source": "https://aviationweather.gov/api/data/stationinfo",
+  "stations": {
+    "CYYZ": {
+      "country": "CA",
+      "elevation_m": 171,
+      "lat": 43.679,
+      "lon": -79.629,
+      "name": "Toronto/Pearson Intl"
+    },
+    "EDDM": {
+      "country": "DE",
+      "elevation_m": 445,
+      "lat": 48.348,
+      "lon": 11.813,
+      "name": "Munich Intl"
+    },
+    "EFHK": {
+      "country": "FI",
+      "elevation_m": 56,
+      "lat": 60.327,
+      "lon": 24.957,
+      "name": "Helsinki/Vantaa Arpt"
+    },
+    "EGLC": {
+      "country": "GB",
+      "elevation_m": 10,
+      "lat": 51.505,
+      "lon": 0.055,
+      "name": "London City Arpt"
+    },
+    "EHAM": {
+      "country": "NL",
+      "elevation_m": -2,
+      "lat": 52.315,
+      "lon": 4.79,
+      "name": "Amsterdam/Schiphol Arpt"
+    },
+    "EPWA": {
+      "country": "PL",
+      "elevation_m": 107,
+      "lat": 52.163,
+      "lon": 20.961,
+      "name": "Warsaw/Chopin Arpt"
+    },
+    "FACT": {
+      "country": "ZA",
+      "elevation_m": 48,
+      "lat": -33.965,
+      "lon": 18.602,
+      "name": "Capetown Intl"
+    },
+    "KATL": {
+      "country": "US",
+      "elevation_m": 309,
+      "lat": 33.62972,
+      "lon": -84.44223,
+      "name": "Atlanta/Hartsfield-Jackson Intl"
+    },
+    "KAUS": {
+      "country": "US",
+      "elevation_m": 148,
+      "lat": 30.1831,
+      "lon": -97.68063,
+      "name": "Austin/Bergstrom Intl"
+    },
+    "KBKF": {
+      "country": "US",
+      "elevation_m": 1703,
+      "lat": 39.713,
+      "lon": -104.758,
+      "name": "Buckley SFB"
+    },
+    "KDAL": {
+      "country": "US",
+      "elevation_m": 148,
+      "lat": 32.83836,
+      "lon": -96.83584,
+      "name": "Dallas/Love Fld"
+    },
+    "KHOU": {
+      "country": "US",
+      "elevation_m": 13,
+      "lat": 29.64582,
+      "lon": -95.28214,
+      "name": "Houston/Hobby Arpt"
+    },
+    "KLAX": {
+      "country": "US",
+      "elevation_m": 30,
+      "lat": 33.93817,
+      "lon": -118.3866,
+      "name": "Los Angeles Intl"
+    },
+    "KLGA": {
+      "country": "US",
+      "elevation_m": 9,
+      "lat": 40.77945,
+      "lon": -73.88027,
+      "name": "New York/La Guardia Arpt"
+    },
+    "KMIA": {
+      "country": "US",
+      "elevation_m": 1,
+      "lat": 25.78806,
+      "lon": -80.31692,
+      "name": "Miami Intl"
+    },
+    "KORD": {
+      "country": "US",
+      "elevation_m": 202,
+      "lat": 41.96017,
+      "lon": -87.93161,
+      "name": "Chicago/O'Hare Intl"
+    },
+    "KSEA": {
+      "country": "US",
+      "elevation_m": 115,
+      "lat": 47.44467,
+      "lon": -122.31442,
+      "name": "Seattle-Tacoma Intl"
+    },
+    "KSFO": {
+      "country": "US",
+      "elevation_m": 2,
+      "lat": 37.61961,
+      "lon": -122.36561,
+      "name": "San Francisco Intl"
+    },
+    "LEMD": {
+      "country": "ES",
+      "elevation_m": 589,
+      "lat": 40.466,
+      "lon": -3.555,
+      "name": "Madrid/Barajas Arpt"
+    },
+    "LFPB": {
+      "country": "FR",
+      "elevation_m": 50,
+      "lat": 48.967,
+      "lon": 2.428,
+      "name": "Paris/Le Bourge Arpt"
+    },
+    "LIMC": {
+      "country": "IT",
+      "elevation_m": 221,
+      "lat": 45.631,
+      "lon": 8.728,
+      "name": "Milan/Malpensa Arpt"
+    },
+    "LLBG": {
+      "country": "IL",
+      "elevation_m": 35,
+      "lat": 32.011,
+      "lon": 34.887,
+      "name": "Tel Aviv/Ben Gurion Arpt"
+    },
+    "LTAC": {
+      "country": "TR",
+      "elevation_m": 952,
+      "lat": 40.128,
+      "lon": 32.995,
+      "name": "Ankara/Esenbo\u011fa Intl"
+    },
+    "LTFM": {
+      "country": "TR",
+      "elevation_m": 99,
+      "lat": 41.262,
+      "lon": 28.74,
+      "name": "Istanbul Arpt"
+    },
+    "MMMX": {
+      "country": "MX",
+      "elevation_m": 2224,
+      "lat": 19.436,
+      "lon": -99.072,
+      "name": "Mexico City Intl"
+    },
+    "MPMG": {
+      "country": "PA",
+      "elevation_m": 6,
+      "lat": 8.967,
+      "lon": -79.555,
+      "name": "Panama/Gelabert Intl"
+    },
+    "NZWN": {
+      "country": "NZ",
+      "elevation_m": 12,
+      "lat": -41.331,
+      "lon": 174.806,
+      "name": "Wellington Intl"
+    },
+    "OEJN": {
+      "country": "SA",
+      "elevation_m": 8,
+      "lat": 21.685,
+      "lon": 39.166,
+      "name": "Jeddah/King Abdulaziz Intl"
+    },
+    "OPKC": {
+      "country": "PK",
+      "elevation_m": 20,
+      "lat": 24.902,
+      "lon": 67.139,
+      "name": "Karachi/Jinnah Intl"
+    },
+    "RCSS": {
+      "country": "TW",
+      "elevation_m": 8,
+      "lat": 25.069,
+      "lon": 121.552,
+      "name": "Taipei/Songshan Arpt"
+    },
+    "RJTT": {
+      "country": "JP",
+      "elevation_m": 5,
+      "lat": 35.553,
+      "lon": 139.781,
+      "name": "Tokyo/Haneda Intl"
+    },
+    "RKPK": {
+      "country": "KR",
+      "elevation_m": 3,
+      "lat": 35.179,
+      "lon": 128.938,
+      "name": "Busan/Gimhae Intl"
+    },
+    "RKSI": {
+      "country": "KR",
+      "elevation_m": 7,
+      "lat": 37.469,
+      "lon": 126.451,
+      "name": "Seoul/Incheon Intl"
+    },
+    "RPLL": {
+      "country": "PH",
+      "elevation_m": 15,
+      "lat": 14.507,
+      "lon": 121.004,
+      "name": "Manila/Aquino Intl"
+    },
+    "SAEZ": {
+      "country": "AR",
+      "elevation_m": 16,
+      "lat": -34.822,
+      "lon": -58.536,
+      "name": "Buenos Aires/Pistarini Arpt"
+    },
+    "SBGR": {
+      "country": "BR",
+      "elevation_m": 745,
+      "lat": -23.432,
+      "lon": -46.469,
+      "name": "Sao Paulo Intl"
+    },
+    "UUWW": {
+      "country": "RU",
+      "elevation_m": 195,
+      "lat": 55.592,
+      "lon": 37.261,
+      "name": "Moscow/Vnukovo Arpt"
+    },
+    "VILK": {
+      "country": "IN",
+      "elevation_m": 121,
+      "lat": 26.761,
+      "lon": 80.889,
+      "name": "Lucknow/Singh Arpt"
+    },
+    "WMKK": {
+      "country": "MY",
+      "elevation_m": 21,
+      "lat": 2.747,
+      "lon": 101.714,
+      "name": "Kuala Lumpur Intl"
+    },
+    "WSSS": {
+      "country": "SG",
+      "elevation_m": 17,
+      "lat": 1.368,
+      "lon": 103.982,
+      "name": "Singapore/Changi Intl"
+    },
+    "ZBAA": {
+      "country": "CN",
+      "elevation_m": 31,
+      "lat": 40.082,
+      "lon": 116.603,
+      "name": "Beijing Intl"
+    },
+    "ZGGG": {
+      "country": "CN",
+      "elevation_m": 11,
+      "lat": 23.392,
+      "lon": 113.307,
+      "name": "Guangzhou/Baiyun Intl"
+    },
+    "ZGSZ": {
+      "country": "CN",
+      "elevation_m": 18,
+      "lat": 22.639,
+      "lon": 113.803,
+      "name": "Shenzhen/Boan Intl"
+    },
+    "ZHCC": {
+      "country": "CN",
+      "elevation_m": 149,
+      "lat": 34.52,
+      "lon": 113.834,
+      "name": "Zhengzhou/Xinzheng Arpt"
+    },
+    "ZHHH": {
+      "country": "CN",
+      "elevation_m": 33,
+      "lat": 30.783,
+      "lon": 114.205,
+      "name": "Wuhan/Tianhe Intl"
+    },
+    "ZSPD": {
+      "country": "CN",
+      "elevation_m": 4,
+      "lat": 31.146,
+      "lon": 121.8,
+      "name": "Shanghai/Pudong Intl"
+    },
+    "ZSQD": {
+      "country": "CN",
+      "elevation_m": 2,
+      "lat": 36.362,
+      "lon": 120.087,
+      "name": "Qingdao/Jiaodong Arpt"
+    },
+    "ZUCK": {
+      "country": "CN",
+      "elevation_m": 416,
+      "lat": 29.718,
+      "lon": 106.639,
+      "name": "Chongqing/Jiangbei Intl"
+    },
+    "ZUUU": {
+      "country": "CN",
+      "elevation_m": 494,
+      "lat": 30.576,
+      "lon": 103.95,
+      "name": "Chengdu/Shuangliu Intl"
+    }
+  }
+}

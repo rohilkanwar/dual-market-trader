@@ -44,7 +44,14 @@ def _sum(values: list[Any]) -> Decimal:
     return sum((_dec(v) for v in values), ZERO).quantize(Q)
 
 
-def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
+REGISTER_DETAIL_FILES = {
+    "tennis_basis": "tennis_basis_latest.json",
+    "weather_bucket_edge": "weather_buckets_latest.json",
+    "weather_dead_bucket": "weather_report_<mode>.json",
+}
+
+
+def _slim_metrics(metrics: dict[str, Any], track: str | None = None) -> dict[str, Any]:
     """Per-pair detail lives in the gate report; the scoreboard keeps counts and pointers."""
     slim = dict(metrics)
     if "gate_results" in slim:
@@ -65,10 +72,11 @@ def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
             by_reason[veto["reason"]] = by_reason.get(veto["reason"], 0) + 1
         slim["vetoed_candidates"] = {"count": len(vetoes), "by_reason": dict(sorted(by_reason.items()))}
     if isinstance(slim.get("records"), list):
-        # Register-style lanes (tennis_basis gap register, weather_dead_bucket
-        # position register): per-record detail lives in the lane's own report,
-        # named by ``detail_file`` when the lane declares one.
-        detail = str(slim.get("detail_file") or "tennis_basis_latest.json")
+        # Register-style lanes: prefer lane-declared detail_file, else known map.
+        detail = str(
+            slim.get("detail_file")
+            or REGISTER_DETAIL_FILES.get(track or "", "tennis_basis_latest.json")
+        )
         slim["records"] = {"count": len(slim["records"]), "detail": detail}
         if isinstance(slim.get("measurements"), list):
             slim["measurements"] = {"count": len(slim["measurements"]), "detail": detail}
@@ -91,7 +99,7 @@ def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
 
 def _track_row(summary: TrackSummary) -> dict[str, Any]:
     row = {k: v for k, v in summary.as_dict().items() if k not in ("fills", "edges")}
-    row["metrics"] = _slim_metrics(row["metrics"])
+    row["metrics"] = _slim_metrics(row["metrics"], summary.track)
     if is_weather_track(summary.track):
         # Per-station / per-bucket rows belong in weather_report_<mode>.json; the
         # board keeps counts. The family stamp lets the dashboard place the row
