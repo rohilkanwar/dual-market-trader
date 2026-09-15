@@ -27,6 +27,12 @@
       "measured_at": "2026-09-14T23:30:27.428385+00:00",
       "paper_pnl": null
     },
+    "paper/ledger_fade_the_tourist.json": {
+      "target": "public/artifacts/paper_ledger_fade_the_tourist.json",
+      "source": "ledger",
+      "measured_at": "2026-09-14T23:20:02.639828+00:00",
+      "paper_pnl": null
+    },
     "paper/ledger_gated_cross_venue.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue.json",
       "source": "ledger",
@@ -99,10 +105,28 @@
       "measured_at": "2026-09-14T23:30:27.427601+00:00",
       "paper_pnl": null
     },
+    "paper/ledger_weather_bucket_edge.json": {
+      "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
+      "source": "ledger",
+      "measured_at": "2026-09-15T01:33:32.756082+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_weather_calibrated_ensemble.json": {
+      "target": "public/artifacts/paper_ledger_weather_calibrated_ensemble.json",
+      "source": "ledger",
+      "measured_at": "2026-09-15T01:29:00.175840+00:00",
+      "paper_pnl": null
+    },
     "paper/ledger_weather_dead_bucket.json": {
       "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
       "source": "ledger",
       "measured_at": "2026-09-15T01:39:31.972610+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_weather_naive_ensemble.json": {
+      "target": "public/artifacts/paper_ledger_weather_naive_ensemble.json",
+      "source": "ledger",
+      "measured_at": "2026-09-15T01:29:00.173873+00:00",
       "paper_pnl": null
     },
     "scoreboard_fixtures.json": {
@@ -123,11 +147,29 @@
       "measured_at": "2026-09-14T23:30:08.244995+00:00",
       "paper_pnl": -3.2721
     },
+    "scoreboard_tourist_fade.json": {
+      "target": "public/artifacts/scoreboard_tourist_fade.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T23:19:58.741525+00:00",
+      "paper_pnl": -1.1787
+    },
     "scoreboard_weather.json": {
       "target": "public/artifacts/scoreboard_weather.json",
       "source": "measured",
       "measured_at": "2026-09-15T01:39:08.829234+00:00",
       "paper_pnl": 0
+    },
+    "scoreboard_weather_buckets.json": {
+      "target": "public/artifacts/scoreboard_weather_buckets.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:32:32.130533+00:00",
+      "paper_pnl": -71.8851
+    },
+    "scoreboard_weather_calibration.json": {
+      "target": "public/artifacts/scoreboard_weather_calibration.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:28:46.260357+00:00",
+      "paper_pnl": -55.1724
     },
     "specialist_scoreboard_fixtures.json": {
       "target": "public/artifacts/specialist_scoreboard_fixtures.json",
@@ -147,6 +189,25 @@
       "measured_at": "2026-09-14T23:30:08.244995+00:00",
       "paper_pnl": null
     },
+    "tourist_fade_report_latest.json": {
+      "target": "public/artifacts/tourist_fade_report_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-14T23:19:58.741525+00:00",
+      "paper_pnl": null,
+      "headline": "Fade EV after fees: FAIL (all regimes) / PASS (favourite >= 70c) / FAIL (excluding final minutes); strong beats weak PASS; tourist flow loses PASS (adverse selection not detected). Live track: 60 markets, 3 clusters faded, 3 paper fills."
+    },
+    "weather_buckets_latest.json": {
+      "target": "public/artifacts/weather_buckets_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:32:32.130533+00:00",
+      "paper_pnl": null
+    },
+    "weather_calibration_latest.json": {
+      "target": "public/artifacts/weather_calibration_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:28:46.260357+00:00",
+      "paper_pnl": null
+    },
     "weather_report_latest.json": {
       "target": "public/artifacts/weather_report_latest.json",
       "source": "measured",
@@ -157,48 +218,6 @@
       "target": "public/artifacts/weather_report_network.json",
       "source": "measured",
       "measured_at": "2026-09-15T01:39:08.829234+00:00",
-      "paper_pnl": null
-    },
-    "paper/ledger_weather_bucket_edge.json": {
-      "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
-      "source": "ledger",
-      "measured_at": "2026-09-15T01:33:32.756082+00:00",
-      "paper_pnl": null
-    },
-    "scoreboard_weather_buckets.json": {
-      "target": "public/artifacts/scoreboard_weather_buckets.json",
-      "source": "measured",
-      "measured_at": "2026-09-15T01:32:32.130533+00:00",
-      "paper_pnl": -71.8851
-    },
-    "weather_buckets_latest.json": {
-      "target": "public/artifacts/weather_buckets_latest.json",
-      "source": "measured",
-      "measured_at": "2026-09-15T01:32:32.130533+00:00",
-      "paper_pnl": null
-    },
-    "paper/ledger_weather_calibrated_ensemble.json": {
-      "target": "public/artifacts/paper_ledger_weather_calibrated_ensemble.json",
-      "source": "ledger",
-      "measured_at": "2026-09-15T01:29:00.175840+00:00",
-      "paper_pnl": null
-    },
-    "paper/ledger_weather_naive_ensemble.json": {
-      "target": "public/artifacts/paper_ledger_weather_naive_ensemble.json",
-      "source": "ledger",
-      "measured_at": "2026-09-15T01:29:00.173873+00:00",
-      "paper_pnl": null
-    },
-    "scoreboard_weather_calibration.json": {
-      "target": "public/artifacts/scoreboard_weather_calibration.json",
-      "source": "measured",
-      "measured_at": "2026-09-15T01:28:46.260357+00:00",
-      "paper_pnl": -55.1724
-    },
-    "weather_calibration_latest.json": {
-      "target": "public/artifacts/weather_calibration_latest.json",
-      "source": "measured",
-      "measured_at": "2026-09-15T01:28:46.260357+00:00",
       "paper_pnl": null
     }
   }

@@ -271,6 +271,31 @@ jobs:
             echo "measure_tennis_whale started with live flags" && exit 1
           fi
           test ! -e /tmp/tennis-should-not-exist/scoreboard_tennis_whale.json
+      - name: Fade-the-tourist fixture run emits report, scoreboard, ledger and run record
+        run: |
+          uv run python -m apps.measure_tourist_fade --no-persist --artifact-dir artifacts/tourist-ci
+          uv run python - <<'EOF'
+          import json, glob
+          r = json.load(open("artifacts/tourist-ci/tourist_fade_report_latest.json"))
+          assert r["paper_only"] is True and r["kind"] == "fade_the_tourist_report" and r["universe"] == "tennis"
+          v = {row["check"]: row["verdict"] for row in r["verdict_table"]}
+          # Synthetic fixture: strong regime (favourite >= 70c) passes, pooled result does not, tourists lose.
+          assert v["strong_regime_fade_ev_positive"] == "PASS" and v["fade_ev_positive_after_fees"] == "FAIL", v
+          assert v["tourist_flow_loses"] == "PASS" and r["ex_post"]["adverse_selection"]["detected"] is False, v
+          assert r["adverse_selection_fail_risk"], "report must document the adverse-selection failure mode"
+          assert r["live_track"]["paper_fills"] == 2 and r["live_track"]["refused_by_reason"]["one_sided_book"] == 1
+          s = json.load(open("artifacts/tourist-ci/scoreboard_tourist_fade.json"))
+          assert s["meta"]["source"] == "measured" and s["meta"]["kind"] == "fade_the_tourist" and s["meta"]["track_family"] == "tourist_fade"
+          assert s["meta"]["pnl_source"] == "core.ledger.PaperLedger" and [t["track"] for t in s["tracks"]] == ["fade_the_tourist"]
+          assert glob.glob("artifacts/tourist-ci/paper/runs/*-tourist-*.json")
+          print(r["headline"])
+          EOF
+      - name: Fail-closed check - fade-the-tourist measurement refuses live flags
+        run: |
+          if TRADING_MODE=live ENABLE_LIVE_TRADING=true uv run python -m apps.measure_tourist_fade --no-persist --artifact-dir /tmp/tourist-should-not-exist; then
+            echo "measure_tourist_fade started with live flags" && exit 1
+          fi
+          test ! -e /tmp/tourist-should-not-exist/scoreboard_tourist_fade.json
 
   dashboard:
     runs-on: ubuntu-latest
@@ -321,7 +346,7 @@ jobs:
         run: |
           node - <<'EOF'
           const fs = require('node:fs');
-          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_weather_buckets.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
+          for (const f of ['scoreboard_latest.json','scoreboard_network.json','scoreboard_fixtures.json','scoreboard_polymarket_arb.json','scoreboard_flb.json','scoreboard_tennis_whale.json','scoreboard_weather_buckets.json','scoreboard_tourist_fade.json','scoreboard_sample.json','scoreboard_weather_sample.json']) {
             const d = JSON.parse(fs.readFileSync(`public/artifacts/${f}`, 'utf8'));
             if (!d.meta || !Array.isArray(d.tracks) || !d.totals) throw new Error(`${f}: bad shape`);
             const isSample = f.includes('sample');
@@ -371,4 +396,9 @@ jobs:
             if (d.specialists.some((s) => s.category === 'other' || !s.promoted)) throw new Error(`${f}: promoted an unclassified or non-promoted row`);
             console.log(f, d.meta.mode, `specialists ${d.specialists.length}, follows ${d.totals.follow_log_resolved} resolved / ${d.totals.follow_log_pending} pending, evaluation ${pooled.status}`);
           }
+          const tourist = JSON.parse(fs.readFileSync('public/artifacts/tourist_fade_report_latest.json', 'utf8'));
+          if (tourist.kind !== 'fade_the_tourist_report' || tourist.paper_only !== true) throw new Error('tourist_fade_report_latest.json: not a paper-only fade-the-tourist report');
+          if (!tourist.adverse_selection_fail_risk) throw new Error('tourist_fade_report_latest.json: adverse-selection failure mode not documented');
+          if (tourist.mode !== 'network') throw new Error('committed fade-the-tourist report must be a network measurement');
+          console.log('tourist_fade_report_latest.json', tourist.mode, tourist.universe, tourist.headline);
           EOF

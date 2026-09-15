@@ -86,13 +86,16 @@ class SettledMarket:
     trades: list[TradeRecord] = field(default_factory=list)
     trades_truncated: bool = False
     volume: Decimal = ZERO
+    open_time: datetime | None = None
+    event_ticker: str = ""
+    title: str = ""
 
     def as_market(self) -> Market:
         return Market(
             venue=Venue.KALSHI,
             market_id=self.ticker,
-            title=self.ticker,
-            metadata={"fee_type": self.fee_type, "fee_multiplier": self.fee_multiplier, "series_ticker": self.series_ticker, "category": self.category},
+            title=self.title or self.ticker,
+            metadata={"fee_type": self.fee_type, "fee_multiplier": self.fee_multiplier, "series_ticker": self.series_ticker, "category": self.category, "event_ticker": self.event_ticker or None},
         )
 
 
@@ -148,6 +151,9 @@ def load_settled_trades(path: Path) -> tuple[list[SettledMarket], dict[str, Any]
                 trades=trades,
                 trades_truncated=bool(item.get("trades_truncated", False)),
                 volume=_dec(item.get("volume_fp") or item.get("volume")),
+                open_time=_dt(item.get("open_time")),
+                event_ticker=str(item.get("event_ticker") or ""),
+                title=str(item.get("title") or ""),
             )
         )
     meta = {k: payload.get(k) for k in ("schema_version", "source", "kalshi_env", "harvested_at", "series_requested", "settled_per_series", "max_trades_per_market")}
