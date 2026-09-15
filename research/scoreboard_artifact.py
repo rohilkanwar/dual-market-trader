@@ -65,10 +65,16 @@ def _slim_metrics(metrics: dict[str, Any]) -> dict[str, Any]:
             by_reason[veto["reason"]] = by_reason.get(veto["reason"], 0) + 1
         slim["vetoed_candidates"] = {"count": len(vetoes), "by_reason": dict(sorted(by_reason.items()))}
     if isinstance(slim.get("records"), list):
-        # tennis_basis gap register: per-record detail lives in tennis_basis_latest.json.
-        slim["records"] = {"count": len(slim["records"]), "detail": "tennis_basis_latest.json"}
+        # Register-style lanes (tennis_basis gap register, weather_dead_bucket
+        # position register): per-record detail lives in the lane's own report,
+        # named by ``detail_file`` when the lane declares one.
+        detail = str(slim.get("detail_file") or "tennis_basis_latest.json")
+        slim["records"] = {"count": len(slim["records"]), "detail": detail}
         if isinstance(slim.get("measurements"), list):
-            slim["measurements"] = {"count": len(slim["measurements"]), "detail": "tennis_basis_latest.json"}
+            slim["measurements"] = {"count": len(slim["measurements"]), "detail": detail}
+        for key in ("weather_events", "resting_only_opportunities"):
+            if isinstance(slim.get(key), list):
+                slim[key] = {"count": len(slim[key]), "detail": detail}
     if "follow_state" in slim:
         # The specialist lane's full scoreboard, follow log and per-attempt rows
         # live in specialist_scoreboard_<mode>.json; the board keeps counts.
