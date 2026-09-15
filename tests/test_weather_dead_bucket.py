@@ -13,16 +13,25 @@ from apps.measure_all import json_default, persist_run
 from core.ledger import PaperLedger
 from core.risk import RiskLimits, RiskManager
 from core.types import Market, OrderBook, Outcome, PriceLevel, Venue
-from research.scoreboard import TRACKS, VenueSnapshot
+from research.scoreboard import TRACK_LABELS, TRACKS, VenueSnapshot
 from research.weather_dead_bucket import (
+    DEAD_BUCKET_TRACKS,
+    EVALUATION_STATUSES,
+    RESERVED_WEATHER_TRACKS,
+    WEATHER_FAMILY,
+    WEATHER_REPORT_KIND,
+    WEATHER_SCOREBOARD_NAME,
     WEATHER_TRACK,
-    WEATHER_TRACKS,
+    WEATHER_TRACK_LABEL,
     DeadBucketRegister,
+    build_weather_report,
     capture_weather_snapshot,
     classify_venue_resolution,
+    evaluation_status,
     load_replay,
     measure_weather_dead_bucket,
     replay_fixture,
+    run_weather_tracks,
     weather_events,
 )
 from research.weather_obs import (
@@ -652,27 +661,63 @@ async def test_stale_observations_refuse_the_whole_event() -> None:
 # --------------------------------------------------------------------------
 # Artifacts, scoreboard wiring and CLI
 # --------------------------------------------------------------------------
-def test_weather_tracks_are_additive_and_not_part_of_the_full_board() -> None:
-    from research.weather_tracks import WEATHER_TRACKS as RESERVED_WEATHER_TRACKS
+def test_track_id_follows_the_weather_contract_and_stays_out_of_the_core_board() -> None:
+    assert WEATHER_TRACK == "weather_dead_bucket" and DEAD_BUCKET_TRACKS == (WEATHER_TRACK,)
+    assert RESERVED_WEATHER_TRACKS == ("weather_bucket_edge", "weather_dead_bucket", "weather_calibrated_ensemble")
+    assert WEATHER_FAMILY == "weather" and WEATHER_SCOREBOARD_NAME == "scoreboard_weather.json" and WEATHER_REPORT_KIND == "weather_report"
+    assert WEATHER_TRACK_LABEL == "Weather dead bucket (late-day METAR)"
+    assert WEATHER_TRACK not in TRACKS and len(TRACKS) == 13
+    # research/scoreboard.py is untouched by this branch: the label travels on the summary itself.
+    assert WEATHER_TRACK not in TRACK_LABELS or TRACK_LABELS[WEATHER_TRACK] == WEATHER_TRACK_LABEL
 
-    assert WEATHER_TRACKS == (WEATHER_TRACK,) and WEATHER_TRACK not in TRACKS
-    assert WEATHER_TRACK in RESERVED_WEATHER_TRACKS
-    assert len(TRACKS) == 13
+
+async def test_metrics_carry_the_contract_keys_and_the_runner_hook_returns_the_track() -> None:
+    summaries, ledgers = await run_weather_tracks({}, ledgers=None, use_fixtures=True, cycle_label="test")
+    (summary,) = summaries
+    assert summary.track == WEATHER_TRACK and summary.label == WEATHER_TRACK_LABEL and set(ledgers) == {WEATHER_TRACK}
+    m = summary.metrics
+    assert m["family"] == WEATHER_FAMILY and m["status"] == "fixture_synthetic" and m["source"]["name"] == "fixture"
+    assert m["markets"] == 17 and m["buckets"] == 140 and m["stations"] == 6 and m["stations_parsed"] == 5
+    assert m["cities"] == ["Buenos Aires", "Chicago", "Dallas", "Miami", "NYC", "Seattle"]
+    assert m["dead_bucket"]["kills"] == 54 and m["dead_bucket"]["certain_yes"] == 3 and m["dead_bucket"]["kills_without_taker_ask"] == 1
+    assert m["evaluation"]["status"] == "underpowered" and m["evaluation"]["preregistered_n"] == 30 and m["evaluation"]["kill_rule_triggered"] is True
+    assert m["evaluation"]["status"] in EVALUATION_STATUSES and m["register_state"]["paper_only"] is True
+    report = build_weather_report(summaries, mode="fixtures", measured_at="t", run_id="r")
+    assert report["kind"] == WEATHER_REPORT_KIND and report["paper_only"] is True and report["meta"]["source"] == "measured"
+    assert report["status"] == "fixture_synthetic" and report["meta"]["status"] == "fixture_synthetic" and report["meta"]["tracks"] == [WEATHER_TRACK]
+    block = report["tracks"][WEATHER_TRACK]
+    assert block["verdict"]["n"] == 29 and len(block["records"]) == 32 and len(block["measurements"]) == 140 and block["not_validated"]
+    assert report["totals"]["evaluation_status"] == "underpowered" and report["totals"]["dead_bucket_kills"] == 54
+    json.dumps(report, default=json_default)
+
+
+def test_evaluation_status_vocabulary() -> None:
+    class V:
+        def __init__(self, status: str, n: int) -> None:
+            self.status, self.n = status, n
+
+    assert evaluation_status(V("PASS", 30), open_records=0, candidates=5) == "pass"
+    assert evaluation_status(V("FAIL", 30), open_records=0, candidates=5) == "fail"
+    assert evaluation_status(V("INSUFFICIENT_DATA", 3), open_records=0, candidates=5) == "underpowered"
+    assert evaluation_status(V("INSUFFICIENT_DATA", 0), open_records=2, candidates=5) == "pending_resolutions"
+    assert evaluation_status(V("INSUFFICIENT_DATA", 0), open_records=0, candidates=0) == "no_candidates"
+    assert evaluation_status(V("INSUFFICIENT_DATA", 0), open_records=0, candidates=5) == "not_run"
 
 
 async def test_scoreboard_artifact_is_measured_and_ledger_backed(tmp_path: Path) -> None:
     summary, ledger, _ = await measure_weather_dead_bucket()
     artifact = persist_run(
         [summary], {WEATHER_TRACK: ledger}, artifact_dir=tmp_path, mode="fixtures", measured_at="t", limit=60, kalshi_env=None,
-        scoreboard_name="scoreboard_weather_dead_bucket.json", write_latest=False,
-        artifact_kwargs={"primary_track": WEATHER_TRACK, "venues": ("polymarket",), "venue_focus": "polymarket", "label_suffix": "WEATHER DEAD BUCKET", "track_family": "weather_dead_bucket"},
+        scoreboard_name=WEATHER_SCOREBOARD_NAME, write_latest=False,
+        artifact_kwargs={"primary_track": WEATHER_TRACK, "venues": ("polymarket",), "venue_focus": "polymarket", "label_suffix": "WEATHER DEAD BUCKET", "track_family": WEATHER_FAMILY},
     )
-    assert artifact["meta"]["source"] == "measured" and artifact["meta"]["track_family"] == "weather_dead_bucket" and artifact["meta"]["venues"] == ["polymarket"]
+    assert artifact["meta"]["source"] == "measured" and artifact["meta"]["track_family"] == "weather" and artifact["meta"]["venues"] == ["polymarket"]
     assert artifact["meta"]["pnl_source"] == "core.ledger.PaperLedger"
     assert artifact["totals"]["paper_pnl"] == ledger.total_pnl.quantize(D("0.0001")) and artifact["totals"]["paper_fills"] == 32
     row = artifact["tracks"][0]
-    assert row["track"] == WEATHER_TRACK and row["metrics"]["records"] == {"count": 32, "detail": "weather_dead_bucket_latest.json"}
-    assert row["metrics"]["measurements"]["detail"] == "weather_dead_bucket_latest.json" and row["metrics"]["weather_events"]["count"] == 17
+    assert row["track"] == WEATHER_TRACK and row["metrics"]["records"] == {"count": 32, "detail": "weather_report_<mode>.json"}
+    assert row["metrics"]["measurements"]["detail"] == "weather_report_<mode>.json" and row["metrics"]["weather_events"]["count"] == 17
+    assert row["metrics"]["family"] == "weather" and row["label"] == WEATHER_TRACK_LABEL
     assert row["metrics"]["verdict"]["status"] == "INSUFFICIENT_DATA" and row["metrics"]["verdict"]["kill_rule_triggered"] is True
     assert (tmp_path / "paper" / f"ledger_{WEATHER_TRACK}.json").exists() and not (tmp_path / "scoreboard_latest.json").exists()
     json.dumps(artifact, default=json_default)
@@ -686,14 +731,17 @@ def test_cli_fixture_run_writes_report_register_and_ledger(tmp_path: Path) -> No
     )
     assert result.returncode == 0, result.stderr
     assert "status=fixture_synthetic" in result.stdout and "INSUFFICIENT_DATA" in result.stdout and "kill=True" in result.stdout
-    report = json.loads((tmp_path / "weather_dead_bucket_latest.json").read_text())
-    assert report["paper_only"] is True and report["kind"] == "weather_dead_bucket_report" and report["source"] == "measured"
-    assert report["verdict"]["n"] == 29 and report["verdict"]["kill_rule_triggered"] is True
-    assert report["experiment"]["pre_registered"]["min_settled_positions"] == 30
-    assert len(report["records"]) == 32 and report["not_validated"] and report["experiment"]["observation_sources"]["primary"]
+    report = json.loads((tmp_path / "weather_report_fixtures.json").read_text())
+    assert report["paper_only"] is True and report["kind"] == "weather_report" and report["meta"]["source"] == "measured"
+    assert json.loads((tmp_path / "weather_report_latest.json").read_text())["meta"]["run_id"] == report["meta"]["run_id"]
+    block = report["tracks"]["weather_dead_bucket"]
+    assert block["verdict"]["n"] == 29 and block["verdict"]["kill_rule_triggered"] is True
+    assert block["experiment"]["pre_registered"]["min_settled_positions"] == 30
+    assert len(block["records"]) == 32 and block["not_validated"] and block["experiment"]["observation_sources"]["primary"]
     assert (tmp_path / "weather_dead_bucket" / "register.json").exists()
     assert (tmp_path / "paper" / "ledger_weather_dead_bucket.json").exists()
-    assert (tmp_path / "scoreboard_weather_dead_bucket.json").exists() and not (tmp_path / "scoreboard_latest.json").exists()
+    assert (tmp_path / "scoreboard_weather.json").exists() and not (tmp_path / "scoreboard_latest.json").exists()
+    assert json.loads((tmp_path / "scoreboard_weather.json").read_text())["meta"]["track_family"] == "weather"
     # A second run over the persisted register opens nothing new and keeps the ledger.
     again = subprocess.run([sys.executable, "-m", "apps.measure_weather", "--artifact-dir", str(tmp_path)], check=False, capture_output=True, text=True, env={**os.environ, "TRADING_MODE": "paper", "ENABLE_LIVE_TRADING": "false"})
     assert again.returncode == 0 and "opened=0" in again.stdout
@@ -705,4 +753,4 @@ def test_cli_refuses_live_flags(tmp_path: Path) -> None:
         check=False, capture_output=True, text=True,
         env={**os.environ, "TRADING_MODE": "live", "ENABLE_LIVE_TRADING": "true"},
     )
-    assert result.returncode != 0 and not (tmp_path / "weather_dead_bucket_latest.json").exists()
+    assert result.returncode != 0 and not (tmp_path / "weather_report_fixtures.json").exists()

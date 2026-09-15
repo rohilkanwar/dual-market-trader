@@ -28,7 +28,7 @@ top decile with positive in-category ROI **and** Brier skill, paper-follows
 their next in-category bets and evaluates a pre-registered N=30 test that
 reports `underpowered` until the follows have resolved
 (`docs/SPECIALIST_SCOREBOARD.md`).
-`weather_dead_bucket` is a separate, pre-registered weather family: Polymarket
+`weather_dead_bucket` is a pre-registered track in the `weather` family: Polymarket
 daily-temperature buckets vs. the settlement station's own **free** METAR
 observations (aviationweather.gov / NWS) — buckets the running daily high has
 already killed are bought as NO, the one certain bucket as YES, when the ask
@@ -76,7 +76,7 @@ entry point refuses to start if either variable requests live operation.
 | `artifacts/scoreboard_polymarket_arb.json` | Arb-only board from `apps.measure_polymarket_arb` (`meta.track_family=polymarket_arb`); does not replace `scoreboard_latest.json` |
 | `artifacts/polymarket_arb_latest.json` | Full arb opportunity report: per-group sums, fee/slippage per set, mirror statistics, conversions, holdings |
 | `artifacts/scoreboard_tennis_basis.json`, `tennis_basis_latest.json`, `tennis_basis/register.json` | Tennis-basis board (`meta.track_family=tennis_basis`), full report (pre-registered rule, verdict, per-market reasons, gap records) and the persistent gap register from `apps.measure_tennis_basis` |
-| `artifacts/scoreboard_weather_dead_bucket.json`, `weather_dead_bucket_latest.json`, `weather_dead_bucket/register.json` | Weather dead-bucket board (`meta.track_family=weather_dead_bucket`), full report (pre-registered rule, dead-bucket NO and certain-YES verdicts, per-event running highs, per-leg reasons, resting-only legs, position records) and the persistent position register from `apps.measure_weather` |
+| `artifacts/scoreboard_weather.json`, `weather_report_<fixtures\|network>.json`, `weather_report_latest.json`, `weather_dead_bucket/register.json` | Weather board (`meta.track_family=weather`), weather report (`kind=weather_report`; `tracks.weather_dead_bucket` = pre-registered rule, dead-bucket NO and certain-YES verdicts, per-event running highs, per-leg reasons, resting-only legs, position records) and the persistent position register from `apps.measure_weather` |
 | `artifacts/paper/ledger_<track>.json` | Full ledger per track (incl. `news_underreaction`, `category_specialist` and the `polymarket_*_arb` tracks): cash, fills (with fees), marks, positions, equity curve, max drawdown |
 | `artifacts/paper/equity_curve_<track>.jsonl` | One appended equity point per run/cycle |
 | `artifacts/paper/runs/<run_id>.json` | Raw track summaries for the run |
@@ -234,7 +234,7 @@ observed, close at the start and are confirmed after settlement. Set
 what is validated (arithmetic, filters, ledger, live venue capture) and what is
 not (the live gap distribution, the bookmaker vs. venue settlement basis).
 
-### Weather dead buckets vs. station METARs (separate track family)
+### Weather dead buckets vs. station METARs (`weather` family)
 
 `weather_dead_bucket` reads Polymarket's daily "Highest temperature in
 <city> on <date>?" events (Gamma tag 104596; 2°-wide integer buckets, one named
@@ -258,11 +258,14 @@ uv run python -m apps.measure_weather --network           # public Gamma + CLOB 
 Pre-registered pass: **n ≥ 30 settled dead-bucket NO positions over ≥ 10
 station-days, mean net ≥ 2¢/contract, zero losses**; one loss trips the kill
 rule. Run it hourly against one `--artifact-dir` (the kill rules fire late in
-each station's local day; settlement arrives the next day). Committed 2026-09-15
-cycle: 56 events, 616 legs, **0 admits** — all 166 dead legs of the 21:00-local
+each station's local day; settlement arrives the next day). Track id, family,
+artifact names and `metrics` keys follow the dashboard contract in
+`research/weather_tracks.py` (sisters: `weather_bucket_edge`,
+`weather_calibrated_ensemble`). Committed 2026-09-15
+cycle: 56 events, 616 legs, **0 admits** — all 167 dead legs of the 21:00-local
 US/LatAm events had no NO ask at all (NO bids at 0.999 only), so the leftover
 probability is a one-sided mid, not a takeable quote. `docs/WEATHER_DEAD_BUCKET.md`
-records the rules, the shared types for the sibling weather track, and what is
+records the rules, the shared types for the sister weather tracks, and what is
 and is not validated.
 
 ### Category specialist scoreboard (thirteenth track)
@@ -471,7 +474,7 @@ settlement/    clause extraction, resolution fingerprints, host tiers, Fed/CPI b
 research/      scoreboard (13 isolated tracks over shared snapshots), Polymarket arb tracks, artifact + gate-report writers, harvest analysis, news signal stubs,
                flb (bands, fee model, snapshot verdicts), flb_expost (settled-trade harvest + band returns), tennis basis track + gap register + free-odds sources, specialist scoreboard + trader-history sources,
                weather_tracks (reserved weather ids, findings.weather reducer, optional runner / report hooks), weather dead-bucket track + position register + free observation sources (aviationweather.gov / NWS)
-apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather, paper_loop, paper_runner, dashboard_api
+apps/          measure_all, measure_polymarket_arb, measure_flb, measure_tennis_basis, measure_weather (weather_dead_bucket: research/weather_dead_bucket.py + research/weather_obs.py), paper_loop, paper_runner, dashboard_api
 dashboard/     Vite + React static scoreboard reading public/artifacts/*.json
 docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKET_ARB.md runbook + findings, RUNBOOK_gated_cross_venue.md, FLB_RUNBOOK.md, TENNIS_BASIS.md pre-registration + audit, SPECIALIST_SCOREBOARD.md pre-registration + audit, WEATHER_DEAD_BUCKET.md pre-registration + audit
 ```
@@ -491,7 +494,7 @@ docs/          ASSUMPTIONS.md audit, NEWS_UNDERREACTION.md lane audit, POLYMARKE
 | `polymarket_negrisk_arb` | NegRisk only, fee + slippage, capital cap | buy-all-NO + `NegRiskAdapter` conversion (executable, no lockup) |
 | `polymarket_combinatorial_arb` | exclusive + non-augmented only | buy-all-YES held to resolution; locked capital reported |
 | `tennis_basis` (own CLI) | settlement-basis filter (retirement/walkover/ITF), one outside event per market, ≥ 2 books or Pinnacle, two-sided mid, pre-start only | venue tennis mid vs. free consensus line; gap closure by start, pre-registered pass rule; `scoreboard_tennis_basis.json` + `tennis_basis_latest.json` |
-| `weather_dead_bucket` (own CLI, `apps.measure_weather`) | parsed station/date/unit/timezone, fresh matching hourly METARs, running-high kill rules (below at any hour; above only late + falling + headroom; final after the next-day obs), rounding ties refused, ≥ 2¢ net after the 5 % taker fee, $25/75/$75 rails | buy NO on dead Polymarket temperature buckets / YES on the certain one; settled on the venue resolution with the observation-implied outcome recorded; pre-registered n ≥ 30 over ≥ 10 station-days, zero-loss kill rule; `scoreboard_weather_dead_bucket.json` + `weather_dead_bucket_latest.json` |
+| `weather_dead_bucket` (own CLI, `apps.measure_weather`) | parsed station/date/unit/timezone, fresh matching hourly METARs, running-high kill rules (below at any hour; above only late + falling + headroom; final after the next-day obs), rounding ties refused, ≥ 2¢ net after the 5 % taker fee, $25/75/$75 rails | buy NO on dead Polymarket temperature buckets / YES on the certain one; settled on the venue resolution with the observation-implied outcome recorded; pre-registered n ≥ 30 over ≥ 10 station-days, zero-loss kill rule; `scoreboard_weather.json` + `weather_report_<mode>.json` |
 
 | `kalshi_longshot_fade` | longshot side < 20¢, $25/$75/$75 paper caps, taker fee | taker fade of Kalshi longshots; shadow longshot buyer as benchmark |
 | `kalshi_maker_quote` | same trigger, resting order, expected-value fills, maker fee, conservative marks | maker fade of Kalshi longshots |

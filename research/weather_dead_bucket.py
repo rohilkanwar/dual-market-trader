@@ -74,17 +74,42 @@ from strategies.weather_dead_bucket import (
 )
 from venues.polymarket.client import PolymarketClient, _book_from_levels, group_from_event
 
+# Track-id contract with the dashboard wiring swarm (``research/weather_tracks.py`` on its
+# branch): family ``weather``, reserved ids below, ``scoreboard_weather.json`` with
+# ``meta.track_family = "weather"`` and ``weather_report_<mode>.json`` (kind
+# ``weather_report``). Imported when present so the ids/labels have one source of
+# truth; mirrored here so this branch runs on its own.
+try:  # pragma: no cover - exercised only once research.weather_tracks has merged
+    from research.weather_tracks import (  # type: ignore[import-not-found]
+        WEATHER_FAMILY,
+        WEATHER_REPORT_KIND,
+        WEATHER_SCOREBOARD_NAME,
+        WEATHER_TRACK_LABELS,
+        WEATHER_TRACKS as RESERVED_WEATHER_TRACKS,
+    )
+except ImportError:
+    WEATHER_FAMILY = "weather"
+    WEATHER_REPORT_KIND = "weather_report"
+    WEATHER_SCOREBOARD_NAME = "scoreboard_weather.json"
+    RESERVED_WEATHER_TRACKS: tuple[str, ...] = ("weather_bucket_edge", "weather_dead_bucket", "weather_calibrated_ensemble")
+    WEATHER_TRACK_LABELS: dict[str, str] = {
+        "weather_bucket_edge": "Weather bucket edge (ensemble vs. mid)",
+        "weather_dead_bucket": TRACK_LABEL,
+        "weather_calibrated_ensemble": "Weather calibrated ensemble",
+    }
+
 WEATHER_TRACK = TRACK
-WEATHER_TRACKS: tuple[str, ...] = (WEATHER_TRACK,)
-WEATHER_TRACK_LABEL = TRACK_LABEL
-WEATHER_FAMILY = "weather_dead_bucket"  # meta.track_family on the family's own scoreboard
-WEATHER_DASHBOARD_FAMILY = "weather"  # lane id in dashboard/scripts/track-families.mjs (shared with sibling weather tracks)
+assert WEATHER_TRACK in RESERVED_WEATHER_TRACKS, "weather_dead_bucket must stay a reserved weather id"
+DEAD_BUCKET_TRACKS: tuple[str, ...] = (WEATHER_TRACK,)
+WEATHER_TRACK_LABEL = WEATHER_TRACK_LABELS.get(WEATHER_TRACK, TRACK_LABEL)
 POLYMARKET_HIGHEST_TEMPERATURE_TAG = 104596
 POLYMARKET_DAILY_TEMPERATURE_TAG = 103040
 REPLAY_FIXTURE = Path(__file__).with_name("fixtures") / "weather_dead_bucket_replay.json"
-REPORT_FILE = "weather_dead_bucket_latest.json"
+REPORT_FILE = "weather_report_<mode>.json"
 REGISTER_SCHEMA = "1.0.0"
 Q4 = Decimal("0.0001")
+# ``metrics.evaluation.status`` vocabulary shared with the specialist lane and the weather contract.
+EVALUATION_STATUSES = ("not_run", "no_candidates", "pending_resolutions", "underpowered", "pass", "fail")
 
 
 def _now() -> datetime:
@@ -538,12 +563,44 @@ async def run_weather_dead_bucket_cycle(
     for record in register.settled_records():
         agreement[record.agreement] = agreement.get(record.agreement, 0) + 1
 
+    parsed_events = [e for e in events if e.parsed]
+    stations_parsed = {
+        e.spec.station_icao for e in parsed_events if e.spec is not None
+        and any(o.station_icao == e.spec.station_icao for o in batch.for_station(e.spec.station_icao))
+    }
+    classified = [r for r in rows if r.get("verdict")]
+    kills = [r for r in classified if r["verdict"].get("status") == "dead"]
+    certain = [r for r in classified if r["verdict"].get("status") == "certain_yes"]
+    no_verdict = verdict(settled_rows, parameters=params, side=Outcome.NO)
     summary.metrics.update(
         {
-            "family": WEATHER_DASHBOARD_FAMILY,
+            # research/weather_tracks.py METRIC_KEYS (the dashboard's findings.weather headline).
+            "family": WEATHER_FAMILY,
             "track_family": WEATHER_FAMILY,
             "detail_file": REPORT_FILE,
             "status": track_status(snapshot, batch, events, summary),
+            "source": {"name": batch.source, "requests": batch.requests, "errors": len(batch.errors), "note": batch.note},
+            "markets": len(events),
+            "buckets": summary.candidates,
+            "cities": sorted({e.spec.city for e in parsed_events if e.spec is not None}),
+            "stations": len(stations),
+            "stations_parsed": len(stations_parsed),
+            "dead_bucket": {
+                "candidates": len(classified),
+                "kills": len(kills),
+                "certain_yes": len(certain),
+                "kills_without_taker_ask": len(resting_only),
+                "positions_opened": opened,
+            },
+            "evaluation": {
+                "status": evaluation_status(no_verdict, open_records=len(register.open_records()), candidates=len(classified)),
+                "preregistered_n": params.min_settled_positions,
+                "preregistered_station_days": params.min_station_days,
+                "n": no_verdict.n,
+                "station_days": no_verdict.station_days,
+                "verdict": no_verdict.status,
+                "kill_rule_triggered": no_verdict.kill_rule_triggered,
+            },
             "as_of": as_of.isoformat(),
             "parameters": params.as_dict(),
             "observation_source": batch.as_dict(),
@@ -564,7 +621,7 @@ async def run_weather_dead_bucket_cycle(
                 "station_days": len({r.station_day for r in register.records.values()}),
                 "agreement_venue_vs_observations": agreement,
             },
-            "verdict": verdict(settled_rows, parameters=params, side=Outcome.NO).as_dict(),
+            "verdict": no_verdict.as_dict(),
             "verdict_certain_yes": verdict(settled_rows, parameters=params, side=Outcome.YES).as_dict(),
             "measurements": rows,
             "records": [r.as_dict() for r in register.records.values()],
@@ -673,6 +730,27 @@ def _edge_row(track: str, market: Market, evaluation: Any, spec: WeatherMarketSp
         "fair_value": ONE if evaluation.verdict.outcome is Outcome.YES else ZERO,
         "mid": evaluation.ask,
     }
+
+
+def evaluation_status(no_verdict: Any, *, open_records: int, candidates: int) -> str:
+    """Map the pre-registered verdict onto the shared evaluation vocabulary.
+
+    ``pass`` / ``fail`` only when the verdict itself says so; ``underpowered``
+    while settled positions exist below the pre-registered floors;
+    ``pending_resolutions`` when positions are open but none has settled;
+    ``no_candidates`` when nothing was even classified; ``not_run`` otherwise.
+    """
+    if no_verdict.status == "PASS":
+        return "pass"
+    if no_verdict.status == "FAIL":
+        return "fail"
+    if no_verdict.n > 0:
+        return "underpowered"
+    if open_records > 0:
+        return "pending_resolutions"
+    if candidates == 0:
+        return "no_candidates"
+    return "not_run"
 
 
 def track_status(snapshot: VenueSnapshot, batch: ObservationBatch, events: list[WeatherEvent], summary: TrackSummary) -> str:
@@ -848,7 +926,14 @@ async def replay_fixture(
         "measurements": [{"step": s.metrics.get("step"), **row} for s in step_summaries for row in s.metrics.get("measurements", [])],
         "resting_only_opportunities": (resting_rows := [{"step": s.metrics.get("step"), **row} for s in step_summaries for row in s.metrics.get("resting_only_opportunities", [])]),
         "resting_only_best_bid": _best_bid_summary(resting_rows),
-        **{key: sum(int(s.metrics.get(key, 0)) for s in step_summaries) for key in ("positions_opened", "positions_settled_this_run", "settlement_fills", "events_total", "events_parsed", "dead_buckets_without_taker_ask")},
+        "cities": sorted({c for s in step_summaries for c in s.metrics.get("cities", [])}),
+        "stations": len({k.split(":")[0] for s in step_summaries for k in s.metrics.get("running_highs", {})} | set(stations)),
+        "stations_parsed": len({k.split(":")[0] for s in step_summaries for k in s.metrics.get("running_highs", {})}),
+        "dead_bucket": {
+            key: sum(int(s.metrics.get("dead_bucket", {}).get(key, 0)) for s in step_summaries)
+            for key in ("candidates", "kills", "certain_yes", "kills_without_taker_ask", "positions_opened")
+        },
+        **{key: sum(int(s.metrics.get(key, 0)) for s in step_summaries) for key in ("positions_opened", "positions_settled_this_run", "settlement_fills", "events_total", "events_parsed", "dead_buckets_without_taker_ask", "markets", "buckets")},
     }
     aggregate.notes = last.notes
     aggregate.ledger = last.ledger
@@ -889,7 +974,192 @@ async def measure_weather_dead_bucket(
     return summary, runtime.ledger, register
 
 
+# --------------------------------------------------------------------------
+# Contract hooks (research/weather_tracks.py): runner + report builder
+# --------------------------------------------------------------------------
+async def run_weather_tracks(
+    snapshots: dict[Venue, VenueSnapshot],
+    *,
+    ledgers: dict[str, PaperLedger] | None,
+    starting_cash: Decimal = DEFAULT_STARTING_CASH,
+    model_fees: bool = True,
+    use_fixtures: bool = True,
+    cycle_label: str = "",
+    register: DeadBucketRegister | None = None,
+    observation_source: ObservationSource | None = None,
+    parameters: DeadBucketParameters | None = None,
+    limit: int = 60,
+) -> tuple[list[TrackSummary], dict[str, PaperLedger]]:
+    """``WeatherRunner``-shaped entry point for this track (``research/weather_tracks.py``).
+
+    The shared ``snapshots`` never contain the weather events (they come from
+    Gamma tag 104596, not the market listing), so fixture runs replay the
+    committed steps and network runs capture their own weather snapshot. The
+    register is returned inside ``summary.metrics["register_state"]`` so a
+    caller that persists ledgers can persist it too; without one, positions
+    opened here are not carried across runs.
+    """
+    del snapshots  # the weather universe is captured separately (see docstring)
+    ledger = (ledgers or {}).get(WEATHER_TRACK)
+    if use_fixtures:
+        summary, ledger, register, _ = await replay_fixture(ledger=ledger, register=register, parameters=parameters, starting_cash=starting_cash, model_fees=model_fees)
+    else:
+        from research.weather_obs import build_observation_source
+
+        summary, ledger, register = await measure_weather_dead_bucket(
+            use_fixtures=False, limit=limit, observation_source=observation_source or build_observation_source(use_fixtures=False),
+            parameters=parameters, ledger=ledger, register=register, starting_cash=starting_cash, model_fees=model_fees,
+        )
+    summary.metrics["register_state"] = register.to_dict()
+    summary.metrics["cycle_label"] = cycle_label
+    return [summary], {WEATHER_TRACK: ledger}
+
+
+def build_weather_report(summaries: list[TrackSummary], *, mode: str, measured_at: str, run_id: str | None = None) -> dict[str, Any]:
+    """``weather_report_<mode>.json`` (kind ``weather_report``): one block per weather track.
+
+    Sister tracks add their own block under ``tracks[<id>]``; the dashboard sync
+    only needs ``kind``, ``paper_only`` and ``meta.source``. This track's block
+    carries the pre-registration, both verdicts, running highs, per-leg reasons,
+    resting-only legs and every register record.
+    """
+    blocks: dict[str, Any] = {}
+    status = "not_run"
+    for summary in summaries:
+        if summary.track == WEATHER_TRACK:
+            blocks[WEATHER_TRACK] = dead_bucket_report_block(summary)
+            status = str(summary.metrics.get("status") or status)
+        elif summary.track in RESERVED_WEATHER_TRACKS or summary.track.startswith("weather_"):
+            blocks[summary.track] = {"status": summary.metrics.get("status"), "metrics_keys": sorted(summary.metrics), "note": "no report builder for this track in this module"}
+    weather = [s for s in summaries if s.track in blocks]
+    return {
+        "schema_version": "1.0.0",
+        "kind": WEATHER_REPORT_KIND,
+        "paper_only": True,
+        "status": status,
+        "meta": {
+            "source": "measured",
+            "paper_only": True,
+            "mode": mode,
+            "measured_at": measured_at,
+            "generated_at": _now().isoformat(),
+            "run_id": run_id,
+            "status": status,
+            "track_family": WEATHER_FAMILY,
+            "tracks": list(blocks),
+            "pnl_source": "core.ledger.PaperLedger",
+        },
+        "totals": {
+            "tracks": len(blocks),
+            "candidates": sum(s.candidates for s in weather),
+            "admitted": sum(s.admitted for s in weather),
+            "paper_fills": sum(s.paper_fills for s in weather),
+            "positions_opened": sum(int(s.metrics.get("positions_opened", 0)) for s in weather),
+            "positions_settled_this_run": sum(int(s.metrics.get("positions_settled_this_run", 0)) for s in weather),
+            "dead_bucket_kills": sum(int(s.metrics.get("dead_bucket", {}).get("kills", 0)) for s in weather),
+            "kills_without_taker_ask": sum(int(s.metrics.get("dead_bucket", {}).get("kills_without_taker_ask", 0)) for s in weather),
+            "evaluation_status": next((s.metrics.get("evaluation", {}).get("status") for s in weather if s.metrics.get("evaluation")), "not_run"),
+        },
+        "tracks": blocks,
+    }
+
+
+def _compact_measurement(row: dict[str, Any]) -> dict[str, Any]:
+    """One line per bucket leg: the reason plus the numbers that justify it."""
+    bucket_verdict = row.get("verdict") or {}
+    evaluation = row.get("evaluation") or {}
+    out = {k: row.get(k) for k in ("step", "event_id", "market_id", "bucket", "station", "local_date", "reason", "detail", "paper_fills") if k in row}
+    if bucket_verdict:
+        out["verdict"] = bucket_verdict.get("status")
+        out["rule"] = bucket_verdict.get("rule")
+        out["buy_outcome"] = bucket_verdict.get("buy_outcome")
+    for key in ("ask", "ask_size", "bid", "net_edge", "quantity"):
+        if evaluation.get(key) is not None:
+            out[key] = evaluation[key]
+    return out
+
+
+def _compact_event(row: dict[str, Any]) -> dict[str, Any]:
+    out = {k: row.get(k) for k in ("step", "event_id", "title", "legs", "reason", "detail", "observation_status", "observation_detail") if k in row}
+    spec = row.get("spec") or {}
+    out["spec"] = {k: spec.get(k) for k in ("station_icao", "city", "local_date", "unit", "timezone", "resolution_source")} if spec else None
+    high = row.get("running_high") or {}
+    out["running_high"] = {k: high.get(k) for k in ("running_high_low", "running_high_high", "running_high_all_reports_high", "latest_temp_high", "latest_observed_at_local", "trend", "day_complete", "hourly_observations")} if high else None
+    return out
+
+
+def dead_bucket_report_block(summary: TrackSummary) -> dict[str, Any]:
+    """This track's section of the weather report (also usable standalone)."""
+    m = summary.metrics
+    return {
+        "track": summary.track,
+        "label": summary.label,
+        "status": m.get("status"),
+        "network_status": m.get("network_status"),
+        "experiment": {
+            "hypothesis": (
+                "Once the settlement station's running daily high is in (and, late in the day, the temperature is "
+                "falling), Polymarket temperature buckets that can no longer contain the daily high still quote a few "
+                "cents of probability; buying NO on those dead buckets (and YES on the one certain bucket) earns >= 2c "
+                "net per contract after the taker fee on settled days."
+            ),
+            "pre_registered": m.get("verdict", {}).get("pre_registered"),
+            "kill_rules": {
+                "dead_below_running_high": "bucket.hi < hourly running high (low rounding candidate); any hour",
+                "dead_above_late_day": ">= late_day_local_hour local, latest hourly temp <= high - falling_margin, last N hourly obs not rising, bucket.lo > all-report high + headroom",
+                "certain_yes_late_day": "same late-day gate and the bucket covers [high, all-report high + headroom]",
+                "dead_day_complete / certain_yes_day_complete": "an hourly observation from the following local date exists; the bucket contains neither / both rounding candidates of the final high",
+                "refusals": "bucket_edge_ambiguous when the final or running high rounds across a bucket edge; too_early_in_day / not_falling / live otherwise",
+            },
+            "observation_sources": FREE_SOURCES,
+        },
+        "parameters": m.get("parameters"),
+        "observation_source": m.get("observation_source"),
+        "snapshot": m.get("snapshot"),
+        "events_total": m.get("events_total"),
+        "events_parsed": m.get("events_parsed"),
+        "cities": m.get("cities"),
+        "stations": m.get("stations"),
+        "stations_parsed": m.get("stations_parsed"),
+        "candidates": summary.candidates,
+        "admitted": summary.admitted,
+        "proposed_orders": summary.proposed_orders,
+        "paper_fills": summary.paper_fills,
+        "positions_opened": m.get("positions_opened"),
+        "positions_settled_this_run": m.get("positions_settled_this_run"),
+        "dead_bucket": m.get("dead_bucket"),
+        "dead_buckets_without_taker_ask": m.get("dead_buckets_without_taker_ask"),
+        "resting_only_best_bid": m.get("resting_only_best_bid"),
+        "resting_only_opportunities": m.get("resting_only_opportunities"),
+        "refused_by_reason": dict(sorted(summary.refused_by_reason.items())),
+        "register": m.get("register"),
+        "evaluation": m.get("evaluation"),
+        "verdict": m.get("verdict"),
+        "verdict_certain_yes": m.get("verdict_certain_yes"),
+        "running_highs": m.get("running_highs"),
+        "events": [_compact_event(row) for row in (m.get("weather_events") or [])],
+        "measurements": [_compact_measurement(row) for row in (m.get("measurements") or [])],
+        "records": m.get("records"),
+        "fills": summary.fills,
+        "ledger": summary.ledger,
+        "not_validated": [
+            "the NOAA WRH time-series table rounds tenths-of-a-degree observations to whole degrees with an undocumented "
+            "tie rule; exact .5 values are refused (bucket_edge_ambiguous), not resolved",
+            "the table is built from the same ASOS/METAR observations aviationweather.gov serves, but late corrections "
+            "(revisions until the next day's first data point) and hourly-only filtering can make it differ; the "
+            "register records venue-vs-observation agreement per settled position so that basis risk is measured",
+            "late-day 'no further rise' is a heuristic (17:00 local, 2°F/1°C below the high, two non-rising hourly obs, "
+            "1° headroom); it can be wrong on days with evening fronts or foehn events - that is exactly the kill rule",
+            "Weather Underground fallback resolutions and non-airport sources (Hong Kong Observatory) are refused, not modelled",
+            "SPECI observations warmer than the hourly table are used only to widen the upper kill, never to kill lower buckets",
+            "fixture sequences and settlements are synthetic (one staged disagreement) and carry no evidence about the hypothesis",
+            "network sample: the committed snapshot is one cycle; the pre-registered verdict needs >= 30 settled positions over >= 10 station-days",
+        ],
+    }
+
+
 __all__ = [
+    "DEAD_BUCKET_TRACKS",
     "DeadBucketRecord",
     "DeadBucketRegister",
     "POLYMARKET_DAILY_TEMPERATURE_TAG",
@@ -897,14 +1167,20 @@ __all__ = [
     "REPLAY_FIXTURE",
     "REPORT_FILE",
     "ReplayStep",
-    "WEATHER_DASHBOARD_FAMILY",
+    "EVALUATION_STATUSES",
+    "RESERVED_WEATHER_TRACKS",
     "WEATHER_FAMILY",
+    "WEATHER_REPORT_KIND",
+    "WEATHER_SCOREBOARD_NAME",
     "WEATHER_TRACK",
-    "WEATHER_TRACKS",
     "WEATHER_TRACK_LABEL",
+    "WEATHER_TRACK_LABELS",
     "WeatherEvent",
+    "build_weather_report",
     "capture_weather_snapshot",
     "classify_venue_resolution",
+    "dead_bucket_report_block",
+    "evaluation_status",
     "load_replay",
     "measure_weather_dead_bucket",
     "network_settlement_lookup",
@@ -912,6 +1188,7 @@ __all__ = [
     "register_path",
     "replay_fixture",
     "run_weather_dead_bucket_cycle",
+    "run_weather_tracks",
     "snapshot_from_fixture",
     "track_status",
     "weather_events",

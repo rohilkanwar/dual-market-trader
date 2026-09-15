@@ -1,7 +1,9 @@
 # `weather_dead_bucket` — late-day METAR / running-high dead buckets on Polymarket
 
-Paper-only measurement track (own CLI: `apps.measure_weather`; own family
-`weather_dead_bucket`, dashboard lane `weather`). It asks one pre-registered
+Paper-only measurement track (own CLI: `apps.measure_weather`; family `weather`,
+track id `weather_dead_bucket` as reserved by the dashboard-wiring contract in
+`research/weather_tracks.py`; sisters `weather_bucket_edge`,
+`weather_calibrated_ensemble`). It asks one pre-registered
 question: **once the settlement station's running daily high is in — and, late
 in the day, the temperature is falling — do Polymarket daily-temperature
 buckets that can no longer contain the high still quote enough leftover
@@ -53,11 +55,27 @@ Defined once in `strategies/weather_dead_bucket.py`, documented there:
 
 Station → timezone lives in `STATION_TIMEZONES` (read from the live
 descriptions; unknown stations are refused, nothing is looked up online).
-Scoreboard constants are additive tuples in `research/scoreboard.py`
-(`WEATHER_DEAD_BUCKET_TRACK`, `WEATHER_TRACKS`, `WEATHER_FAMILY`) and the
-dashboard family is `weather` (`dashboard/scripts/track-families.mjs`, keyword
-match on `weather` / `temperature` / `metar`), so a second weather track lands in
-the same lane without touching `TRACKS`.
+
+### Track-id contract (`research/weather_tracks.py`)
+
+`research/weather_dead_bucket.py` imports the contract when that module is
+present and mirrors it otherwise, so nothing in `research/scoreboard.py` is
+touched by this branch:
+
+| Contract item | Value here |
+| --- | --- |
+| family | `weather` (`meta.track_family`, `metrics.family`) |
+| reserved ids | `weather_bucket_edge`, **`weather_dead_bucket`**, `weather_calibrated_ensemble` (`RESERVED_WEATHER_TRACKS`) |
+| label | `Weather dead bucket (late-day METAR)` (set on the summary, matches `WEATHER_TRACK_LABELS`) |
+| scoreboard | `scoreboard_weather.json` (`WEATHER_SCOREBOARD_NAME`) |
+| report | `weather_report_<mode>.json` + `weather_report_latest.json`, `kind = weather_report`, `paper_only`, `meta.source = measured`, one block per track under `tracks[<id>]` (`build_weather_report`) |
+| `METRIC_KEYS` on `summary.metrics` | `status`, `source {name, requests, errors}`, `markets` (events), `buckets` (legs), `cities`, `stations`, `stations_parsed`, `dead_bucket {candidates, kills, certain_yes, kills_without_taker_ask, positions_opened}`, `evaluation {status ∈ not_run / no_candidates / pending_resolutions / underpowered / pass / fail, preregistered_n, n, station_days, verdict, kill_rule_triggered}` |
+| runner hook | `run_weather_tracks(snapshots, *, ledgers, starting_cash, model_fees, use_fixtures, cycle_label)` → `([summary], {id: ledger})`; the register travels in `metrics["register_state"]` |
+
+`evaluation.status` is `pass` / `fail` only when the pre-registered verdict says
+so, `underpowered` while settled positions exist below the floors,
+`pending_resolutions` with open positions and nothing settled,
+`no_candidates` when nothing was classified, `not_run` otherwise.
 
 ## Pre-registration
 
@@ -118,13 +136,15 @@ starts both fresh; `--no-persist` runs a throwaway cycle.
 
 | Path | Contents |
 | --- | --- |
-| `artifacts/scoreboard_weather_dead_bucket.json` | dashboard artifact (schema 1.3.0, `meta.source=measured`, `meta.track_family=weather_dead_bucket`, `pnl_source=core.ledger.PaperLedger`); `scoreboard_latest.json` only with `--publish-latest` |
-| `artifacts/weather_dead_bucket_latest.json` | full report: pre-registration, `verdict` (dead-bucket NO) and `verdict_certain_yes`, every event's parsed spec + running high + observation status, every bucket leg's reason and numbers, `resting_only_opportunities` (dead legs with no taker ask and where the resting queue sits), every register record, ledger, sources, `not_validated[]` |
+| `artifacts/scoreboard_weather.json` | dashboard artifact (`meta.source=measured`, `meta.track_family=weather`, `pnl_source=core.ledger.PaperLedger`); `scoreboard_latest.json` only with `--publish-latest` |
+| `artifacts/weather_report_<mode>.json`, `weather_report_latest.json` | `kind=weather_report`; `tracks.weather_dead_bucket` = pre-registration, `verdict` (dead-bucket NO) and `verdict_certain_yes`, `evaluation`, every event's parsed spec + running high + observation status, every bucket leg's reason and numbers, `resting_only_opportunities` (dead legs with no taker ask and where the resting queue sits), every register record, ledger, sources, `not_validated[]` |
 | `artifacts/weather_dead_bucket/register.json` | the position register (open and settled records, venue vs observation agreement) |
 | `artifacts/paper/ledger_weather_dead_bucket.json`, `equity_curve_weather_dead_bucket.jsonl`, `paper/runs/<run_id>.json` | ledger and run manifest |
 
-`npm run sync-artifacts` copies the scoreboard, the report and the ledger into
-`dashboard/public/artifacts/` (the report must be `paper_only` and `measured`).
+`npm run sync-artifacts` copies the scoreboard and the ledger into
+`dashboard/public/artifacts/`; the wiring branch's sync also publishes
+`weather_report_<mode>.json` (kind `weather_report`, `paper_only`, never a
+`fixture_synthetic` status) and places the track in the **Weather** lane.
 
 ## Fixture replay (`research/fixtures/weather_dead_bucket_replay.json`)
 
@@ -144,20 +164,20 @@ verdict `n = 29`, 5 station-days, mean net 3.6¢/contract, **1 loss →
 1 loss. These numbers prove branches, not the hypothesis. Asserted in
 `tests/test_weather_dead_bucket.py`.
 
-## Network snapshot (2026-09-15 01:24 UTC, committed)
+## Network snapshot (2026-09-15 01:39 UTC, committed)
 
-One cycle, run `20260915T012456Z-1d4757c5`, 56 events / 616 legs, 39 stations
+One cycle, run `20260915T013931Z-7ecc35ac`, 56 events / 616 legs, 39 stations
 (aviationweather.gov, 0 errors), **0 admits**:
 
 | Reason | Legs | Meaning |
 | --- | --- | --- |
-| `too_early_in_day` | 383 | the September-15 events: their local day had not started (US) or had only morning observations (Europe / Asia) |
-| `no_ask` | 166 | **every** dead leg of the September-14 US/LatAm events (21:00 local, running highs in for hours) had **no NO ask**: the NO ladder was bids only (best bid 0.999, thousands of contracts) with YES asks at 0.001–0.003. Nobody offers NO on a dead bucket; the "leftover probability" is a one-sided book's mid, not a quote you can take |
+| `too_early_in_day` | 382 | the September-15 events: their local day had not started (US) or had only morning observations (Europe / Asia) |
+| `no_ask` | 167 | **every** dead leg of the September-14 US/LatAm events (21:00 local, running highs in for hours) had **no NO ask**: the NO ladder was bids only (best bid 0.999, thousands of contracts) with YES asks at 0.001–0.003. Nobody offers NO on a dead bucket; the "leftover probability" is a one-sided book's mid, not a quote you can take |
 | `not_falling` | 27 | Europe/Asia mornings with the latest hourly temp at the running high |
 | `live` | 18 | buckets overlapping the plausible range (the high on a bucket's top edge cannot certify the bucket with 1° headroom) |
 | `station_unparsed` | 22 | Hong Kong (Observatory table, no ICAO) |
 
-`resting_only_best_bid`: `n = 166, min = median = max = 0.999` — the most a
+`resting_only_best_bid`: `n = 167, min = median = max = 0.999` — the most a
 resting NO buyer could earn on those legs is 0.1¢ gross, below the 5 % fee-free
 maker economics anyway. The taker version of the hypothesis is therefore
 **not supported on fully-dead legs at 21:00 local**; whether the earlier
@@ -179,7 +199,7 @@ bought, the ledger is flat, verdict `INSUFFICIENT_DATA`.
 | W.8 | Event discovery reads Gamma tag 104596 and both CLOB books; closed legs are skipped; fee metadata lands on the leg | **PASS** | `test_weather_event_discovery_reads_tagged_gamma_events_and_both_books`; live: 56 events, 616 legs, 0 book errors |
 | W.9 | The WRH table's whole-degree value equals the METAR `T`-group value rounded | **UNKNOWN / handled** | Same ASOS feed, but the tie rule is undocumented and late corrections are allowed until the next day's first point. Handled fail-closed (`bucket_edge_ambiguous`) and measured after the fact (`agreement` on every settled record; fixture stages one `disagree`). Evidence: settled records with `agreement = disagree` on live data would quantify it |
 | W.10 | "Late day and falling" implies no further rise | **UNKNOWN / heuristic** | 17:00 local, 2°F/1°C below the high, two non-rising hourly obs, 1° headroom. Fronts, foehn winds and coastal reversals can break it; that is exactly what the kill rule catches. Evidence: settled `dead_above_late_day` records |
-| W.11 | Dead legs quote a takeable NO ask late in the day | **FAIL (on 2026-09-15 21:00 local, 166/166 legs)** | Every dead leg's NO ladder was bids only at 0.999; the mid in `outcomePrices` (0.9995) is not a quote. Whether the 17:00–19:00 window differs is UNKNOWN until scheduled runs cover it |
+| W.11 | Dead legs quote a takeable NO ask late in the day | **FAIL (on 2026-09-15 21:00 local, 167/167 legs)** | Every dead leg's NO ladder was bids only at 0.999; the mid in `outcomePrices` (0.9995) is not a quote. Whether the 17:00–19:00 window differs is UNKNOWN until scheduled runs cover it |
 | W.12 | **The hypothesis** (≥ 2¢ net per contract on settled dead-bucket NO positions, zero losses) | **UNKNOWN** | 0 settled positions; verdict `INSUFFICIENT_DATA`. Needs hourly runs for weeks until `n ≥ 30` over `≥ 10` station-days |
 | W.13 | Fixture numbers are evidence | **FAIL as evidence** | Hand-written METAR sequences and books; the Buenos Aires disagreement is staged |
 
@@ -192,4 +212,7 @@ bought, the ledger is flat, verdict `INSUFFICIENT_DATA`.
 * No forecast model of any kind: the only inputs are the station's own
   observations and the clock.
 * Not part of `apps.measure_all`'s thirteen-track board; own family and CLI,
-  like `tennis_basis` and the Polymarket arb tracks.
+  like `tennis_basis` and the Polymarket arb tracks. `run_weather_tracks` has the
+  contract's runner shape so a family aggregator (`research.weather_scoreboard`,
+  owned by whoever lands it) can delegate to it; this branch does not create that
+  module to avoid colliding with the sister tracks.

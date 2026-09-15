@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T01:25:08.293Z",
+  "generated_at": "2026-09-15T01:39:32.148Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -102,7 +102,7 @@
     "paper/ledger_weather_dead_bucket.json": {
       "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
       "source": "ledger",
-      "measured_at": "2026-09-15T01:24:56.162929+00:00",
+      "measured_at": "2026-09-15T01:39:31.972610+00:00",
       "paper_pnl": null
     },
     "scoreboard_fixtures.json": {
@@ -123,10 +123,10 @@
       "measured_at": "2026-09-14T23:30:08.244995+00:00",
       "paper_pnl": -3.2721
     },
-    "scoreboard_weather_dead_bucket.json": {
-      "target": "public/artifacts/scoreboard_weather_dead_bucket.json",
+    "scoreboard_weather.json": {
+      "target": "public/artifacts/scoreboard_weather.json",
       "source": "measured",
-      "measured_at": "2026-09-15T01:24:45.532357+00:00",
+      "measured_at": "2026-09-15T01:39:08.829234+00:00",
       "paper_pnl": 0
     },
     "specialist_scoreboard_fixtures.json": {
@@ -147,10 +147,16 @@
       "measured_at": "2026-09-14T23:30:08.244995+00:00",
       "paper_pnl": null
     },
-    "weather_dead_bucket_latest.json": {
-      "target": "public/artifacts/weather_dead_bucket_latest.json",
+    "weather_report_latest.json": {
+      "target": "public/artifacts/weather_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-15T01:24:45.532357+00:00",
+      "measured_at": "2026-09-15T01:39:08.829234+00:00",
+      "paper_pnl": null
+    },
+    "weather_report_network.json": {
+      "target": "public/artifacts/weather_report_network.json",
+      "source": "measured",
+      "measured_at": "2026-09-15T01:39:08.829234+00:00",
       "paper_pnl": null
     }
   }

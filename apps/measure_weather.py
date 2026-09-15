@@ -1,14 +1,14 @@
 """Run the ``weather_dead_bucket`` paper track: Polymarket daily-temperature dead buckets vs. station METARs.
 
-Outputs (relative to ``--artifact-dir``, default ``artifacts/``):
+Outputs (relative to ``--artifact-dir``, default ``artifacts/``), named per the weather
+track contract (``research/weather_tracks.py`` on the dashboard-wiring branch):
 
-* ``scoreboard_weather_dead_bucket.json``  dashboard artifact (schema 1.3.0, source=measured,
-                                           track_family=weather_dead_bucket); ``scoreboard_latest.json``
-                                           only with ``--publish-latest``
-* ``weather_dead_bucket_latest.json``      full report: pre-registered rule, verdicts (dead-bucket NO and
-                                           certain-YES samples), every event's parsed spec and running high,
-                                           every bucket's reason, every register record, ledger, sources
-* ``weather_dead_bucket/register.json``    the persistent position register (open and settled records)
+* ``scoreboard_weather.json``            dashboard artifact (source=measured, ``meta.track_family=weather``);
+                                         ``scoreboard_latest.json`` only with ``--publish-latest``
+* ``weather_report_<mode>.json``,        kind ``weather_report``: one block per weather track; this track's block
+  ``weather_report_latest.json``         carries the pre-registration, both verdicts, every event's running high,
+                                         every bucket leg's reason, resting-only legs and every register record
+* ``weather_dead_bucket/register.json``  the persistent position register (open and settled records)
 * ``paper/ledger_weather_dead_bucket.json`` the track's PaperLedger; ``paper/runs/<run_id>.json``
 
 Fixture mode (default) replays ``research/fixtures/weather_dead_bucket_replay.json``
@@ -34,144 +34,52 @@ from core.ledger import PaperLedger
 from research.scoreboard import TrackSummary
 from research.weather_dead_bucket import (
     POLYMARKET_HIGHEST_TEMPERATURE_TAG,
-    REPORT_FILE,
     WEATHER_FAMILY,
+    WEATHER_SCOREBOARD_NAME,
     WEATHER_TRACK,
     DeadBucketRegister,
+    build_weather_report,
     measure_weather_dead_bucket,
     register_path,
 )
-from research.weather_obs import FREE_SOURCES, build_observation_source
+from research.weather_obs import build_observation_source
 from strategies.weather_dead_bucket import DeadBucketParameters
 
-SCOREBOARD_NAME = "scoreboard_weather_dead_bucket.json"
-REPORT_NAME = REPORT_FILE
+SCOREBOARD_NAME = WEATHER_SCOREBOARD_NAME
 TRACK_FAMILY = WEATHER_FAMILY
 
 
-def _compact_measurement(row: dict[str, Any]) -> dict[str, Any]:
-    """One line per bucket leg: the reason plus the numbers that justify it (full dicts stay in memory only)."""
-    verdict = row.get("verdict") or {}
-    evaluation = row.get("evaluation") or {}
-    out = {k: row.get(k) for k in ("step", "event_id", "market_id", "bucket", "station", "local_date", "reason", "detail", "paper_fills") if k in row}
-    if verdict:
-        out["verdict"] = verdict.get("status")
-        out["rule"] = verdict.get("rule")
-        out["buy_outcome"] = verdict.get("buy_outcome")
-    for key in ("ask", "ask_size", "bid", "net_edge", "quantity"):
-        if evaluation.get(key) is not None:
-            out[key] = evaluation[key]
-    return out
+def report_name(mode: str) -> str:
+    return f"weather_report_{mode}.json"
 
 
-def _compact_event(row: dict[str, Any]) -> dict[str, Any]:
-    out = {k: row.get(k) for k in ("step", "event_id", "title", "legs", "reason", "detail", "observation_status", "observation_detail") if k in row}
-    spec = row.get("spec") or {}
-    out["spec"] = {k: spec.get(k) for k in ("station_icao", "local_date", "unit", "timezone", "resolution_source")} if spec else None
-    high = row.get("running_high") or {}
-    out["running_high"] = {k: high.get(k) for k in ("running_high_low", "running_high_high", "running_high_all_reports_high", "latest_temp_high", "latest_observed_at_local", "trend", "day_complete", "hourly_observations")} if high else None
-    return out
-
-
-def build_report(summary: TrackSummary, *, mode: str, measured_at: str, run_id: str, register: DeadBucketRegister) -> dict[str, Any]:
-    m = summary.metrics
-    return to_jsonable(
-        {
-            "schema_version": "1.0.0",
-            "kind": "weather_dead_bucket_report",
-            "paper_only": True,
-            "source": "measured",
-            "run_id": run_id,
-            "mode": mode,
-            "measured_at": measured_at,
-            "track": summary.track,
-            "status": m.get("status"),
-            "network_status": m.get("network_status"),
-            "experiment": {
-                "hypothesis": (
-                    "Once the settlement station's running daily high is in (and, late in the day, the temperature is "
-                    "falling), Polymarket temperature buckets that can no longer contain the daily high still quote a few "
-                    "cents of probability; buying NO on those dead buckets (and YES on the one certain bucket) earns >= 2c "
-                    "net per contract after the taker fee on settled days."
-                ),
-                "pre_registered": m.get("verdict", {}).get("pre_registered"),
-                "kill_rules": {
-                    "dead_below_running_high": "bucket.hi < hourly running high (low rounding candidate); any hour",
-                    "dead_above_late_day": ">= late_day_local_hour local, latest hourly temp <= high - falling_margin, last N hourly obs not rising, bucket.lo > all-report high + headroom",
-                    "certain_yes_late_day": "same late-day gate and the bucket covers [high, all-report high + headroom]",
-                    "dead_day_complete / certain_yes_day_complete": "an hourly observation from the following local date exists; the bucket contains neither / both rounding candidates of the final high",
-                    "refusals": "bucket_edge_ambiguous when the final or running high rounds across a bucket edge; too_early_in_day / not_falling / live otherwise",
-                },
-                "observation_sources": FREE_SOURCES,
-            },
-            "parameters": m.get("parameters"),
-            "observation_source": m.get("observation_source"),
-            "snapshot": m.get("snapshot"),
-            "events_total": m.get("events_total"),
-            "events_parsed": m.get("events_parsed"),
-            "candidates": summary.candidates,
-            "admitted": summary.admitted,
-            "proposed_orders": summary.proposed_orders,
-            "paper_fills": summary.paper_fills,
-            "positions_opened": m.get("positions_opened"),
-            "positions_settled_this_run": m.get("positions_settled_this_run"),
-            "dead_buckets_without_taker_ask": m.get("dead_buckets_without_taker_ask"),
-            "resting_only_best_bid": m.get("resting_only_best_bid"),
-            "resting_only_opportunities": m.get("resting_only_opportunities"),
-            "refused_by_reason": dict(sorted(summary.refused_by_reason.items())),
-            "register": m.get("register"),
-            "verdict": m.get("verdict"),
-            "verdict_certain_yes": m.get("verdict_certain_yes"),
-            "running_highs": m.get("running_highs"),
-            "events": [_compact_event(row) for row in (m.get("weather_events") or [])],
-            "measurements": [_compact_measurement(row) for row in (m.get("measurements") or [])],
-            "records": [r.as_dict() for r in register.records.values()],
-            "fills": summary.fills,
-            "ledger": summary.ledger,
-            "not_validated": [
-                "the NOAA WRH time-series table rounds tenths-of-a-degree observations to whole degrees with an undocumented "
-                "tie rule; exact .5 values are refused (bucket_edge_ambiguous), not resolved",
-                "the table is built from the same ASOS/METAR observations aviationweather.gov serves, but late corrections "
-                "(revisions until the next day's first data point) and hourly-only filtering can make it differ; the "
-                "register records venue-vs-observation agreement per settled position so that basis risk is measured",
-                "late-day 'no further rise' is a heuristic (17:00 local, 2°F/1°C below the high, two non-rising hourly obs, "
-                "1° headroom); it can be wrong on days with evening fronts or foehn events - that is exactly the kill rule",
-                "Weather Underground fallback resolutions and non-airport sources (Hong Kong Observatory) are refused, not modelled",
-                "SPECI observations warmer than the hourly table are used only to widen the upper kill, never to kill lower buckets",
-                "fixture sequences and settlements are synthetic (one staged disagreement) and carry no evidence about the hypothesis",
-                "network sample: the committed snapshot is one cycle; the pre-registered verdict needs >= 30 settled positions over >= 10 station-days",
-            ],
-        }
-    )
-
-
-def _print(summary: TrackSummary, report: dict[str, Any]) -> None:
-    m = summary.metrics
-    src = m.get("observation_source", {})
-    print(f"\nweather_dead_bucket ({report['mode']}) status={report['status']} obs_source={src.get('source')} stations={src.get('stations')} errors={len(src.get('errors', []))}")
+def _print(summary: TrackSummary, block: dict[str, Any], *, mode: str) -> None:
+    src = block.get("observation_source") or {}
+    print(f"\nweather_dead_bucket ({mode}) status={block['status']} obs_source={src.get('source')} stations={src.get('stations')} errors={len(src.get('errors', []))}")
     for error in src.get("errors", [])[:5]:
         print(f"  obs error: {error}")
-    print(f"events: {report['events_parsed']}/{report['events_total']} parsed  candidates={summary.candidates} admitted={summary.admitted} fills={summary.paper_fills} opened={report['positions_opened']} settled_now={report['positions_settled_this_run']}")
+    print(f"events: {block['events_parsed']}/{block['events_total']} parsed  candidates={summary.candidates} admitted={summary.admitted} fills={summary.paper_fills} opened={block['positions_opened']} settled_now={block['positions_settled_this_run']}")
     if summary.refused_by_reason:
         print("  reasons: " + ", ".join(f"{k}={v}" for k, v in sorted(summary.refused_by_reason.items())))
-    resting = report.get("resting_only_opportunities") or []
+    resting = block.get("resting_only_opportunities") or []
     if resting:
         bids = sorted(float(r["best_bid"]) for r in resting if r.get("best_bid") is not None)
         print(f"  dead/certain legs with no taker ask (resting order only): {len(resting)}; best bids {bids[0]:.3f}..{bids[-1]:.3f}" if bids else f"  dead/certain legs with no taker ask: {len(resting)}")
-    for key, high in (report.get("running_highs") or {}).items():
+    for key, high in (block.get("running_highs") or {}).items():
         print(f"  {key}: high={high.get('running_high_low')}..{high.get('running_high_high')} all={high.get('running_high_all_reports_high')} latest={high.get('latest_temp_high')} trend={high.get('trend')} complete={high.get('day_complete')} at={high.get('latest_observed_at_local')}")
     header = f"{'city':<14}{'bucket':<16}{'rule':<28}{'buy':<4}{'qty':>5}{'px':>8}{'net':>8}  status / venue / obs"
     print(header)
     print("-" * len(header))
-    for r in report["records"]:
+    for r in block["records"]:
         print(f"{r['city'][:13]:<14}{r['bucket_label'][:15]:<16}{r['rule'][:27]:<28}{r['buy_outcome']:<4}{float(r['quantity']):>5.0f}{float(r['entry_price']):>8.3f}{float(r['net_edge']):>8.4f}  {r['status']} / {r['venue_outcome']} / {r['obs_implied_outcome']} ({r['agreement']}) pnl={r['realized_pnl']}")
-    v = report["verdict"]
+    v = block["verdict"]
     print(f"\nverdict (dead-bucket NO): n={v['n']} station_days={v['station_days']} mean_net/ct={v['mean_net_per_contract']} losses={v['losses']} kill={v['kill_rule_triggered']} -> {v['status']}  [pre-registered: n>={v['pre_registered']['min_settled_positions']}, station_days>={v['pre_registered']['min_station_days']}, mean>={v['pre_registered']['pass_mean_net_per_contract']}, zero losses]")
-    y = report["verdict_certain_yes"]
+    y = block["verdict_certain_yes"]
     print(f"verdict (certain YES):    n={y['n']} mean_net/ct={y['mean_net_per_contract']} losses={y['losses']} -> {y['status']}")
-    ledger = report["ledger"] or {}
+    print(f"evaluation: {block['evaluation']}")
+    ledger = block["ledger"] or {}
     print(f"ledger: realized={ledger.get('realized_pnl')} unrealized={ledger.get('unrealized_pnl')} fees={ledger.get('fees_paid')} equity={ledger.get('equity')} fills={ledger.get('fills')} open={ledger.get('open_positions')}")
-    print(f"network: {report['network_status']}")
+    print(f"network: {block['network_status']}")
 
 
 def parameters_from_args(args: argparse.Namespace) -> DeadBucketParameters | None:
@@ -242,10 +150,13 @@ async def run(
     )
     if persist:
         register.save(register_path(artifact_dir))
-    report = build_report(summary, mode=mode, measured_at=measured_at, run_id=artifact["meta"]["run_id"], register=register)
-    write_json(artifact_dir / REPORT_NAME, report)
-    _print(summary, report)
-    print(f"artifacts: {artifact_dir / SCOREBOARD_NAME}  {artifact_dir / REPORT_NAME}  {register_path(artifact_dir)}  {artifact_dir / 'paper'}")
+    report = to_jsonable(build_weather_report([summary], mode=mode, measured_at=measured_at, run_id=artifact["meta"]["run_id"]))
+    # ``persist_run`` writes these itself once research.weather_tracks has merged (same
+    # builder, same names); writing them here keeps this CLI complete on its own.
+    write_json(artifact_dir / report_name(mode), report)
+    write_json(artifact_dir / "weather_report_latest.json", report)
+    _print(summary, report["tracks"][WEATHER_TRACK], mode=mode)
+    print(f"artifacts: {artifact_dir / SCOREBOARD_NAME}  {artifact_dir / report_name(mode)}  {register_path(artifact_dir)}  {artifact_dir / 'paper'}")
     return artifact
 
 

@@ -229,10 +229,12 @@ and the pre-registration in `docs/TENNIS_BASIS.md`; headline rows here.
 
 ## 14. Weather dead bucket (`docs/WEATHER_DEAD_BUCKET.md`)
 
-Separate track family (`apps.measure_weather`, track `weather_dead_bucket`, dashboard
-lane `weather`). Full pre-registration and audit in `docs/WEATHER_DEAD_BUCKET.md`;
-headline rows here. Network run 2026-09-15 01:24 UTC against public Gamma / CLOB and
-aviationweather.gov with no credentials (run `20260915T012456Z-1d4757c5`).
+Weather family (`apps.measure_weather`; track id `weather_dead_bucket`, family `weather`,
+artifacts `scoreboard_weather.json` + `weather_report_<mode>.json` per the
+`research/weather_tracks.py` contract). Full pre-registration and audit in
+`docs/WEATHER_DEAD_BUCKET.md`; headline rows here. Network run 2026-09-15 01:39 UTC
+against public Gamma / CLOB and aviationweather.gov with no credentials (run
+`20260915T013931Z-7ecc35ac`).
 
 | # | Assumption | Status | Evidence |
 | --- | --- | --- | --- |
@@ -241,10 +243,10 @@ aviationweather.gov with no credentials (run `20260915T012456Z-1d4757c5`).
 | 14.3 | Buckets entirely below the hourly running high are impossible at any hour; buckets above it are impossible only late, falling and beyond a headroom; the next-day observation makes the high final | **PASS (logic)** | `classify_bucket` with `DeadBucketParameters` (17:00 local, 2°F/1°C, 2 non-rising obs, 1° headroom, ≥ 3 hourly obs); SPECI specials widen the ceiling but never kill lower buckets; `test_bucket_below_the_running_high_is_dead_at_any_hour_and_the_rest_waits`, `test_late_day_falling_kills_above_and_names_the_certain_bucket`, `test_day_complete_decides_every_bucket_and_halves_refuse`. Whether "late and falling" holds meteorologically is the kill rule's job (UNKNOWN until settled). |
 | 14.4 | Entry, fees, sizing and settlement reuse the shared rails | **PASS** | `DeadBucketStrategy` buys NO on the venue NO ladder (or the YES complement) / YES at the YES ask, deducts `rate·p·(1−p)` with `rate` from Gamma `feeType` (`weather_fees` = 5 %), requires ≥ 2¢ net and ≥ 5 contracts, sizes to `$25`/order and 75/market through `RiskManager`; `TrackRuntime.submit` → `ExecutionEngine` → `PaperLedger(ledger_id="weather_dead_bucket")`; venue resolution books 1/0 via `PaperLedger.settle`; fixture replay: 32 positions, 64 fills, identity holds (`test_replay_measures_every_scripted_branch`). |
 | 14.5 | Fail-closed statuses cover every way the measurement can be wrong | **PASS** | `station_unparsed`, `date_unparsed`, `unit_unparsed`, `station_timezone_unknown`, `market_kind_unsupported`, `no_obs`, `station_mismatch` (fixture: Miami answered with KFLL reports), `stale_obs` (> 90 min while the day is open), `too_early_in_day`, `not_falling`, `live`, `bucket_edge_ambiguous`, `insufficient_observations`, `no_ask`, `edge_below_threshold`, `insufficient_depth`, `below_min_order_size`, `already_positioned`; every one exercised by the fixture (`refused_by_reason` asserted exactly). |
-| 14.6 | Dead legs quote a takeable NO ask late in the day | **FAIL (2026-09-15, 21:00 local)** | 166 of 166 dead legs across the September-14 US/LatAm events had **no NO ask**: NO ladders were bids only at 0.999 (thousands of contracts), YES asks at 0.001–0.003. The `outcomePrices` mid of 0.9995 is a one-sided book, not a quote. Recorded as `no_ask` plus `resting_only_opportunities` (`resting_only_best_bid: min = median = max = 0.999`). The earlier late-day window (17:00–19:00 local) is UNKNOWN until scheduled runs cover it. |
+| 14.6 | Dead legs quote a takeable NO ask late in the day | **FAIL (2026-09-15, 21:00 local)** | 167 of 167 dead legs across the September-14 US/LatAm events had **no NO ask**: NO ladders were bids only at 0.999 (thousands of contracts), YES asks at 0.001–0.003. The `outcomePrices` mid of 0.9995 is a one-sided book, not a quote. Recorded as `no_ask` plus `resting_only_opportunities` (`resting_only_best_bid: min = median = max = 0.999`). The earlier late-day window (17:00–19:00 local) is UNKNOWN until scheduled runs cover it. |
 | 14.7 | Pre-registered rule is applied exactly and never declares pass/fail early | **PASS** | `verdict`: PASS at `n ≥ 30` NO positions over `≥ 10` station-days with mean net ≥ 2¢ and zero losses; any loss trips `kill_rule_triggered`; below the floors `INSUFFICIENT_DATA` (`test_verdict_applies_the_pre_registered_rule_and_kill_switch`). Fixture: `n = 29`, one staged loss → `INSUFFICIENT_DATA` + kill flag. |
 | 14.8 | **The hypothesis** (≥ 2–3¢ net per contract on settled dead-bucket NO positions) | **UNKNOWN** | 0 settled positions; the committed snapshot is one cycle with 0 admits. Needs hourly runs against one `--artifact-dir` for weeks. |
-| 14.9 | Synthetic fixtures are labelled and never published as evidence | **PASS** | `research/fixtures/weather_dead_bucket_replay.json` `_comment` says SYNTHETIC and documents the staged Buenos Aires disagreement; report `status = fixture_synthetic`; `sync-artifacts.mjs` copies the report only when `paper_only && source == measured`; the committed dashboard report is the network run. |
+| 14.9 | Synthetic fixtures are labelled and never published as evidence | **PASS** | `research/fixtures/weather_dead_bucket_replay.json` `_comment` says SYNTHETIC and documents the staged Buenos Aires disagreement; report `status = fixture_synthetic` (the wiring branch's `sync-artifacts.mjs` refuses to publish that status); the committed dashboard report is the network run. |
 
 ## 15. Known gaps / not validated
 
