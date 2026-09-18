@@ -59,7 +59,7 @@ Useful flags: `--series` (open-book universe; default `DEFAULT_MACRO_SERIES`),
 `--expost-series` (harvest universe; default macro + `KXMLBGAME KXNFLGAME KXNCAAFGAME`),
 `--longshot-threshold`, `--join-fill-probability`, `--improve-fill-probability`,
 `--adverse-selection-haircut`, `--max-total-cash-at-risk`, `--min-markets`,
-`--min-contracts`, `--exclude-final-minutes`, `--no-persist`, `--reset-ledgers`, `--no-fees`.
+`--min-contracts`, `--exclude-final-minutes`, `--no-persist`, `--reset-ledgers`, `--no-fees`, `--queue-sim` (additive queue-aware maker sim; see below).
 
 The two tracks also run inside every `apps.measure_all` / `apps.paper_loop` cycle on the
 shared snapshot (tracks 6 and 7), so the main scoreboard carries them too.
@@ -179,6 +179,51 @@ significance thresholds at the market-cluster level, and no positive maker edge 
 fees. A longer settled history (more Fed/CPI cycles) is needed before either fade goes
 anywhere near a live canary.
 
+
+## Queue-aware maker fill simulation (`--queue-sim`)
+
+Additive to the expected-value ``kalshi_maker_quote`` track. Same favourite-side
+fade placement (join / one-tick improve), but fills come only from a **conservative
+L2 + public-tape queue model** (`strategies/flb_queue.py`, `research/flb_queue_sim.py`)
+instead of ``floor(qty·p)``.
+
+```bash
+# Deterministic fixture (synthetic tape + settlement outcomes)
+uv run python -m apps.measure_flb --queue-sim --artifact-dir artifacts
+
+# Replay a self-logged book archive (preferred forward source for fills)
+uv run python -m apps.measure_flb --queue-sim --queue-sim-archive artifacts/books
+
+# Network + settled harvest → bookless settled-history path (trade-through fills only)
+uv run python -m apps.measure_flb --network --kalshi-env prod --harvest-trades --queue-sim \
+    --artifact-dir artifacts
+```
+
+Useful knobs: ``--queue-sim-min-fills`` (default 30), ``--queue-sim-min-markets`` (10),
+``--queue-sim-pass-net-ev`` (default ``0.02`` = 2¢), ``--queue-sim-stretch-net-ev`` (``0.03``).
+
+Artifact: ``artifacts/flb_queue_sim_latest.json`` (also summarised under
+``flb_report_latest.json → queue_sim``). Existing FLB snapshot / ex-post / paper-track
+paths are unchanged.
+
+### Pre-registered pass / fail / underpowered
+
+| Check | PASS | FAIL | Underpowered |
+| --- | --- | --- | --- |
+| `maker_queue_net_ev` | contract-weighted net EV/ct ≥ **2¢** after maker fees, market-clustered t ≥ 2, on ≥ 30 fills across ≥ 10 markets (settlement when outcomes exist, else longest markout net of fees). Stretch bar **3¢** is reported, not required. | sample floors met but EV or t below the 2¢ bar | < 30 fills or < 10 markets → `INSUFFICIENT_DATA` |
+| `maker_fills_not_adversely_selected` | longest-horizon markout not significantly negative (t > −2) | significantly negative markout | below fill floor or no later mids |
+
+### Honesty limits (also in the report and ASSUMPTIONS §10.10)
+
+* Public Kalshi books are aggregated L2 — **no L3 / FIFO**, no order ids, no cancels.
+* Between polls every reverting cross is invisible; the tape helps, but the book each
+  print hit is only known to the nearest snapshot.
+* Cancels ahead of us are never assumed; later books may only *lengthen* `queue_ahead`.
+* Settled-trade-only path (no L2): quotes are bookless and fill **only on trade-through**
+  prints — never assume we were first at an unknown level.
+* Self-logged archives from `apps.book_logger` are the preferred forward source for fills;
+  settled harvests score outcomes but lack books.
+
 ## Assumptions (all documented in `flb_report_latest.json → assumptions`)
 
 * **Fee model.** Kalshi July-2026 schedule: taker `round_up(M·0.07·C·P·(1−P))`, maker
@@ -211,7 +256,8 @@ anywhere near a live canary.
 ## Tests
 
 `tests/test_flb.py` (bands, fee model, both strategies, caps, expected fills, track
-runners, snapshot verdicts), `tests/test_flb_expost.py` (per-trade accounting, fair-price
+runners, snapshot verdicts), `tests/test_flb_queue_sim.py` (conservative queue model,
+settled-history path, `--queue-sim` artifact), `tests/test_flb_expost.py` (per-trade accounting, fair-price
 FAIL, small-sample INSUFFICIENT, clustering, end-game exclusion, slope, harvest against a
 mocked public API), `tests/test_measure_flb.py` (CLI persistence, ledger carry-over,
 `--no-fees`, live-flag refusal). `uv run pytest -q`.
