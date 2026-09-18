@@ -10,6 +10,7 @@ band. Outputs (relative to ``--artifact-dir``, default ``artifacts/``):
 * ``paper/ledger_<track>.json``     ledgers (carried across runs unless ``--no-persist``)
 * ``paper/equity_curve_<track>.jsonl``
 * ``paper/runs/<run_id>.json``      run record picked up by the dashboard experiments index
+* ``flb_queue_sim_latest.json``     queue-aware maker fill sim (when ``--queue-sim``)
 
 Paper-only: refuses to start if the environment requests live trading. Reads
 only unauthenticated Kalshi endpoints; demo keys are not needed and not used.
@@ -49,6 +50,15 @@ from research.flb_expost import (
     load_settled_trades,
     not_measured_report,
 )
+from research.flb_queue_sim import (
+    FIXTURE_PATH as QUEUE_SIM_FIXTURE_PATH,
+    TRACK as QUEUE_SIM_TRACK,
+    load_fixture_timelines,
+    run_queue_sim,
+    timelines_from_archive,
+    timelines_from_settled,
+)
+from strategies.flb_queue import FlbQueueParameters
 from research.scoreboard import TrackSummary, VenueSnapshot, capture_snapshot, run_flb_tracks
 from research.scoreboard_artifact import build_scoreboard_artifact
 from strategies.flb import FlbParameters
@@ -292,6 +302,9 @@ async def run(
     min_markets: int,
     min_contracts: float,
     exclude_final_minutes: int,
+    queue_sim: bool = False,
+    queue_sim_archive: Path | None = None,
+    queue_params: FlbQueueParameters | None = None,
 ) -> dict[str, Any]:
     require_paper_only("measure_flb")
     mode = "network" if use_network else "fixtures"
@@ -323,12 +336,53 @@ async def run(
         kalshi_env=kalshi_env, measured_at=measured_at, run_id=run_id, model_fees=model_fees,
     )
     report = to_jsonable(report)
+
+    queue_report = None
+    if queue_sim:
+        qparams = queue_params or FlbQueueParameters(flb=params)
+        if queue_sim_archive is not None:
+            timelines, qmeta = timelines_from_archive(queue_sim_archive)
+            qmeta["mode"] = "archive"
+        elif (harvest_dir / HARVEST_FILE).exists():
+            settled, smeta = load_settled_trades(harvest_dir / HARVEST_FILE)
+            timelines, qmeta = timelines_from_settled(settled)
+            qmeta["mode"] = "settled_harvest"
+            qmeta["harvest_meta"] = smeta
+        else:
+            timelines, qmeta = load_fixture_timelines(QUEUE_SIM_FIXTURE_PATH)
+            qmeta["mode"] = "fixture" if not use_network else "fixture_fallback"
+            if use_network:
+                qmeta["note"] = "No archive or settled harvest; used synthetic queue-sim fixture."
+        queue_report = await run_queue_sim(
+            timelines,
+            params=qparams,
+            model_fees=model_fees,
+            source_meta=qmeta,
+        )
+        queue_report = to_jsonable(queue_report)
+        report["queue_sim"] = {
+            "track": QUEUE_SIM_TRACK,
+            "headline": queue_report.get("headline"),
+            "verdicts": {k: {"verdict": v.get("verdict"), "reason": v.get("reason")} for k, v in queue_report.get("verdicts", {}).items()},
+            "stats": {
+                **{k: queue_report.get("stats", {}).get(k) for k in ("fills", "contracts", "markets", "primary_scoring")},
+                "fill_rate_contracts": queue_report.get("fill_rate_contracts"),
+            },
+            "report": "flb_queue_sim_latest.json",
+            "honesty_limits": queue_report.get("honesty_limits"),
+            "pre_registration": queue_report.get("pre_registration"),
+        }
+        write_json(artifact_dir / "flb_queue_sim_latest.json", queue_report)
+
     persist_flb_run(
         artifact_dir=artifact_dir, report=report, summaries=summaries,
         ledgers=ledgers_by_track if persist_ledgers else {}, mode=mode, kalshi_env=kalshi_env,
         limit=limit, measured_at=measured_at, run_id=run_id,
     )
     _print_report(report)
+    if queue_report is not None:
+        print(f"\nqueue-aware maker sim: {queue_report.get('headline')}")
+        print(f"  artifact: {artifact_dir / 'flb_queue_sim_latest.json'}")
     print(f"\nartifacts: {artifact_dir / 'flb_report_latest.json'}  {artifact_dir / 'scoreboard_flb.json'}  {artifact_dir / 'paper'}")
     return report
 
@@ -356,6 +410,21 @@ def main() -> None:
     parser.add_argument("--no-persist", action="store_true", help="do not carry ledgers across runs")
     parser.add_argument("--reset-ledgers", action="store_true")
     parser.add_argument("--no-fees", action="store_true", help="disable the Kalshi fee model")
+    parser.add_argument(
+        "--queue-sim",
+        action="store_true",
+        help="run additive queue-aware maker fill sim (fixture / --queue-sim-archive / settled harvest)",
+    )
+    parser.add_argument(
+        "--queue-sim-archive",
+        type=Path,
+        default=None,
+        help="replay apps.book_logger archive root for the queue sim (implies --queue-sim)",
+    )
+    parser.add_argument("--queue-sim-min-fills", type=int, default=30)
+    parser.add_argument("--queue-sim-min-markets", type=int, default=10)
+    parser.add_argument("--queue-sim-pass-net-ev", type=Decimal, default=Decimal("0.02"), help="pre-registered net EV bar in $/contract (default 2¢)")
+    parser.add_argument("--queue-sim-stretch-net-ev", type=Decimal, default=Decimal("0.03"), help="stretch bar (default 3¢)")
     args = parser.parse_args()
     require_paper_only("measure_flb")
     params = FlbParameters(
@@ -364,6 +433,13 @@ def main() -> None:
         improve_fill_probability=args.improve_fill_probability,
         adverse_selection_haircut=args.adverse_selection_haircut,
         max_total_cash_at_risk=args.max_total_cash_at_risk,
+    )
+    queue_params = FlbQueueParameters(
+        flb=params,
+        min_fills_for_verdict=max(1, args.queue_sim_min_fills),
+        min_markets_for_verdict=max(1, args.queue_sim_min_markets),
+        pass_net_ev=args.queue_sim_pass_net_ev,
+        stretch_net_ev=args.queue_sim_stretch_net_ev,
     )
     asyncio.run(
         run(
@@ -384,6 +460,9 @@ def main() -> None:
             min_markets=args.min_markets,
             min_contracts=args.min_contracts,
             exclude_final_minutes=args.exclude_final_minutes,
+            queue_sim=args.queue_sim or args.queue_sim_archive is not None,
+            queue_sim_archive=args.queue_sim_archive,
+            queue_params=queue_params,
         )
     )
 

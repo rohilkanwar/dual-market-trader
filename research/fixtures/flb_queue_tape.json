@@ -1,0 +1,147 @@
+{
+  "_comment": "SYNTHETIC FIXTURE for kalshi_maker_queue_sim — not evidence about Kalshi. Four macro-like markets: A improve-then-fill at level after queue consumed; B join behind displayed, trade-through fill; C toxic fill (mid moves against us) that still settles favourably; D bookless-style longshot prints only (settled path exercise via empty books). Caps and fees match FLB paper defaults.",
+  "source": "fixture",
+  "t0": "2026-09-15T16:00:00Z",
+  "markets": [
+    {
+      "market_id": "KXFEDDECISION-26SEP-H25",
+      "title": "Will the Fed hike 25bps in Sep? (synthetic)",
+      "volume": "50000",
+      "metadata": {
+        "series_ticker": "KXFEDDECISION",
+        "category": "economics",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "event_ticker": "KXFEDDECISION-26SEP",
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "KXFEDDECISION-26SEP-C25",
+      "title": "Will the Fed cut 25bps in Sep? (synthetic)",
+      "volume": "40000",
+      "metadata": {
+        "series_ticker": "KXFEDDECISION",
+        "category": "economics",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "event_ticker": "KXFEDDECISION-26SEP",
+        "paper_settlement_outcome": "yes"
+      }
+    },
+    {
+      "market_id": "KXCPIYOY-26SEP-T3.0",
+      "title": "CPI YoY above 3.0%? (synthetic)",
+      "volume": "20000",
+      "metadata": {
+        "series_ticker": "KXCPIYOY",
+        "category": "economics",
+        "fee_type": "quadratic_with_maker_fees",
+        "fee_multiplier": 1,
+        "event_ticker": "KXCPIYOY-26SEP",
+        "paper_settlement_outcome": "no"
+      }
+    },
+    {
+      "market_id": "KXPAYROLLS-26SEP-T180",
+      "title": "Payrolls above 180k? (synthetic bookless)",
+      "volume": "15000",
+      "metadata": {
+        "series_ticker": "KXPAYROLLS",
+        "category": "economics",
+        "fee_type": "quadratic",
+        "fee_multiplier": 1,
+        "event_ticker": "KXPAYROLLS-26SEP",
+        "paper_settlement_outcome": "yes"
+      }
+    }
+  ],
+  "timeline": {
+    "KXFEDDECISION-26SEP-H25": {
+      "books": [
+        {
+          "ts": "2026-09-15T16:00:00Z",
+          "bids": [["0.04", "800"], ["0.03", "1200"]],
+          "asks": [["0.06", "500"], ["0.07", "900"]]
+        },
+        {
+          "ts": "2026-09-15T16:05:00Z",
+          "bids": [["0.04", "700"], ["0.03", "1000"]],
+          "asks": [["0.05", "200"], ["0.06", "400"]]
+        },
+        {
+          "ts": "2026-09-15T16:08:00Z",
+          "bids": [["0.03", "600"]],
+          "asks": [["0.05", "100"], ["0.06", "300"]]
+        }
+      ],
+      "trades": [
+        {"ts": "2026-09-15T16:00:30Z", "yes_price": "0.06", "size": "50", "taker_side": "yes", "trade_id": "a1"},
+        {"ts": "2026-09-15T16:02:00Z", "yes_price": "0.05", "size": "40", "taker_side": "yes", "trade_id": "a2"},
+        {"ts": "2026-09-15T16:03:00Z", "yes_price": "0.05", "size": "30", "taker_side": "yes", "trade_id": "a3"},
+        {"ts": "2026-09-15T16:06:00Z", "yes_price": "0.04", "size": "25", "taker_side": "no", "trade_id": "a4"},
+        {"ts": "2026-09-15T16:07:00Z", "yes_price": "0.06", "size": "80", "taker_side": "yes", "trade_id": "a5"}
+      ]
+    },
+    "KXFEDDECISION-26SEP-C25": {
+      "books": [
+        {
+          "ts": "2026-09-15T16:00:00Z",
+          "bids": [["0.88", "400"], ["0.87", "600"]],
+          "asks": [["0.90", "300"], ["0.91", "500"]]
+        },
+        {
+          "ts": "2026-09-15T16:04:00Z",
+          "bids": [["0.89", "200"], ["0.88", "400"]],
+          "asks": [["0.91", "250"], ["0.92", "400"]]
+        },
+        {
+          "ts": "2026-09-15T16:10:00Z",
+          "bids": [["0.90", "150"]],
+          "asks": [["0.92", "200"]]
+        }
+      ],
+      "trades": [
+        {"ts": "2026-09-15T16:01:00Z", "yes_price": "0.10", "size": "100", "taker_side": "no", "trade_id": "b1"},
+        {"ts": "2026-09-15T16:03:00Z", "yes_price": "0.89", "size": "50", "taker_side": "yes", "trade_id": "b2"},
+        {"ts": "2026-09-15T16:05:00Z", "yes_price": "0.91", "size": "60", "taker_side": "yes", "trade_id": "b3"},
+        {"ts": "2026-09-15T16:06:00Z", "yes_price": "0.92", "size": "40", "taker_side": "yes", "trade_id": "b4"}
+      ]
+    },
+    "KXCPIYOY-26SEP-T3.0": {
+      "books": [
+        {
+          "ts": "2026-09-15T16:00:00Z",
+          "bids": [["0.08", "300"], ["0.07", "500"]],
+          "asks": [["0.10", "200"], ["0.11", "400"]]
+        },
+        {
+          "ts": "2026-09-15T16:03:00Z",
+          "bids": [["0.12", "200"], ["0.10", "300"]],
+          "asks": [["0.14", "150"], ["0.15", "250"]]
+        },
+        {
+          "ts": "2026-09-15T16:09:00Z",
+          "bids": [["0.15", "100"]],
+          "asks": [["0.17", "120"]]
+        }
+      ],
+      "trades": [
+        {"ts": "2026-09-15T16:01:00Z", "yes_price": "0.10", "size": "20", "taker_side": "yes", "trade_id": "c1"},
+        {"ts": "2026-09-15T16:02:30Z", "yes_price": "0.09", "size": "50", "taker_side": "yes", "trade_id": "c2"},
+        {"ts": "2026-09-15T16:04:00Z", "yes_price": "0.08", "size": "30", "taker_side": "no", "trade_id": "c3"},
+        {"ts": "2026-09-15T16:05:00Z", "yes_price": "0.11", "size": "70", "taker_side": "yes", "trade_id": "c4"}
+      ]
+    },
+    "KXPAYROLLS-26SEP-T180": {
+      "books": [],
+      "trades": [
+        {"ts": "2026-09-15T16:00:00Z", "yes_price": "0.12", "size": "200", "taker_side": "yes", "trade_id": "d1"},
+        {"ts": "2026-09-15T16:01:00Z", "yes_price": "0.11", "size": "80", "taker_side": "yes", "trade_id": "d2"},
+        {"ts": "2026-09-15T16:03:00Z", "yes_price": "0.14", "size": "100", "taker_side": "yes", "trade_id": "d3"},
+        {"ts": "2026-09-15T16:04:00Z", "yes_price": "0.10", "size": "50", "taker_side": "no", "trade_id": "d4"},
+        {"ts": "2026-09-15T16:06:00Z", "yes_price": "0.15", "size": "90", "taker_side": "yes", "trade_id": "d5"}
+      ]
+    }
+  }
+}
