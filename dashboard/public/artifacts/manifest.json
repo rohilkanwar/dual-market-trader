@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T18:04:30.727Z",
+  "generated_at": "2026-09-23T01:26:29.232Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -99,10 +99,16 @@
       "measured_at": "2026-09-18T18:03:38.063388+00:00",
       "paper_pnl": null
     },
+    "paper/ledger_weather_bucket_edge.json": {
+      "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
+      "source": "ledger",
+      "measured_at": "2026-09-23T01:26:16.709931+00:00",
+      "paper_pnl": null
+    },
     "paper/ledger_weather_dead_bucket.json": {
       "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
       "source": "ledger",
-      "measured_at": "2026-09-18T18:04:03.379384+00:00",
+      "measured_at": "2026-09-23T01:25:10.448160+00:00",
       "paper_pnl": null
     },
     "scoreboard_latest.json": {
@@ -126,8 +132,14 @@
     "scoreboard_weather.json": {
       "target": "public/artifacts/scoreboard_weather.json",
       "source": "measured",
-      "measured_at": "2026-09-18T18:03:56.558260+00:00",
+      "measured_at": "2026-09-23T01:24:43.381311+00:00",
       "paper_pnl": 0
+    },
+    "scoreboard_weather_buckets.json": {
+      "target": "public/artifacts/scoreboard_weather_buckets.json",
+      "source": "measured",
+      "measured_at": "2026-09-23T01:25:13.766916+00:00",
+      "paper_pnl": -31.5519
     },
     "specialist_scoreboard_latest.json": {
       "target": "public/artifacts/specialist_scoreboard_latest.json",
@@ -148,16 +160,22 @@
       "paper_pnl": null,
       "headline": "Fade EV after fees: INSUFFICIENT_DATA (all regimes) / INSUFFICIENT_DATA (favourite >= 70c) / INSUFFICIENT_DATA (excluding final minutes); strong beats weak INSUFFICIENT_DATA; tourist flow loses INSUFFICIENT_DATA (adverse selection not measured). Live track: 10 markets, 1 clusters faded, 1 paper fills."
     },
+    "weather_buckets_latest.json": {
+      "target": "public/artifacts/weather_buckets_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-23T01:25:13.766916+00:00",
+      "paper_pnl": null
+    },
     "weather_report_latest.json": {
       "target": "public/artifacts/weather_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-18T18:03:56.558260+00:00",
+      "measured_at": "2026-09-23T01:24:43.381311+00:00",
       "paper_pnl": null
     },
     "weather_report_network.json": {
       "target": "public/artifacts/weather_report_network.json",
       "source": "measured",
-      "measured_at": "2026-09-18T18:03:56.558260+00:00",
+      "measured_at": "2026-09-23T01:24:43.381311+00:00",
       "paper_pnl": null
     }
   }
