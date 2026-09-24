@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-09-23T01:26:29.337Z",
+  "generated_at": "2026-09-24T01:00:26.910Z",
   "schema_version": "1.3.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 33,
-    "measured": 31,
+    "total": 35,
+    "measured": 33,
     "sample": 2,
     "backtest": 0
   },
   "modes": {
-    "network": 26,
+    "network": 28,
     "fixtures": 7
   },
   "latest_run_id": "20260918T180338Z-9cd64958",
@@ -155,8 +155,8 @@
         "weather_dead_bucket",
         "weather_naive_ensemble"
       ],
-      "runs": 11,
-      "measured_runs": 10,
+      "runs": 13,
+      "measured_runs": 12,
       "sample_runs": 1
     },
     {
@@ -247,21 +247,202 @@
       "label": "Weather",
       "description": "Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble",
       "status": "measured",
-      "run_id": "20260923T012616Z-bca575b2",
-      "measured_at": "2026-09-23T01:25:13.766916+00:00",
+      "run_id": "20260924T010001Z-d99bf681",
+      "measured_at": "2026-09-24T00:58:52.593610+00:00",
       "mode": "network",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
         "weather_bucket_edge"
       ],
-      "candidates": 60,
-      "admitted": 24,
-      "paper_fills": 88,
-      "paper_pnl": -31.55,
+      "candidates": 40,
+      "admitted": 9,
+      "paper_fills": 31,
+      "paper_pnl": -39.26,
       "detail": "/artifacts/scoreboard_weather_buckets.json"
     }
   ],
   "runs": [
+    {
+      "run_id": "20260924T010001Z-d99bf681",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / WEATHER BUCKETS",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-24T00:58:52.593610+00:00",
+      "generated_at": "2026-09-24T01:00:01.543454+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_bucket_edge",
+      "track_family": "weather",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 40,
+        "admitted": 9,
+        "rejects": 31,
+        "paper_fills": 31,
+        "paper_pnl": -39.26,
+        "realized_pnl": -14.54,
+        "unrealized_pnl": -24.72,
+        "fees_paid": 14.54
+      },
+      "tracks": [
+        {
+          "track": "weather_bucket_edge",
+          "label": "Weather temperature-bucket edge (free ensemble)",
+          "family": "weather",
+          "candidates": 40,
+          "admitted": 9,
+          "paper_fills": 31,
+          "edge_bps": 1702,
+          "settlement_risk": false,
+          "paper_pnl": -39.26
+        }
+      ],
+      "gate": null,
+      "weather": {
+        "status": "measured",
+        "source": null,
+        "tracks": [
+          "weather_bucket_edge"
+        ],
+        "markets": 0,
+        "buckets": 0,
+        "cities": [],
+        "stations": 0,
+        "stations_parsed": 0,
+        "station_parse_rate": null,
+        "ensemble_edge_n": 0,
+        "ensemble_edge_mean_bps": null,
+        "dead_bucket_candidates": 0,
+        "dead_bucket_kills": 0,
+        "calibration_n": 0,
+        "preregistered_n": null,
+        "evaluation_status": "not_run",
+        "hypothesis_validated": false
+      },
+      "artifacts": [
+        "scoreboard_weather_buckets.json",
+        "runs/20260924T010001Z-d99bf681.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather_buckets.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260924T005847Z-fd727941",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / WEATHER DEAD BUCKET",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-24T00:58:06.059869+00:00",
+      "generated_at": "2026-09-24T00:58:47.031399+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_dead_bucket",
+      "track_family": "weather",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 396,
+        "admitted": 0,
+        "rejects": 396,
+        "paper_fills": 0,
+        "paper_pnl": 0,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "fees_paid": 0
+      },
+      "tracks": [
+        {
+          "track": "weather_dead_bucket",
+          "label": "Weather dead bucket (late-day METAR)",
+          "family": "weather",
+          "candidates": 396,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        }
+      ],
+      "gate": null,
+      "weather": {
+        "status": "measured",
+        "source": "aviationweather+nws",
+        "tracks": [
+          "weather_dead_bucket"
+        ],
+        "markets": 36,
+        "buckets": 396,
+        "cities": [
+          "Ankara",
+          "Atlanta",
+          "Austin",
+          "Beijing",
+          "Buenos Aires",
+          "Chicago",
+          "Chongqing",
+          "Dallas",
+          "Denver",
+          "Houston",
+          "London",
+          "Los Angeles",
+          "Lucknow",
+          "Madrid",
+          "Mexico City",
+          "Miami",
+          "Milan",
+          "Munich",
+          "NYC",
+          "Panama City",
+          "Paris",
+          "San Francisco",
+          "Sao Paulo",
+          "Seattle",
+          "Seoul (Incheon)",
+          "Shanghai",
+          "Singapore",
+          "Taipei",
+          "Tel Aviv",
+          "Tokyo",
+          "Toronto",
+          "Warsaw",
+          "Wellington",
+          "Wuhan"
+        ],
+        "stations": 34,
+        "stations_parsed": 34,
+        "station_parse_rate": 1,
+        "ensemble_edge_n": 0,
+        "ensemble_edge_mean_bps": null,
+        "dead_bucket_candidates": 374,
+        "dead_bucket_kills": 158,
+        "calibration_n": 0,
+        "preregistered_n": 30,
+        "evaluation_status": "not_run",
+        "hypothesis_validated": false
+      },
+      "artifacts": [
+        "scoreboard_weather.json",
+        "runs/20260924T005847Z-fd727941.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
     {
       "run_id": "20260923T012616Z-bca575b2",
       "kind": "paper_run",
@@ -270,7 +451,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-09-23T01:25:13.766916+00:00",
-      "generated_at": "2026-09-23T01:26:16.736177+00:00",
+      "generated_at": null,
       "venues": [
         "polymarket"
       ],
@@ -326,10 +507,9 @@
         "hypothesis_validated": false
       },
       "artifacts": [
-        "scoreboard_weather_buckets.json",
         "runs/20260923T012616Z-bca575b2.json"
       ],
-      "detail": "/artifacts/scoreboard_weather_buckets.json",
+      "detail": "/artifacts/runs/20260923T012616Z-bca575b2.json",
       "families": [
         "weather"
       ],
@@ -343,7 +523,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-09-23T01:24:43.381311+00:00",
-      "generated_at": "2026-09-23T01:25:10.456185+00:00",
+      "generated_at": null,
       "venues": [
         "polymarket"
       ],
@@ -443,10 +623,9 @@
         "hypothesis_validated": false
       },
       "artifacts": [
-        "scoreboard_weather.json",
         "runs/20260923T012510Z-c0c39c26.json"
       ],
-      "detail": "/artifacts/scoreboard_weather.json",
+      "detail": "/artifacts/runs/20260923T012510Z-c0c39c26.json",
       "families": [
         "weather"
       ],
@@ -4137,14 +4316,14 @@
       "ledger_id": "weather_bucket_edge",
       "track": "weather_bucket_edge",
       "family": "weather",
-      "updated_at": "2026-09-23T01:26:16.709931+00:00",
+      "updated_at": "2026-09-24T01:00:01.527990+00:00",
       "mark_method": "mid",
-      "fills": 88,
-      "equity_points": 3,
+      "fills": 119,
+      "equity_points": 4,
       "starting_cash": 1000,
-      "equity": 968.44808,
-      "total_pnl": -31.55,
-      "max_drawdown": 31.55192,
+      "equity": 960.73748,
+      "total_pnl": -39.26,
+      "max_drawdown": 39.26252,
       "artifact": "/artifacts/paper_ledger_weather_bucket_edge.json"
     },
     {
@@ -4165,10 +4344,10 @@
       "ledger_id": "weather_dead_bucket",
       "track": "weather_dead_bucket",
       "family": "weather",
-      "updated_at": "2026-09-23T01:25:10.448160+00:00",
+      "updated_at": "2026-09-24T00:58:47.024944+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 4,
+      "equity_points": 5,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
