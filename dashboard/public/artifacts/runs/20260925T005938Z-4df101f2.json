@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "paper_run_record",
+  "paper_only": true,
+  "derived_from": [
+    "paper/runs/20260925T005938Z-4df101f2.json"
+  ],
+  "run_id": "20260925T005938Z-4df101f2",
+  "mode": "network",
+  "measured_at": "2026-09-25T00:55:22.417592+00:00",
+  "completed_at": null,
+  "cycle": null,
+  "duration_seconds": null,
+  "label": "MEASURED / NETWORK / WEATHER BUCKETS",
+  "venues": [
+    "polymarket"
+  ],
+  "venue_focus": "polymarket",
+  "kalshi_env": null,
+  "track_family": "weather",
+  "primary_track": "weather_bucket_edge",
+  "weather": {
+    "admitted": 11,
+    "buckets": 0,
+    "calibration_n": 0,
+    "candidates": 120,
+    "cities": [],
+    "dead_bucket_candidates": 0,
+    "dead_bucket_kills": 0,
+    "ensemble_edge_mean_bps": null,
+    "ensemble_edge_n": 0,
+    "evaluation_status": "not_run",
+    "hypothesis_validated": false,
+    "markets": 0,
+    "note": "Weather tracks are paper only; pass/fail is declared solely by the strategy's pre-registered evaluation. Per-market rows live in weather_report_<mode>.json.",
+    "paper_fills": 36,
+    "preregistered_n": null,
+    "source": null,
+    "station_parse_rate": null,
+    "stations": 0,
+    "stations_parsed": 0,
+    "status": "measured",
+    "tracks": [
+      "weather_bucket_edge"
+    ]
+  },
+  "pnl_source": "core.ledger.PaperLedger",
+  "totals": {
+    "candidates": 120,
+    "admitted": 11,
+    "rejects": 109,
+    "proposed_orders": 36,
+    "paper_fills": 36,
+    "paper_pnl": 94.66,
+    "realized_pnl": 107.89,
+    "unrealized_pnl": -13.23,
+    "fees_paid": 18.8
+  },
+  "gate": null,
+  "tracks": [
+    {
+      "track": "weather_bucket_edge",
+      "label": "Weather temperature-bucket edge (free ensemble)",
+      "candidates": 120,
+      "admitted": 11,
+      "rejects": 109,
+      "proposed_orders": 36,
+      "paper_fills": 36,
+      "fill_rate": 1,
+      "edge_bps": 1446,
+      "settlement_risk": false,
+      "reject_reasons": {
+        "forecast_unavailable": 7,
+        "no_station": 2,
+        "priced_no_edge": 70,
+        "too_far_ahead": 30
+      },
+      "notes": "Polymarket daily highest/lowest temperature buckets vs a free multi-model ensemble (Open-Meteo: GEFS, ECMWF IFS, ICON-EPS members) at the exact settlement station parsed from the rules text (fail-closed on missing or ambiguous stations). Member daily max/min rounded to whole degrees gives bucket probabilities (alpha 0.5 smoothing); a bucket is bought (YES or NO, taker at the touch) only when the model edge net of the Polymarket weather taker fee clears 3c, with caps $10/order, $20/bucket, $40/city-day, $1,000 total cost basis (= paper cash, never borrows), two-sided books with spread <= 10c, and RiskManager rails. City-days settle on the venue resolution only; METAR-derived outcomes are a provisional cross-check. Pre-registered pass: mean net PnL per contract >= 2c across >= 30 venue-settled city-days with 95% lower bound > 0. Full register: weather_buckets_latest.json.",
+      "ledger": {
+        "ledger_id": "weather_bucket_edge",
+        "starting_cash": 1000,
+        "cash": 1194.19787,
+        "equity": 1094.65787,
+        "realized_pnl": 107.89,
+        "unrealized_pnl": -13.23,
+        "total_pnl": 94.66,
+        "fees_paid": 18.8,
+        "fills": 243,
+        "open_positions": 67,
+        "max_drawdown": 39.26252
+      }
+    }
+  ]
+}
