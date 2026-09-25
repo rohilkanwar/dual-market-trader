@@ -1,8 +1,15 @@
 {
-  "generated_at": "2026-09-24T01:00:26.813Z",
+  "generated_at": "2026-09-25T01:00:01.947Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
+    "flb_report_latest.json": {
+      "target": "public/artifacts/flb_report_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-24T06:35:24.702067+00:00",
+      "paper_pnl": null,
+      "headline": "Snapshot books: FLB NOT_IDENTIFIABLE (prices without outcomes). Ex-post from settled trades: longshot tail (<20c) PASS contract-weighted / FAIL equal-weighted by market; favorite-longshot slope (below vs above 50c) FAIL; maker fade edge after fees PASS."
+    },
     "gate_report_latest.json": {
       "target": "public/artifacts/gate_report_latest.json",
       "source": "measured",
@@ -18,7 +25,7 @@
     "paper/ledger_category_specialist.json": {
       "target": "public/artifacts/paper_ledger_category_specialist.json",
       "source": "ledger",
-      "measured_at": "2026-09-18T18:03:38.063777+00:00",
+      "measured_at": "2026-09-24T06:38:28.716299+00:00",
       "paper_pnl": null
     },
     "paper/ledger_fade_the_tourist.json": {
@@ -42,13 +49,31 @@
     "paper/ledger_kalshi_longshot_fade.json": {
       "target": "public/artifacts/paper_ledger_kalshi_longshot_fade.json",
       "source": "ledger",
-      "measured_at": "2026-09-18T18:03:38.063636+00:00",
+      "measured_at": "2026-09-24T06:35:24.756930+00:00",
       "paper_pnl": null
     },
     "paper/ledger_kalshi_maker_quote.json": {
       "target": "public/artifacts/paper_ledger_kalshi_maker_quote.json",
       "source": "ledger",
-      "measured_at": "2026-09-18T18:03:38.063713+00:00",
+      "measured_at": "2026-09-24T06:35:24.757459+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_kalshi_noise_taker_leg.json": {
+      "target": "public/artifacts/paper_ledger_kalshi_noise_taker_leg.json",
+      "source": "ledger",
+      "measured_at": "2026-09-24T06:38:25.175383+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_kalshi_whale_maker_leg.json": {
+      "target": "public/artifacts/paper_ledger_kalshi_whale_maker_leg.json",
+      "source": "ledger",
+      "measured_at": "2026-09-24T06:38:25.175200+00:00",
+      "paper_pnl": null
+    },
+    "paper/ledger_kalshi_whale_noise_combined.json": {
+      "target": "public/artifacts/paper_ledger_kalshi_whale_noise_combined.json",
+      "source": "ledger",
+      "measured_at": "2026-09-24T06:38:25.174755+00:00",
       "paper_pnl": null
     },
     "paper/ledger_news_underreaction.json": {
@@ -102,14 +127,20 @@
     "paper/ledger_weather_bucket_edge.json": {
       "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
       "source": "ledger",
-      "measured_at": "2026-09-24T01:00:01.527990+00:00",
+      "measured_at": "2026-09-25T00:59:38.769479+00:00",
       "paper_pnl": null
     },
     "paper/ledger_weather_dead_bucket.json": {
       "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
       "source": "ledger",
-      "measured_at": "2026-09-24T00:58:47.024944+00:00",
+      "measured_at": "2026-09-25T00:55:16.326282+00:00",
       "paper_pnl": null
+    },
+    "scoreboard_flb.json": {
+      "target": "public/artifacts/scoreboard_flb.json",
+      "source": "measured",
+      "measured_at": "2026-09-24T06:35:24.702067+00:00",
+      "paper_pnl": -5.1287
     },
     "scoreboard_latest.json": {
       "target": "public/artifacts/scoreboard_latest.json",
@@ -132,14 +163,20 @@
     "scoreboard_weather.json": {
       "target": "public/artifacts/scoreboard_weather.json",
       "source": "measured",
-      "measured_at": "2026-09-24T00:58:06.059869+00:00",
+      "measured_at": "2026-09-25T00:54:00.264736+00:00",
       "paper_pnl": 0
     },
     "scoreboard_weather_buckets.json": {
       "target": "public/artifacts/scoreboard_weather_buckets.json",
       "source": "measured",
-      "measured_at": "2026-09-24T00:58:52.593610+00:00",
-      "paper_pnl": -39.2625
+      "measured_at": "2026-09-25T00:55:22.417592+00:00",
+      "paper_pnl": 94.6579
+    },
+    "scoreboard_whale_noise.json": {
+      "target": "public/artifacts/scoreboard_whale_noise.json",
+      "source": "measured",
+      "measured_at": "2026-09-24T06:38:25.168478+00:00",
+      "paper_pnl": 6.1784
     },
     "specialist_scoreboard_latest.json": {
       "target": "public/artifacts/specialist_scoreboard_latest.json",
@@ -150,7 +187,7 @@
     "specialist_scoreboard_network.json": {
       "target": "public/artifacts/specialist_scoreboard_network.json",
       "source": "measured",
-      "measured_at": "2026-09-18T18:03:25.748142+00:00",
+      "measured_at": "2026-09-24T06:38:28.716437+00:00",
       "paper_pnl": null
     },
     "tourist_fade_report_latest.json": {
@@ -163,20 +200,27 @@
     "weather_buckets_latest.json": {
       "target": "public/artifacts/weather_buckets_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-24T00:58:52.593610+00:00",
+      "measured_at": "2026-09-25T00:55:22.417592+00:00",
       "paper_pnl": null
     },
     "weather_report_latest.json": {
       "target": "public/artifacts/weather_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-24T00:58:06.059869+00:00",
+      "measured_at": "2026-09-25T00:54:00.264736+00:00",
       "paper_pnl": null
     },
     "weather_report_network.json": {
       "target": "public/artifacts/weather_report_network.json",
       "source": "measured",
-      "measured_at": "2026-09-24T00:58:06.059869+00:00",
+      "measured_at": "2026-09-25T00:54:00.264736+00:00",
       "paper_pnl": null
+    },
+    "whale_noise_report_latest.json": {
+      "target": "public/artifacts/whale_noise_report_latest.json",
+      "source": "measured",
+      "measured_at": "2026-09-24T06:38:25.168478+00:00",
+      "paper_pnl": null,
+      "headline": "Combined vs legs: PASS (combined +2.96 vs maker +2.47 / taker +0.74, 8 combined fills). Maker fill rate 78% of quoted contracts (3/4 quotes filled), 300s toxicity 20%. Whale flow ex post: PASS (verified_expost)."
     }
   }
 }
