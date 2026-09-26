@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-09-25T01:00:19.185Z",
+  "generated_at": "2026-09-26T00:57:21.128Z",
   "schema_version": "1.3.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 37,
-    "measured": 35,
+    "total": 41,
+    "measured": 39,
     "sample": 2,
     "backtest": 0
   },
   "modes": {
-    "network": 30,
-    "fixtures": 7
+    "network": 32,
+    "fixtures": 9
   },
   "latest_run_id": "20260918T180338Z-9cd64958",
   "families": [
@@ -41,8 +41,8 @@
         "kalshi_whale_maker_leg",
         "kalshi_whale_noise_combined"
       ],
-      "runs": 7,
-      "measured_runs": 7,
+      "runs": 9,
+      "measured_runs": 9,
       "sample_runs": 0
     },
     {
@@ -155,8 +155,8 @@
         "weather_dead_bucket",
         "weather_naive_ensemble"
       ],
-      "runs": 15,
-      "measured_runs": 14,
+      "runs": 17,
+      "measured_runs": 16,
       "sample_runs": 1
     },
     {
@@ -208,19 +208,20 @@
       "label": "Kalshi FLB",
       "description": "Kalshi maker / FLB",
       "status": "measured",
-      "run_id": "20260918T180338Z-9cd64958",
-      "measured_at": "2026-09-18T18:03:25.748142+00:00",
-      "mode": "network",
+      "run_id": "20260924T063825Z-whale-539bf854",
+      "measured_at": "2026-09-24T06:38:25.168478+00:00",
+      "mode": "fixtures",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
-        "kalshi_longshot_fade",
-        "kalshi_maker_quote"
+        "kalshi_whale_noise_combined",
+        "kalshi_whale_maker_leg",
+        "kalshi_noise_taker_leg"
       ],
-      "candidates": 0,
-      "admitted": 0,
-      "paper_fills": 0,
-      "paper_pnl": 0,
-      "detail": "/artifacts/scoreboard_network.json"
+      "candidates": 24,
+      "admitted": 15,
+      "paper_fills": 18,
+      "paper_pnl": 6.17,
+      "detail": "/artifacts/scoreboard_whale_noise.json"
     },
     {
       "family": "xv_gated",
@@ -247,21 +248,210 @@
       "label": "Weather",
       "description": "Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble",
       "status": "measured",
-      "run_id": "20260925T005938Z-4df101f2",
-      "measured_at": "2026-09-25T00:55:22.417592+00:00",
+      "run_id": "20260926T005707Z-38819d9d",
+      "measured_at": "2026-09-26T00:53:57.615312+00:00",
       "mode": "network",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
         "weather_bucket_edge"
       ],
       "candidates": 120,
-      "admitted": 11,
-      "paper_fills": 36,
-      "paper_pnl": 94.66,
+      "admitted": 29,
+      "paper_fills": 94,
+      "paper_pnl": 38.54,
       "detail": "/artifacts/scoreboard_weather_buckets.json"
     }
   ],
   "runs": [
+    {
+      "run_id": "20260926T005707Z-38819d9d",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / WEATHER BUCKETS",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-26T00:53:57.615312+00:00",
+      "generated_at": "2026-09-26T00:57:07.532517+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_bucket_edge",
+      "track_family": "weather",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 120,
+        "admitted": 29,
+        "rejects": 91,
+        "paper_fills": 94,
+        "paper_pnl": 38.54,
+        "realized_pnl": 67.95,
+        "unrealized_pnl": -29.4,
+        "fees_paid": 31.08
+      },
+      "tracks": [
+        {
+          "track": "weather_bucket_edge",
+          "label": "Weather temperature-bucket edge (free ensemble)",
+          "family": "weather",
+          "candidates": 120,
+          "admitted": 29,
+          "paper_fills": 94,
+          "edge_bps": 1523,
+          "settlement_risk": false,
+          "paper_pnl": 38.54
+        }
+      ],
+      "gate": null,
+      "weather": {
+        "status": "measured",
+        "source": null,
+        "tracks": [
+          "weather_bucket_edge"
+        ],
+        "markets": 0,
+        "buckets": 0,
+        "cities": [],
+        "stations": 0,
+        "stations_parsed": 0,
+        "station_parse_rate": null,
+        "ensemble_edge_n": 0,
+        "ensemble_edge_mean_bps": null,
+        "dead_bucket_candidates": 0,
+        "dead_bucket_kills": 0,
+        "calibration_n": 0,
+        "preregistered_n": null,
+        "evaluation_status": "not_run",
+        "hypothesis_validated": false
+      },
+      "artifacts": [
+        "scoreboard_weather_buckets.json",
+        "runs/20260926T005707Z-38819d9d.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather_buckets.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260926T005347Z-8b8e096d",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / WEATHER DEAD BUCKET",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-09-26T00:53:11.068778+00:00",
+      "generated_at": "2026-09-26T00:53:47.874530+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_dead_bucket",
+      "track_family": "weather",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 610,
+        "admitted": 0,
+        "rejects": 610,
+        "paper_fills": 0,
+        "paper_pnl": 0,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "fees_paid": 0
+      },
+      "tracks": [
+        {
+          "track": "weather_dead_bucket",
+          "label": "Weather dead bucket (late-day METAR)",
+          "family": "weather",
+          "candidates": 610,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        }
+      ],
+      "gate": null,
+      "weather": {
+        "status": "measured",
+        "source": "aviationweather+nws",
+        "tracks": [
+          "weather_dead_bucket"
+        ],
+        "markets": 56,
+        "buckets": 610,
+        "cities": [
+          "Amsterdam",
+          "Ankara",
+          "Atlanta",
+          "Austin",
+          "Beijing",
+          "Buenos Aires",
+          "Busan",
+          "Cape Town",
+          "Chengdu",
+          "Chicago",
+          "Chongqing",
+          "Dallas",
+          "Denver",
+          "Helsinki",
+          "Houston",
+          "Istanbul",
+          "London",
+          "Los Angeles",
+          "Lucknow",
+          "Madrid",
+          "Mexico City",
+          "Miami",
+          "Milan",
+          "Moscow",
+          "Munich",
+          "NYC",
+          "Panama City",
+          "Paris",
+          "San Francisco",
+          "Sao Paulo",
+          "Seattle",
+          "Seoul (Incheon)",
+          "Shanghai",
+          "Shenzhen",
+          "Singapore",
+          "Taipei",
+          "Tel Aviv",
+          "Tokyo",
+          "Toronto",
+          "Warsaw",
+          "Wellington",
+          "Wuhan"
+        ],
+        "stations": 42,
+        "stations_parsed": 42,
+        "station_parse_rate": 1,
+        "ensemble_edge_n": 0,
+        "ensemble_edge_mean_bps": null,
+        "dead_bucket_candidates": 577,
+        "dead_bucket_kills": 288,
+        "calibration_n": 0,
+        "preregistered_n": 30,
+        "evaluation_status": "not_run",
+        "hypothesis_validated": false
+      },
+      "artifacts": [
+        "scoreboard_weather.json",
+        "runs/20260926T005347Z-8b8e096d.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
     {
       "run_id": "20260925T005938Z-4df101f2",
       "kind": "paper_run",
@@ -270,7 +460,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-09-25T00:55:22.417592+00:00",
-      "generated_at": "2026-09-25T00:59:38.811485+00:00",
+      "generated_at": null,
       "venues": [
         "polymarket"
       ],
@@ -326,10 +516,9 @@
         "hypothesis_validated": false
       },
       "artifacts": [
-        "scoreboard_weather_buckets.json",
         "runs/20260925T005938Z-4df101f2.json"
       ],
-      "detail": "/artifacts/scoreboard_weather_buckets.json",
+      "detail": "/artifacts/runs/20260925T005938Z-4df101f2.json",
       "families": [
         "weather"
       ],
@@ -343,7 +532,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-09-25T00:54:00.264736+00:00",
-      "generated_at": "2026-09-25T00:55:16.354342+00:00",
+      "generated_at": null,
       "venues": [
         "polymarket"
       ],
@@ -445,12 +634,150 @@
         "hypothesis_validated": false
       },
       "artifacts": [
-        "scoreboard_weather.json",
         "runs/20260925T005516Z-7ad0c042.json"
       ],
-      "detail": "/artifacts/scoreboard_weather.json",
+      "detail": "/artifacts/runs/20260925T005516Z-7ad0c042.json",
       "families": [
         "weather"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260924T063825Z-whale-539bf854",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / FIXTURES / KALSHI WHALE/NOISE",
+      "mode": "fixtures",
+      "cycle": null,
+      "measured_at": "2026-09-24T06:38:25.168478+00:00",
+      "generated_at": "2026-09-24T06:38:25.187103+00:00",
+      "venues": [
+        "kalshi"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": null,
+      "primary_track": "kalshi_whale_noise_combined",
+      "track_family": "kalshi_flb",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 24,
+        "admitted": 15,
+        "rejects": 9,
+        "paper_fills": 18,
+        "paper_pnl": 6.18,
+        "realized_pnl": -1.6,
+        "unrealized_pnl": 7.78,
+        "fees_paid": 1.6
+      },
+      "tracks": [
+        {
+          "track": "kalshi_whale_noise_combined",
+          "label": "Kalshi whale-follow maker + noise fade (combined)",
+          "family": "kalshi_flb",
+          "candidates": 12,
+          "admitted": 7,
+          "paper_fills": 8,
+          "edge_bps": 71,
+          "settlement_risk": false,
+          "paper_pnl": 2.96
+        },
+        {
+          "track": "kalshi_whale_maker_leg",
+          "label": "Kalshi whale-follow maker leg",
+          "family": "kalshi_flb",
+          "candidates": 5,
+          "admitted": 5,
+          "paper_fills": 7,
+          "edge_bps": 200,
+          "settlement_risk": false,
+          "paper_pnl": 2.47
+        },
+        {
+          "track": "kalshi_noise_taker_leg",
+          "label": "Kalshi retail-longshot taker fade leg",
+          "family": "kalshi_flb",
+          "candidates": 7,
+          "admitted": 3,
+          "paper_fills": 3,
+          "edge_bps": -100,
+          "settlement_risk": false,
+          "paper_pnl": 0.74
+        }
+      ],
+      "gate": null,
+      "weather": null,
+      "artifacts": [
+        "scoreboard_whale_noise.json",
+        "runs/20260924T063825Z-whale-539bf854.json"
+      ],
+      "detail": "/artifacts/scoreboard_whale_noise.json",
+      "families": [
+        "kalshi_flb"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20260924T063524Z-flb-1d682c6c",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / FIXTURES / KALSHI FLB",
+      "mode": "fixtures",
+      "cycle": null,
+      "measured_at": "2026-09-24T06:35:24.702067+00:00",
+      "generated_at": "2026-09-24T06:35:24.774653+00:00",
+      "venues": [
+        "kalshi"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": null,
+      "primary_track": "kalshi_maker_quote",
+      "track_family": null,
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 24,
+        "admitted": 18,
+        "rejects": 6,
+        "paper_fills": 17,
+        "paper_pnl": -5.13,
+        "realized_pnl": -1.23,
+        "unrealized_pnl": -3.9,
+        "fees_paid": 1.23
+      },
+      "tracks": [
+        {
+          "track": "kalshi_longshot_fade",
+          "label": "Kalshi longshot fade (taker)",
+          "family": "kalshi_flb",
+          "candidates": 12,
+          "admitted": 9,
+          "paper_fills": 9,
+          "edge_bps": -117,
+          "settlement_risk": false,
+          "paper_pnl": -3.91
+        },
+        {
+          "track": "kalshi_maker_quote",
+          "label": "Kalshi maker quote (resting fade)",
+          "family": "kalshi_flb",
+          "candidates": 12,
+          "admitted": 9,
+          "paper_fills": 8,
+          "edge_bps": -1,
+          "settlement_risk": false,
+          "paper_pnl": -1.22
+        }
+      ],
+      "gate": null,
+      "weather": null,
+      "artifacts": [
+        "scoreboard_flb.json",
+        "runs/20260924T063524Z-flb-1d682c6c.json"
+      ],
+      "detail": "/artifacts/scoreboard_flb.json",
+      "families": [
+        "kalshi_flb"
       ],
       "is_latest": false
     },
@@ -2154,7 +2481,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-09-14T23:29:16.972531+00:00",
-      "generated_at": "2026-09-14T23:29:21.713160+00:00",
+      "generated_at": null,
       "venues": [
         "kalshi"
       ],
@@ -2212,10 +2539,9 @@
       "gate": null,
       "weather": null,
       "artifacts": [
-        "scoreboard_whale_noise.json",
         "runs/20260914T232916Z-whale-a6158906.json"
       ],
-      "detail": "/artifacts/scoreboard_whale_noise.json",
+      "detail": "/artifacts/runs/20260914T232916Z-whale-a6158906.json",
       "families": [
         "kalshi_flb"
       ],
@@ -2463,7 +2789,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-09-14T21:46:02.135236+00:00",
-      "generated_at": "2026-09-14T21:46:24.869019+00:00",
+      "generated_at": null,
       "venues": [
         "kalshi"
       ],
@@ -2510,10 +2836,9 @@
       "gate": null,
       "weather": null,
       "artifacts": [
-        "scoreboard_flb.json",
         "runs/20260914T214602Z-flb-aed44114.json"
       ],
-      "detail": "/artifacts/scoreboard_flb.json",
+      "detail": "/artifacts/runs/20260914T214602Z-flb-aed44114.json",
       "families": [
         "kalshi_flb"
       ],
@@ -4212,10 +4537,10 @@
       "ledger_id": "category_specialist",
       "track": "category_specialist",
       "family": "specialist",
-      "updated_at": "2026-09-18T18:03:38.063777+00:00",
+      "updated_at": "2026-09-24T06:38:28.716299+00:00",
       "mark_method": "mid",
       "fills": 2,
-      "equity_points": 1,
+      "equity_points": 2,
       "starting_cash": 1000,
       "equity": 999.73,
       "total_pnl": -0.27,
@@ -4268,55 +4593,55 @@
       "ledger_id": "kalshi_longshot_fade",
       "track": "kalshi_longshot_fade",
       "family": "kalshi_flb",
-      "updated_at": "2026-09-18T18:03:38.063636+00:00",
+      "updated_at": "2026-09-24T06:35:24.756930+00:00",
       "mark_method": "mid",
-      "fills": 0,
-      "equity_points": 1,
+      "fills": 9,
+      "equity_points": 2,
       "starting_cash": 1000,
-      "equity": 1000,
-      "total_pnl": 0,
-      "max_drawdown": 0,
+      "equity": 996.0905,
+      "total_pnl": -3.91,
+      "max_drawdown": 3.9095,
       "artifact": "/artifacts/paper_ledger_kalshi_longshot_fade.json"
     },
     {
       "ledger_id": "kalshi_maker_quote",
       "track": "kalshi_maker_quote",
       "family": "kalshi_flb",
-      "updated_at": "2026-09-18T18:03:38.063713+00:00",
+      "updated_at": "2026-09-24T06:35:24.757459+00:00",
       "mark_method": "conservative",
-      "fills": 0,
-      "equity_points": 1,
+      "fills": 8,
+      "equity_points": 2,
       "starting_cash": 1000,
-      "equity": 1000,
-      "total_pnl": 0,
-      "max_drawdown": 0,
+      "equity": 998.7808,
+      "total_pnl": -1.22,
+      "max_drawdown": 1.2192,
       "artifact": "/artifacts/paper_ledger_kalshi_maker_quote.json"
     },
     {
       "ledger_id": "kalshi_noise_taker_leg",
       "track": "kalshi_noise_taker_leg",
       "family": "kalshi_flb",
-      "updated_at": "2026-09-14T23:29:17.942656+00:00",
+      "updated_at": "2026-09-24T06:38:25.175383+00:00",
       "mark_method": "conservative",
-      "fills": 28,
+      "fills": 3,
       "equity_points": 1,
       "starting_cash": 1000,
-      "equity": 945.5808,
-      "total_pnl": -54.42,
-      "max_drawdown": 54.4192,
+      "equity": 1000.7443,
+      "total_pnl": 0.74,
+      "max_drawdown": 0,
       "artifact": "/artifacts/paper_ledger_kalshi_noise_taker_leg.json"
     },
     {
       "ledger_id": "kalshi_whale_maker_leg",
       "track": "kalshi_whale_maker_leg",
       "family": "kalshi_flb",
-      "updated_at": "2026-09-14T23:29:17.942092+00:00",
+      "updated_at": "2026-09-24T06:38:25.175200+00:00",
       "mark_method": "conservative",
-      "fills": 86,
+      "fills": 7,
       "equity_points": 1,
       "starting_cash": 1000,
-      "equity": 1006.6687,
-      "total_pnl": 6.67,
+      "equity": 1002.4749,
+      "total_pnl": 2.47,
       "max_drawdown": 0,
       "artifact": "/artifacts/paper_ledger_kalshi_whale_maker_leg.json"
     },
@@ -4324,14 +4649,14 @@
       "ledger_id": "kalshi_whale_noise_combined",
       "track": "kalshi_whale_noise_combined",
       "family": "kalshi_flb",
-      "updated_at": "2026-09-14T23:29:17.940898+00:00",
+      "updated_at": "2026-09-24T06:38:25.174755+00:00",
       "mark_method": "conservative",
-      "fills": 104,
+      "fills": 8,
       "equity_points": 1,
       "starting_cash": 1000,
-      "equity": 963.397,
-      "total_pnl": -36.6,
-      "max_drawdown": 36.603,
+      "equity": 1002.9592,
+      "total_pnl": 2.96,
+      "max_drawdown": 0,
       "artifact": "/artifacts/paper_ledger_kalshi_whale_noise_combined.json"
     },
     {
@@ -4506,14 +4831,14 @@
       "ledger_id": "weather_bucket_edge",
       "track": "weather_bucket_edge",
       "family": "weather",
-      "updated_at": "2026-09-25T00:59:38.769479+00:00",
+      "updated_at": "2026-09-26T00:57:07.507284+00:00",
       "mark_method": "mid",
-      "fills": 243,
-      "equity_points": 5,
+      "fills": 355,
+      "equity_points": 6,
       "starting_cash": 1000,
-      "equity": 1094.65787,
-      "total_pnl": 94.66,
-      "max_drawdown": 39.26252,
+      "equity": 1038.54373,
+      "total_pnl": 38.54,
+      "max_drawdown": 56.11414,
       "artifact": "/artifacts/paper_ledger_weather_bucket_edge.json"
     },
     {
@@ -4534,10 +4859,10 @@
       "ledger_id": "weather_dead_bucket",
       "track": "weather_dead_bucket",
       "family": "weather",
-      "updated_at": "2026-09-25T00:55:16.326282+00:00",
+      "updated_at": "2026-09-26T00:53:47.865757+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 6,
+      "equity_points": 7,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,

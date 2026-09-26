@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T01:00:01.947Z",
+  "generated_at": "2026-09-26T00:57:20.967Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -127,13 +127,13 @@
     "paper/ledger_weather_bucket_edge.json": {
       "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
       "source": "ledger",
-      "measured_at": "2026-09-25T00:59:38.769479+00:00",
+      "measured_at": "2026-09-26T00:57:07.507284+00:00",
       "paper_pnl": null
     },
     "paper/ledger_weather_dead_bucket.json": {
       "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
       "source": "ledger",
-      "measured_at": "2026-09-25T00:55:16.326282+00:00",
+      "measured_at": "2026-09-26T00:53:47.865757+00:00",
       "paper_pnl": null
     },
     "scoreboard_flb.json": {
@@ -163,14 +163,14 @@
     "scoreboard_weather.json": {
       "target": "public/artifacts/scoreboard_weather.json",
       "source": "measured",
-      "measured_at": "2026-09-25T00:54:00.264736+00:00",
+      "measured_at": "2026-09-26T00:53:11.068778+00:00",
       "paper_pnl": 0
     },
     "scoreboard_weather_buckets.json": {
       "target": "public/artifacts/scoreboard_weather_buckets.json",
       "source": "measured",
-      "measured_at": "2026-09-25T00:55:22.417592+00:00",
-      "paper_pnl": 94.6579
+      "measured_at": "2026-09-26T00:53:57.615312+00:00",
+      "paper_pnl": 38.5437
     },
     "scoreboard_whale_noise.json": {
       "target": "public/artifacts/scoreboard_whale_noise.json",
@@ -200,19 +200,19 @@
     "weather_buckets_latest.json": {
       "target": "public/artifacts/weather_buckets_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-25T00:55:22.417592+00:00",
+      "measured_at": "2026-09-26T00:53:57.615312+00:00",
       "paper_pnl": null
     },
     "weather_report_latest.json": {
       "target": "public/artifacts/weather_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-25T00:54:00.264736+00:00",
+      "measured_at": "2026-09-26T00:53:11.068778+00:00",
       "paper_pnl": null
     },
     "weather_report_network.json": {
       "target": "public/artifacts/weather_report_network.json",
       "source": "measured",
-      "measured_at": "2026-09-25T00:54:00.264736+00:00",
+      "measured_at": "2026-09-26T00:53:11.068778+00:00",
       "paper_pnl": null
     },
     "whale_noise_report_latest.json": {
