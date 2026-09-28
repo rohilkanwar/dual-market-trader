@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T00:57:20.967Z",
+  "generated_at": "2026-09-28T18:19:56.785Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -127,7 +127,7 @@
     "paper/ledger_weather_bucket_edge.json": {
       "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
       "source": "ledger",
-      "measured_at": "2026-09-26T00:57:07.507284+00:00",
+      "measured_at": "2026-09-28T18:18:37.136817+00:00",
       "paper_pnl": null
     },
     "paper/ledger_weather_dead_bucket.json": {
@@ -169,8 +169,8 @@
     "scoreboard_weather_buckets.json": {
       "target": "public/artifacts/scoreboard_weather_buckets.json",
       "source": "measured",
-      "measured_at": "2026-09-26T00:53:57.615312+00:00",
-      "paper_pnl": 38.5437
+      "measured_at": "2026-09-28T18:15:24.036845+00:00",
+      "paper_pnl": 62.6312
     },
     "scoreboard_whale_noise.json": {
       "target": "public/artifacts/scoreboard_whale_noise.json",
@@ -200,7 +200,7 @@
     "weather_buckets_latest.json": {
       "target": "public/artifacts/weather_buckets_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-26T00:53:57.615312+00:00",
+      "measured_at": "2026-09-28T18:15:24.036845+00:00",
       "paper_pnl": null
     },
     "weather_report_latest.json": {
