@@ -27,9 +27,11 @@ run an honest empty when no feed is configured.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
+import time
 import re
 from dataclasses import dataclass, field
 from datetime import UTC, date, datetime, timedelta, tzinfo
@@ -41,8 +43,28 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from strategies.weather_buckets import round_half_up
 
 OPEN_METEO_ENSEMBLE_URL = "https://ensemble-api.open-meteo.com/v1/ensemble"
+OPEN_METEO_FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
 AVIATIONWEATHER_URL = "https://aviationweather.gov/api/data"
 DEFAULT_MODELS: tuple[str, ...] = ("gfs_seamless", "ecmwf_ifs025", "icon_seamless")
+# Deterministic multi-model fallback when ensemble-api returns daily-quota 429.
+FORECAST_FALLBACK_MODELS: tuple[str, ...] = (
+    "gfs_seamless",
+    "ecmwf_ifs025",
+    "icon_seamless",
+    "gfs_global",
+    "icon_global",
+    "gem_global",
+    "jma_gsm",
+    "meteofrance_arpege_world",
+    "ecmwf_aifs025_single",
+    "gem_regional",
+    "cma_grapes_global",
+)
+ENSEMBLE_DISK_CACHE_DIR = Path(__file__).resolve().parents[1] / "artifacts" / "cache" / "open_meteo_ensemble"
+ENSEMBLE_DISK_CACHE_TTL_SEC = 30 * 60
+ENSEMBLE_MAX_RETRIES = 5
+ENSEMBLE_BACKOFF_BASE_SEC = 2.0
+ENSEMBLE_STAGGER_SEC = 0.75
 STATION_REGISTRY_PATH = Path(__file__).resolve().parents[1] / "data" / "weather" / "stations.json"
 PAID_SOURCE_KEY_ENVS: tuple[str, ...] = ("VISUAL_CROSSING_KEY", "WEATHER_PAID_API_KEY")
 PAID_SOURCE_ENABLE_ENV = "WEATHER_ALLOW_PAID_SOURCES"
@@ -53,7 +75,7 @@ FREE_SOURCES = {
         "endpoint": OPEN_METEO_ENSEMBLE_URL,
         "models": list(DEFAULT_MODELS),
         "cost": "free for non-commercial use, no key, 10,000 calls/day",
-        "fields": "daily temperature_2m_max / temperature_2m_min per ensemble member at the station coordinates",
+        "fields": "daily temperature_2m_max / temperature_2m_min per ensemble member at the station coordinates; falls back to api.open-meteo.com multi-model deterministic forecasts on ensemble 429",
         "terms": "https://open-meteo.com/en/terms (CC BY 4.0 data, non-commercial free tier)",
     },
     "observations": {
@@ -70,6 +92,16 @@ _RE_MEMBER_KEY = re.compile(r"^temperature_2m_(max|min)(?:_member(\d+))?_(.+)$")
 
 def _now() -> datetime:
     return datetime.now(UTC)
+
+async def _async_sleep(seconds: float) -> None:
+    """Async sleep that works even when only the stdlib is available."""
+    try:
+        import asyncio
+
+        await asyncio.sleep(seconds)
+    except Exception:
+        time.sleep(seconds)
+
 
 
 def parse_time(raw: Any) -> datetime | None:
@@ -511,7 +543,12 @@ class FixtureWeatherFeed:
 
 
 class PublicWeatherFeed:
-    """Open-Meteo ensemble + aviationweather.gov METAR/stationinfo, read-only, keyless."""
+    """Open-Meteo ensemble + aviationweather.gov METAR/stationinfo, read-only, keyless.
+
+    Ensemble fetches use short disk cache, exponential backoff on 429/5xx, request
+    staggering, and a free multi-model forecast-API fallback when the ensemble host
+    hits its daily free-tier quota.
+    """
 
     name = "open_meteo_plus_metar"
 
@@ -523,6 +560,8 @@ class PublicWeatherFeed:
         timeout: float = 20.0,
         http_get: Any | None = None,
         max_requests: int = 400,
+        cache_dir: Path | None = None,
+        cache_ttl_sec: int = ENSEMBLE_DISK_CACHE_TTL_SEC,
     ) -> None:
         self.registry = registry
         self.models = models
@@ -533,6 +572,45 @@ class PublicWeatherFeed:
         self.errors: list[str] = []
         self._station_cache: dict[str, Station | None] = {}
         self._metar_cache: dict[tuple[str, int], list[MetarObservation]] = {}
+        self._forecast_cache_dir = cache_dir or ENSEMBLE_DISK_CACHE_DIR
+        self._forecast_cache_ttl = cache_ttl_sec
+        self._last_ensemble_fetch_mono: float | None = None
+
+    def _disk_cache_path(self, key: str) -> Path:
+        return self._forecast_cache_dir / f"{key}.json"
+
+    def _cache_key(self, *, endpoint: str, lat: float, lon: float, target_date: date, kind: str, unit: str, models: tuple[str, ...]) -> str:
+        raw = f"{endpoint}|{lat:.4f}|{lon:.4f}|{target_date.isoformat()}|{kind}|{unit}|{','.join(models)}"
+        return hashlib.sha256(raw.encode()).hexdigest()[:40]
+
+    def _read_disk_cache(self, key: str) -> dict[str, Any] | None:
+        path = self._disk_cache_path(key)
+        if not path.exists():
+            return None
+        try:
+            age = time.time() - path.stat().st_mtime
+            if age > self._forecast_cache_ttl:
+                return None
+            payload = json.loads(path.read_text())
+            return payload if isinstance(payload, dict) else None
+        except Exception:
+            return None
+
+    def _write_disk_cache(self, key: str, payload: dict[str, Any]) -> None:
+        try:
+            self._forecast_cache_dir.mkdir(parents=True, exist_ok=True)
+            self._disk_cache_path(key).write_text(json.dumps(payload))
+        except Exception:
+            pass
+
+    async def _stagger_ensemble(self) -> None:
+        if self._last_ensemble_fetch_mono is None:
+            self._last_ensemble_fetch_mono = time.monotonic()
+            return
+        elapsed = time.monotonic() - self._last_ensemble_fetch_mono
+        if elapsed < ENSEMBLE_STAGGER_SEC:
+            await _async_sleep(ENSEMBLE_STAGGER_SEC - elapsed)
+        self._last_ensemble_fetch_mono = time.monotonic()
 
     async def _get(self, url: str, params: dict[str, Any]) -> Any:
         if self.requests_made >= self.max_requests:
@@ -546,6 +624,70 @@ class PublicWeatherFeed:
             response = await client.get(url, params=params)
             response.raise_for_status()
             return response.json()
+
+    async def _get_with_retries(self, url: str, params: dict[str, Any], *, label: str) -> tuple[Any | None, str | None, bool]:
+        """Return (payload, error, daily_quota_exhausted).
+
+        On HTTP 429 we prefer failing fast into the forecast multi-model fallback
+        (especially when the free-tier daily quota is exhausted) rather than
+        burning the full exponential backoff budget per station.
+        """
+        last_err: str | None = None
+        daily_exhausted = False
+        for attempt in range(ENSEMBLE_MAX_RETRIES):
+            try:
+                payload = await self._get(url, params)
+                if isinstance(payload, dict) and payload.get("error"):
+                    last_err = str(payload.get("reason") or payload.get("error") or "open-meteo error")
+                    err_l = last_err.lower()
+                    if "daily" in err_l and "limit" in err_l:
+                        daily_exhausted = True
+                        break
+                    if "too many" in err_l or "rate" in err_l:
+                        # One short retry then fall through to caller fallback.
+                        if attempt == 0:
+                            await _async_sleep(ENSEMBLE_BACKOFF_BASE_SEC)
+                            continue
+                        break
+                    break
+                return payload, None, False
+            except Exception as exc:
+                body = ""
+                status = getattr(exc, "response", None)
+                code = getattr(status, "status_code", None) if status is not None else None
+                if status is not None:
+                    try:
+                        body = status.text[:300]
+                    except Exception:
+                        body = ""
+                last_err = f"{type(exc).__name__}: {exc}"
+                if body:
+                    last_err = f"{last_err} | {body}"
+                    try:
+                        import json as _json
+                        parsed = _json.loads(body)
+                        if isinstance(parsed, dict) and (parsed.get("reason") or parsed.get("error")):
+                            last_err = str(parsed.get("reason") or parsed.get("error"))
+                    except Exception:
+                        pass
+                err_l = last_err.lower()
+                if code is None and "429" in err_l:
+                    code = 429
+                if code == 429 or "too many requests" in err_l:
+                    if "daily" in err_l and "limit" in err_l:
+                        daily_exhausted = True
+                        break
+                    # Rate limit without explicit daily message: one short retry, then fallback.
+                    if attempt == 0:
+                        await _async_sleep(ENSEMBLE_BACKOFF_BASE_SEC)
+                        continue
+                    daily_exhausted = True  # treat persistent 429 as quota-ish for fallback
+                    break
+                if code in (500, 502, 503, 504) or "timeout" in err_l:
+                    await _async_sleep(ENSEMBLE_BACKOFF_BASE_SEC * (2 ** attempt))
+                    continue
+                break
+        return None, last_err or f"{label} failed", daily_exhausted
 
     async def station(self, icao: str) -> Station | None:
         icao = icao.upper()
@@ -564,28 +706,101 @@ class PublicWeatherFeed:
 
     async def forecast(self, station: Station, *, target_date: date, kind: str, unit: str, as_of: datetime) -> EnsembleForecast:
         del as_of
-        params = {
+        base_params = {
             "latitude": station.latitude,
             "longitude": station.longitude,
             "daily": "temperature_2m_max" if kind == "high" else "temperature_2m_min",
-            "models": ",".join(self.models),
             "temperature_unit": "fahrenheit" if unit == "F" else "celsius",
             "timezone": "auto",
             "start_date": target_date.isoformat(),
             "end_date": target_date.isoformat(),
         }
-        try:
-            payload = await self._get(OPEN_METEO_ENSEMBLE_URL, params)
-        except Exception as exc:
-            forecast = EnsembleForecast(station=station.icao, target_date=target_date, kind=kind, unit=unit)
-            forecast.errors.append(f"open-meteo: {type(exc).__name__}: {exc}")
-            self.errors.append(f"open-meteo[{station.icao} {target_date}]: {type(exc).__name__}: {exc}")
-            return forecast
-        if not isinstance(payload, dict):
-            forecast = EnsembleForecast(station=station.icao, target_date=target_date, kind=kind, unit=unit)
-            forecast.errors.append("open-meteo: unexpected payload shape")
-            return forecast
-        return parse_ensemble_payload(payload, station=station.icao, target_date=target_date, kind=kind, unit=unit)
+        models = tuple(self.models) or DEFAULT_MODELS
+
+        # Disk cache (ensemble)
+        ens_key = self._cache_key(
+            endpoint="ensemble",
+            lat=float(station.latitude),
+            lon=float(station.longitude),
+            target_date=target_date,
+            kind=kind,
+            unit=unit,
+            models=models,
+        )
+        cached = self._read_disk_cache(ens_key)
+        if cached is not None:
+            forecast = parse_ensemble_payload(
+                cached, station=station.icao, target_date=target_date, kind=kind, unit=unit, source="open_meteo_ensemble_cache"
+            )
+            if forecast.n_members > 0:
+                return forecast
+
+        await self._stagger_ensemble()
+        ens_params = dict(base_params)
+        ens_params["models"] = ",".join(models)
+        payload, err, daily_exhausted = await self._get_with_retries(
+            OPEN_METEO_ENSEMBLE_URL, ens_params, label=f"ensemble[{station.icao}]"
+        )
+        if payload is not None and isinstance(payload, dict):
+            forecast = parse_ensemble_payload(
+                payload, station=station.icao, target_date=target_date, kind=kind, unit=unit, source="open_meteo_ensemble"
+            )
+            if forecast.n_members > 0:
+                self._write_disk_cache(ens_key, payload)
+                return forecast
+            err = err or ("; ".join(forecast.errors) if forecast.errors else "no members")
+
+        # Forecast multi-model fallback cache
+        fb_key = self._cache_key(
+            endpoint="forecast",
+            lat=float(station.latitude),
+            lon=float(station.longitude),
+            target_date=target_date,
+            kind=kind,
+            unit=unit,
+            models=FORECAST_FALLBACK_MODELS,
+        )
+        cached_fb = self._read_disk_cache(fb_key)
+        if cached_fb is not None:
+            forecast = parse_ensemble_payload(
+                cached_fb,
+                station=station.icao,
+                target_date=target_date,
+                kind=kind,
+                unit=unit,
+                source="open_meteo_forecast_multimodel_fallback_cache",
+            )
+            if forecast.n_members > 0:
+                return forecast
+
+        fb_params = dict(base_params)
+        fb_params["models"] = ",".join(FORECAST_FALLBACK_MODELS)
+        fb_payload, fb_err, _ = await self._get_with_retries(
+            OPEN_METEO_FORECAST_URL, fb_params, label=f"forecast[{station.icao}]"
+        )
+        if fb_payload is not None and isinstance(fb_payload, dict):
+            forecast = parse_ensemble_payload(
+                fb_payload,
+                station=station.icao,
+                target_date=target_date,
+                kind=kind,
+                unit=unit,
+                source="open_meteo_forecast_multimodel_fallback",
+            )
+            if forecast.n_members > 0:
+                self._write_disk_cache(fb_key, fb_payload)
+                if err:
+                    forecast.errors.append(f"ensemble_primary: {err}")
+                return forecast
+            fb_err = fb_err or ("; ".join(forecast.errors) if forecast.errors else "no members")
+
+        forecast = EnsembleForecast(station=station.icao, target_date=target_date, kind=kind, unit=unit)
+        detail = f"ensemble: {err}; forecast_fallback: {fb_err}"
+        if daily_exhausted:
+            detail += " [ensemble daily quota exhausted]"
+        forecast.errors.append(f"open-meteo: {detail}")
+        self.errors.append(f"open-meteo[{station.icao} {target_date}]: {detail}")
+        return forecast
 
     async def observations(self, station: Station, *, as_of: datetime, hours: int = 48) -> list[MetarObservation]:
         key = (station.icao, hours)
@@ -608,6 +823,9 @@ class PublicWeatherFeed:
             "max_requests": self.max_requests,
             "errors": list(self.errors),
             "sources": FREE_SOURCES,
+            "ensemble_cache_dir": str(self._forecast_cache_dir),
+            "ensemble_cache_ttl_sec": self._forecast_cache_ttl,
+            "forecast_fallback_models": list(FORECAST_FALLBACK_MODELS),
         }
 
 
@@ -644,6 +862,8 @@ __all__ = [
     "MetarObservation",
     "NullWeatherFeed",
     "OPEN_METEO_ENSEMBLE_URL",
+    "OPEN_METEO_FORECAST_URL",
+    "FORECAST_FALLBACK_MODELS",
     "ObservedExtreme",
     "PAID_SOURCE_ENABLE_ENV",
     "PAID_SOURCE_KEY_ENVS",
