@@ -574,6 +574,9 @@ class PublicWeatherFeed:
         self._metar_cache: dict[tuple[str, int], list[MetarObservation]] = {}
         self._forecast_cache_dir = cache_dir or ENSEMBLE_DISK_CACHE_DIR
         self._forecast_cache_ttl = cache_ttl_sec
+        # Injected http_get is the unit-test seam; keep cache off so request-budget /
+        # error-path assertions stay deterministic.
+        self._disk_cache_enabled = http_get is None and cache_ttl_sec > 0
         self._last_ensemble_fetch_mono: float | None = None
 
     def _disk_cache_path(self, key: str) -> Path:
@@ -584,6 +587,8 @@ class PublicWeatherFeed:
         return hashlib.sha256(raw.encode()).hexdigest()[:40]
 
     def _read_disk_cache(self, key: str) -> dict[str, Any] | None:
+        if not self._disk_cache_enabled:
+            return None
         path = self._disk_cache_path(key)
         if not path.exists():
             return None
@@ -597,6 +602,8 @@ class PublicWeatherFeed:
             return None
 
     def _write_disk_cache(self, key: str, payload: dict[str, Any]) -> None:
+        if not self._disk_cache_enabled:
+            return
         try:
             self._forecast_cache_dir.mkdir(parents=True, exist_ok=True)
             self._disk_cache_path(key).write_text(json.dumps(payload))
