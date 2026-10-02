@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T00:57:47.824Z",
+  "generated_at": "2026-10-02T00:55:45.782Z",
   "source": "precomputed-paper-artifacts",
   "paper_only": true,
   "artifacts": {
@@ -13,19 +13,19 @@
     "gate_report_latest.json": {
       "target": "public/artifacts/gate_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-29T23:57:20.881142+00:00",
+      "measured_at": "2026-10-01T23:55:48.177252+00:00",
       "paper_pnl": null
     },
     "gate_report_network.json": {
       "target": "public/artifacts/gate_report_network.json",
       "source": "measured",
-      "measured_at": "2026-09-29T23:57:20.881142+00:00",
+      "measured_at": "2026-10-01T23:55:48.177252+00:00",
       "paper_pnl": null
     },
     "paper/ledger_category_specialist.json": {
       "target": "public/artifacts/paper_ledger_category_specialist.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.775471+00:00",
+      "measured_at": "2026-10-01T23:56:18.894021+00:00",
       "paper_pnl": null
     },
     "paper/ledger_fade_the_tourist.json": {
@@ -37,25 +37,25 @@
     "paper/ledger_gated_cross_venue.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774351+00:00",
+      "measured_at": "2026-10-01T23:56:18.892936+00:00",
       "paper_pnl": null
     },
     "paper/ledger_gated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_gated_cross_venue_macro.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774442+00:00",
+      "measured_at": "2026-10-01T23:56:18.893022+00:00",
       "paper_pnl": null
     },
     "paper/ledger_kalshi_longshot_fade.json": {
       "target": "public/artifacts/paper_ledger_kalshi_longshot_fade.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774845+00:00",
+      "measured_at": "2026-10-01T23:56:18.893464+00:00",
       "paper_pnl": null
     },
     "paper/ledger_kalshi_maker_quote.json": {
       "target": "public/artifacts/paper_ledger_kalshi_maker_quote.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.775174+00:00",
+      "measured_at": "2026-10-01T23:56:18.893799+00:00",
       "paper_pnl": null
     },
     "paper/ledger_kalshi_noise_taker_leg.json": {
@@ -79,61 +79,61 @@
     "paper/ledger_news_underreaction.json": {
       "target": "public/artifacts/paper_ledger_news_underreaction.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774704+00:00",
+      "measured_at": "2026-10-01T23:56:18.893289+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_combinatorial_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_combinatorial_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774794+00:00",
+      "measured_at": "2026-10-01T23:56:18.893379+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_negrisk_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_negrisk_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774765+00:00",
+      "measured_at": "2026-10-01T23:56:18.893351+00:00",
       "paper_pnl": null
     },
     "paper/ledger_polymarket_rebalancing_arb.json": {
       "target": "public/artifacts/paper_ledger_polymarket_rebalancing_arb.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774735+00:00",
+      "measured_at": "2026-10-01T23:56:18.893319+00:00",
       "paper_pnl": null
     },
     "paper/ledger_single_venue_fair_value.json": {
       "target": "public/artifacts/paper_ledger_single_venue_fair_value.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774603+00:00",
+      "measured_at": "2026-10-01T23:56:18.893196+00:00",
       "paper_pnl": null
     },
     "paper/ledger_small_deliberate_bet.json": {
       "target": "public/artifacts/paper_ledger_small_deliberate_bet.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774673+00:00",
+      "measured_at": "2026-10-01T23:56:18.893260+00:00",
       "paper_pnl": null
     },
     "paper/ledger_sports_cross_venue.json": {
       "target": "public/artifacts/paper_ledger_sports_cross_venue.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774638+00:00",
+      "measured_at": "2026-10-01T23:56:18.893230+00:00",
       "paper_pnl": null
     },
     "paper/ledger_ungated_cross_venue_macro.json": {
       "target": "public/artifacts/paper_ledger_ungated_cross_venue_macro.json",
       "source": "ledger",
-      "measured_at": "2026-09-29T23:57:41.774515+00:00",
+      "measured_at": "2026-10-01T23:56:18.893110+00:00",
       "paper_pnl": null
     },
     "paper/ledger_weather_bucket_edge.json": {
       "target": "public/artifacts/paper_ledger_weather_bucket_edge.json",
       "source": "ledger",
-      "measured_at": "2026-09-30T00:57:27.647199+00:00",
+      "measured_at": "2026-10-02T00:54:58.837769+00:00",
       "paper_pnl": null
     },
     "paper/ledger_weather_dead_bucket.json": {
       "target": "public/artifacts/paper_ledger_weather_dead_bucket.json",
       "source": "ledger",
-      "measured_at": "2026-09-30T00:55:48.956140+00:00",
+      "measured_at": "2026-10-02T00:53:53.717199+00:00",
       "paper_pnl": null
     },
     "scoreboard_flb.json": {
@@ -145,14 +145,14 @@
     "scoreboard_latest.json": {
       "target": "public/artifacts/scoreboard_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-29T23:57:20.881142+00:00",
-      "paper_pnl": -44.6546
+      "measured_at": "2026-10-01T23:55:48.177252+00:00",
+      "paper_pnl": -107.4658
     },
     "scoreboard_network.json": {
       "target": "public/artifacts/scoreboard_network.json",
       "source": "measured",
-      "measured_at": "2026-09-29T23:57:20.881142+00:00",
-      "paper_pnl": -44.6546
+      "measured_at": "2026-10-01T23:55:48.177252+00:00",
+      "paper_pnl": -107.4658
     },
     "scoreboard_tourist_fade.json": {
       "target": "public/artifacts/scoreboard_tourist_fade.json",
@@ -163,14 +163,14 @@
     "scoreboard_weather.json": {
       "target": "public/artifacts/scoreboard_weather.json",
       "source": "measured",
-      "measured_at": "2026-09-30T00:55:00.752468+00:00",
+      "measured_at": "2026-10-02T00:53:32.251100+00:00",
       "paper_pnl": 0
     },
     "scoreboard_weather_buckets.json": {
       "target": "public/artifacts/scoreboard_weather_buckets.json",
       "source": "measured",
-      "measured_at": "2026-09-30T00:55:52.595156+00:00",
-      "paper_pnl": 5.4209
+      "measured_at": "2026-10-02T00:53:59.477123+00:00",
+      "paper_pnl": -42.9948
     },
     "scoreboard_whale_noise.json": {
       "target": "public/artifacts/scoreboard_whale_noise.json",
@@ -181,13 +181,13 @@
     "specialist_scoreboard_latest.json": {
       "target": "public/artifacts/specialist_scoreboard_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-29T23:57:20.881142+00:00",
+      "measured_at": "2026-10-01T23:55:48.177252+00:00",
       "paper_pnl": null
     },
     "specialist_scoreboard_network.json": {
       "target": "public/artifacts/specialist_scoreboard_network.json",
       "source": "measured",
-      "measured_at": "2026-09-29T23:57:20.881142+00:00",
+      "measured_at": "2026-10-01T23:55:48.177252+00:00",
       "paper_pnl": null
     },
     "tourist_fade_report_latest.json": {
@@ -200,19 +200,19 @@
     "weather_buckets_latest.json": {
       "target": "public/artifacts/weather_buckets_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-30T00:55:52.595156+00:00",
+      "measured_at": "2026-10-02T00:53:59.477123+00:00",
       "paper_pnl": null
     },
     "weather_report_latest.json": {
       "target": "public/artifacts/weather_report_latest.json",
       "source": "measured",
-      "measured_at": "2026-09-30T00:55:00.752468+00:00",
+      "measured_at": "2026-10-02T00:53:32.251100+00:00",
       "paper_pnl": null
     },
     "weather_report_network.json": {
       "target": "public/artifacts/weather_report_network.json",
       "source": "measured",
-      "measured_at": "2026-09-30T00:55:00.752468+00:00",
+      "measured_at": "2026-10-02T00:53:32.251100+00:00",
       "paper_pnl": null
     },
     "whale_noise_report_latest.json": {
