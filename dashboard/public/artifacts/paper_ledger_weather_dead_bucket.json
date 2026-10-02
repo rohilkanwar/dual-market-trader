@@ -163,6 +163,42 @@
       "total_pnl": "0.00000",
       "unmarked_positions": 0,
       "unrealized_pnl": "0.00000"
+    },
+    {
+      "cash": "1000.00000",
+      "drawdown": "0.00000",
+      "equity": "1000.00000",
+      "fees_paid": "0.00000",
+      "fills": 0,
+      "gross_notional": "0.00000",
+      "label": "network:2026-10-01T00:55:39.342161+00:00",
+      "net_exposure": "0.00000",
+      "open_positions": 0,
+      "peak_equity": "1000.00000",
+      "position_value": "0.00000",
+      "realized_pnl": "0.00000",
+      "timestamp": "2026-10-01T00:56:36.450241+00:00",
+      "total_pnl": "0.00000",
+      "unmarked_positions": 0,
+      "unrealized_pnl": "0.00000"
+    },
+    {
+      "cash": "1000.00000",
+      "drawdown": "0.00000",
+      "equity": "1000.00000",
+      "fees_paid": "0.00000",
+      "fills": 0,
+      "gross_notional": "0.00000",
+      "label": "network:2026-10-02T00:53:32.251110+00:00",
+      "net_exposure": "0.00000",
+      "open_positions": 0,
+      "peak_equity": "1000.00000",
+      "position_value": "0.00000",
+      "realized_pnl": "0.00000",
+      "timestamp": "2026-10-02T00:53:53.717199+00:00",
+      "total_pnl": "0.00000",
+      "unmarked_positions": 0,
+      "unrealized_pnl": "0.00000"
     }
   ],
   "fills": [],
@@ -180,7 +216,7 @@
     "concentration": [],
     "created_at": "2026-09-18T18:03:57.108836+00:00",
     "equity": "1000.00000",
-    "equity_points": 9,
+    "equity_points": 11,
     "fees_paid": "0.00000",
     "fills": 0,
     "gross_notional": "0.00000",
@@ -200,7 +236,7 @@
     "total_pnl": "0.00000",
     "unmarked_positions": 0,
     "unrealized_pnl": "0.00000",
-    "updated_at": "2026-09-30T00:55:48.956140+00:00"
+    "updated_at": "2026-10-02T00:53:53.717199+00:00"
   },
-  "updated_at": "2026-09-30T00:55:48.956140+00:00"
+  "updated_at": "2026-10-02T00:53:53.717199+00:00"
 }
