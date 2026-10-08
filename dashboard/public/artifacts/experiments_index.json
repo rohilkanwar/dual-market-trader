@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-10-07T00:47:27.937Z",
+  "generated_at": "2026-10-08T00:52:06.627Z",
   "schema_version": "1.3.0",
   "paper_only": true,
   "source": "public/artifacts",
   "counts": {
-    "total": 76,
-    "measured": 74,
+    "total": 81,
+    "measured": 79,
     "sample": 2,
     "backtest": 0
   },
   "modes": {
-    "network": 67,
+    "network": 72,
     "fixtures": 9
   },
-  "latest_run_id": "20261006T235443Z-7e1358c9",
+  "latest_run_id": "20261008T000101Z-fd2480dc",
   "families": [
     {
       "id": "negrisk",
@@ -25,8 +25,8 @@
         "polymarket_negrisk_arb",
         "polymarket_rebalancing_arb"
       ],
-      "runs": 32,
-      "measured_runs": 32,
+      "runs": 35,
+      "measured_runs": 35,
       "sample_runs": 0
     },
     {
@@ -41,8 +41,8 @@
         "kalshi_whale_maker_leg",
         "kalshi_whale_noise_combined"
       ],
-      "runs": 29,
-      "measured_runs": 29,
+      "runs": 32,
+      "measured_runs": 32,
       "sample_runs": 0
     },
     {
@@ -55,8 +55,8 @@
         "gated_cross_venue_macro",
         "small_deliberate_bet"
       ],
-      "runs": 34,
-      "measured_runs": 33,
+      "runs": 37,
+      "measured_runs": 36,
       "sample_runs": 1
     },
     {
@@ -68,8 +68,8 @@
         "sports_cross_venue",
         "ungated_cross_venue_macro"
       ],
-      "runs": 34,
-      "measured_runs": 33,
+      "runs": 37,
+      "measured_runs": 36,
       "sample_runs": 1
     },
     {
@@ -90,8 +90,8 @@
       "tracks": [
         "single_venue_fair_value"
       ],
-      "runs": 34,
-      "measured_runs": 33,
+      "runs": 37,
+      "measured_runs": 36,
       "sample_runs": 1
     },
     {
@@ -102,8 +102,8 @@
       "tracks": [
         "news_underreaction"
       ],
-      "runs": 30,
-      "measured_runs": 30,
+      "runs": 33,
+      "measured_runs": 33,
       "sample_runs": 0
     },
     {
@@ -140,8 +140,8 @@
       "tracks": [
         "category_specialist"
       ],
-      "runs": 23,
-      "measured_runs": 23,
+      "runs": 26,
+      "measured_runs": 26,
       "sample_runs": 0
     },
     {
@@ -155,8 +155,8 @@
         "weather_dead_bucket",
         "weather_naive_ensemble"
       ],
-      "runs": 32,
-      "measured_runs": 31,
+      "runs": 34,
+      "measured_runs": 33,
       "sample_runs": 1
     },
     {
@@ -188,8 +188,8 @@
       "label": "NegRisk",
       "description": "Polymarket NegRisk / combinatorial / YES+NO rebalancing",
       "status": "measured",
-      "run_id": "20261006T235443Z-7e1358c9",
-      "measured_at": "2026-10-06T23:54:15.865478+00:00",
+      "run_id": "20261008T000101Z-fd2480dc",
+      "measured_at": "2026-10-08T00:00:40.888497+00:00",
       "mode": "network",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
@@ -197,7 +197,7 @@
         "polymarket_negrisk_arb",
         "polymarket_combinatorial_arb"
       ],
-      "candidates": 764,
+      "candidates": 786,
       "admitted": 0,
       "paper_fills": 0,
       "paper_pnl": 0,
@@ -208,8 +208,8 @@
       "label": "Kalshi FLB",
       "description": "Kalshi maker / FLB",
       "status": "measured",
-      "run_id": "20261006T235443Z-7e1358c9",
-      "measured_at": "2026-10-06T23:54:15.865478+00:00",
+      "run_id": "20261008T000101Z-fd2480dc",
+      "measured_at": "2026-10-08T00:00:40.888497+00:00",
       "mode": "network",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
@@ -218,8 +218,8 @@
       ],
       "candidates": 50,
       "admitted": 13,
-      "paper_fills": 6,
-      "paper_pnl": -133.49,
+      "paper_fills": 2,
+      "paper_pnl": -137.6,
       "detail": "/artifacts/scoreboard_network.json"
     },
     {
@@ -227,8 +227,8 @@
       "label": "XV gated",
       "description": "Cross-venue pairs that passed the settlement gate",
       "status": "measured",
-      "run_id": "20261006T235443Z-7e1358c9",
-      "measured_at": "2026-10-06T23:54:15.865478+00:00",
+      "run_id": "20261008T000101Z-fd2480dc",
+      "measured_at": "2026-10-08T00:00:40.888497+00:00",
       "mode": "network",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
@@ -247,21 +247,843 @@
       "label": "Weather",
       "description": "Polymarket daily-temperature buckets (paper): ensemble vs. mid, late-day METAR dead buckets, calibrated ensemble",
       "status": "measured",
-      "run_id": "20261007T004707Z-bd91515a",
-      "measured_at": "2026-10-07T00:46:21.068266+00:00",
+      "run_id": "20261008T005149Z-e6a1faa0",
+      "measured_at": "2026-10-08T00:50:41.587618+00:00",
       "mode": "network",
       "pnl_source": "core.ledger.PaperLedger",
       "tracks": [
         "weather_bucket_edge"
       ],
       "candidates": 60,
-      "admitted": 27,
-      "paper_fills": 93,
-      "paper_pnl": 4.71,
+      "admitted": 22,
+      "paper_fills": 70,
+      "paper_pnl": -21.35,
       "detail": "/artifacts/scoreboard_weather_buckets.json"
     }
   ],
   "runs": [
+    {
+      "run_id": "20261008T005149Z-e6a1faa0",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / WEATHER BUCKETS",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-10-08T00:50:41.587618+00:00",
+      "generated_at": "2026-10-08T00:51:49.409528+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_bucket_edge",
+      "track_family": "weather",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 60,
+        "admitted": 22,
+        "rejects": 38,
+        "paper_fills": 70,
+        "paper_pnl": -21.35,
+        "realized_pnl": 13.76,
+        "unrealized_pnl": -35.11,
+        "fees_paid": 96.08
+      },
+      "tracks": [
+        {
+          "track": "weather_bucket_edge",
+          "label": "Weather temperature-bucket edge (free ensemble)",
+          "family": "weather",
+          "candidates": 60,
+          "admitted": 22,
+          "paper_fills": 70,
+          "edge_bps": 1540,
+          "settlement_risk": false,
+          "paper_pnl": -21.35
+        }
+      ],
+      "gate": null,
+      "weather": {
+        "status": "measured",
+        "source": null,
+        "tracks": [
+          "weather_bucket_edge"
+        ],
+        "markets": 0,
+        "buckets": 0,
+        "cities": [],
+        "stations": 0,
+        "stations_parsed": 0,
+        "station_parse_rate": null,
+        "ensemble_edge_n": 0,
+        "ensemble_edge_mean_bps": null,
+        "dead_bucket_candidates": 0,
+        "dead_bucket_kills": 0,
+        "calibration_n": 0,
+        "preregistered_n": null,
+        "evaluation_status": "not_run",
+        "hypothesis_validated": false
+      },
+      "artifacts": [
+        "scoreboard_weather_buckets.json",
+        "runs/20261008T005149Z-e6a1faa0.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather_buckets.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20261008T005041Z-17e9291c",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK / WEATHER DEAD BUCKET",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-10-08T00:50:00.257249+00:00",
+      "generated_at": "2026-10-08T00:50:41.236855+00:00",
+      "venues": [
+        "polymarket"
+      ],
+      "venue_focus": "polymarket",
+      "kalshi_env": null,
+      "primary_track": "weather_dead_bucket",
+      "track_family": "weather",
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 606,
+        "admitted": 0,
+        "rejects": 606,
+        "paper_fills": 0,
+        "paper_pnl": 0,
+        "realized_pnl": 0,
+        "unrealized_pnl": 0,
+        "fees_paid": 0
+      },
+      "tracks": [
+        {
+          "track": "weather_dead_bucket",
+          "label": "Weather dead bucket (late-day METAR)",
+          "family": "weather",
+          "candidates": 606,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        }
+      ],
+      "gate": null,
+      "weather": {
+        "status": "measured",
+        "source": "aviationweather+nws",
+        "tracks": [
+          "weather_dead_bucket"
+        ],
+        "markets": 56,
+        "buckets": 606,
+        "cities": [
+          "Amsterdam",
+          "Ankara",
+          "Atlanta",
+          "Austin",
+          "Beijing",
+          "Buenos Aires",
+          "Busan",
+          "Cape Town",
+          "Chengdu",
+          "Chicago",
+          "Chongqing",
+          "Dallas",
+          "Denver",
+          "Helsinki",
+          "Houston",
+          "Istanbul",
+          "Kuala Lumpur",
+          "London",
+          "Los Angeles",
+          "Lucknow",
+          "Madrid",
+          "Mexico City",
+          "Miami",
+          "Milan",
+          "Moscow",
+          "Munich",
+          "NYC",
+          "Panama City",
+          "Paris",
+          "San Francisco",
+          "Sao Paulo",
+          "Seattle",
+          "Seoul (Incheon)",
+          "Shanghai",
+          "Shenzhen",
+          "Singapore",
+          "Taipei",
+          "Tel Aviv",
+          "Tokyo",
+          "Toronto",
+          "Warsaw",
+          "Wellington",
+          "Wuhan"
+        ],
+        "stations": 43,
+        "stations_parsed": 43,
+        "station_parse_rate": 1,
+        "ensemble_edge_n": 0,
+        "ensemble_edge_mean_bps": null,
+        "dead_bucket_candidates": 474,
+        "dead_bucket_kills": 184,
+        "calibration_n": 0,
+        "preregistered_n": 30,
+        "evaluation_status": "not_run",
+        "hypothesis_validated": false
+      },
+      "artifacts": [
+        "scoreboard_weather.json",
+        "runs/20261008T005041Z-17e9291c.json"
+      ],
+      "detail": "/artifacts/scoreboard_weather.json",
+      "families": [
+        "weather"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20261008T000101Z-fd2480dc",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-10-08T00:00:40.888497+00:00",
+      "generated_at": "2026-10-08T00:01:01.555630+00:00",
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": "prod",
+      "primary_track": "single_venue_fair_value",
+      "track_family": null,
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 1652,
+        "admitted": 13,
+        "rejects": 1639,
+        "paper_fills": 2,
+        "paper_pnl": -140.41,
+        "realized_pnl": -28.85,
+        "unrealized_pnl": -111.56,
+        "fees_paid": 7.92
+      },
+      "tracks": [
+        {
+          "track": "gated_cross_venue",
+          "label": "Gated cross-venue (clause-matched)",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "gated_cross_venue_macro",
+          "label": "Gated cross-venue macro",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "ungated_cross_venue_macro",
+          "label": "Ungated cross-venue macro (control)",
+          "family": "xv_ungated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 4.05
+        },
+        {
+          "track": "single_venue_fair_value",
+          "label": "Single-venue fair value",
+          "family": "single_venue",
+          "candidates": 50,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "sports_cross_venue",
+          "label": "Sports cross-venue",
+          "family": "xv_ungated",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "small_deliberate_bet",
+          "label": "Small deliberate bet",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "news_underreaction",
+          "label": "News underreaction",
+          "family": "news",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_rebalancing_arb",
+          "label": "Polymarket YES+NO rebalancing",
+          "family": "negrisk",
+          "candidates": 736,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_negrisk_arb",
+          "label": "Polymarket NegRisk convert",
+          "family": "negrisk",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_combinatorial_arb",
+          "label": "Polymarket sum-to-one (hold)",
+          "family": "negrisk",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "kalshi_longshot_fade",
+          "label": "Kalshi longshot fade (taker)",
+          "family": "kalshi_flb",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -85.55
+        },
+        {
+          "track": "kalshi_maker_quote",
+          "label": "Kalshi maker quote (resting fade)",
+          "family": "kalshi_flb",
+          "candidates": 25,
+          "admitted": 13,
+          "paper_fills": 2,
+          "edge_bps": 49,
+          "settlement_risk": false,
+          "paper_pnl": -52.05
+        },
+        {
+          "track": "category_specialist",
+          "label": "Category specialist follow",
+          "family": "specialist",
+          "candidates": 754,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -6.85
+        }
+      ],
+      "gate": {
+        "track": "gated_cross_venue",
+        "policy": "strict",
+        "candidates": 3,
+        "gate_admitted": 0,
+        "gate_refused": 3,
+        "priced_but_no_edge": 0,
+        "traded": 0,
+        "paper_fills": 0,
+        "primary_reject_reasons": {
+          "clause_refuse_mismatch": 3
+        },
+        "all_stage_reject_reasons": {
+          "clause_refuse_mismatch": 3,
+          "fingerprint_indeterminate": 3,
+          "polarity_unverified": 3
+        },
+        "status": "zero_admits_expected"
+      },
+      "weather": null,
+      "artifacts": [
+        "scoreboard_network.json",
+        "scoreboard_latest.json",
+        "runs/20261008T000101Z-fd2480dc.json",
+        "gate_report_latest.json",
+        "gate_report_network.json"
+      ],
+      "detail": "/artifacts/scoreboard_network.json",
+      "gate_report": "/artifacts/gate_report_network.json",
+      "families": [
+        "kalshi_flb",
+        "negrisk",
+        "news",
+        "single_venue",
+        "specialist",
+        "xv_gated",
+        "xv_ungated"
+      ],
+      "is_latest": true
+    },
+    {
+      "run_id": "20261007T200526Z-3d8bdfad",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-10-07T20:05:05.478805+00:00",
+      "generated_at": null,
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": "prod",
+      "primary_track": "single_venue_fair_value",
+      "track_family": null,
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 1938,
+        "admitted": 20,
+        "rejects": 1918,
+        "paper_fills": 11,
+        "paper_pnl": -140.82,
+        "realized_pnl": -28.7,
+        "unrealized_pnl": -112.12,
+        "fees_paid": 7.87
+      },
+      "tracks": [
+        {
+          "track": "gated_cross_venue",
+          "label": "Gated cross-venue (clause-matched)",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "gated_cross_venue_macro",
+          "label": "Gated cross-venue macro",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "ungated_cross_venue_macro",
+          "label": "Ungated cross-venue macro (control)",
+          "family": "xv_ungated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 4.05
+        },
+        {
+          "track": "single_venue_fair_value",
+          "label": "Single-venue fair value",
+          "family": "single_venue",
+          "candidates": 50,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "sports_cross_venue",
+          "label": "Sports cross-venue",
+          "family": "xv_ungated",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "small_deliberate_bet",
+          "label": "Small deliberate bet",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "news_underreaction",
+          "label": "News underreaction",
+          "family": "news",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_rebalancing_arb",
+          "label": "Polymarket YES+NO rebalancing",
+          "family": "negrisk",
+          "candidates": 1045,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_negrisk_arb",
+          "label": "Polymarket NegRisk convert",
+          "family": "negrisk",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_combinatorial_arb",
+          "label": "Polymarket sum-to-one (hold)",
+          "family": "negrisk",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "kalshi_longshot_fade",
+          "label": "Kalshi longshot fade (taker)",
+          "family": "kalshi_flb",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -86.23
+        },
+        {
+          "track": "kalshi_maker_quote",
+          "label": "Kalshi maker quote (resting fade)",
+          "family": "kalshi_flb",
+          "candidates": 25,
+          "admitted": 13,
+          "paper_fills": 4,
+          "edge_bps": 51,
+          "settlement_risk": false,
+          "paper_pnl": -51.85
+        },
+        {
+          "track": "category_specialist",
+          "label": "Category specialist follow",
+          "family": "specialist",
+          "candidates": 731,
+          "admitted": 7,
+          "paper_fills": 7,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -6.79
+        }
+      ],
+      "gate": {
+        "track": "gated_cross_venue",
+        "policy": "strict",
+        "candidates": 3,
+        "gate_admitted": 0,
+        "gate_refused": 3,
+        "priced_but_no_edge": 0,
+        "traded": 0,
+        "paper_fills": 0,
+        "primary_reject_reasons": {
+          "clause_refuse_mismatch": 3
+        },
+        "all_stage_reject_reasons": {
+          "clause_refuse_mismatch": 3,
+          "fingerprint_indeterminate": 3,
+          "polarity_unverified": 3
+        },
+        "status": "zero_admits_expected"
+      },
+      "weather": null,
+      "artifacts": [
+        "runs/20261007T200526Z-3d8bdfad.json"
+      ],
+      "detail": "/artifacts/runs/20261007T200526Z-3d8bdfad.json",
+      "families": [
+        "kalshi_flb",
+        "negrisk",
+        "news",
+        "single_venue",
+        "specialist",
+        "xv_gated",
+        "xv_ungated"
+      ],
+      "is_latest": false
+    },
+    {
+      "run_id": "20261007T160616Z-9e78c98c",
+      "kind": "paper_run",
+      "source": "measured",
+      "label": "MEASURED / NETWORK",
+      "mode": "network",
+      "cycle": null,
+      "measured_at": "2026-10-07T16:05:54.040215+00:00",
+      "generated_at": null,
+      "venues": [
+        "kalshi",
+        "polymarket"
+      ],
+      "venue_focus": "kalshi",
+      "kalshi_env": "prod",
+      "primary_track": "single_venue_fair_value",
+      "track_family": null,
+      "pnl_source": "core.ledger.PaperLedger",
+      "note": null,
+      "totals": {
+        "candidates": 1907,
+        "admitted": 18,
+        "rejects": 1889,
+        "paper_fills": 10,
+        "paper_pnl": -142.37,
+        "realized_pnl": -28.67,
+        "unrealized_pnl": -113.7,
+        "fees_paid": 7.84
+      },
+      "tracks": [
+        {
+          "track": "gated_cross_venue",
+          "label": "Gated cross-venue (clause-matched)",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "gated_cross_venue_macro",
+          "label": "Gated cross-venue macro",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "ungated_cross_venue_macro",
+          "label": "Ungated cross-venue macro (control)",
+          "family": "xv_ungated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 4.3
+        },
+        {
+          "track": "single_venue_fair_value",
+          "label": "Single-venue fair value",
+          "family": "single_venue",
+          "candidates": 50,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "sports_cross_venue",
+          "label": "Sports cross-venue",
+          "family": "xv_ungated",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "small_deliberate_bet",
+          "label": "Small deliberate bet",
+          "family": "xv_gated",
+          "candidates": 3,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "news_underreaction",
+          "label": "News underreaction",
+          "family": "news",
+          "candidates": 0,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_rebalancing_arb",
+          "label": "Polymarket YES+NO rebalancing",
+          "family": "negrisk",
+          "candidates": 1020,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_negrisk_arb",
+          "label": "Polymarket NegRisk convert",
+          "family": "negrisk",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "polymarket_combinatorial_arb",
+          "label": "Polymarket sum-to-one (hold)",
+          "family": "negrisk",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": 0
+        },
+        {
+          "track": "kalshi_longshot_fade",
+          "label": "Kalshi longshot fade (taker)",
+          "family": "kalshi_flb",
+          "candidates": 25,
+          "admitted": 0,
+          "paper_fills": 0,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -87.51
+        },
+        {
+          "track": "kalshi_maker_quote",
+          "label": "Kalshi maker quote (resting fade)",
+          "family": "kalshi_flb",
+          "candidates": 25,
+          "admitted": 13,
+          "paper_fills": 5,
+          "edge_bps": 51,
+          "settlement_risk": false,
+          "paper_pnl": -52.96
+        },
+        {
+          "track": "category_specialist",
+          "label": "Category specialist follow",
+          "family": "specialist",
+          "candidates": 725,
+          "admitted": 5,
+          "paper_fills": 5,
+          "edge_bps": null,
+          "settlement_risk": false,
+          "paper_pnl": -6.2
+        }
+      ],
+      "gate": {
+        "track": "gated_cross_venue",
+        "policy": "strict",
+        "candidates": 3,
+        "gate_admitted": 0,
+        "gate_refused": 3,
+        "priced_but_no_edge": 0,
+        "traded": 0,
+        "paper_fills": 0,
+        "primary_reject_reasons": {
+          "clause_refuse_mismatch": 3
+        },
+        "all_stage_reject_reasons": {
+          "clause_refuse_mismatch": 3,
+          "fingerprint_indeterminate": 3,
+          "polarity_unverified": 3
+        },
+        "status": "zero_admits_expected"
+      },
+      "weather": null,
+      "artifacts": [
+        "runs/20261007T160616Z-9e78c98c.json"
+      ],
+      "detail": "/artifacts/runs/20261007T160616Z-9e78c98c.json",
+      "families": [
+        "kalshi_flb",
+        "negrisk",
+        "news",
+        "single_venue",
+        "specialist",
+        "xv_gated",
+        "xv_ungated"
+      ],
+      "is_latest": false
+    },
     {
       "run_id": "20261007T004707Z-bd91515a",
       "kind": "paper_run",
@@ -270,7 +1092,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-10-07T00:46:21.068266+00:00",
-      "generated_at": "2026-10-07T00:47:07.578303+00:00",
+      "generated_at": null,
       "venues": [
         "polymarket"
       ],
@@ -326,10 +1148,9 @@
         "hypothesis_validated": false
       },
       "artifacts": [
-        "scoreboard_weather_buckets.json",
         "runs/20261007T004707Z-bd91515a.json"
       ],
-      "detail": "/artifacts/scoreboard_weather_buckets.json",
+      "detail": "/artifacts/runs/20261007T004707Z-bd91515a.json",
       "families": [
         "weather"
       ],
@@ -343,7 +1164,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-10-07T00:45:58.909536+00:00",
-      "generated_at": "2026-10-07T00:46:15.723581+00:00",
+      "generated_at": null,
       "venues": [
         "polymarket"
       ],
@@ -443,10 +1264,9 @@
         "hypothesis_validated": false
       },
       "artifacts": [
-        "scoreboard_weather.json",
         "runs/20261007T004615Z-b13662f5.json"
       ],
-      "detail": "/artifacts/scoreboard_weather.json",
+      "detail": "/artifacts/runs/20261007T004615Z-b13662f5.json",
       "families": [
         "weather"
       ],
@@ -460,7 +1280,7 @@
       "mode": "network",
       "cycle": null,
       "measured_at": "2026-10-06T23:54:15.865478+00:00",
-      "generated_at": "2026-10-06T23:54:43.346959+00:00",
+      "generated_at": null,
       "venues": [
         "kalshi",
         "polymarket"
@@ -476,9 +1296,9 @@
         "admitted": 13,
         "rejects": 1601,
         "paper_fills": 6,
-        "paper_pnl": -135.52,
+        "paper_pnl": -135.51,
         "realized_pnl": -28.62,
-        "unrealized_pnl": -106.9,
+        "unrealized_pnl": -106.89,
         "fees_paid": 7.79
       },
       "tracks": [
@@ -647,14 +1467,9 @@
       },
       "weather": null,
       "artifacts": [
-        "scoreboard_network.json",
-        "scoreboard_latest.json",
-        "runs/20261006T235443Z-7e1358c9.json",
-        "gate_report_latest.json",
-        "gate_report_network.json"
+        "runs/20261006T235443Z-7e1358c9.json"
       ],
-      "detail": "/artifacts/scoreboard_network.json",
-      "gate_report": "/artifacts/gate_report_network.json",
+      "detail": "/artifacts/runs/20261006T235443Z-7e1358c9.json",
       "families": [
         "kalshi_flb",
         "negrisk",
@@ -664,7 +1479,7 @@
         "xv_gated",
         "xv_ungated"
       ],
-      "is_latest": true
+      "is_latest": false
     },
     {
       "run_id": "20261006T195822Z-86950009",
@@ -10074,13 +10889,13 @@
       "ledger_id": "category_specialist",
       "track": "category_specialist",
       "family": "specialist",
-      "updated_at": "2026-10-06T23:54:43.321066+00:00",
+      "updated_at": "2026-10-08T00:01:01.511240+00:00",
       "mark_method": "mid",
-      "fills": 62,
-      "equity_points": 22,
+      "fills": 75,
+      "equity_points": 25,
       "starting_cash": 1000,
-      "equity": 994.175,
-      "total_pnl": -5.82,
+      "equity": 993.14789,
+      "total_pnl": -6.85,
       "max_drawdown": 7.74,
       "artifact": "/artifacts/paper_ledger_category_specialist.json"
     },
@@ -10102,10 +10917,10 @@
       "ledger_id": "gated_cross_venue",
       "track": "gated_cross_venue",
       "family": "xv_gated",
-      "updated_at": "2026-10-06T23:54:43.319543+00:00",
+      "updated_at": "2026-10-08T00:01:01.509441+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10116,10 +10931,10 @@
       "ledger_id": "gated_cross_venue_macro",
       "track": "gated_cross_venue_macro",
       "family": "xv_gated",
-      "updated_at": "2026-10-06T23:54:43.319639+00:00",
+      "updated_at": "2026-10-08T00:01:01.509563+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10130,13 +10945,13 @@
       "ledger_id": "kalshi_longshot_fade",
       "track": "kalshi_longshot_fade",
       "family": "kalshi_flb",
-      "updated_at": "2026-10-06T23:54:43.320116+00:00",
+      "updated_at": "2026-10-08T00:01:01.510259+00:00",
       "mark_method": "mid",
       "fills": 46,
-      "equity_points": 22,
+      "equity_points": 25,
       "starting_cash": 1000,
-      "equity": 915.7251,
-      "total_pnl": -84.27,
+      "equity": 914.4451,
+      "total_pnl": -85.55,
       "max_drawdown": 91.2549,
       "artifact": "/artifacts/paper_ledger_kalshi_longshot_fade.json"
     },
@@ -10144,14 +10959,14 @@
       "ledger_id": "kalshi_maker_quote",
       "track": "kalshi_maker_quote",
       "family": "kalshi_flb",
-      "updated_at": "2026-10-06T23:54:43.320604+00:00",
+      "updated_at": "2026-10-08T00:01:01.510769+00:00",
       "mark_method": "conservative",
-      "fills": 62,
-      "equity_points": 22,
+      "fills": 73,
+      "equity_points": 25,
       "starting_cash": 1000,
-      "equity": 950.7776,
-      "total_pnl": -49.22,
-      "max_drawdown": 50.8545,
+      "equity": 947.949,
+      "total_pnl": -52.05,
+      "max_drawdown": 52.9592,
       "artifact": "/artifacts/paper_ledger_kalshi_maker_quote.json"
     },
     {
@@ -10200,10 +11015,10 @@
       "ledger_id": "news_underreaction",
       "track": "news_underreaction",
       "family": "news",
-      "updated_at": "2026-10-06T23:54:43.319915+00:00",
+      "updated_at": "2026-10-08T00:01:01.509986+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10214,10 +11029,10 @@
       "ledger_id": "polymarket_combinatorial_arb",
       "track": "polymarket_combinatorial_arb",
       "family": "negrisk",
-      "updated_at": "2026-10-06T23:54:43.320004+00:00",
+      "updated_at": "2026-10-08T00:01:01.510129+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10228,10 +11043,10 @@
       "ledger_id": "polymarket_negrisk_arb",
       "track": "polymarket_negrisk_arb",
       "family": "negrisk",
-      "updated_at": "2026-10-06T23:54:43.319975+00:00",
+      "updated_at": "2026-10-08T00:01:01.510086+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10242,10 +11057,10 @@
       "ledger_id": "polymarket_rebalancing_arb",
       "track": "polymarket_rebalancing_arb",
       "family": "negrisk",
-      "updated_at": "2026-10-06T23:54:43.319945+00:00",
+      "updated_at": "2026-10-08T00:01:01.510037+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10256,10 +11071,10 @@
       "ledger_id": "single_venue_fair_value",
       "track": "single_venue_fair_value",
       "family": "single_venue",
-      "updated_at": "2026-10-06T23:54:43.319818+00:00",
+      "updated_at": "2026-10-08T00:01:01.509814+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10270,10 +11085,10 @@
       "ledger_id": "small_deliberate_bet",
       "track": "small_deliberate_bet",
       "family": "xv_gated",
-      "updated_at": "2026-10-06T23:54:43.319884+00:00",
+      "updated_at": "2026-10-08T00:01:01.509921+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10284,10 +11099,10 @@
       "ledger_id": "sports_cross_venue",
       "track": "sports_cross_venue",
       "family": "xv_ungated",
-      "updated_at": "2026-10-06T23:54:43.319852+00:00",
+      "updated_at": "2026-10-08T00:01:01.509871+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10354,13 +11169,13 @@
       "ledger_id": "ungated_cross_venue_macro",
       "track": "ungated_cross_venue_macro",
       "family": "xv_ungated",
-      "updated_at": "2026-10-06T23:54:43.319727+00:00",
+      "updated_at": "2026-10-08T00:01:01.509685+00:00",
       "mark_method": "mid",
       "fills": 2,
-      "equity_points": 21,
+      "equity_points": 24,
       "starting_cash": 1000,
-      "equity": 1003.798,
-      "total_pnl": 3.8,
+      "equity": 1004.048,
+      "total_pnl": 4.05,
       "max_drawdown": 3.25,
       "artifact": "/artifacts/paper_ledger_ungated_cross_venue_macro.json"
     },
@@ -10368,13 +11183,13 @@
       "ledger_id": "weather_bucket_edge",
       "track": "weather_bucket_edge",
       "family": "weather",
-      "updated_at": "2026-10-07T00:47:07.557993+00:00",
+      "updated_at": "2026-10-08T00:51:49.383725+00:00",
       "mark_method": "mid",
-      "fills": 1225,
-      "equity_points": 14,
+      "fills": 1295,
+      "equity_points": 15,
       "starting_cash": 1000,
-      "equity": 1004.70952,
-      "total_pnl": 4.71,
+      "equity": 978.64878,
+      "total_pnl": -21.35,
       "max_drawdown": 168.91964,
       "artifact": "/artifacts/paper_ledger_weather_bucket_edge.json"
     },
@@ -10396,10 +11211,10 @@
       "ledger_id": "weather_dead_bucket",
       "track": "weather_dead_bucket",
       "family": "weather",
-      "updated_at": "2026-10-07T00:46:15.714665+00:00",
+      "updated_at": "2026-10-08T00:50:41.222512+00:00",
       "mark_method": "mid",
       "fills": 0,
-      "equity_points": 14,
+      "equity_points": 15,
       "starting_cash": 1000,
       "equity": 1000,
       "total_pnl": 0,
@@ -10424,9 +11239,9 @@
   "gate_reports": [
     {
       "file": "gate_report_network.json",
-      "run_id": "20261006T235443Z-7e1358c9",
+      "run_id": "20261008T000101Z-fd2480dc",
       "mode": "network",
-      "measured_at": "2026-10-06T23:54:15.865478+00:00",
+      "measured_at": "2026-10-08T00:00:40.888497+00:00",
       "policy": "strict",
       "pairs": 3,
       "track": "gated_cross_venue",
@@ -10449,9 +11264,9 @@
     },
     {
       "file": "gate_report_latest.json",
-      "run_id": "20261006T235443Z-7e1358c9",
+      "run_id": "20261008T000101Z-fd2480dc",
       "mode": "network",
-      "measured_at": "2026-10-06T23:54:15.865478+00:00",
+      "measured_at": "2026-10-08T00:00:40.888497+00:00",
       "policy": "strict",
       "pairs": 3,
       "track": "gated_cross_venue",
