@@ -1,5 +1,5 @@
 {
-  "cash": "1158.05252",
+  "cash": "1188.79028",
   "created_at": "2026-09-19T01:16:10.549992+00:00",
   "equity_curve": [
     {
@@ -253,6 +253,24 @@
       "total_pnl": "4.70952",
       "unmarked_positions": 0,
       "unrealized_pnl": "-18.50100"
+    },
+    {
+      "cash": "1188.79028",
+      "drawdown": "116.00909",
+      "equity": "978.64878",
+      "fees_paid": "96.08272",
+      "fills": 1295,
+      "gross_notional": "634.72850",
+      "label": "network:2026-10-08T00:50:41.588360+00:00",
+      "net_exposure": "-210.14150",
+      "open_positions": 163,
+      "peak_equity": "1094.65787",
+      "position_value": "-210.14150",
+      "realized_pnl": "13.76228",
+      "timestamp": "2026-10-08T00:51:49.383725+00:00",
+      "total_pnl": "-21.35122",
+      "unmarked_positions": 0,
+      "unrealized_pnl": "-35.11350"
     }
   ],
   "fills": [
@@ -13730,6 +13748,776 @@
       "side": "buy",
       "timestamp": "2026-10-07T00:47:07.512317+00:00",
       "venue": "polymarket"
+    },
+    {
+      "fee": "0.00514",
+      "market_id": "0x7d6925895cc5bb6a6c10034debcb6b1039a908618f5ddef27e1e3a5f9841062b",
+      "order_id": "paper-49ada5d71f9f",
+      "outcome": "yes",
+      "price": "0.021",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:08.468279+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.20706",
+      "market_id": "0x9c30c53b441e9a9e29d6b79c4508d39ec7ed70baa8b7a7496abf3878d09a19e9",
+      "order_id": "paper-6125b099c8a2",
+      "outcome": "no",
+      "price": "0.58",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:08.468677+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.17483",
+      "market_id": "0xe89d1365d8b3508774c2948b963d5e6038b1c4a1a1e8aad56dfa32b29b6d0031",
+      "order_id": "paper-10d7df57cd7c",
+      "outcome": "no",
+      "price": "0.63",
+      "quantity": "15",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:08.468955+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03255",
+      "market_id": "0x4e795b7424b0d25023f3a6548d1bec46edb74b789f79858d72b9afd2cc80b832",
+      "order_id": "paper-9dc69768d8a1",
+      "outcome": "no",
+      "price": "0.93",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:08.469228+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03533",
+      "market_id": "0x19bf427e28692dcb5e9dec1dd60ceba409bb5ea539db574bbb000af61e2725be",
+      "order_id": "paper-dc479807f300",
+      "outcome": "yes",
+      "price": "0.069",
+      "quantity": "11",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.209560+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.05733",
+      "market_id": "0x7d9561c2f4a132b551adbf4fc14cb907d4f927899aca0029b297b02ed35c78a7",
+      "order_id": "paper-46d56c00f1f3",
+      "outcome": "yes",
+      "price": "0.09",
+      "quantity": "14",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.209768+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.15708",
+      "market_id": "0x9acd82b1de3613e049488905054748e9f98e9fdaa149dfbde1444170f959942b",
+      "order_id": "paper-213d46754710",
+      "outcome": "no",
+      "price": "0.66",
+      "quantity": "14",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.210035+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.19352",
+      "market_id": "0x9dc4a4ba8967b859dacc1b611d8307d781ff4152648dc4ebd608808f36ee0fd0",
+      "order_id": "paper-c60ff0272d7b",
+      "outcome": "no",
+      "price": "0.59",
+      "quantity": "16",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.210268+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.05808",
+      "market_id": "0x88c6045eef6eee7635d3ac2e4d7206d6c3671a01d6657a9b0e9c065c853ef31c",
+      "order_id": "paper-acd637d50200",
+      "outcome": "no",
+      "price": "0.88",
+      "quantity": "11",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.210504+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.24960",
+      "market_id": "0x204d449aeb008cbc8ffb779fa89349001c8aa877413fdffdb4149b3611adade3",
+      "order_id": "paper-87edbef1b2f5",
+      "outcome": "no",
+      "price": "0.48",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.956298+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.30000",
+      "market_id": "0x0ee9fdd78e02f3e8e1b383169a26a61f2275ad00e67279a729157f76d999412d",
+      "order_id": "paper-c6d3bf3d6a6e",
+      "outcome": "yes",
+      "price": "0.4",
+      "quantity": "25",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.956525+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02613",
+      "market_id": "0x1cb77dd01f29f0c79bed0f076636dc22ef55aebb3ba90cca9f4885ddd89469b4",
+      "order_id": "paper-030122d91c66",
+      "outcome": "yes",
+      "price": "0.05",
+      "quantity": "11",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:09.956707+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02082",
+      "market_id": "0xb094af31ad283fb26fa041ae8c82e29ca2494d720978b819e830939069a71fc2",
+      "order_id": "paper-fd89bc7c0175",
+      "outcome": "yes",
+      "price": "0.036",
+      "quantity": "12",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:10.735919+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02375",
+      "market_id": "0x71e72408bde23c8f400e46bdbb930f2258c5f710c9798fb87f18794e12351c1d",
+      "order_id": "paper-26eb8d6cdc65",
+      "outcome": "yes",
+      "price": "0.05",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:10.736130+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.24990",
+      "market_id": "0x489d75db1a3ecd1f43ef0ec9af039ab5c289a7eec51e33556c2ba114a244afc5",
+      "order_id": "paper-964ce39b50fa",
+      "outcome": "no",
+      "price": "0.49",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:10.736445+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.08466",
+      "market_id": "0x4e4ea44b746150af223a1f8c4ebd21c358077098033af7869a8df1bb110433f1",
+      "order_id": "paper-7a3480e3326f",
+      "outcome": "no",
+      "price": "0.83",
+      "quantity": "12",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:10.736724+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02048",
+      "market_id": "0xd54127a79360e3d80b20fb08890c1d4dffd2b82a27c233ece71b17510773cbe3",
+      "order_id": "paper-35ed710b451b",
+      "outcome": "yes",
+      "price": "0.09",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:11.475182+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.17483",
+      "market_id": "0x20a9b7b44ac3248fda269e7bbc4f05d50e4c65fedef3f42652a2ab21bb9c8bb7",
+      "order_id": "paper-1956869a31c1",
+      "outcome": "no",
+      "price": "0.63",
+      "quantity": "15",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:11.486587+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.04750",
+      "market_id": "0x753d5246698d32e36037f9ca8fbb7bc5818055402efbd024f6b1a5d74b493e32",
+      "order_id": "paper-1e7a88c3d5a5",
+      "outcome": "yes",
+      "price": "0.05",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:11.486972+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02375",
+      "market_id": "0xcf1436ef94e525f320f514b11f3f66690479fb2d44b4fdb438a83efe2300c9f9",
+      "order_id": "paper-89083490dc10",
+      "outcome": "no",
+      "price": "0.95",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:12.224099+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.09324",
+      "market_id": "0xc0e77dd0eb8e7bd28948abc35b427b8b5fc6e7f03266ee5eea0b2d5a551f4339",
+      "order_id": "paper-176b79f90b3e",
+      "outcome": "no",
+      "price": "0.63",
+      "quantity": "8",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:12.224432+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.20706",
+      "market_id": "0x85d90881aad407ee5ec01874d3d9756f6dc6fdb7a30d2428d991e0ab96411932",
+      "order_id": "paper-51cadc981eac",
+      "outcome": "no",
+      "price": "0.58",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:12.224700+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.28275",
+      "market_id": "0x09d5bb2b5b71dd73c69179d65fd50c58e3d3df4bf301e88442fd492fe8bcdf35",
+      "order_id": "paper-1ae4579cdbce",
+      "outcome": "yes",
+      "price": "0.13",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:12.224888+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03680",
+      "market_id": "0x9396b5f078bb7277602cdd1ef3647cb9c138ff13ae3ffaf13936bed2f219f63d",
+      "order_id": "paper-3e064f018076",
+      "outcome": "yes",
+      "price": "0.08",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:12.225057+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02510",
+      "market_id": "0xd85959e6487c0efe4b0e2a6e99cc8a6c463d03b2472b738ec449d872feca6ec2",
+      "order_id": "paper-5c8c8fea5988",
+      "outcome": "yes",
+      "price": "0.053",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:12.225272+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03430",
+      "market_id": "0x79368a05f575ad663d44f7f355b94e3889345ee31b8d40b6b640cbb608b59daf",
+      "order_id": "paper-339bd84ea8ee",
+      "outcome": "yes",
+      "price": "0.02",
+      "quantity": "35",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.007506+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.16275",
+      "market_id": "0x883e44bc587693508fc4456771a2f4e96f9315c04abb5dc4d8bc9e1e6404748b",
+      "order_id": "paper-9a7696a98fbf",
+      "outcome": "yes",
+      "price": "0.07",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.007721+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.17280",
+      "market_id": "0xeb160be71a8e07b3441fed6fb1cdf2f9f080f42570b9463d846157c68acf5244",
+      "order_id": "paper-ae67c26fff86",
+      "outcome": "no",
+      "price": "0.64",
+      "quantity": "15",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.008052+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.12375",
+      "market_id": "0xd05e507c3ecc4b83b1ddd5758fd535cea4fa194d689662349aaf1ad09847bbae",
+      "order_id": "paper-5e8eec8e5335",
+      "outcome": "no",
+      "price": "0.55",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.008421+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.06221",
+      "market_id": "0xfd4cc32ea0891a8f94e02ed9781a46caeb9e90acd501e35a1e196b708251fd1b",
+      "order_id": "paper-22958863ecd8",
+      "outcome": "no",
+      "price": "0.87",
+      "quantity": "11",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.008826+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.18876",
+      "market_id": "0x10547d042179cd0966e5fa279d932707fd426d83e58ed09b202a62bf10e150f4",
+      "order_id": "paper-6343951dea1d",
+      "outcome": "yes",
+      "price": "0.22",
+      "quantity": "22",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.718079+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.08856",
+      "market_id": "0xe1216b76b876d99f46c788f07ab7bc10f6a9a92ad0112b62a7c9b50ed4a4d6c2",
+      "order_id": "paper-7f34965ca51f",
+      "outcome": "no",
+      "price": "0.82",
+      "quantity": "12",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:13.718405+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.22500",
+      "market_id": "0x0680e50b11e199cc4cccae6145f17fe11aeb77afa5e6a8e12e52c7a62f63ad2e",
+      "order_id": "paper-6cd13503b8ff",
+      "outcome": "yes",
+      "price": "0.1",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:14.480700+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.23712",
+      "market_id": "0xd5dcf6f07c3faa48d66dd6b4088d62af45b6c52bc59477b541be8f8a8149e57f",
+      "order_id": "paper-e52eeba89441",
+      "outcome": "no",
+      "price": "0.52",
+      "quantity": "19",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:14.481184+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.18848",
+      "market_id": "0x480c5fb88f288ad8aeef7b080fd427d8fb49b679b9593dc14f8eb1c2b414721d",
+      "order_id": "paper-68151c17d88f",
+      "outcome": "no",
+      "price": "0.62",
+      "quantity": "16",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:14.481633+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03680",
+      "market_id": "0xe36bbcac115ecd28fda487b6ccec8244a313922cd9cd931a21102a9bb4529dd5",
+      "order_id": "paper-2fc6917fa837",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:15.281086+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02820",
+      "market_id": "0xbf882ff81de3b9fc22ad5da68408ca3e7b00d90167343511753d8699da6ad89a",
+      "order_id": "paper-f47c894bdcdb",
+      "outcome": "yes",
+      "price": "0.06",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:15.982788+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.40000",
+      "market_id": "0xf34c73a5faf54b2497835aea03b4dd4f888e901f24f2f313b756172759ab5943",
+      "order_id": "paper-3fb1602b7774",
+      "outcome": "yes",
+      "price": "0.2",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:15.983045+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.24990",
+      "market_id": "0x03800185847a7f22ab5f0998e8977774f711645ccc14e3f3a723abc5646850a7",
+      "order_id": "paper-df7d8dbf42a6",
+      "outcome": "no",
+      "price": "0.49",
+      "quantity": "20",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:15.983310+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.09600",
+      "market_id": "0x9f7a9426cc6ab72ca6d142ccc2fc9ed61022abcbb9c5b5f7f809436432d4fe7b",
+      "order_id": "paper-91efa6b0c44c",
+      "outcome": "no",
+      "price": "0.8",
+      "quantity": "12",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:15.983647+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.12096",
+      "market_id": "0x62a02653f93040ecfd6d3e116ae6c8175f841187ad2f6225750c1cc2aeff09c0",
+      "order_id": "paper-aae968b6d226",
+      "outcome": "yes",
+      "price": "0.16",
+      "quantity": "18",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:16.721583+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.13104",
+      "market_id": "0x9ab8f8e491c25e7cff98cfce937b0b142c9b767fa9d08260883dd7b95993353d",
+      "order_id": "paper-f6c69bd2b06e",
+      "outcome": "no",
+      "price": "0.72",
+      "quantity": "13",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:16.721962+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.01840",
+      "market_id": "0xc7ed2676e8c88f7fd8f46506f632454fb037fe83c252a2851677484e537d97b0",
+      "order_id": "paper-489d2fc25be5",
+      "outcome": "yes",
+      "price": "0.08",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:17.476156+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.06350",
+      "market_id": "0x51021dcd1c1c2d8e4b0122eaaae08ff0df13bbf556bf5180166ff06af4dcc9cc",
+      "order_id": "paper-54f0b4980621",
+      "outcome": "yes",
+      "price": "0.17",
+      "quantity": "9",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:17.476381+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.19200",
+      "market_id": "0xda2af3b2a4eff44797e64ba82aa75676d8ef041a31d8a9ab2c837a64f285f4c7",
+      "order_id": "paper-a29364873d4d",
+      "outcome": "no",
+      "price": "0.6",
+      "quantity": "16",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:17.484691+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.12188",
+      "market_id": "0xd5d921e3ee5e7afdb1252dfef1979750b4864f92be746bb6b6bfac1b2223d993",
+      "order_id": "paper-04290ea0d809",
+      "outcome": "no",
+      "price": "0.75",
+      "quantity": "13",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:17.485130+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.14973",
+      "market_id": "0x61b3e8f7e9c75a410705c96ee9f71819c7a72c841bd3625c613d66c5edf1d0b0",
+      "order_id": "paper-0849d4fe1b0d",
+      "outcome": "no",
+      "price": "0.69",
+      "quantity": "14",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.247181+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.29028",
+      "market_id": "0x23d05883498ad816726d0485912d18a2dcd0f72d015028f36ccfc9a6ef567eb3",
+      "order_id": "paper-fa6bc8c9d054",
+      "outcome": "yes",
+      "price": "0.41",
+      "quantity": "24",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.247471+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.33600",
+      "market_id": "0xeca8b588fb7976e3946fb6c1b2ecc2516e44c09456e949dd48d24cfcad962a5e",
+      "order_id": "paper-bb0c399531a3",
+      "outcome": "yes",
+      "price": "0.16",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.247645+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02690",
+      "market_id": "0x55542554d4b17edb89fb9715e91699fde1ef6d79a4994d1501eba2309a8520cc",
+      "order_id": "paper-1b17284a6f7b",
+      "outcome": "yes",
+      "price": "0.022",
+      "quantity": "25",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.997022+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.04095",
+      "market_id": "0x1986b363141a324990c5425187ba8042ef13077d6bf8bc3b430501b510cf85bd",
+      "order_id": "paper-ab3066ee33d9",
+      "outcome": "yes",
+      "price": "0.09",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.997289+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.19032",
+      "market_id": "0x971c56d70f024ba8f90b425f41f3a4abbab1e82f02c3065b829c65b355c75b17",
+      "order_id": "paper-ba27ef2146a4",
+      "outcome": "no",
+      "price": "0.61",
+      "quantity": "16",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.997570+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.20706",
+      "market_id": "0xd1eceed5f95ea6cec5ed648e83c54ddc483738da851ef03a597fddabe68d4f3b",
+      "order_id": "paper-e533223fe298",
+      "outcome": "no",
+      "price": "0.58",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.997899+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03680",
+      "market_id": "0x4df661fcc86d5b5c2e3a309a45ccd799454b3b3d59d6cb087d520366f915cc1a",
+      "order_id": "paper-6e24c2b63ba4",
+      "outcome": "no",
+      "price": "0.92",
+      "quantity": "10",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:18.998159+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.00704",
+      "market_id": "0x0ace716e11dc8fb0cba78e6054056223f18d463db826a308caadee21534c8d72",
+      "order_id": "paper-4ac8df81466d",
+      "outcome": "yes",
+      "price": "0.029",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:19.732773+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.33600",
+      "market_id": "0xf1087c42d8506095ac8fdcc1229cab2ece1b32128c60216fec19c1f5cfa9e6bd",
+      "order_id": "paper-6d61a4fa5450",
+      "outcome": "yes",
+      "price": "0.16",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:19.733008+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.13104",
+      "market_id": "0x8cb5be3198502b77d68d90ebbfe38915b1e01d6a43205ab113b73a31f189c6ca",
+      "order_id": "paper-1d4a9bc8e61d",
+      "outcome": "no",
+      "price": "0.72",
+      "quantity": "13",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:19.733306+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.22500",
+      "market_id": "0xe60e2321187562d7ca3887b2e3efb3eb40a10d24849270fe5d2f0a66657160b9",
+      "order_id": "paper-89bbd30c4500",
+      "outcome": "yes",
+      "price": "0.1",
+      "quantity": "50",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:20.483340+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.38077",
+      "market_id": "0x597fd35d6b9106d8fac16b75b59af179a2c61056590e59bd718764dee0e521e8",
+      "order_id": "paper-ffb509e53e84",
+      "outcome": "yes",
+      "price": "0.23",
+      "quantity": "43",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:20.483570+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.10296",
+      "market_id": "0x32d0adc271cb7311ce404222b05c5ddf8975cbd3163e39aba131c2b47b66e95f",
+      "order_id": "paper-0557b9155a86",
+      "outcome": "no",
+      "price": "0.78",
+      "quantity": "12",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:20.483916+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.06221",
+      "market_id": "0xb34246b836c0c23464d9f4986fa01034b60f5a55ac5cec5271152ed9f3bc221f",
+      "order_id": "paper-e07e4dfa76c1",
+      "outcome": "no",
+      "price": "0.87",
+      "quantity": "11",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:20.484164+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.37500",
+      "market_id": "0xf0baf52422f3331ae0d7066080cf6d76ba9189f2e1de9a6934a4623083d7a40b",
+      "order_id": "paper-4dd05d014f1a",
+      "outcome": "yes",
+      "price": "0.25",
+      "quantity": "40",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:21.243263+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.12506",
+      "market_id": "0x2a5efcaa48577f18b5e98a4905ac3b3d980157ea28d7503aa2fccfa19937b44e",
+      "order_id": "paper-bd3f0692dd6d",
+      "outcome": "no",
+      "price": "0.74",
+      "quantity": "13",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:21.243806+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.00937",
+      "market_id": "0xd7fd30b1d3acb9c3cafb32154717a5bbf9594f8934529e6ce5b17468f35642de",
+      "order_id": "paper-afc2a5c0a0f9",
+      "outcome": "yes",
+      "price": "0.039",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:21.991965+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.01628",
+      "market_id": "0x12ae47ce1c7a612daf68662879e3520e9724c0dc2d997a2e76a30c1381437b54",
+      "order_id": "paper-0723685585ec",
+      "outcome": "yes",
+      "price": "0.07",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:21.992246+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.38987",
+      "market_id": "0x1d9393561bdb4876f09cf09b017ca62671418b6a08787f6a5f35abdf7fb09f5b",
+      "order_id": "paper-fd1603841f4f",
+      "outcome": "yes",
+      "price": "0.21",
+      "quantity": "47",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:21.992428+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.20706",
+      "market_id": "0x5e4a462f0f53026f98a388292a7b807b772f597e5762fec702ba71422847266b",
+      "order_id": "paper-0a1c0453418d",
+      "outcome": "no",
+      "price": "0.58",
+      "quantity": "17",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:21.992691+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.03848",
+      "market_id": "0xeee7eaa1270d39398194b4c867f7408612fa95f2f77dfc88b13015db4bfab4eb",
+      "order_id": "paper-1c8dc9047330",
+      "outcome": "yes",
+      "price": "0.19",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:22.731304+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.02048",
+      "market_id": "0xd126edad93773ebd4b6b3e8394608b0ffe161f1e0c495b8cebad7afc69ab47ff",
+      "order_id": "paper-199c8a060f06",
+      "outcome": "yes",
+      "price": "0.09",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:23.498973+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.01388",
+      "market_id": "0x0365bcd774e559dcc9895b348fbdc86946a3b51b909a7360a5e4ab0b4175cb99",
+      "order_id": "paper-1315b36cda40",
+      "outcome": "yes",
+      "price": "0.036",
+      "quantity": "8",
+      "side": "buy",
+      "timestamp": "2026-10-08T00:51:24.982970+00:00",
+      "venue": "polymarket"
     }
   ],
   "ledger_id": "weather_bucket_edge",
@@ -13764,6 +14552,16 @@
       "market_id": "0x02eaea457c65f82bafc85e4439b7bbefa78a4455d91de63e0be028b0c1e39d76",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x0365bcd774e559dcc9895b348fbdc86946a3b51b909a7360a5e4ab0b4175cb99",
+      "venue": "polymarket",
+      "yes_price": "0.0285"
+    },
+    {
+      "market_id": "0x03800185847a7f22ab5f0998e8977774f711645ccc14e3f3a723abc5646850a7",
+      "venue": "polymarket",
+      "yes_price": "0.53"
     },
     {
       "market_id": "0x0382dfe37eb240079543b2b11b214a7641f4b49e2832a3ba5cfe0607042777a0",
@@ -13801,6 +14599,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x0680e50b11e199cc4cccae6145f17fe11aeb77afa5e6a8e12e52c7a62f63ad2e",
+      "venue": "polymarket",
+      "yes_price": "0.09"
+    },
+    {
       "market_id": "0x071d3bab45db8e6fb2ed60dd8766774039feac702345cabe71a28327e1f5c21a",
       "venue": "polymarket",
       "yes_price": "1"
@@ -13836,6 +14639,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x09d5bb2b5b71dd73c69179d65fd50c58e3d3df4bf301e88442fd492fe8bcdf35",
+      "venue": "polymarket",
+      "yes_price": "0.115"
+    },
+    {
       "market_id": "0x0a4866289c53cf98f69e2c5d529de17cabcd38e6279f82dc585f4f61d6ac9a0a",
       "venue": "polymarket",
       "yes_price": "0"
@@ -13844,6 +14652,11 @@
       "market_id": "0x0abd9e353b52a558c6b211138c03232a251aaae0fb17dd4eeb6e00067ea37d27",
       "venue": "polymarket",
       "yes_price": "0.045"
+    },
+    {
+      "market_id": "0x0ace716e11dc8fb0cba78e6054056223f18d463db826a308caadee21534c8d72",
+      "venue": "polymarket",
+      "yes_price": "0.0245"
     },
     {
       "market_id": "0x0b3a66aa74dbf9dd4e3db93ef525f44e7d056f0081fb16b30eef1d22bcb92302",
@@ -13901,6 +14714,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x0ee9fdd78e02f3e8e1b383169a26a61f2275ad00e67279a729157f76d999412d",
+      "venue": "polymarket",
+      "yes_price": "0.385"
+    },
+    {
       "market_id": "0x0ef135cd3db2f7203828fccc247e84765fab74e89f72436d25d6988774a396b1",
       "venue": "polymarket",
       "yes_price": "1"
@@ -13931,6 +14749,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x10547d042179cd0966e5fa279d932707fd426d83e58ed09b202a62bf10e150f4",
+      "venue": "polymarket",
+      "yes_price": "0.21"
+    },
+    {
       "market_id": "0x1106dd5a10cdac82d8a34437f02d55163cf6d68b60ac3764a0022a74f3d2ea4c",
       "venue": "polymarket",
       "yes_price": "0"
@@ -13959,6 +14782,11 @@
       "market_id": "0x12853fa777a641cef876a62e00937de5284ed9a0bc85a822384603de8a340e63",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x12ae47ce1c7a612daf68662879e3520e9724c0dc2d997a2e76a30c1381437b54",
+      "venue": "polymarket",
+      "yes_price": "0.06"
     },
     {
       "market_id": "0x12de32709101f0cb254cc65faaa9ed11647ba7539239aff4d03113620100ce1c",
@@ -14036,6 +14864,16 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x1986b363141a324990c5425187ba8042ef13077d6bf8bc3b430501b510cf85bd",
+      "venue": "polymarket",
+      "yes_price": "0.08"
+    },
+    {
+      "market_id": "0x19bf427e28692dcb5e9dec1dd60ceba409bb5ea539db574bbb000af61e2725be",
+      "venue": "polymarket",
+      "yes_price": "0.047"
+    },
+    {
       "market_id": "0x19e7874703369f263b1eb276922da0901a117f15a988c5c09bf9ff70297bd2d1",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14061,9 +14899,19 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x1cb77dd01f29f0c79bed0f076636dc22ef55aebb3ba90cca9f4885ddd89469b4",
+      "venue": "polymarket",
+      "yes_price": "0.04"
+    },
+    {
       "market_id": "0x1d55c11083dea9fc3aa27ee8f94fe793ae318cb9a7ad1e212afe019cb065a4c8",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x1d9393561bdb4876f09cf09b017ca62671418b6a08787f6a5f35abdf7fb09f5b",
+      "venue": "polymarket",
+      "yes_price": "0.20"
     },
     {
       "market_id": "0x1dc77594381cd647a93ff5e6c5176e0772663231e1858db77da7e51cf47417f0",
@@ -14136,6 +14984,16 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x204d449aeb008cbc8ffb779fa89349001c8aa877413fdffdb4149b3611adade3",
+      "venue": "polymarket",
+      "yes_price": "0.53"
+    },
+    {
+      "market_id": "0x20a9b7b44ac3248fda269e7bbc4f05d50e4c65fedef3f42652a2ab21bb9c8bb7",
+      "venue": "polymarket",
+      "yes_price": "0.39"
+    },
+    {
       "market_id": "0x20c9e67dca4ae93c5eca0c914df72a93453873c7b3da0609f92ac775693e6cd2",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14154,6 +15012,11 @@
       "market_id": "0x219fb5550f0898f42eacd1fffaedb0e0efdb5a21822e0ec4f90b18fe112db738",
       "venue": "polymarket",
       "yes_price": "0.545"
+    },
+    {
+      "market_id": "0x23d05883498ad816726d0485912d18a2dcd0f72d015028f36ccfc9a6ef567eb3",
+      "venue": "polymarket",
+      "yes_price": "0.405"
     },
     {
       "market_id": "0x23e4a0c8570f18d7ce37071162e7fda3fbd92d7f8aa8d34a75a4ff99f9fcde9b",
@@ -14249,6 +15112,11 @@
       "market_id": "0x2a5d7e8dc5129c64c3c5b93ed72e33461d1c176e0b42c886f63975d4e35a9b56",
       "venue": "polymarket",
       "yes_price": "1"
+    },
+    {
+      "market_id": "0x2a5efcaa48577f18b5e98a4905ac3b3d980157ea28d7503aa2fccfa19937b44e",
+      "venue": "polymarket",
+      "yes_price": "0.275"
     },
     {
       "market_id": "0x2b2ec2c7907558863e88a682d1100105307430620fc367b62dd8c49a0054e6ca",
@@ -14374,6 +15242,11 @@
       "market_id": "0x328c78911965f661ea890a6c30c4ca44a0509d3966ffe4ed500d2339c737b026",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x32d0adc271cb7311ce404222b05c5ddf8975cbd3163e39aba131c2b47b66e95f",
+      "venue": "polymarket",
+      "yes_price": "0.23"
     },
     {
       "market_id": "0x32eb88b0f54b27d08c96500ff5798b5b6e1db02cd846f1c98b771e8f6bfe563d",
@@ -14626,6 +15499,16 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x480c5fb88f288ad8aeef7b080fd427d8fb49b679b9593dc14f8eb1c2b414721d",
+      "venue": "polymarket",
+      "yes_price": "0.39"
+    },
+    {
+      "market_id": "0x489d75db1a3ecd1f43ef0ec9af039ab5c289a7eec51e33556c2ba114a244afc5",
+      "venue": "polymarket",
+      "yes_price": "0.515"
+    },
+    {
       "market_id": "0x48cb59239e605687adddc7d6ca1e8c55b5441440d2f7cd980ae3716a5e35b1ca",
       "venue": "polymarket",
       "yes_price": "1"
@@ -14691,6 +15574,11 @@
       "yes_price": "0.31"
     },
     {
+      "market_id": "0x4df661fcc86d5b5c2e3a309a45ccd799454b3b3d59d6cb087d520366f915cc1a",
+      "venue": "polymarket",
+      "yes_price": "0.095"
+    },
+    {
       "market_id": "0x4e02266f9074a44fcf7e035c1967f571357de9771d16a33cf327082d75162f56",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14706,6 +15594,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x4e4ea44b746150af223a1f8c4ebd21c358077098033af7869a8df1bb110433f1",
+      "venue": "polymarket",
+      "yes_price": "0.19"
+    },
+    {
       "market_id": "0x4e638d06abf0314101cd2c506c4f280790b3d42decfef3d7a3e5e53a1e10186d",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14719,6 +15612,11 @@
       "market_id": "0x4e75a9dacb6d20723a031855f5b49e77b0177da2237181a4f3b1f07c7d7ea35a",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x4e795b7424b0d25023f3a6548d1bec46edb74b789f79858d72b9afd2cc80b832",
+      "venue": "polymarket",
+      "yes_price": "0.075"
     },
     {
       "market_id": "0x4ee68fb237396825a9e7f87512ce7fd01e17a199b19353ac4b119cd273118e2a",
@@ -14744,6 +15642,11 @@
       "market_id": "0x500f3bf8d627a0082d89a2845b067fd4ecd40b605836ba9cd5f1fa915dd1bd58",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x51021dcd1c1c2d8e4b0122eaaae08ff0df13bbf556bf5180166ff06af4dcc9cc",
+      "venue": "polymarket",
+      "yes_price": "0.165"
     },
     {
       "market_id": "0x513e905f27f90110e3d92cbca3c5cd74700d8eeeb4d6446ed677e6d9a15d8900",
@@ -14806,6 +15709,11 @@
       "yes_price": "1"
     },
     {
+      "market_id": "0x55542554d4b17edb89fb9715e91699fde1ef6d79a4994d1501eba2309a8520cc",
+      "venue": "polymarket",
+      "yes_price": "0.021"
+    },
+    {
       "market_id": "0x555672f233120ed822e7dd041402d7ffed55a3c17f8fa3e5025174261c4d363f",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14861,6 +15769,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x597fd35d6b9106d8fac16b75b59af179a2c61056590e59bd718764dee0e521e8",
+      "venue": "polymarket",
+      "yes_price": "0.21"
+    },
+    {
       "market_id": "0x5a19cbedb19ded7726fa8029d98ba3b41f492f934abc8669a4647da5ce001045",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14911,6 +15824,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x5e4a462f0f53026f98a388292a7b807b772f597e5762fec702ba71422847266b",
+      "venue": "polymarket",
+      "yes_price": "0.445"
+    },
+    {
       "market_id": "0x5e768fddeca584c713eb7359eabcce15e6ed3cec7108741d403d61686480cf31",
       "venue": "polymarket",
       "yes_price": "1"
@@ -14956,6 +15874,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x61b3e8f7e9c75a410705c96ee9f71819c7a72c841bd3625c613d66c5edf1d0b0",
+      "venue": "polymarket",
+      "yes_price": "0.32"
+    },
+    {
       "market_id": "0x61eef81e881d4b6b714a5956b7aec6cf807cc6709022207de3c3a1ac9b8b0614",
       "venue": "polymarket",
       "yes_price": "0"
@@ -14964,6 +15887,11 @@
       "market_id": "0x6207b64297b89bfbfb3f8c0844b9ee6b343e474fd29f624c7d506d611cbd5c1b",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x62a02653f93040ecfd6d3e116ae6c8175f841187ad2f6225750c1cc2aeff09c0",
+      "venue": "polymarket",
+      "yes_price": "0.155"
     },
     {
       "market_id": "0x62ad830bc281e10017e703c738c79298399ec43141e61c090e0ae2ea16d564ff",
@@ -15166,6 +16094,11 @@
       "yes_price": "1"
     },
     {
+      "market_id": "0x71e72408bde23c8f400e46bdbb930f2258c5f710c9798fb87f18794e12351c1d",
+      "venue": "polymarket",
+      "yes_price": "0.04"
+    },
+    {
       "market_id": "0x72b7896d572ed9786039365f25361ad0da07029be4fa6b72292fb0e3330911e4",
       "venue": "polymarket",
       "yes_price": "0"
@@ -15189,6 +16122,11 @@
       "market_id": "0x74decd2b0df474af37f20b31875bec98eed6a2cea7cd0d57f57e5eae6685ef04",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x753d5246698d32e36037f9ca8fbb7bc5818055402efbd024f6b1a5d74b493e32",
+      "venue": "polymarket",
+      "yes_price": "0.04"
     },
     {
       "market_id": "0x756570e72105e7da7ca03e792cd48a1db9f8138ce5c676d1a6c9dabc5ebddadc",
@@ -15261,6 +16199,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x79368a05f575ad663d44f7f355b94e3889345ee31b8d40b6b640cbb608b59daf",
+      "venue": "polymarket",
+      "yes_price": "0.012"
+    },
+    {
       "market_id": "0x79d88de9d7b4579876cc6f4a7be769d4c52a465b089e1fb2756ab5da641155f7",
       "venue": "polymarket",
       "yes_price": "0"
@@ -15312,6 +16255,16 @@
     },
     {
       "market_id": "0x7d1d06f4117764254bd292bd25367c243c60e89028a4bc78d8b1c069955e9b47",
+      "venue": "polymarket",
+      "yes_price": "0.07"
+    },
+    {
+      "market_id": "0x7d6925895cc5bb6a6c10034debcb6b1039a908618f5ddef27e1e3a5f9841062b",
+      "venue": "polymarket",
+      "yes_price": "0.0205"
+    },
+    {
+      "market_id": "0x7d9561c2f4a132b551adbf4fc14cb907d4f927899aca0029b297b02ed35c78a7",
       "venue": "polymarket",
       "yes_price": "0.07"
     },
@@ -15426,9 +16379,19 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x85d90881aad407ee5ec01874d3d9756f6dc6fdb7a30d2428d991e0ab96411932",
+      "venue": "polymarket",
+      "yes_price": "0.44"
+    },
+    {
       "market_id": "0x87bba0d04018131f276da85fc050caf5b985d777cb4123b5052a614b0f6a4152",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x883e44bc587693508fc4456771a2f4e96f9315c04abb5dc4d8bc9e1e6404748b",
+      "venue": "polymarket",
+      "yes_price": "0.06"
     },
     {
       "market_id": "0x88577b87ea99e06ada5fd1c58145b549848a1d8c55d33dc8be6f72f4bc8ffe55",
@@ -15444,6 +16407,11 @@
       "market_id": "0x88935d92f7d99f076c1c879dc7ef746ebdceb569b262c2ae353b5513ae701ea1",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x88c6045eef6eee7635d3ac2e4d7206d6c3671a01d6657a9b0e9c065c853ef31c",
+      "venue": "polymarket",
+      "yes_price": "0.13"
     },
     {
       "market_id": "0x88dbeaf78236116342888942071875059afd8e84894cfef003c552d782f10b7f",
@@ -15539,6 +16507,11 @@
       "market_id": "0x8cae2e4899b526600362093096395c2378bdf313a755faec639651cc3b2841d2",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x8cb5be3198502b77d68d90ebbfe38915b1e01d6a43205ab113b73a31f189c6ca",
+      "venue": "polymarket",
+      "yes_price": "0.295"
     },
     {
       "market_id": "0x8cceefe294978bbe269534ce92725270b503ea8a521a8365d4b6453a1bed8f61",
@@ -15656,6 +16629,11 @@
       "yes_price": "0.525"
     },
     {
+      "market_id": "0x9396b5f078bb7277602cdd1ef3647cb9c138ff13ae3ffaf13936bed2f219f63d",
+      "venue": "polymarket",
+      "yes_price": "0.049"
+    },
+    {
       "market_id": "0x93ddd4c58ece88b740e73524273af47b3beae775d949c9d4b586e23ddcffecf4",
       "venue": "polymarket",
       "yes_price": "0.475"
@@ -15691,6 +16669,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x971c56d70f024ba8f90b425f41f3a4abbab1e82f02c3065b829c65b355c75b17",
+      "venue": "polymarket",
+      "yes_price": "0.40"
+    },
+    {
       "market_id": "0x9757be0a0efcad7726b8205b6971c313bff8301a9736df0836140432b245a0ec",
       "venue": "polymarket",
       "yes_price": "0"
@@ -15721,9 +16704,19 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x9ab8f8e491c25e7cff98cfce937b0b142c9b767fa9d08260883dd7b95993353d",
+      "venue": "polymarket",
+      "yes_price": "0.29"
+    },
+    {
       "market_id": "0x9ac23bb426568bee2ccb8891718a8225a4dc6b612660aefd0618473c5d25e668",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x9acd82b1de3613e049488905054748e9f98e9fdaa149dfbde1444170f959942b",
+      "venue": "polymarket",
+      "yes_price": "0.35"
     },
     {
       "market_id": "0x9b0552fbf3f13c958ddf5b7d5b3fcd3f891b75f4a49472b1aa79db44275861be",
@@ -15744,6 +16737,11 @@
       "market_id": "0x9bce511f7072144645a49fc6de79ad35741ba1aaeb266ad4d47d23e78922ee67",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x9c30c53b441e9a9e29d6b79c4508d39ec7ed70baa8b7a7496abf3878d09a19e9",
+      "venue": "polymarket",
+      "yes_price": "0.435"
     },
     {
       "market_id": "0x9c48dfc6a78bf470397bfcb6fad97b114a03a5d88ef41a28ac30d21128a2c6b6",
@@ -15776,6 +16774,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0x9dc4a4ba8967b859dacc1b611d8307d781ff4152648dc4ebd608808f36ee0fd0",
+      "venue": "polymarket",
+      "yes_price": "0.43"
+    },
+    {
       "market_id": "0x9dc60ea2d17067dfaf6ec35c67d79a2fe256577880a9bab9eb4aafedc60deff8",
       "venue": "polymarket",
       "yes_price": "0"
@@ -15794,6 +16797,11 @@
       "market_id": "0x9e45455dfe87dd055e6b8cc8fbce94cfde8097cf4b84fdf70fef0e32439b99ff",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0x9f7a9426cc6ab72ca6d142ccc2fc9ed61022abcbb9c5b5f7f809436432d4fe7b",
+      "venue": "polymarket",
+      "yes_price": "0.22"
     },
     {
       "market_id": "0x9f7d61ffa1017479c9231d8e2a8fe4edea7f4bd419cbfed4a8a993de81a21bc8",
@@ -16006,6 +17014,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xb094af31ad283fb26fa041ae8c82e29ca2494d720978b819e830939069a71fc2",
+      "venue": "polymarket",
+      "yes_price": "0.0195"
+    },
+    {
       "market_id": "0xb1bd3d5d060cd071dcc1e10f74df88f4a54f2f9893ff6d1050f6ac353da93aff",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16034,6 +17047,11 @@
       "market_id": "0xb33db20758ef2e827e8c8ddbad68425e3097b4089c26071c11a40fe590f1b8ad",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xb34246b836c0c23464d9f4986fa01034b60f5a55ac5cec5271152ed9f3bc221f",
+      "venue": "polymarket",
+      "yes_price": "0.145"
     },
     {
       "market_id": "0xb38f908820be198b413c0e39bb132f534a08957eedb20b08d60c69e49275cac9",
@@ -16236,6 +17254,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xbf882ff81de3b9fc22ad5da68408ca3e7b00d90167343511753d8699da6ad89a",
+      "venue": "polymarket",
+      "yes_price": "0.05"
+    },
+    {
       "market_id": "0xc020b73a9f45d29f19f3cb14bc5188de1756f2c36b149e5d073609227d4d9006",
       "venue": "polymarket",
       "yes_price": "0.0315"
@@ -16244,6 +17267,11 @@
       "market_id": "0xc09bd25acfedd878529007ebe3a381e636346ea30c517994dc443a23d78ffed2",
       "venue": "polymarket",
       "yes_price": "0.435"
+    },
+    {
+      "market_id": "0xc0e77dd0eb8e7bd28948abc35b427b8b5fc6e7f03266ee5eea0b2d5a551f4339",
+      "venue": "polymarket",
+      "yes_price": "0.375"
     },
     {
       "market_id": "0xc110882de4382b60c01afb6414a11e1038d466dde8885605150a54086e96d38f",
@@ -16324,6 +17352,11 @@
       "market_id": "0xc715204601de9e0fbb227ac068d422c9c6b366e1f454c5c6cbf6ead188b613e9",
       "venue": "polymarket",
       "yes_price": "1"
+    },
+    {
+      "market_id": "0xc7ed2676e8c88f7fd8f46506f632454fb037fe83c252a2851677484e537d97b0",
+      "venue": "polymarket",
+      "yes_price": "0.06"
     },
     {
       "market_id": "0xc84b5892afe490db1ae5182dcfe1b327f24cf0378c28360cf1ff2310f4caba40",
@@ -16421,6 +17454,11 @@
       "yes_price": "1"
     },
     {
+      "market_id": "0xcf1436ef94e525f320f514b11f3f66690479fb2d44b4fdb438a83efe2300c9f9",
+      "venue": "polymarket",
+      "yes_price": "0.055"
+    },
+    {
       "market_id": "0xcf14dba3e91ca87b57c0f4ff255258cb1e483f1e4f4d652fa738f32233c102fa",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16439,6 +17477,11 @@
       "market_id": "0xd030d979e388c85e3208c014c14e678d234fe27d164205dc1de3702a90ccce40",
       "venue": "polymarket",
       "yes_price": "1"
+    },
+    {
+      "market_id": "0xd05e507c3ecc4b83b1ddd5758fd535cea4fa194d689662349aaf1ad09847bbae",
+      "venue": "polymarket",
+      "yes_price": "0.46"
     },
     {
       "market_id": "0xd0642b6bc483192ed10b12377817e792cdb282e6a4f354284da47e8328a2a16e",
@@ -16461,6 +17504,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xd126edad93773ebd4b6b3e8394608b0ffe161f1e0c495b8cebad7afc69ab47ff",
+      "venue": "polymarket",
+      "yes_price": "0.08"
+    },
+    {
       "market_id": "0xd1c26392c924311aa6f4c6e3091e1fcdd3fcf9ebfec2fe2d514e868ef8496f3f",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16469,6 +17517,11 @@
       "market_id": "0xd1de2836d1ba2e4ac838ba354386e772f7d9e2874fa476050c080f27f89f467b",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xd1eceed5f95ea6cec5ed648e83c54ddc483738da851ef03a597fddabe68d4f3b",
+      "venue": "polymarket",
+      "yes_price": "0.44"
     },
     {
       "market_id": "0xd1ee3cda56633cbf1ec022655f527e53d4a09310ce807eb76c2c2b69d76fb55b",
@@ -16516,6 +17569,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xd54127a79360e3d80b20fb08890c1d4dffd2b82a27c233ece71b17510773cbe3",
+      "venue": "polymarket",
+      "yes_price": "0.07"
+    },
+    {
       "market_id": "0xd556dc93c71834ca42c25107d1b473942d888c67524a2829025b5c9cc444d261",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16524,6 +17582,16 @@
       "market_id": "0xd55ce621f8f0cf8b35fbb8beb8e73b4ba9ebb6888cd0711685a5f4ae18d0b8a6",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xd5d921e3ee5e7afdb1252dfef1979750b4864f92be746bb6b6bfac1b2223d993",
+      "venue": "polymarket",
+      "yes_price": "0.265"
+    },
+    {
+      "market_id": "0xd5dcf6f07c3faa48d66dd6b4088d62af45b6c52bc59477b541be8f8a8149e57f",
+      "venue": "polymarket",
+      "yes_price": "0.49"
     },
     {
       "market_id": "0xd706ff1c44f2f3281ee563e647064fd8100fb0ba8b67e364eaa88a73fb44af8e",
@@ -16551,6 +17619,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xd7fd30b1d3acb9c3cafb32154717a5bbf9594f8934529e6ce5b17468f35642de",
+      "venue": "polymarket",
+      "yes_price": "0.0245"
+    },
+    {
       "market_id": "0xd81f1c6333aa93f02d5f86df08995ff72ac92135a3b8e250cbc9676c9b5817cd",
       "venue": "polymarket",
       "yes_price": "1"
@@ -16561,9 +17634,19 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xd85959e6487c0efe4b0e2a6e99cc8a6c463d03b2472b738ec449d872feca6ec2",
+      "venue": "polymarket",
+      "yes_price": "0.028"
+    },
+    {
       "market_id": "0xd9252e5478cb883d0bdee6a1fe598dd03b7e18f8037af65187aaf6fb95f5a567",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xda2af3b2a4eff44797e64ba82aa75676d8ef041a31d8a9ab2c837a64f285f4c7",
+      "venue": "polymarket",
+      "yes_price": "0.405"
     },
     {
       "market_id": "0xdac49b68ed010f4d31818e3cf7dfb2e224ec2c87697499d3e1c7e2921d450420",
@@ -16691,6 +17774,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xe1216b76b876d99f46c788f07ab7bc10f6a9a92ad0112b62a7c9b50ed4a4d6c2",
+      "venue": "polymarket",
+      "yes_price": "0.20"
+    },
+    {
       "market_id": "0xe13dfce65da55d86dfdf5b1d8b11df12507acf6764b8cc647c96aeb4ed8c521f",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16721,6 +17809,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xe36bbcac115ecd28fda487b6ccec8244a313922cd9cd931a21102a9bb4529dd5",
+      "venue": "polymarket",
+      "yes_price": "0.10"
+    },
+    {
       "market_id": "0xe38f9d5370532300123ec7b26bd589392ad621036f5e1f2fd49ffe71be3047fa",
       "venue": "polymarket",
       "yes_price": "1"
@@ -16749,6 +17842,11 @@
       "market_id": "0xe5a97969cc8b08d14e5df32728d9bb966f8e013f2b6235d3a573d86ac3b860c0",
       "venue": "polymarket",
       "yes_price": "0.095"
+    },
+    {
+      "market_id": "0xe60e2321187562d7ca3887b2e3efb3eb40a10d24849270fe5d2f0a66657160b9",
+      "venue": "polymarket",
+      "yes_price": "0.08"
     },
     {
       "market_id": "0xe6c279f1ab0e1626292768f2979aad0f068f4d45c6c823ebca9269c99f97ce59",
@@ -16786,6 +17884,11 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xe89d1365d8b3508774c2948b963d5e6038b1c4a1a1e8aad56dfa32b29b6d0031",
+      "venue": "polymarket",
+      "yes_price": "0.385"
+    },
+    {
       "market_id": "0xe8a48c26da6fd92591e30c452aa4cb95a1adca86f0ba061ac53f922f3c3333e0",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16811,6 +17914,11 @@
       "yes_price": "1"
     },
     {
+      "market_id": "0xeb160be71a8e07b3441fed6fb1cdf2f9f080f42570b9463d846157c68acf5244",
+      "venue": "polymarket",
+      "yes_price": "0.365"
+    },
+    {
       "market_id": "0xeb6a1177eeb1b6950e4a4681720c98e2247d71856d4f22b4c319cdd63c547c89",
       "venue": "polymarket",
       "yes_price": "0"
@@ -16824,6 +17932,11 @@
       "market_id": "0xeb9ada9149f7d9adc39bcead463c03477e01fe4c1648e86d65a2a21d6320d156",
       "venue": "polymarket",
       "yes_price": "0.445"
+    },
+    {
+      "market_id": "0xeca8b588fb7976e3946fb6c1b2ecc2516e44c09456e949dd48d24cfcad962a5e",
+      "venue": "polymarket",
+      "yes_price": "0.15"
     },
     {
       "market_id": "0xed32563ae90ab22c39ce823334fe621dc2bc46bedcdea1174f38226b34ad5ba3",
@@ -16846,14 +17959,29 @@
       "yes_price": "0"
     },
     {
+      "market_id": "0xeee7eaa1270d39398194b4c867f7408612fa95f2f77dfc88b13015db4bfab4eb",
+      "venue": "polymarket",
+      "yes_price": "0.18"
+    },
+    {
       "market_id": "0xef252a436ecff87e91b1389b162775418cc91aa217521f252039402541882af8",
       "venue": "polymarket",
       "yes_price": "0"
     },
     {
+      "market_id": "0xf0baf52422f3331ae0d7066080cf6d76ba9189f2e1de9a6934a4623083d7a40b",
+      "venue": "polymarket",
+      "yes_price": "0.235"
+    },
+    {
       "market_id": "0xf0eab135a96c925a11c49f59e223f361d63b7bd794eb8a069da9850f9eddeaea",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xf1087c42d8506095ac8fdcc1229cab2ece1b32128c60216fec19c1f5cfa9e6bd",
+      "venue": "polymarket",
+      "yes_price": "0.15"
     },
     {
       "market_id": "0xf1c9152809145155c6e890eedcefdf3dd05099e6646a191a025a4ad12ed4e73c",
@@ -16869,6 +17997,11 @@
       "market_id": "0xf3207a8c586e48f2591fa911c7f5c2098a48e280361bcc62600cc47ce25fbbb5",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xf34c73a5faf54b2497835aea03b4dd4f888e901f24f2f313b756172759ab5943",
+      "venue": "polymarket",
+      "yes_price": "0.18"
     },
     {
       "market_id": "0xf3d2e29c021663f4c9305e1f1397791446b5952ac7102480efe2ebc40990290b",
@@ -17009,6 +18142,11 @@
       "market_id": "0xfcbab09877fd42c7203d1ba8545d4b807ab245f6edf802d3c2eb280d951f0c6f",
       "venue": "polymarket",
       "yes_price": "0"
+    },
+    {
+      "market_id": "0xfd4cc32ea0891a8f94e02ed9781a46caeb9e90acd501e35a1e196b708251fd1b",
+      "venue": "polymarket",
+      "yes_price": "0.14"
     },
     {
       "market_id": "0xfe0d1aadb297a4c9ceb37e126c2d417f886be3a30ba0390646b4c13eb60ea951",
@@ -22306,12 +23444,572 @@
       "quantity": "-18",
       "realized_pnl": "-0.22356",
       "venue": "polymarket"
+    },
+    {
+      "average_price": "0.021",
+      "fees_paid": "0.00514",
+      "market_id": "0x7d6925895cc5bb6a6c10034debcb6b1039a908618f5ddef27e1e3a5f9841062b",
+      "quantity": "5",
+      "realized_pnl": "-0.00514",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.42",
+      "fees_paid": "0.20706",
+      "market_id": "0x9c30c53b441e9a9e29d6b79c4508d39ec7ed70baa8b7a7496abf3878d09a19e9",
+      "quantity": "-17",
+      "realized_pnl": "-0.20706",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.37",
+      "fees_paid": "0.17483",
+      "market_id": "0xe89d1365d8b3508774c2948b963d5e6038b1c4a1a1e8aad56dfa32b29b6d0031",
+      "quantity": "-15",
+      "realized_pnl": "-0.17483",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.07",
+      "fees_paid": "0.03255",
+      "market_id": "0x4e795b7424b0d25023f3a6548d1bec46edb74b789f79858d72b9afd2cc80b832",
+      "quantity": "-10",
+      "realized_pnl": "-0.03255",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.069",
+      "fees_paid": "0.03533",
+      "market_id": "0x19bf427e28692dcb5e9dec1dd60ceba409bb5ea539db574bbb000af61e2725be",
+      "quantity": "11",
+      "realized_pnl": "-0.03533",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.09",
+      "fees_paid": "0.05733",
+      "market_id": "0x7d9561c2f4a132b551adbf4fc14cb907d4f927899aca0029b297b02ed35c78a7",
+      "quantity": "14",
+      "realized_pnl": "-0.05733",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.34",
+      "fees_paid": "0.15708",
+      "market_id": "0x9acd82b1de3613e049488905054748e9f98e9fdaa149dfbde1444170f959942b",
+      "quantity": "-14",
+      "realized_pnl": "-0.15708",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.41",
+      "fees_paid": "0.19352",
+      "market_id": "0x9dc4a4ba8967b859dacc1b611d8307d781ff4152648dc4ebd608808f36ee0fd0",
+      "quantity": "-16",
+      "realized_pnl": "-0.19352",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.12",
+      "fees_paid": "0.05808",
+      "market_id": "0x88c6045eef6eee7635d3ac2e4d7206d6c3671a01d6657a9b0e9c065c853ef31c",
+      "quantity": "-11",
+      "realized_pnl": "-0.05808",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.52",
+      "fees_paid": "0.24960",
+      "market_id": "0x204d449aeb008cbc8ffb779fa89349001c8aa877413fdffdb4149b3611adade3",
+      "quantity": "-20",
+      "realized_pnl": "-0.24960",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.4",
+      "fees_paid": "0.30000",
+      "market_id": "0x0ee9fdd78e02f3e8e1b383169a26a61f2275ad00e67279a729157f76d999412d",
+      "quantity": "25",
+      "realized_pnl": "-0.30000",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.05",
+      "fees_paid": "0.02613",
+      "market_id": "0x1cb77dd01f29f0c79bed0f076636dc22ef55aebb3ba90cca9f4885ddd89469b4",
+      "quantity": "11",
+      "realized_pnl": "-0.02613",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.036",
+      "fees_paid": "0.02082",
+      "market_id": "0xb094af31ad283fb26fa041ae8c82e29ca2494d720978b819e830939069a71fc2",
+      "quantity": "12",
+      "realized_pnl": "-0.02082",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.05",
+      "fees_paid": "0.02375",
+      "market_id": "0x71e72408bde23c8f400e46bdbb930f2258c5f710c9798fb87f18794e12351c1d",
+      "quantity": "10",
+      "realized_pnl": "-0.02375",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.51",
+      "fees_paid": "0.24990",
+      "market_id": "0x489d75db1a3ecd1f43ef0ec9af039ab5c289a7eec51e33556c2ba114a244afc5",
+      "quantity": "-20",
+      "realized_pnl": "-0.24990",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.17",
+      "fees_paid": "0.08466",
+      "market_id": "0x4e4ea44b746150af223a1f8c4ebd21c358077098033af7869a8df1bb110433f1",
+      "quantity": "-12",
+      "realized_pnl": "-0.08466",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.09",
+      "fees_paid": "0.02048",
+      "market_id": "0xd54127a79360e3d80b20fb08890c1d4dffd2b82a27c233ece71b17510773cbe3",
+      "quantity": "5",
+      "realized_pnl": "-0.02048",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.37",
+      "fees_paid": "0.17483",
+      "market_id": "0x20a9b7b44ac3248fda269e7bbc4f05d50e4c65fedef3f42652a2ab21bb9c8bb7",
+      "quantity": "-15",
+      "realized_pnl": "-0.17483",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.05",
+      "fees_paid": "0.04750",
+      "market_id": "0x753d5246698d32e36037f9ca8fbb7bc5818055402efbd024f6b1a5d74b493e32",
+      "quantity": "20",
+      "realized_pnl": "-0.04750",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.05",
+      "fees_paid": "0.02375",
+      "market_id": "0xcf1436ef94e525f320f514b11f3f66690479fb2d44b4fdb438a83efe2300c9f9",
+      "quantity": "-10",
+      "realized_pnl": "-0.02375",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.37",
+      "fees_paid": "0.09324",
+      "market_id": "0xc0e77dd0eb8e7bd28948abc35b427b8b5fc6e7f03266ee5eea0b2d5a551f4339",
+      "quantity": "-8",
+      "realized_pnl": "-0.09324",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.42",
+      "fees_paid": "0.20706",
+      "market_id": "0x85d90881aad407ee5ec01874d3d9756f6dc6fdb7a30d2428d991e0ab96411932",
+      "quantity": "-17",
+      "realized_pnl": "-0.20706",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.13",
+      "fees_paid": "0.28275",
+      "market_id": "0x09d5bb2b5b71dd73c69179d65fd50c58e3d3df4bf301e88442fd492fe8bcdf35",
+      "quantity": "50",
+      "realized_pnl": "-0.28275",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.08",
+      "fees_paid": "0.03680",
+      "market_id": "0x9396b5f078bb7277602cdd1ef3647cb9c138ff13ae3ffaf13936bed2f219f63d",
+      "quantity": "10",
+      "realized_pnl": "-0.03680",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.053",
+      "fees_paid": "0.02510",
+      "market_id": "0xd85959e6487c0efe4b0e2a6e99cc8a6c463d03b2472b738ec449d872feca6ec2",
+      "quantity": "10",
+      "realized_pnl": "-0.02510",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.02",
+      "fees_paid": "0.03430",
+      "market_id": "0x79368a05f575ad663d44f7f355b94e3889345ee31b8d40b6b640cbb608b59daf",
+      "quantity": "35",
+      "realized_pnl": "-0.03430",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.07",
+      "fees_paid": "0.16275",
+      "market_id": "0x883e44bc587693508fc4456771a2f4e96f9315c04abb5dc4d8bc9e1e6404748b",
+      "quantity": "50",
+      "realized_pnl": "-0.16275",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.36",
+      "fees_paid": "0.17280",
+      "market_id": "0xeb160be71a8e07b3441fed6fb1cdf2f9f080f42570b9463d846157c68acf5244",
+      "quantity": "-15",
+      "realized_pnl": "-0.17280",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.45",
+      "fees_paid": "0.12375",
+      "market_id": "0xd05e507c3ecc4b83b1ddd5758fd535cea4fa194d689662349aaf1ad09847bbae",
+      "quantity": "-10",
+      "realized_pnl": "-0.12375",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.13",
+      "fees_paid": "0.06221",
+      "market_id": "0xfd4cc32ea0891a8f94e02ed9781a46caeb9e90acd501e35a1e196b708251fd1b",
+      "quantity": "-11",
+      "realized_pnl": "-0.06221",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.22",
+      "fees_paid": "0.18876",
+      "market_id": "0x10547d042179cd0966e5fa279d932707fd426d83e58ed09b202a62bf10e150f4",
+      "quantity": "22",
+      "realized_pnl": "-0.18876",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.18",
+      "fees_paid": "0.08856",
+      "market_id": "0xe1216b76b876d99f46c788f07ab7bc10f6a9a92ad0112b62a7c9b50ed4a4d6c2",
+      "quantity": "-12",
+      "realized_pnl": "-0.08856",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.1",
+      "fees_paid": "0.22500",
+      "market_id": "0x0680e50b11e199cc4cccae6145f17fe11aeb77afa5e6a8e12e52c7a62f63ad2e",
+      "quantity": "50",
+      "realized_pnl": "-0.22500",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.48",
+      "fees_paid": "0.23712",
+      "market_id": "0xd5dcf6f07c3faa48d66dd6b4088d62af45b6c52bc59477b541be8f8a8149e57f",
+      "quantity": "-19",
+      "realized_pnl": "-0.23712",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.38",
+      "fees_paid": "0.18848",
+      "market_id": "0x480c5fb88f288ad8aeef7b080fd427d8fb49b679b9593dc14f8eb1c2b414721d",
+      "quantity": "-16",
+      "realized_pnl": "-0.18848",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.08",
+      "fees_paid": "0.03680",
+      "market_id": "0xe36bbcac115ecd28fda487b6ccec8244a313922cd9cd931a21102a9bb4529dd5",
+      "quantity": "-10",
+      "realized_pnl": "-0.03680",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.06",
+      "fees_paid": "0.02820",
+      "market_id": "0xbf882ff81de3b9fc22ad5da68408ca3e7b00d90167343511753d8699da6ad89a",
+      "quantity": "10",
+      "realized_pnl": "-0.02820",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.2",
+      "fees_paid": "0.40000",
+      "market_id": "0xf34c73a5faf54b2497835aea03b4dd4f888e901f24f2f313b756172759ab5943",
+      "quantity": "50",
+      "realized_pnl": "-0.40000",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.51",
+      "fees_paid": "0.24990",
+      "market_id": "0x03800185847a7f22ab5f0998e8977774f711645ccc14e3f3a723abc5646850a7",
+      "quantity": "-20",
+      "realized_pnl": "-0.24990",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.2",
+      "fees_paid": "0.09600",
+      "market_id": "0x9f7a9426cc6ab72ca6d142ccc2fc9ed61022abcbb9c5b5f7f809436432d4fe7b",
+      "quantity": "-12",
+      "realized_pnl": "-0.09600",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.16",
+      "fees_paid": "0.12096",
+      "market_id": "0x62a02653f93040ecfd6d3e116ae6c8175f841187ad2f6225750c1cc2aeff09c0",
+      "quantity": "18",
+      "realized_pnl": "-0.12096",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.28",
+      "fees_paid": "0.13104",
+      "market_id": "0x9ab8f8e491c25e7cff98cfce937b0b142c9b767fa9d08260883dd7b95993353d",
+      "quantity": "-13",
+      "realized_pnl": "-0.13104",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.08",
+      "fees_paid": "0.01840",
+      "market_id": "0xc7ed2676e8c88f7fd8f46506f632454fb037fe83c252a2851677484e537d97b0",
+      "quantity": "5",
+      "realized_pnl": "-0.01840",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.17",
+      "fees_paid": "0.06350",
+      "market_id": "0x51021dcd1c1c2d8e4b0122eaaae08ff0df13bbf556bf5180166ff06af4dcc9cc",
+      "quantity": "9",
+      "realized_pnl": "-0.06350",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.4",
+      "fees_paid": "0.19200",
+      "market_id": "0xda2af3b2a4eff44797e64ba82aa75676d8ef041a31d8a9ab2c837a64f285f4c7",
+      "quantity": "-16",
+      "realized_pnl": "-0.19200",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.25",
+      "fees_paid": "0.12188",
+      "market_id": "0xd5d921e3ee5e7afdb1252dfef1979750b4864f92be746bb6b6bfac1b2223d993",
+      "quantity": "-13",
+      "realized_pnl": "-0.12188",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.31",
+      "fees_paid": "0.14973",
+      "market_id": "0x61b3e8f7e9c75a410705c96ee9f71819c7a72c841bd3625c613d66c5edf1d0b0",
+      "quantity": "-14",
+      "realized_pnl": "-0.14973",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.41",
+      "fees_paid": "0.29028",
+      "market_id": "0x23d05883498ad816726d0485912d18a2dcd0f72d015028f36ccfc9a6ef567eb3",
+      "quantity": "24",
+      "realized_pnl": "-0.29028",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.16",
+      "fees_paid": "0.33600",
+      "market_id": "0xeca8b588fb7976e3946fb6c1b2ecc2516e44c09456e949dd48d24cfcad962a5e",
+      "quantity": "50",
+      "realized_pnl": "-0.33600",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.022",
+      "fees_paid": "0.02690",
+      "market_id": "0x55542554d4b17edb89fb9715e91699fde1ef6d79a4994d1501eba2309a8520cc",
+      "quantity": "25",
+      "realized_pnl": "-0.02690",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.09",
+      "fees_paid": "0.04095",
+      "market_id": "0x1986b363141a324990c5425187ba8042ef13077d6bf8bc3b430501b510cf85bd",
+      "quantity": "10",
+      "realized_pnl": "-0.04095",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.39",
+      "fees_paid": "0.19032",
+      "market_id": "0x971c56d70f024ba8f90b425f41f3a4abbab1e82f02c3065b829c65b355c75b17",
+      "quantity": "-16",
+      "realized_pnl": "-0.19032",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.42",
+      "fees_paid": "0.20706",
+      "market_id": "0xd1eceed5f95ea6cec5ed648e83c54ddc483738da851ef03a597fddabe68d4f3b",
+      "quantity": "-17",
+      "realized_pnl": "-0.20706",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.08",
+      "fees_paid": "0.03680",
+      "market_id": "0x4df661fcc86d5b5c2e3a309a45ccd799454b3b3d59d6cb087d520366f915cc1a",
+      "quantity": "-10",
+      "realized_pnl": "-0.03680",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.029",
+      "fees_paid": "0.00704",
+      "market_id": "0x0ace716e11dc8fb0cba78e6054056223f18d463db826a308caadee21534c8d72",
+      "quantity": "5",
+      "realized_pnl": "-0.00704",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.16",
+      "fees_paid": "0.33600",
+      "market_id": "0xf1087c42d8506095ac8fdcc1229cab2ece1b32128c60216fec19c1f5cfa9e6bd",
+      "quantity": "50",
+      "realized_pnl": "-0.33600",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.28",
+      "fees_paid": "0.13104",
+      "market_id": "0x8cb5be3198502b77d68d90ebbfe38915b1e01d6a43205ab113b73a31f189c6ca",
+      "quantity": "-13",
+      "realized_pnl": "-0.13104",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.1",
+      "fees_paid": "0.22500",
+      "market_id": "0xe60e2321187562d7ca3887b2e3efb3eb40a10d24849270fe5d2f0a66657160b9",
+      "quantity": "50",
+      "realized_pnl": "-0.22500",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.23",
+      "fees_paid": "0.38077",
+      "market_id": "0x597fd35d6b9106d8fac16b75b59af179a2c61056590e59bd718764dee0e521e8",
+      "quantity": "43",
+      "realized_pnl": "-0.38077",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.22",
+      "fees_paid": "0.10296",
+      "market_id": "0x32d0adc271cb7311ce404222b05c5ddf8975cbd3163e39aba131c2b47b66e95f",
+      "quantity": "-12",
+      "realized_pnl": "-0.10296",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.13",
+      "fees_paid": "0.06221",
+      "market_id": "0xb34246b836c0c23464d9f4986fa01034b60f5a55ac5cec5271152ed9f3bc221f",
+      "quantity": "-11",
+      "realized_pnl": "-0.06221",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.25",
+      "fees_paid": "0.37500",
+      "market_id": "0xf0baf52422f3331ae0d7066080cf6d76ba9189f2e1de9a6934a4623083d7a40b",
+      "quantity": "40",
+      "realized_pnl": "-0.37500",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.26",
+      "fees_paid": "0.12506",
+      "market_id": "0x2a5efcaa48577f18b5e98a4905ac3b3d980157ea28d7503aa2fccfa19937b44e",
+      "quantity": "-13",
+      "realized_pnl": "-0.12506",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.039",
+      "fees_paid": "0.00937",
+      "market_id": "0xd7fd30b1d3acb9c3cafb32154717a5bbf9594f8934529e6ce5b17468f35642de",
+      "quantity": "5",
+      "realized_pnl": "-0.00937",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.07",
+      "fees_paid": "0.01628",
+      "market_id": "0x12ae47ce1c7a612daf68662879e3520e9724c0dc2d997a2e76a30c1381437b54",
+      "quantity": "5",
+      "realized_pnl": "-0.01628",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.21",
+      "fees_paid": "0.38987",
+      "market_id": "0x1d9393561bdb4876f09cf09b017ca62671418b6a08787f6a5f35abdf7fb09f5b",
+      "quantity": "47",
+      "realized_pnl": "-0.38987",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.42",
+      "fees_paid": "0.20706",
+      "market_id": "0x5e4a462f0f53026f98a388292a7b807b772f597e5762fec702ba71422847266b",
+      "quantity": "-17",
+      "realized_pnl": "-0.20706",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.19",
+      "fees_paid": "0.03848",
+      "market_id": "0xeee7eaa1270d39398194b4c867f7408612fa95f2f77dfc88b13015db4bfab4eb",
+      "quantity": "5",
+      "realized_pnl": "-0.03848",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.09",
+      "fees_paid": "0.02048",
+      "market_id": "0xd126edad93773ebd4b6b3e8394608b0ffe161f1e0c495b8cebad7afc69ab47ff",
+      "quantity": "5",
+      "realized_pnl": "-0.02048",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.036",
+      "fees_paid": "0.01388",
+      "market_id": "0x0365bcd774e559dcc9895b348fbdc86946a3b51b909a7360a5e4ab0b4175cb99",
+      "quantity": "8",
+      "realized_pnl": "-0.01388",
+      "venue": "polymarket"
     }
   ],
   "schema_version": "1.0.0",
   "starting_cash": "1000",
   "summary": {
-    "cash": "1158.05252",
+    "cash": "1188.79028",
     "concentration": [
       {
         "venue": "polymarket",
@@ -22319,19 +24017,19 @@
       }
     ],
     "created_at": "2026-09-19T01:16:10.549992+00:00",
-    "equity": "1004.70952",
-    "equity_points": 14,
-    "fees_paid": "86.63448",
-    "fills": 1225,
-    "gross_notional": "364.86700",
+    "equity": "978.64878",
+    "equity_points": 15,
+    "fees_paid": "96.08272",
+    "fills": 1295,
+    "gross_notional": "634.72850",
     "ledger_id": "weather_bucket_edge",
     "mark_method": "mid",
     "max_drawdown": "168.91964",
-    "net_exposure": "-153.34300",
-    "open_positions": 93,
+    "net_exposure": "-210.14150",
+    "open_positions": 163,
     "paper_only": true,
     "peak_equity": "1094.65787",
-    "position_value": "-153.34300",
+    "position_value": "-210.14150",
     "positions": [
       {
         "average_price": "0.08000",
@@ -23355,16 +25053,786 @@
         "unrealized_pnl": "-0.27000",
         "value": "-8.55000",
         "venue": "polymarket"
+      },
+      {
+        "average_price": "0.02100",
+        "fees_paid": "0.00514",
+        "mark": "0.02050",
+        "market_id": "0x7d6925895cc5bb6a6c10034debcb6b1039a908618f5ddef27e1e3a5f9841062b",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.00514",
+        "unrealized_pnl": "-0.00250",
+        "value": "0.10250",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.42000",
+        "fees_paid": "0.20706",
+        "mark": "0.43500",
+        "market_id": "0x9c30c53b441e9a9e29d6b79c4508d39ec7ed70baa8b7a7496abf3878d09a19e9",
+        "quantity": "-17.00000",
+        "realized_pnl": "-0.20706",
+        "unrealized_pnl": "-0.25500",
+        "value": "-7.39500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.37000",
+        "fees_paid": "0.17483",
+        "mark": "0.38500",
+        "market_id": "0xe89d1365d8b3508774c2948b963d5e6038b1c4a1a1e8aad56dfa32b29b6d0031",
+        "quantity": "-15.00000",
+        "realized_pnl": "-0.17483",
+        "unrealized_pnl": "-0.22500",
+        "value": "-5.77500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.07000",
+        "fees_paid": "0.03255",
+        "mark": "0.07500",
+        "market_id": "0x4e795b7424b0d25023f3a6548d1bec46edb74b789f79858d72b9afd2cc80b832",
+        "quantity": "-10.00000",
+        "realized_pnl": "-0.03255",
+        "unrealized_pnl": "-0.05000",
+        "value": "-0.75000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.06900",
+        "fees_paid": "0.03533",
+        "mark": "0.04700",
+        "market_id": "0x19bf427e28692dcb5e9dec1dd60ceba409bb5ea539db574bbb000af61e2725be",
+        "quantity": "11.00000",
+        "realized_pnl": "-0.03533",
+        "unrealized_pnl": "-0.24200",
+        "value": "0.51700",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.09000",
+        "fees_paid": "0.05733",
+        "mark": "0.07000",
+        "market_id": "0x7d9561c2f4a132b551adbf4fc14cb907d4f927899aca0029b297b02ed35c78a7",
+        "quantity": "14.00000",
+        "realized_pnl": "-0.05733",
+        "unrealized_pnl": "-0.28000",
+        "value": "0.98000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.34000",
+        "fees_paid": "0.15708",
+        "mark": "0.35000",
+        "market_id": "0x9acd82b1de3613e049488905054748e9f98e9fdaa149dfbde1444170f959942b",
+        "quantity": "-14.00000",
+        "realized_pnl": "-0.15708",
+        "unrealized_pnl": "-0.14000",
+        "value": "-4.90000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.41000",
+        "fees_paid": "0.19352",
+        "mark": "0.43000",
+        "market_id": "0x9dc4a4ba8967b859dacc1b611d8307d781ff4152648dc4ebd608808f36ee0fd0",
+        "quantity": "-16.00000",
+        "realized_pnl": "-0.19352",
+        "unrealized_pnl": "-0.32000",
+        "value": "-6.88000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.12000",
+        "fees_paid": "0.05808",
+        "mark": "0.13000",
+        "market_id": "0x88c6045eef6eee7635d3ac2e4d7206d6c3671a01d6657a9b0e9c065c853ef31c",
+        "quantity": "-11.00000",
+        "realized_pnl": "-0.05808",
+        "unrealized_pnl": "-0.11000",
+        "value": "-1.43000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.52000",
+        "fees_paid": "0.24960",
+        "mark": "0.53000",
+        "market_id": "0x204d449aeb008cbc8ffb779fa89349001c8aa877413fdffdb4149b3611adade3",
+        "quantity": "-20.00000",
+        "realized_pnl": "-0.24960",
+        "unrealized_pnl": "-0.20000",
+        "value": "-10.60000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.40000",
+        "fees_paid": "0.30000",
+        "mark": "0.38500",
+        "market_id": "0x0ee9fdd78e02f3e8e1b383169a26a61f2275ad00e67279a729157f76d999412d",
+        "quantity": "25.00000",
+        "realized_pnl": "-0.30000",
+        "unrealized_pnl": "-0.37500",
+        "value": "9.62500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.05000",
+        "fees_paid": "0.02613",
+        "mark": "0.04000",
+        "market_id": "0x1cb77dd01f29f0c79bed0f076636dc22ef55aebb3ba90cca9f4885ddd89469b4",
+        "quantity": "11.00000",
+        "realized_pnl": "-0.02613",
+        "unrealized_pnl": "-0.11000",
+        "value": "0.44000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.03600",
+        "fees_paid": "0.02082",
+        "mark": "0.01950",
+        "market_id": "0xb094af31ad283fb26fa041ae8c82e29ca2494d720978b819e830939069a71fc2",
+        "quantity": "12.00000",
+        "realized_pnl": "-0.02082",
+        "unrealized_pnl": "-0.19800",
+        "value": "0.23400",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.05000",
+        "fees_paid": "0.02375",
+        "mark": "0.04000",
+        "market_id": "0x71e72408bde23c8f400e46bdbb930f2258c5f710c9798fb87f18794e12351c1d",
+        "quantity": "10.00000",
+        "realized_pnl": "-0.02375",
+        "unrealized_pnl": "-0.10000",
+        "value": "0.40000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.51000",
+        "fees_paid": "0.24990",
+        "mark": "0.51500",
+        "market_id": "0x489d75db1a3ecd1f43ef0ec9af039ab5c289a7eec51e33556c2ba114a244afc5",
+        "quantity": "-20.00000",
+        "realized_pnl": "-0.24990",
+        "unrealized_pnl": "-0.10000",
+        "value": "-10.30000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.17000",
+        "fees_paid": "0.08466",
+        "mark": "0.19000",
+        "market_id": "0x4e4ea44b746150af223a1f8c4ebd21c358077098033af7869a8df1bb110433f1",
+        "quantity": "-12.00000",
+        "realized_pnl": "-0.08466",
+        "unrealized_pnl": "-0.24000",
+        "value": "-2.28000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.09000",
+        "fees_paid": "0.02048",
+        "mark": "0.07000",
+        "market_id": "0xd54127a79360e3d80b20fb08890c1d4dffd2b82a27c233ece71b17510773cbe3",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.02048",
+        "unrealized_pnl": "-0.10000",
+        "value": "0.35000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.37000",
+        "fees_paid": "0.17483",
+        "mark": "0.39000",
+        "market_id": "0x20a9b7b44ac3248fda269e7bbc4f05d50e4c65fedef3f42652a2ab21bb9c8bb7",
+        "quantity": "-15.00000",
+        "realized_pnl": "-0.17483",
+        "unrealized_pnl": "-0.30000",
+        "value": "-5.85000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.05000",
+        "fees_paid": "0.04750",
+        "mark": "0.04000",
+        "market_id": "0x753d5246698d32e36037f9ca8fbb7bc5818055402efbd024f6b1a5d74b493e32",
+        "quantity": "20.00000",
+        "realized_pnl": "-0.04750",
+        "unrealized_pnl": "-0.20000",
+        "value": "0.80000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.05000",
+        "fees_paid": "0.02375",
+        "mark": "0.05500",
+        "market_id": "0xcf1436ef94e525f320f514b11f3f66690479fb2d44b4fdb438a83efe2300c9f9",
+        "quantity": "-10.00000",
+        "realized_pnl": "-0.02375",
+        "unrealized_pnl": "-0.05000",
+        "value": "-0.55000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.37000",
+        "fees_paid": "0.09324",
+        "mark": "0.37500",
+        "market_id": "0xc0e77dd0eb8e7bd28948abc35b427b8b5fc6e7f03266ee5eea0b2d5a551f4339",
+        "quantity": "-8.00000",
+        "realized_pnl": "-0.09324",
+        "unrealized_pnl": "-0.04000",
+        "value": "-3.00000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.42000",
+        "fees_paid": "0.20706",
+        "mark": "0.44000",
+        "market_id": "0x85d90881aad407ee5ec01874d3d9756f6dc6fdb7a30d2428d991e0ab96411932",
+        "quantity": "-17.00000",
+        "realized_pnl": "-0.20706",
+        "unrealized_pnl": "-0.34000",
+        "value": "-7.48000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.13000",
+        "fees_paid": "0.28275",
+        "mark": "0.11500",
+        "market_id": "0x09d5bb2b5b71dd73c69179d65fd50c58e3d3df4bf301e88442fd492fe8bcdf35",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.28275",
+        "unrealized_pnl": "-0.75000",
+        "value": "5.75000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.08000",
+        "fees_paid": "0.03680",
+        "mark": "0.04900",
+        "market_id": "0x9396b5f078bb7277602cdd1ef3647cb9c138ff13ae3ffaf13936bed2f219f63d",
+        "quantity": "10.00000",
+        "realized_pnl": "-0.03680",
+        "unrealized_pnl": "-0.31000",
+        "value": "0.49000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.05300",
+        "fees_paid": "0.02510",
+        "mark": "0.02800",
+        "market_id": "0xd85959e6487c0efe4b0e2a6e99cc8a6c463d03b2472b738ec449d872feca6ec2",
+        "quantity": "10.00000",
+        "realized_pnl": "-0.02510",
+        "unrealized_pnl": "-0.25000",
+        "value": "0.28000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.02000",
+        "fees_paid": "0.03430",
+        "mark": "0.01200",
+        "market_id": "0x79368a05f575ad663d44f7f355b94e3889345ee31b8d40b6b640cbb608b59daf",
+        "quantity": "35.00000",
+        "realized_pnl": "-0.03430",
+        "unrealized_pnl": "-0.28000",
+        "value": "0.42000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.07000",
+        "fees_paid": "0.16275",
+        "mark": "0.06000",
+        "market_id": "0x883e44bc587693508fc4456771a2f4e96f9315c04abb5dc4d8bc9e1e6404748b",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.16275",
+        "unrealized_pnl": "-0.50000",
+        "value": "3.00000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.36000",
+        "fees_paid": "0.17280",
+        "mark": "0.36500",
+        "market_id": "0xeb160be71a8e07b3441fed6fb1cdf2f9f080f42570b9463d846157c68acf5244",
+        "quantity": "-15.00000",
+        "realized_pnl": "-0.17280",
+        "unrealized_pnl": "-0.07500",
+        "value": "-5.47500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.45000",
+        "fees_paid": "0.12375",
+        "mark": "0.46000",
+        "market_id": "0xd05e507c3ecc4b83b1ddd5758fd535cea4fa194d689662349aaf1ad09847bbae",
+        "quantity": "-10.00000",
+        "realized_pnl": "-0.12375",
+        "unrealized_pnl": "-0.10000",
+        "value": "-4.60000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.13000",
+        "fees_paid": "0.06221",
+        "mark": "0.14000",
+        "market_id": "0xfd4cc32ea0891a8f94e02ed9781a46caeb9e90acd501e35a1e196b708251fd1b",
+        "quantity": "-11.00000",
+        "realized_pnl": "-0.06221",
+        "unrealized_pnl": "-0.11000",
+        "value": "-1.54000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.22000",
+        "fees_paid": "0.18876",
+        "mark": "0.21000",
+        "market_id": "0x10547d042179cd0966e5fa279d932707fd426d83e58ed09b202a62bf10e150f4",
+        "quantity": "22.00000",
+        "realized_pnl": "-0.18876",
+        "unrealized_pnl": "-0.22000",
+        "value": "4.62000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.18000",
+        "fees_paid": "0.08856",
+        "mark": "0.20000",
+        "market_id": "0xe1216b76b876d99f46c788f07ab7bc10f6a9a92ad0112b62a7c9b50ed4a4d6c2",
+        "quantity": "-12.00000",
+        "realized_pnl": "-0.08856",
+        "unrealized_pnl": "-0.24000",
+        "value": "-2.40000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.10000",
+        "fees_paid": "0.22500",
+        "mark": "0.09000",
+        "market_id": "0x0680e50b11e199cc4cccae6145f17fe11aeb77afa5e6a8e12e52c7a62f63ad2e",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.22500",
+        "unrealized_pnl": "-0.50000",
+        "value": "4.50000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.48000",
+        "fees_paid": "0.23712",
+        "mark": "0.49000",
+        "market_id": "0xd5dcf6f07c3faa48d66dd6b4088d62af45b6c52bc59477b541be8f8a8149e57f",
+        "quantity": "-19.00000",
+        "realized_pnl": "-0.23712",
+        "unrealized_pnl": "-0.19000",
+        "value": "-9.31000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.38000",
+        "fees_paid": "0.18848",
+        "mark": "0.39000",
+        "market_id": "0x480c5fb88f288ad8aeef7b080fd427d8fb49b679b9593dc14f8eb1c2b414721d",
+        "quantity": "-16.00000",
+        "realized_pnl": "-0.18848",
+        "unrealized_pnl": "-0.16000",
+        "value": "-6.24000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.08000",
+        "fees_paid": "0.03680",
+        "mark": "0.10000",
+        "market_id": "0xe36bbcac115ecd28fda487b6ccec8244a313922cd9cd931a21102a9bb4529dd5",
+        "quantity": "-10.00000",
+        "realized_pnl": "-0.03680",
+        "unrealized_pnl": "-0.20000",
+        "value": "-1.00000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.06000",
+        "fees_paid": "0.02820",
+        "mark": "0.05000",
+        "market_id": "0xbf882ff81de3b9fc22ad5da68408ca3e7b00d90167343511753d8699da6ad89a",
+        "quantity": "10.00000",
+        "realized_pnl": "-0.02820",
+        "unrealized_pnl": "-0.10000",
+        "value": "0.50000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.20000",
+        "fees_paid": "0.40000",
+        "mark": "0.18000",
+        "market_id": "0xf34c73a5faf54b2497835aea03b4dd4f888e901f24f2f313b756172759ab5943",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.40000",
+        "unrealized_pnl": "-1.00000",
+        "value": "9.00000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.51000",
+        "fees_paid": "0.24990",
+        "mark": "0.53000",
+        "market_id": "0x03800185847a7f22ab5f0998e8977774f711645ccc14e3f3a723abc5646850a7",
+        "quantity": "-20.00000",
+        "realized_pnl": "-0.24990",
+        "unrealized_pnl": "-0.40000",
+        "value": "-10.60000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.20000",
+        "fees_paid": "0.09600",
+        "mark": "0.22000",
+        "market_id": "0x9f7a9426cc6ab72ca6d142ccc2fc9ed61022abcbb9c5b5f7f809436432d4fe7b",
+        "quantity": "-12.00000",
+        "realized_pnl": "-0.09600",
+        "unrealized_pnl": "-0.24000",
+        "value": "-2.64000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.16000",
+        "fees_paid": "0.12096",
+        "mark": "0.15500",
+        "market_id": "0x62a02653f93040ecfd6d3e116ae6c8175f841187ad2f6225750c1cc2aeff09c0",
+        "quantity": "18.00000",
+        "realized_pnl": "-0.12096",
+        "unrealized_pnl": "-0.09000",
+        "value": "2.79000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.28000",
+        "fees_paid": "0.13104",
+        "mark": "0.29000",
+        "market_id": "0x9ab8f8e491c25e7cff98cfce937b0b142c9b767fa9d08260883dd7b95993353d",
+        "quantity": "-13.00000",
+        "realized_pnl": "-0.13104",
+        "unrealized_pnl": "-0.13000",
+        "value": "-3.77000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.08000",
+        "fees_paid": "0.01840",
+        "mark": "0.06000",
+        "market_id": "0xc7ed2676e8c88f7fd8f46506f632454fb037fe83c252a2851677484e537d97b0",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.01840",
+        "unrealized_pnl": "-0.10000",
+        "value": "0.30000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.17000",
+        "fees_paid": "0.06350",
+        "mark": "0.16500",
+        "market_id": "0x51021dcd1c1c2d8e4b0122eaaae08ff0df13bbf556bf5180166ff06af4dcc9cc",
+        "quantity": "9.00000",
+        "realized_pnl": "-0.06350",
+        "unrealized_pnl": "-0.04500",
+        "value": "1.48500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.40000",
+        "fees_paid": "0.19200",
+        "mark": "0.40500",
+        "market_id": "0xda2af3b2a4eff44797e64ba82aa75676d8ef041a31d8a9ab2c837a64f285f4c7",
+        "quantity": "-16.00000",
+        "realized_pnl": "-0.19200",
+        "unrealized_pnl": "-0.08000",
+        "value": "-6.48000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.25000",
+        "fees_paid": "0.12188",
+        "mark": "0.26500",
+        "market_id": "0xd5d921e3ee5e7afdb1252dfef1979750b4864f92be746bb6b6bfac1b2223d993",
+        "quantity": "-13.00000",
+        "realized_pnl": "-0.12188",
+        "unrealized_pnl": "-0.19500",
+        "value": "-3.44500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.31000",
+        "fees_paid": "0.14973",
+        "mark": "0.32000",
+        "market_id": "0x61b3e8f7e9c75a410705c96ee9f71819c7a72c841bd3625c613d66c5edf1d0b0",
+        "quantity": "-14.00000",
+        "realized_pnl": "-0.14973",
+        "unrealized_pnl": "-0.14000",
+        "value": "-4.48000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.41000",
+        "fees_paid": "0.29028",
+        "mark": "0.40500",
+        "market_id": "0x23d05883498ad816726d0485912d18a2dcd0f72d015028f36ccfc9a6ef567eb3",
+        "quantity": "24.00000",
+        "realized_pnl": "-0.29028",
+        "unrealized_pnl": "-0.12000",
+        "value": "9.72000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.16000",
+        "fees_paid": "0.33600",
+        "mark": "0.15000",
+        "market_id": "0xeca8b588fb7976e3946fb6c1b2ecc2516e44c09456e949dd48d24cfcad962a5e",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.33600",
+        "unrealized_pnl": "-0.50000",
+        "value": "7.50000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.02200",
+        "fees_paid": "0.02690",
+        "mark": "0.02100",
+        "market_id": "0x55542554d4b17edb89fb9715e91699fde1ef6d79a4994d1501eba2309a8520cc",
+        "quantity": "25.00000",
+        "realized_pnl": "-0.02690",
+        "unrealized_pnl": "-0.02500",
+        "value": "0.52500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.09000",
+        "fees_paid": "0.04095",
+        "mark": "0.08000",
+        "market_id": "0x1986b363141a324990c5425187ba8042ef13077d6bf8bc3b430501b510cf85bd",
+        "quantity": "10.00000",
+        "realized_pnl": "-0.04095",
+        "unrealized_pnl": "-0.10000",
+        "value": "0.80000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.39000",
+        "fees_paid": "0.19032",
+        "mark": "0.40000",
+        "market_id": "0x971c56d70f024ba8f90b425f41f3a4abbab1e82f02c3065b829c65b355c75b17",
+        "quantity": "-16.00000",
+        "realized_pnl": "-0.19032",
+        "unrealized_pnl": "-0.16000",
+        "value": "-6.40000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.42000",
+        "fees_paid": "0.20706",
+        "mark": "0.44000",
+        "market_id": "0xd1eceed5f95ea6cec5ed648e83c54ddc483738da851ef03a597fddabe68d4f3b",
+        "quantity": "-17.00000",
+        "realized_pnl": "-0.20706",
+        "unrealized_pnl": "-0.34000",
+        "value": "-7.48000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.08000",
+        "fees_paid": "0.03680",
+        "mark": "0.09500",
+        "market_id": "0x4df661fcc86d5b5c2e3a309a45ccd799454b3b3d59d6cb087d520366f915cc1a",
+        "quantity": "-10.00000",
+        "realized_pnl": "-0.03680",
+        "unrealized_pnl": "-0.15000",
+        "value": "-0.95000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.02900",
+        "fees_paid": "0.00704",
+        "mark": "0.02450",
+        "market_id": "0x0ace716e11dc8fb0cba78e6054056223f18d463db826a308caadee21534c8d72",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.00704",
+        "unrealized_pnl": "-0.02250",
+        "value": "0.12250",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.16000",
+        "fees_paid": "0.33600",
+        "mark": "0.15000",
+        "market_id": "0xf1087c42d8506095ac8fdcc1229cab2ece1b32128c60216fec19c1f5cfa9e6bd",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.33600",
+        "unrealized_pnl": "-0.50000",
+        "value": "7.50000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.28000",
+        "fees_paid": "0.13104",
+        "mark": "0.29500",
+        "market_id": "0x8cb5be3198502b77d68d90ebbfe38915b1e01d6a43205ab113b73a31f189c6ca",
+        "quantity": "-13.00000",
+        "realized_pnl": "-0.13104",
+        "unrealized_pnl": "-0.19500",
+        "value": "-3.83500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.10000",
+        "fees_paid": "0.22500",
+        "mark": "0.08000",
+        "market_id": "0xe60e2321187562d7ca3887b2e3efb3eb40a10d24849270fe5d2f0a66657160b9",
+        "quantity": "50.00000",
+        "realized_pnl": "-0.22500",
+        "unrealized_pnl": "-1.00000",
+        "value": "4.00000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.23000",
+        "fees_paid": "0.38077",
+        "mark": "0.21000",
+        "market_id": "0x597fd35d6b9106d8fac16b75b59af179a2c61056590e59bd718764dee0e521e8",
+        "quantity": "43.00000",
+        "realized_pnl": "-0.38077",
+        "unrealized_pnl": "-0.86000",
+        "value": "9.03000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.22000",
+        "fees_paid": "0.10296",
+        "mark": "0.23000",
+        "market_id": "0x32d0adc271cb7311ce404222b05c5ddf8975cbd3163e39aba131c2b47b66e95f",
+        "quantity": "-12.00000",
+        "realized_pnl": "-0.10296",
+        "unrealized_pnl": "-0.12000",
+        "value": "-2.76000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.13000",
+        "fees_paid": "0.06221",
+        "mark": "0.14500",
+        "market_id": "0xb34246b836c0c23464d9f4986fa01034b60f5a55ac5cec5271152ed9f3bc221f",
+        "quantity": "-11.00000",
+        "realized_pnl": "-0.06221",
+        "unrealized_pnl": "-0.16500",
+        "value": "-1.59500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.25000",
+        "fees_paid": "0.37500",
+        "mark": "0.23500",
+        "market_id": "0xf0baf52422f3331ae0d7066080cf6d76ba9189f2e1de9a6934a4623083d7a40b",
+        "quantity": "40.00000",
+        "realized_pnl": "-0.37500",
+        "unrealized_pnl": "-0.60000",
+        "value": "9.40000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.26000",
+        "fees_paid": "0.12506",
+        "mark": "0.27500",
+        "market_id": "0x2a5efcaa48577f18b5e98a4905ac3b3d980157ea28d7503aa2fccfa19937b44e",
+        "quantity": "-13.00000",
+        "realized_pnl": "-0.12506",
+        "unrealized_pnl": "-0.19500",
+        "value": "-3.57500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.03900",
+        "fees_paid": "0.00937",
+        "mark": "0.02450",
+        "market_id": "0xd7fd30b1d3acb9c3cafb32154717a5bbf9594f8934529e6ce5b17468f35642de",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.00937",
+        "unrealized_pnl": "-0.07250",
+        "value": "0.12250",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.07000",
+        "fees_paid": "0.01628",
+        "mark": "0.06000",
+        "market_id": "0x12ae47ce1c7a612daf68662879e3520e9724c0dc2d997a2e76a30c1381437b54",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.01628",
+        "unrealized_pnl": "-0.05000",
+        "value": "0.30000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.21000",
+        "fees_paid": "0.38987",
+        "mark": "0.20000",
+        "market_id": "0x1d9393561bdb4876f09cf09b017ca62671418b6a08787f6a5f35abdf7fb09f5b",
+        "quantity": "47.00000",
+        "realized_pnl": "-0.38987",
+        "unrealized_pnl": "-0.47000",
+        "value": "9.40000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.42000",
+        "fees_paid": "0.20706",
+        "mark": "0.44500",
+        "market_id": "0x5e4a462f0f53026f98a388292a7b807b772f597e5762fec702ba71422847266b",
+        "quantity": "-17.00000",
+        "realized_pnl": "-0.20706",
+        "unrealized_pnl": "-0.42500",
+        "value": "-7.56500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.19000",
+        "fees_paid": "0.03848",
+        "mark": "0.18000",
+        "market_id": "0xeee7eaa1270d39398194b4c867f7408612fa95f2f77dfc88b13015db4bfab4eb",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.03848",
+        "unrealized_pnl": "-0.05000",
+        "value": "0.90000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.09000",
+        "fees_paid": "0.02048",
+        "mark": "0.08000",
+        "market_id": "0xd126edad93773ebd4b6b3e8394608b0ffe161f1e0c495b8cebad7afc69ab47ff",
+        "quantity": "5.00000",
+        "realized_pnl": "-0.02048",
+        "unrealized_pnl": "-0.05000",
+        "value": "0.40000",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.03600",
+        "fees_paid": "0.01388",
+        "mark": "0.02850",
+        "market_id": "0x0365bcd774e559dcc9895b348fbdc86946a3b51b909a7360a5e4ab0b4175cb99",
+        "quantity": "8.00000",
+        "realized_pnl": "-0.01388",
+        "unrealized_pnl": "-0.06000",
+        "value": "0.22800",
+        "venue": "polymarket"
       }
     ],
-    "realized_pnl": "23.21052",
-    "return_pct": "0.47095",
+    "realized_pnl": "13.76228",
+    "return_pct": "-2.13512",
     "settlement_fills": 566,
     "starting_cash": "1000.00000",
-    "total_pnl": "4.70952",
+    "total_pnl": "-21.35122",
     "unmarked_positions": 0,
-    "unrealized_pnl": "-18.50100",
-    "updated_at": "2026-10-07T00:47:07.557993+00:00"
+    "unrealized_pnl": "-35.11350",
+    "updated_at": "2026-10-08T00:51:49.383725+00:00"
   },
-  "updated_at": "2026-10-07T00:47:07.557993+00:00"
+  "updated_at": "2026-10-08T00:51:49.383725+00:00"
 }
