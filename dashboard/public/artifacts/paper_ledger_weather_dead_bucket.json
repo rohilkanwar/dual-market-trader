@@ -1,5 +1,5 @@
 {
-  "cash": "1000",
+  "cash": "1006.74249",
   "created_at": "2026-09-18T18:03:57.108836+00:00",
   "equity_curve": [
     {
@@ -271,44 +271,281 @@
       "total_pnl": "0.00000",
       "unmarked_positions": 0,
       "unrealized_pnl": "0.00000"
+    },
+    {
+      "cash": "1006.74249",
+      "drawdown": "3.73451",
+      "equity": "996.26549",
+      "fees_paid": "0.32851",
+      "fills": 6,
+      "gross_notional": "10.47700",
+      "label": "network:2026-10-10T00:51:14.687154+00:00",
+      "net_exposure": "-10.47700",
+      "open_positions": 6,
+      "peak_equity": "1000.00000",
+      "position_value": "-10.47700",
+      "realized_pnl": "-0.32851",
+      "timestamp": "2026-10-10T00:51:33.917465+00:00",
+      "total_pnl": "-3.73451",
+      "unmarked_positions": 0,
+      "unrealized_pnl": "-3.40600"
     }
   ],
-  "fills": [],
+  "fills": [
+    {
+      "fee": "0.06292",
+      "market_id": "0x102b06e7251f99cf3780d5ca47ee8cd220f38f753d4c328833d80627a4c8e428",
+      "order_id": "paper-df351366c44c",
+      "outcome": "no",
+      "price": "0.949",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-10-10T00:51:33.164858+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.10625",
+      "market_id": "0x35096f1e47552499b55596c1e072d546c331af1df3c044457de5a622f0640b20",
+      "order_id": "paper-01d15a7ddcdd",
+      "outcome": "no",
+      "price": "0.897",
+      "quantity": "23",
+      "side": "buy",
+      "timestamp": "2026-10-10T00:51:33.166491+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.01704",
+      "market_id": "0xff97d355d78985a0850bf0393ff6ee1c7721159cfb8c9c3058613b527e4ae961",
+      "order_id": "paper-9abee6792289",
+      "outcome": "no",
+      "price": "0.968",
+      "quantity": "11",
+      "side": "buy",
+      "timestamp": "2026-10-10T00:51:33.166932+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.01541",
+      "market_id": "0xe8e87fa76d10e36ef4b1edb363413245ea7a7aad731ac38c6a9d2d0dd0171638",
+      "order_id": "paper-7f6ffc996223",
+      "outcome": "no",
+      "price": "0.934",
+      "quantity": "5",
+      "side": "buy",
+      "timestamp": "2026-10-10T00:51:33.167232+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.08351",
+      "market_id": "0xfdb39d2c113c99b43ee256f088745c00804bb6495469dc5dd8fcd29fb6a512ca",
+      "order_id": "paper-1b40dac2cd96",
+      "outcome": "no",
+      "price": "0.931",
+      "quantity": "26",
+      "side": "buy",
+      "timestamp": "2026-10-10T00:51:33.167528+00:00",
+      "venue": "polymarket"
+    },
+    {
+      "fee": "0.04338",
+      "market_id": "0xd6f05276d312957c0d1ee486052b78056c4b73db839e13bf14ad9fe4ca5875d9",
+      "order_id": "paper-23e6b2c85d3d",
+      "outcome": "no",
+      "price": "0.964",
+      "quantity": "25",
+      "side": "buy",
+      "timestamp": "2026-10-10T00:51:33.167849+00:00",
+      "venue": "polymarket"
+    }
+  ],
   "ledger_id": "weather_dead_bucket",
   "mark_method": "mid",
-  "marks": [],
-  "max_drawdown": "0",
+  "marks": [
+    {
+      "market_id": "0x102b06e7251f99cf3780d5ca47ee8cd220f38f753d4c328833d80627a4c8e428",
+      "venue": "polymarket",
+      "yes_price": "0.0685"
+    },
+    {
+      "market_id": "0x35096f1e47552499b55596c1e072d546c331af1df3c044457de5a622f0640b20",
+      "venue": "polymarket",
+      "yes_price": "0.1375"
+    },
+    {
+      "market_id": "0xd6f05276d312957c0d1ee486052b78056c4b73db839e13bf14ad9fe4ca5875d9",
+      "venue": "polymarket",
+      "yes_price": "0.044"
+    },
+    {
+      "market_id": "0xe8e87fa76d10e36ef4b1edb363413245ea7a7aad731ac38c6a9d2d0dd0171638",
+      "venue": "polymarket",
+      "yes_price": "0.121"
+    },
+    {
+      "market_id": "0xfdb39d2c113c99b43ee256f088745c00804bb6495469dc5dd8fcd29fb6a512ca",
+      "venue": "polymarket",
+      "yes_price": "0.1335"
+    },
+    {
+      "market_id": "0xff97d355d78985a0850bf0393ff6ee1c7721159cfb8c9c3058613b527e4ae961",
+      "venue": "polymarket",
+      "yes_price": "0.0325"
+    }
+  ],
+  "max_drawdown": "3.73451",
   "paper_only": true,
   "peak_equity": "1000",
-  "positions": [],
+  "positions": [
+    {
+      "average_price": "0.051",
+      "fees_paid": "0.06292",
+      "market_id": "0x102b06e7251f99cf3780d5ca47ee8cd220f38f753d4c328833d80627a4c8e428",
+      "quantity": "-26",
+      "realized_pnl": "-0.06292",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.103",
+      "fees_paid": "0.10625",
+      "market_id": "0x35096f1e47552499b55596c1e072d546c331af1df3c044457de5a622f0640b20",
+      "quantity": "-23",
+      "realized_pnl": "-0.10625",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.032",
+      "fees_paid": "0.01704",
+      "market_id": "0xff97d355d78985a0850bf0393ff6ee1c7721159cfb8c9c3058613b527e4ae961",
+      "quantity": "-11",
+      "realized_pnl": "-0.01704",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.066",
+      "fees_paid": "0.01541",
+      "market_id": "0xe8e87fa76d10e36ef4b1edb363413245ea7a7aad731ac38c6a9d2d0dd0171638",
+      "quantity": "-5",
+      "realized_pnl": "-0.01541",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.069",
+      "fees_paid": "0.08351",
+      "market_id": "0xfdb39d2c113c99b43ee256f088745c00804bb6495469dc5dd8fcd29fb6a512ca",
+      "quantity": "-26",
+      "realized_pnl": "-0.08351",
+      "venue": "polymarket"
+    },
+    {
+      "average_price": "0.036",
+      "fees_paid": "0.04338",
+      "market_id": "0xd6f05276d312957c0d1ee486052b78056c4b73db839e13bf14ad9fe4ca5875d9",
+      "quantity": "-25",
+      "realized_pnl": "-0.04338",
+      "venue": "polymarket"
+    }
+  ],
   "schema_version": "1.0.0",
   "starting_cash": "1000",
   "summary": {
-    "cash": "1000.00000",
-    "concentration": [],
+    "cash": "1006.74249",
+    "concentration": [
+      {
+        "venue": "polymarket",
+        "weight": "1.00000"
+      }
+    ],
     "created_at": "2026-09-18T18:03:57.108836+00:00",
-    "equity": "1000.00000",
-    "equity_points": 15,
-    "fees_paid": "0.00000",
-    "fills": 0,
-    "gross_notional": "0.00000",
+    "equity": "996.26549",
+    "equity_points": 16,
+    "fees_paid": "0.32851",
+    "fills": 6,
+    "gross_notional": "10.47700",
     "ledger_id": "weather_dead_bucket",
     "mark_method": "mid",
-    "max_drawdown": "0.00000",
-    "net_exposure": "0.00000",
-    "open_positions": 0,
+    "max_drawdown": "3.73451",
+    "net_exposure": "-10.47700",
+    "open_positions": 6,
     "paper_only": true,
     "peak_equity": "1000.00000",
-    "position_value": "0.00000",
-    "positions": [],
-    "realized_pnl": "0.00000",
-    "return_pct": "0.00000",
+    "position_value": "-10.47700",
+    "positions": [
+      {
+        "average_price": "0.05100",
+        "fees_paid": "0.06292",
+        "mark": "0.06850",
+        "market_id": "0x102b06e7251f99cf3780d5ca47ee8cd220f38f753d4c328833d80627a4c8e428",
+        "quantity": "-26.00000",
+        "realized_pnl": "-0.06292",
+        "unrealized_pnl": "-0.45500",
+        "value": "-1.78100",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.10300",
+        "fees_paid": "0.10625",
+        "mark": "0.13750",
+        "market_id": "0x35096f1e47552499b55596c1e072d546c331af1df3c044457de5a622f0640b20",
+        "quantity": "-23.00000",
+        "realized_pnl": "-0.10625",
+        "unrealized_pnl": "-0.79350",
+        "value": "-3.16250",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.03200",
+        "fees_paid": "0.01704",
+        "mark": "0.03250",
+        "market_id": "0xff97d355d78985a0850bf0393ff6ee1c7721159cfb8c9c3058613b527e4ae961",
+        "quantity": "-11.00000",
+        "realized_pnl": "-0.01704",
+        "unrealized_pnl": "-0.00550",
+        "value": "-0.35750",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.06600",
+        "fees_paid": "0.01541",
+        "mark": "0.12100",
+        "market_id": "0xe8e87fa76d10e36ef4b1edb363413245ea7a7aad731ac38c6a9d2d0dd0171638",
+        "quantity": "-5.00000",
+        "realized_pnl": "-0.01541",
+        "unrealized_pnl": "-0.27500",
+        "value": "-0.60500",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.06900",
+        "fees_paid": "0.08351",
+        "mark": "0.13350",
+        "market_id": "0xfdb39d2c113c99b43ee256f088745c00804bb6495469dc5dd8fcd29fb6a512ca",
+        "quantity": "-26.00000",
+        "realized_pnl": "-0.08351",
+        "unrealized_pnl": "-1.67700",
+        "value": "-3.47100",
+        "venue": "polymarket"
+      },
+      {
+        "average_price": "0.03600",
+        "fees_paid": "0.04338",
+        "mark": "0.04400",
+        "market_id": "0xd6f05276d312957c0d1ee486052b78056c4b73db839e13bf14ad9fe4ca5875d9",
+        "quantity": "-25.00000",
+        "realized_pnl": "-0.04338",
+        "unrealized_pnl": "-0.20000",
+        "value": "-1.10000",
+        "venue": "polymarket"
+      }
+    ],
+    "realized_pnl": "-0.32851",
+    "return_pct": "-0.37345",
     "settlement_fills": 0,
     "starting_cash": "1000.00000",
-    "total_pnl": "0.00000",
+    "total_pnl": "-3.73451",
     "unmarked_positions": 0,
-    "unrealized_pnl": "0.00000",
-    "updated_at": "2026-10-08T00:50:41.222512+00:00"
+    "unrealized_pnl": "-3.40600",
+    "updated_at": "2026-10-10T00:51:33.917465+00:00"
   },
-  "updated_at": "2026-10-08T00:50:41.222512+00:00"
+  "updated_at": "2026-10-10T00:51:33.917465+00:00"
 }
